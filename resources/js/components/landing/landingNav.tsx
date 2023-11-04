@@ -20,6 +20,7 @@ const LandingNav = () => {
                         <Link
                             href="/"
                             className="text-sm font-medium transition-colors hover:text-primary"
+                            
                         >
                             Home
                         </Link>
@@ -40,6 +41,12 @@ const LandingNav = () => {
                             className="text-sm font-medium transition-colors hover:text-primary"
                         >
                             Contact
+                        </Link>
+                        <Link
+                            href="/admin"
+                            className="text-sm font-medium transition-colors hover:text-primary"
+                        >
+                            login
                         </Link>
                     </div>
                 </div>

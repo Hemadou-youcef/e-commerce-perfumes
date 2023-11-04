@@ -61,12 +61,5 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-    public function checkIfWork(Request $request): JsonResponse
-    {
 
-        return response()->json([
-            "ok" => 1,
-            "message" => "All good"
-        ]);
-    }
 }
