@@ -15,12 +15,8 @@ import {
 } from "@/shadcn/ui/tabs"
 
 import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker"
-import { MainNav } from "@/components/dashboard/main-nav"
 import { Overview } from "@/components/dashboard/overview"
 import { RecentSales } from "@/components/dashboard/recent-sales"
-import { Search } from "@/components/dashboard/search"
-import TeamSwitcher from "@/components/dashboard/team-switcher"
-import { UserNav } from "@/components/dashboard/user-nav"
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout"
 
 export default function DashboardPage() {
@@ -55,7 +51,7 @@ export default function DashboardPage() {
             </div> */}
             <DashboardMainLayout>
                 <div className="flex-1 space-y-4 p-8 pt-6">
-                    <div className="flex items-center justify-between space-y-2">
+                    <div className="flex items-center flex-col md:flex-row justify-between space-y-2">
                         <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
                         <div className="flex items-center space-x-2">
                             <CalendarDateRangePicker />
@@ -180,7 +176,7 @@ export default function DashboardPage() {
                                 </Card>
                             </div>
                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                                <Card className="col-span-4">
+                                <Card className="hidden md:block col-span-4">
                                     <CardHeader>
                                         <CardTitle>Overview</CardTitle>
                                     </CardHeader>
