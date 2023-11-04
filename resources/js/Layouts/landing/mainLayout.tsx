@@ -2,6 +2,7 @@
 
 // Components
 import LandingNav from "@/components/landing/landingNav";
+import LandingFooter from "./footer/footer";
 
 
 
@@ -27,6 +28,10 @@ const LandingMainLayout = ({ children }: { children: React.ReactNode }) => {
                     </div>
                 </div>
                 {children}
+
+                <div>
+                    <LandingFooter />
+                </div>
             </div>
         </>
     );
