@@ -3,6 +3,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/shadcn/ui/avatar"
+
 import { Button } from "@/shadcn/ui/button"
 import {
   DropdownMenu,
@@ -15,7 +16,12 @@ import {
   DropdownMenuTrigger,
 } from "@/shadcn/ui/dropdown-menu"
 
+const parsePageId = (path: string) => path.substring(path.lastIndexOf('/') + 1)
+
 export function UserNav() {
+
+  const pageId = parsePageId(window.location.pathname)
+  console.log(pageId)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

@@ -9,8 +9,8 @@ import LandingFooter from "./footer/footer";
 const LandingMainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
-            <div className="flex-col md:flex bg-orange-50 h-screen">
-                <div className="">
+            <div className="flex-col md:flex min-h-screen">
+                <div className="bg-orange-50">
                     <div className="flex items-center">
                         <div className="md:flex items-center justify-center container mx-auto px-0 md:px-6">
                             <LandingNav />
@@ -18,7 +18,7 @@ const LandingMainLayout = ({ children }: { children: React.ReactNode }) => {
                     </div>
                 </div>
                 {/* Wallpaper For Information */}
-                <div className="h-96 mx-full bg-cover bg-center"
+                <div className="h-96 mx-full bg-cover bg-center bg-orange-50"
                 >
                     <div className="h-96 container flex items-center justify-between">
                         <div className="flex flex-col items-center justify-center">
