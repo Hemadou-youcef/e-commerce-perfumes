@@ -5,22 +5,74 @@ import { useState } from "react";
 // Components 
 import { Link } from "@inertiajs/react"
 
+// Icons
+import { AiOutlineSearch } from "react-icons/ai";
+import { HiOutlineShoppingBag } from "react-icons/hi";
+import { CgProfile } from "react-icons/cg";
+
 
 const LandingNav = () => {
     const [navbarOpen, setNavbarOpen] = useState(false);
     return (
         <>
-            <div className="flex items-center justify-between w-full">
-                <div className="flex items-center justify-center">
-                    <img className="h-20 w-auto" src="/image/logo.png" alt="Workflow" />
-                    <h1 className="text-2xl font-bold text-primary">Perfurms Online</h1>
+            <div className="w-full flex justify-between items-center px-5 py-3">
+                {/* LOGO */}
+                <div className="flex items-center justify-start">
+                    <img className="h-7 w-auto" src="/image/logo.png" alt="Workflow" />
                 </div>
-                <div className="hidden md:block">
+
+                {/* SECTIONS */}
+                <div className="flex items-center gap-6 text-gray-800">
+                    <Link
+                        href="/products"
+                        className="text-xs font-bold transition-colors hover:text-gray-400"
+                    >
+                        PRODUCTS
+                    </Link>
+                    <Link
+                        href="/contact"
+                        className="text-xs font-bold transition-colors hover:text-gray-400"
+                    >
+                        CONTACT
+                    </Link>
+                    <Link
+                        href="/about"
+                        className="text-xs font-bold transition-colors hover:text-gray-400"
+                    >
+                        ABOUT
+                    </Link>
+                </div>
+
+                {/* LOGIN ACTIONS */}
+                <div>
+                    {/* IF NOT LOGGED IN */}
+                    {false && <div className="flex items-center gap-2 text-white">
+                        <Link
+                            href="/login"
+                            className="bg-gray-900 px-3 py-2 rounded-3xl text-xs font-bold transition-colors hover:text-gray-400"
+                        >
+                            LOGIN
+                        </Link>
+                        <Link
+                            href="/register"
+                            className="bg-gray-900 px-3 py-2 rounded-3xl text-xs font-bold transition-colors hover:text-gray-400"
+                        >
+                            REGISTER
+                        </Link>
+                    </div>}
+                    {/* IF LOGGED IN */}
+                    <div className="flex items-center gap-5 text-white">
+                        <AiOutlineSearch className="w-6 h-6 text-primary" />
+                        <HiOutlineShoppingBag className="w-6 h-6 text-primary" />
+                        <CgProfile className="w-6 h-6 text-primary" />
+                    </div>
+                </div>
+                {/* <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
                         <Link
                             href="/"
                             className="text-sm font-medium transition-colors hover:text-primary"
-                            
+
                         >
                             Home
                         </Link>
@@ -49,7 +101,7 @@ const LandingNav = () => {
                             login
                         </Link>
                     </div>
-                </div>
+                </div> */}
                 <div className="block md:hidden mr-5">
                     {/* Make Reseponsive NavBar */}
                     <button
