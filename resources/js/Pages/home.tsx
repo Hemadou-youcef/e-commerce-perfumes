@@ -5,8 +5,9 @@ import LandingMainLayout from '@/Layouts/landing/mainLayout';
 import { Search } from '@/components/dashboard/search';
 import LandingSuggest from '@/components/landing/suggest/landingSuggest';
 
-export default function Welcome(Props: PageProps<{ laravelVersion: string, phpVersion: string }>) {
-    console.log(Props)
+// export default function Welcome(Props: PageProps<{ laravelVersion: string, phpVersion: string }>) {
+
+const Home = () => {
     const handleTest = () => {
         router.post('/test', {
             name: 'test'
@@ -19,11 +20,12 @@ export default function Welcome(Props: PageProps<{ laravelVersion: string, phpVe
     return (
         <>
             <Head title="Perfurms Online" />
-            <LandingMainLayout>
-                <LandingSuggest title="For You" />
-                <LandingSuggest title="Best Sellers" />
-                <LandingSuggest title="New Arrivals" />
-            </LandingMainLayout>
+            <LandingSuggest title="For You" />
+            <LandingSuggest title="Best Sellers" />
+            <LandingSuggest title="New Arrivals" />
         </>
     );
 }
+
+Home.layout = (page: React.ReactNode) => <LandingMainLayout children={page} showCoverPart={true} />;
+export default Home;

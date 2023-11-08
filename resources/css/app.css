@@ -97,16 +97,16 @@
 @keyframes morph {
   0% {
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    box-shadow: 5px 5px 5px rgb(202, 202, 202);
+    box-shadow: 5px 5px 10px rgb(71, 71, 71);
   }
 
   50% {
     border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-    box-shadow: -5px 5px 10px rgb(202, 202, 202);
+    box-shadow: -5px 5px 20px rgb(116, 116, 116);
   }
 
   100% {
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    box-shadow: 5px 5px 5px rgb(202, 202, 202);
+    box-shadow: 5px 5px 10px rgb(53, 53, 53);
   }
 }
