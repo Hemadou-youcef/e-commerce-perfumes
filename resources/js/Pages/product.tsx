@@ -24,34 +24,22 @@ const Product = () => {
                                     alt="Workflow"
                                 />
                             </div>
-                            <div className="grid grid-cols-3 w-96 h-32 my-1 gap-2">
-                                <div className="flex flex-col items-center justify-center ">
-                                    <img
-                                        className="border-2 border-gray-200 "
-                                        src="https://scontent.xx.fbcdn.net/v/t1.15752-9/386827449_3477862682473986_2860239670855941125_n.png?_nc_cat=101&ccb=1-7&_nc_sid=510075&_nc_eui2=AeHi-EhS0ArWAV7WS5lYCJubNO4oP-Rsnfg07ig_5Gyd-N2yrq0QtPLKW4SH1e39DjXYnIy45L3XnSjNnxzIxDiF&_nc_ohc=HOVgfuCwnaYAX8T0wvj&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdTkQRgxTO1KetFHr1iEvqD-kKF1KU9NLLyeLvtcKc3__w&oe=657220ED"
-                                        alt="Workflow"
-                                    />
-                                </div>
-                                <div className="flex flex-col items-center justify-center">
-                                    <img
-                                        className="border-2 border-gray-200 "
-                                        src="https://scontent.xx.fbcdn.net/v/t1.15752-9/386827449_3477862682473986_2860239670855941125_n.png?_nc_cat=101&ccb=1-7&_nc_sid=510075&_nc_eui2=AeHi-EhS0ArWAV7WS5lYCJubNO4oP-Rsnfg07ig_5Gyd-N2yrq0QtPLKW4SH1e39DjXYnIy45L3XnSjNnxzIxDiF&_nc_ohc=HOVgfuCwnaYAX8T0wvj&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdTkQRgxTO1KetFHr1iEvqD-kKF1KU9NLLyeLvtcKc3__w&oe=657220ED"
-                                        alt="Workflow"
-                                    />
-                                </div>
-                                <div className="flex flex-col items-center justify-center">
-                                    <img
-                                        className="border-2 border-gray-200 "
-                                        src="https://scontent.xx.fbcdn.net/v/t1.15752-9/386827449_3477862682473986_2860239670855941125_n.png?_nc_cat=101&ccb=1-7&_nc_sid=510075&_nc_eui2=AeHi-EhS0ArWAV7WS5lYCJubNO4oP-Rsnfg07ig_5Gyd-N2yrq0QtPLKW4SH1e39DjXYnIy45L3XnSjNnxzIxDiF&_nc_ohc=HOVgfuCwnaYAX8T0wvj&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdTkQRgxTO1KetFHr1iEvqD-kKF1KU9NLLyeLvtcKc3__w&oe=657220ED"
-                                        alt="Workflow"
-                                    />
-                                </div>
+                            <div className="flex snap-mandatory w-full md:w-96 h-40 my-1 gap-2 overflow-x-auto">
+                                {[0, 1, 2, 3, 4, 5, 6].map((item: number, index: number) => (
+                                    <div className="w-32 shrink-0 snap-center flex flex-col items-center justify-center ">
+                                        <img
+                                            className="border-2 border-gray-200 "
+                                            src="https://scontent.xx.fbcdn.net/v/t1.15752-9/386827449_3477862682473986_2860239670855941125_n.png?_nc_cat=101&ccb=1-7&_nc_sid=510075&_nc_eui2=AeHi-EhS0ArWAV7WS5lYCJubNO4oP-Rsnfg07ig_5Gyd-N2yrq0QtPLKW4SH1e39DjXYnIy45L3XnSjNnxzIxDiF&_nc_ohc=HOVgfuCwnaYAX8T0wvj&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdTkQRgxTO1KetFHr1iEvqD-kKF1KU9NLLyeLvtcKc3__w&oe=657220ED"
+                                            alt="Workflow"
+                                        />
+                                    </div>
+                                ))}
                             </div>
                         </div>
                         <div className="flex flex-col items-center justify-center w-full md:w-1/3">
                             <div className="flex justify-between w-full font-bold mb-2">
                                 <p className="text-gray-900 text-center text-sm lg:tex">
-                                    Product Name
+                                    Magnolia dreams come true by Chanel
                                 </p>
                                 <p className="text-gray-900 text-center text-sm lg:tex">
                                     100.00 DZD/G
@@ -110,8 +98,9 @@ const Product = () => {
                         </div>
                     </div>
                     {/* YOU MAY ALSO LIKE */}
-                    <LandingSuggest title="You May Also Like" />
+
                 </div>
+                <LandingSuggest title="You May Also Like" />
             </div>
 
         </>

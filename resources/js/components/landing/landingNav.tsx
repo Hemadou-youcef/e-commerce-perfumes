@@ -113,7 +113,7 @@ const LandingNav = () => {
                         variant="ghost"
                         onClick={() => setNavbarOpen(!navbarOpen)}
                     >
-                        <AiOutlineMenu className="w-6 h-6 text-primary" />
+                        <AiOutlineSearch className="w-6 h-6 text-primary" />
                     </Button>
                     <div className="fixed bottom-0 left-0 w-full h-14 bg-white z-10 flex items-center justify-around p-2 border-t shadow-md"
                     >
@@ -121,7 +121,7 @@ const LandingNav = () => {
                             <AiOutlineHome className="w-6 h-full text-primary" />
                         </Link>
                         <TbPerfume className="w-6 h-full text-primary" />
-                        <AiOutlineSearch className="w-6 h-6 text-primary" />
+                        
                         <HiOutlineShoppingBag className="w-6 h-6 text-primary" />
                         <CgProfile className="w-6 h-6 text-primary" />
                     </div>

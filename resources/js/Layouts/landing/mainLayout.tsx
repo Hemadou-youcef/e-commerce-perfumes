@@ -11,11 +11,11 @@ const LandingMainLayout = ({ children, showCoverPart }: { children: React.ReactN
 
     return (
         <>
-            <div className="flex-col md:flex">
+            <div className="flex flex-col min-h-screen">
+                <div className="navElements bg-gray-50 sticky top-0 border-b-2 border-b-gray-500 z-10">
+                    <LandingNav />
+                </div>
                 <div className="" style={{ backgroundColor: "#f5f5f5" }}>
-                    <div className="navElements border-b-2 border-b-gray-500">
-                        <LandingNav />
-                    </div>
                     {/* Wallpaper For Information */}
                     {showCoverPart && <div className="py-10 mx-full bg-cover bg-center font-serif"
                     >
@@ -40,10 +40,10 @@ const LandingMainLayout = ({ children, showCoverPart }: { children: React.ReactN
                 </div>
 
                 {/* <div className="h-auto"></div> */}
-                {children}
-                <div>
-                    <LandingFooter />
+                <div className="flex-grow">
+                    {children}
                 </div>
+                <LandingFooter />
             </div>
         </>
     );
