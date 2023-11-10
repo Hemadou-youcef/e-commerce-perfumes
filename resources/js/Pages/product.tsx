@@ -46,6 +46,7 @@ const Product = () => {
                                     spaceBetween={5}
                                     slidesPerView={3}
                                     scrollbar={{ draggable: true }}
+                                    className="h-[125px] md:h-[136px]"
                                 >
                                     {[0, 1, 2, 3, 4, 5, 6].map((item: number, index: number) => (
                                         <SwiperSlide key={index}>

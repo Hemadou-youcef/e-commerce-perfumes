@@ -40,7 +40,7 @@ const LandingNav = () => {
                 {/* LOGIN ACTIONS */}
                 <div className="hidden md:flex items-center">
                     <Input
-                        placeholder="Search..."
+                        placeholder="Recherche..."
                         className="w-72 outline-none mr-5"
                     />
                     {/* IF NOT LOGGED IN */}

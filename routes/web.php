@@ -24,6 +24,10 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/products', function () {
+    return Inertia::render('products');
+})->name('products');
+
 Route::get('/product/{id}', function () {
     return Inertia::render('product');
 })->name('product');
