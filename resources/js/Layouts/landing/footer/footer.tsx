@@ -1,30 +1,44 @@
+import { Separator } from "@/shadcn/ui/separator";
+import { Link } from "@inertiajs/react";
+import { BsInstagram } from "react-icons/bs";
+import { FiFacebook } from "react-icons/fi";
+
 const LandingFooter = () => {
     return (
         <>
             {/* FOOTER FOR PERFUME LANDING PAGE */}
-            <footer className="bg-gray-900 text-white py-8">
-                <div className="container mx-auto flex flex-wrap justify-between">
-                    <div className="w-full md:w-1/3 mb-6 md:mb-0">
-                        <h2 className="text-2xl font-bold">Perfume Store</h2>
-                        <p className="text-sm mt-2">Your destination for the finest fragrances.</p>
+            <footer className="bg-gray-900 text-white mb-14 md:mb-0">
+                <div className="container mx-auto flex flex-wrap justify-between my-5">
+                    <Link href="/">
+                        <div className="flex items-center justify-between">
+                            <img className="invert h-7 w-auto" src="/image/logo.png" alt="Workflow" />
+
+                        </div>
+                    </Link>
+                    <div className="flex items-center gap-2 text-white">
+                        <FiFacebook className="w-5 h-5" />
+                        <BsInstagram className="w-5 h-5" />
                     </div>
-                    <div className="w-full md:w-1/3 mb-6 md:mb-0">
-                        <h3 className="text-xl font-semibold">Quick Links</h3>
-                        <ul className="mt-2">
-                            <li className="mb-2"><a href="#">Home</a></li>
-                            <li className="mb-2"><a href="#">Shop</a></li>
-                            <li className="mb-2"><a href="#">About Us</a></li>
-                            <li className="mb-2"><a href="#">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div className="w-full md:w-1/3">
-                        <h3 className="text-xl font-semibold">Contact Us</h3>
-                        <p className="mt-2">
-                            123 Perfume Street<br />
-                            New York, NY 10001<br />
-                            Email: info@perfumestore.com<br />
-                            Phone: (123) 456-7890
-                        </p>
+                    <Separator className="w-full my-2" />
+                    <div className="flex items-center gap-6 text-gray-100">
+                        <Link
+                            href="/products"
+                            className="text-xs font-bold transition-colors hover:text-gray-400"
+                        >
+                            PRODUITS
+                        </Link>
+                        <Link
+                            href="/contact"
+                            className="text-xs font-bold transition-colors hover:text-gray-400"
+                        >
+                            CONTACT
+                        </Link>
+                        <Link
+                            href="/about-us"
+                            className="text-xs font-bold transition-colors hover:text-gray-400"
+                        >
+                            À PROPOS
+                        </Link>
                     </div>
                 </div>
                 <div className="border-t border-gray-700 mt-8 p-2 text-center">

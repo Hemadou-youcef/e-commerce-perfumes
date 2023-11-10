@@ -13,7 +13,7 @@ const Product = () => {
                 </div>
                 <div className="w-full flex flex-col items-center justify-center gap-3 py-3">
                     <p className="text-gray-600 text-center text-xs md:text-base lg:tex">
-                        Product Name
+                        Nom du produit
                     </p>
                     <p className="text-gray-600 text-center font-bold text-xs md:text-sm lg:text-smd">
                         100.00 DA/G
@@ -28,9 +28,9 @@ const Product = () => {
                     </div> */}
                     <Button
                         variant="outline"
-                        className="w-28 bg-transparent border-2 border-gray-900 hover:bg-gray-800 active:bg-gray-300 text-gray-900 hover:text-gray-100 active:text-gray-700"
+                        className="w-28 bg-transparent border-2 h-8 text-xs border-gray-900 hover:bg-gray-800 active:bg-gray-300 text-gray-900 hover:text-gray-100 active:text-gray-700"
                     >
-                        BUY NOW
+                        ACHETER
                     </Button>
                 </div>
 
