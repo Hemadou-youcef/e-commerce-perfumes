@@ -19,7 +19,7 @@ const LandingNav = () => {
     const [navbarOpen, setNavbarOpen] = useState(false);
     return (
         <>
-            <div className="w-full h-14 flex justify-between items-center py-3 pl-3 pr-2 md:px-5">
+            <div className="container w-full h-14 flex justify-between items-center py-3 pl-3 pr-2 md:px-5 ">
                 {/* LOGO */}
                 <Link href="/">
                     <div className="flex items-center justify-start">
