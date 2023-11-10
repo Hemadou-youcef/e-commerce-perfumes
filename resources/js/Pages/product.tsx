@@ -6,9 +6,8 @@ import { useState } from 'react';
 import LandingMainLayout from '@/Layouts/landing/mainLayout';
 
 // Components
-import { Input } from '@/shadcn/ui/input';
 import { Button } from '@/shadcn/ui/button';
-import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { AiOutlineMinus, AiOutlinePlus, AiOutlineZoomIn } from 'react-icons/ai';
 import { TbBookmark } from 'react-icons/tb';
 import LandingSuggest from '@/components/landing/suggest/landingSuggest';
 import { StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
@@ -22,6 +21,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import { BsZoomIn } from 'react-icons/bs';
 
 const Product = () => {
     const [qte, setQte] = useState(1);
@@ -33,12 +33,17 @@ const Product = () => {
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-col md:flex-row justify-center items-start gap-6">
                         <div className="grid grid-cols-1 ">
-                            <div className="flex flex-col items-center justify-center">
+                            <div className="flex flex-col items-center justify-center relative">
                                 <img
                                     className="w-full md:w-96 md:h-96  border-2 border-gray-200 "
                                     src="https://scontent.xx.fbcdn.net/v/t1.15752-9/386827449_3477862682473986_2860239670855941125_n.png?_nc_cat=101&ccb=1-7&_nc_sid=510075&_nc_eui2=AeHi-EhS0ArWAV7WS5lYCJubNO4oP-Rsnfg07ig_5Gyd-N2yrq0QtPLKW4SH1e39DjXYnIy45L3XnSjNnxzIxDiF&_nc_ohc=HOVgfuCwnaYAX8T0wvj&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdTkQRgxTO1KetFHr1iEvqD-kKF1KU9NLLyeLvtcKc3__w&oe=657220ED"
                                     alt="Workflow"
                                 />
+                                <div className="absolute top-0 right-0 flex items-center justify-center gap-2">
+                                    <button className="flex items-center justify-center gap-2 p-2 ">
+                                        <AiOutlineZoomIn className="w-6 h-6 text-gray-900" />
+                                    </button>
+                                </div>
                             </div>
                             <div className="w-full md:w-96 my-1">
                                 <Swiper
@@ -46,7 +51,7 @@ const Product = () => {
                                     spaceBetween={5}
                                     slidesPerView={3}
                                     scrollbar={{ draggable: true }}
-                                    className="h-[125px] md:h-[136px]"
+                                    className=" md:h-[136px]"
                                 >
                                     {[0, 1, 2, 3, 4, 5, 6].map((item: number, index: number) => (
                                         <SwiperSlide key={index}>
@@ -68,7 +73,7 @@ const Product = () => {
                                     Magnolia dreams come true
                                 </p>
                                 <p className="text-gray-900 text-center text-sm lg:tex">
-                                    100.00 DA/G
+                                    10.00 DA/G
                                 </p>
                             </div>
                             <hr className="w-full rounded-sm border-gray-400" />
@@ -98,11 +103,12 @@ const Product = () => {
                             </div>
                             <Separator className="w-full mt-2" />
                             <div className="flex  md:flex-col lg:flex-row justify-start items-center w-full gap-3 mt-3">
-                                <div className="w-44 flex justify-between gap-1 items-center border-2 overflow-hidden">
+                                <div className="w-52 flex justify-between gap-1 items-center border-2 overflow-hidden">
                                     <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 cursor-pointer" onClick={() => (qte > 1) ? setQte(qte - 1) : setQte(0)} />
                                     <div className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1">
                                         <input
                                             value={qte}
+                                            onChange={(e) => (parseInt(e.target.value) > 0) ? setQte(parseInt(e.target.value)) : setQte(0)}
                                             className="outline-none w-10 h-10 text-right text-gray-700 font-bold text-xs md:text-sm lg:tex"
                                         />
                                         <p className="text-sm text-gray-400 font-bold">
@@ -119,7 +125,7 @@ const Product = () => {
                                         ADD TO CART
                                     </p>
                                     <p className="text-xs text-gray-400 font-bold">
-                                        {qte * 100}.00 DA
+                                        {qte * 10}.00 DA
                                     </p>
                                 </Button>
                                 {/* <p className="text-gray-700 text-xs font-bold md:text-sm lg:tex">
@@ -154,5 +160,5 @@ const Product = () => {
     );
 }
 
-Product.layout = (page: React.ReactNode) => <LandingMainLayout children={page}/>;
+Product.layout = (page: React.ReactNode) => <LandingMainLayout children={page} />;
 export default Product;

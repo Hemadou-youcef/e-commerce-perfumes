@@ -21,7 +21,7 @@ const LandingSuggest = ({ title }: { title?: string }) => {
                     </Link>
                     {/* <div className="w-24 h-0.5 rounded-full mt-2 bg-gray-600"></div> */}
                 </div>
-                <div className="-mt-8 w-full flex justify-center">
+                <div className=" w-full flex justify-center">
                     <Products />
                 </div>
 

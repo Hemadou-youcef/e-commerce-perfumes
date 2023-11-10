@@ -24,14 +24,15 @@ const LandingMainLayout = ({ children }: { children: React.ReactNode }) => {
                     <LandingNav />
                 </div>
                 {/* SECTIONS */}
-                <div className="container hidden md:flex items-center justify-start gap-8 h-10">
-                    <Link
-                        href="/products"
-                        className="text-sm font-medium transition-colors hover:text-gray-400"
-                    >
-                        PRODUITS
-                    </Link>
-                    {/* <NavigationMenu>
+                <div className="w-full  border-b border-b-gray-500">
+                    <div className="container hidden md:flex items-center justify-start gap-8 h-10">
+                        <Link
+                            href="/products"
+                            className="text-sm font-medium transition-colors hover:text-gray-400"
+                        >
+                            PRODUITS
+                        </Link>
+                        {/* <NavigationMenu>
                         <NavigationMenuList>
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger className="rounded-none bg-transparent ">
@@ -47,20 +48,20 @@ const LandingMainLayout = ({ children }: { children: React.ReactNode }) => {
                             </NavigationMenuItem>
                         </NavigationMenuList>
                     </NavigationMenu> */}
-                    <Link
-                        href="/contact"
-                        className="text-sm font-medium transition-colors hover:text-gray-400"
-                    >
-                        CONTACT
-                    </Link>
-                    <Link
-                        href="/about-us"
-                        className="text-sm font-medium transition-colors hover:text-gray-400"
-                    >
-                        À PROPOS
-                    </Link>
+                        <Link
+                            href="/contact"
+                            className="text-sm font-medium transition-colors hover:text-gray-400"
+                        >
+                            CONTACT
+                        </Link>
+                        <Link
+                            href="/about-us"
+                            className="text-sm font-medium transition-colors hover:text-gray-400"
+                        >
+                            À PROPOS
+                        </Link>
+                    </div>
                 </div>
-
                 {/* <div className="h-auto"></div> */}
                 <div className="flex-grow">
                     {children}

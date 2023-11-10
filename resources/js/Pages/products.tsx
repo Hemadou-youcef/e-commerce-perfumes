@@ -118,7 +118,7 @@ const Products = () => {
                     <p className="text-gray-800 font-semibold font-sans text-sm md:text-lg">
                         Produits (12)
                     </p>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5">
+                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-5">
                         {[...Array(12)].map((value, index) => (
                             <Product key={index} />
                         ))}

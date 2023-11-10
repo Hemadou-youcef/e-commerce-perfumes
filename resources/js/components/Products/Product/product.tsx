@@ -10,7 +10,7 @@ const Product = () => {
         <>
             {/* Link href="/product/5"  */}
             <div className="group w-full flex flex-col items-center justify-center border overflow-hidden shadow-md">
-                <div className="w-full h-64 md:h-60  relative bg-cover bg-center border-b"
+                <div className="w-full h-72  relative bg-cover bg-center border-b"
                     style={{ backgroundImage: "url(https://scontent.xx.fbcdn.net/v/t1.15752-9/370087658_1076648240174958_48487877131900853_n.png?_nc_cat=104&ccb=1-7&_nc_sid=510075&_nc_eui2=AeHLbGn477Zo-tECgQyfMXCwLHXfZBQUaAUsdd9kFBRoBct3-rb67M-StzTG2xp-VH4EOPHv2xvaYsBJ1h9hCG7_&_nc_ohc=XLk9N66zFuYAX8iuxkD&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdSHigKSY5Wr1xqC7zyLN-aeZWOmtKk8OXmtqeRmaMjF1A&oe=65721E0B)" }}
                 >
                     <Link href="/product/5" className="absolute inset-0 w-full h-full flex items-center justify-center">
@@ -25,11 +25,11 @@ const Product = () => {
                     </div>
                 </div>
                 <div className="w-full flex flex-col items-center justify-center gap-3 py-3">
-                    <p className="text-black font-serif text-center text-xs md:text-lg lg:tex">
+                    <p className="text-black font-serif text-center text-xs md:text-base lg:text-lg ">
                         COCO CHANEL
                     </p>
-                    <p className="text-gray-600 text-center font-bold text-xs md:text-sm lg:text-smd">
-                        100.00 DA/G
+                    <p className="text-gray-600 text-center font-bold text-xs md:text-sm lg:text-base ">
+                        10.00 DA/G
                     </p>
                     {/* ADD REVIEW STARS */}
                     {/* <div className="flex items-center justify-center">

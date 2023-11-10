@@ -19,6 +19,7 @@ const Products = () => {
                 spaceBetween={5}
                 slidesPerView={2}
                 pagination={{ clickable: true }}
+                className="h-[445px] md:h-[460px] lg:h-[470px]"
                 breakpoints={{
                     // when window width is >= 640px
                     640: {
@@ -30,13 +31,13 @@ const Products = () => {
                     },
                     // when window width is >= 1200px
                     1200: {
-                        slidesPerView: 4,
+                        slidesPerView: 5,
                     },
                 }}
             >
                 {[0, 1, 2, 3, 4, 5, 6].map((item: number, index: number) => (
                     <SwiperSlide key={index}>
-                        <div className="h-96 md:h-112 flex flex-col items-center justify-center p-2">
+                        <div className=" flex flex-col items-center justify-center p-2">
                             <Product />
                         </div>
                     </SwiperSlide>
