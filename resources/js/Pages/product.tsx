@@ -24,7 +24,7 @@ import 'swiper/css/scrollbar';
 import { BsZoomIn } from 'react-icons/bs';
 
 const Product = () => {
-    const [qte, setQte] = useState(1);
+    const [qte, setQte] = useState(100);
 
     return (
         <>
@@ -104,7 +104,7 @@ const Product = () => {
                             <Separator className="w-full mt-2" />
                             <div className="flex  md:flex-col lg:flex-row justify-start items-center w-full gap-3 mt-3">
                                 <div className="w-52 flex justify-between gap-1 items-center border-2 overflow-hidden">
-                                    <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 cursor-pointer" onClick={() => (qte > 1) ? setQte(qte - 1) : setQte(0)} />
+                                    <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 cursor-pointer" onClick={() => (qte > 100) ? setQte(qte - 100) : setQte(0)} />
                                     <div className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1">
                                         <input
                                             value={qte}
@@ -115,7 +115,7 @@ const Product = () => {
                                             G
                                         </p>
                                     </div>
-                                    <AiOutlinePlus className="w-4 h-4 text-gray-600 mr-2 cursor-pointer" onClick={() => setQte(qte + 1)} />
+                                    <AiOutlinePlus className="w-4 h-4 text-gray-600 mr-2 cursor-pointer" onClick={() => setQte(qte + 100)} />
                                 </div>
                                 <Button
                                     variant="default"

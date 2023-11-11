@@ -24,7 +24,7 @@ export function MainNav({
           pageId === "admin" ? "text-primary" : "text-muted-foreground"
         }`}
       >
-        Overview
+        Aperçu
       </Link>
       <Link
         href="/admin/orders"
@@ -32,15 +32,15 @@ export function MainNav({
           pageId === "orders" ? "text-primary" : "text-muted-foreground"
         }`}
       >
-        Orders
+        Les Commandes
       </Link>
       <Link
-        href="/admin/customers"
+        href="/admin/users"
         className={`"text-sm font-medium transition-colors hover:text-primary" ${
-          pageId === "customers" ? "text-primary" : "text-muted-foreground"
+          pageId === "users" ? "text-primary" : "text-muted-foreground"
         }`}
       >
-        Customers
+        Utilisateurs
       </Link>
       <Link
         href="/admin/products"
@@ -48,7 +48,15 @@ export function MainNav({
           pageId === "products" ? "text-primary" : "text-muted-foreground"
         }`}
       >
-        Products
+        Produits
+      </Link>
+      <Link
+        href="/admin/stock"
+        className={`"text-sm font-medium transition-colors hover:text-primary" ${
+          pageId === "stock" ? "text-primary" : "text-muted-foreground"
+        }`}
+      >
+        Inventaire
       </Link>
       <Link
         href="/admin/settings"

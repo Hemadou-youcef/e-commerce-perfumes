@@ -40,6 +40,10 @@ Route::get('/admin/orders', function () {
     return Inertia::render('orders');
 })->name('orders');
 
+Route::get('/admin/orders/{id}', function () {
+    return Inertia::render('order');
+})->name('order');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
