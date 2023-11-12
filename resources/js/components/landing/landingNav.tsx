@@ -28,11 +28,11 @@ const LandingNav = () => {
     const [navbarOpen, setNavbarOpen] = useState(false);
     return (
         <>
-            <div className="container w-full h-14 flex justify-between items-center py-3 pl-3 pr-2 md:px-5 ">
+            <div className="container w-full h-24 flex justify-between items-center py-3 pl-3 pr-2 md:px-5 ">
                 {/* LOGO */}
                 <Link href="/">
                     <div className="flex items-center justify-start">
-                        <img className="h-7 w-auto" src="/image/logo.png" alt="Workflow" />
+                        <img className="h-7 w-auto invert" src="/image/logo.png" alt="Workflow" />
                     </div>
                 </Link>
 
@@ -41,33 +41,18 @@ const LandingNav = () => {
                 <div className="hidden md:flex items-center">
                     <Input
                         placeholder="Recherche..."
-                        className="w-72 outline-none mr-5"
+                        className="w-72 outline-none mr-5 focus-visible:ring-transparent"
                     />
-                    {/* IF NOT LOGGED IN */}
-                    {false && <div className="flex items-center gap-2 text-white">
-                        <Link
-                            href="/login"
-                            className="bg-gray-900 px-2 py-2 rounded-3xl text-xs font-bold transition-colors hover:text-gray-400"
-                        >
-                            LOGIN
-                        </Link>
-                        <Link
-                            href="/register"
-                            className="bg-gray-900 px-2 py-2 rounded-3xl text-xs font-bold transition-colors hover:text-gray-400"
-                        >
-                            REGISTER
-                        </Link>
-
-                    </div>}
+                    
                     {/* IF LOGGED IN */}
-                    {true && <div className="flex items-center gap-5 text-white">
-                        <HiOutlineShoppingBag className="w-6 h-6 text-primary" />
-                        <TbBookmark className="w-6 h-6 text-primary" />
-                        <CgProfile className="w-6 h-6 text-primary" />
+                    {false && <div className="flex items-center gap-5 text-third">
+                        <HiOutlineShoppingBag className="w-6 h-6 text-third" />
+                        <TbBookmark className="w-6 h-6 text-third" />
+                        <CgProfile className="w-6 h-6 text-third" />
                     </div>}
 
                     <Select>
-                        <SelectTrigger className="w-32 ml-5">
+                        <SelectTrigger className="w-32 h-10">
                             <SelectValue placeholder="عربية" />
                         </SelectTrigger>
                         <SelectContent>
@@ -75,6 +60,22 @@ const LandingNav = () => {
                             <SelectItem value="french">فرنسية</SelectItem>
                         </SelectContent>
                     </Select>
+                    {/* IF NOT LOGGED IN */}
+                    {true && <div className="flex items-center gap-2 mx-2 text-forth">
+                        <Link
+                            href="/login"
+                            className="bg-third h-10 px-2 py-2 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"
+                        >
+                            LOGIN
+                        </Link>
+                        <Link
+                            href="/register"
+                            className="bg-third h-10 px-2 py-2 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"
+                        >
+                            REGISTER
+                        </Link>
+
+                    </div>}
                 </div>
                 {/* <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">

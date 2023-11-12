@@ -20,11 +20,11 @@ const LandingMainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
             <div className="flex flex-col min-h-screen">
-                <div className="navElements bg-gray-50 sticky top-0 border-b-2 border-b-gray-500 z-10 shadow-md">
+                <div className="navElements bg-forth sticky top-0 border-b-2 border-b-prime z-10 shadow-md">
                     <LandingNav />
                 </div>
                 {/* SECTIONS */}
-                <div className="w-full  border-b border-b-gray-500">
+                <div className="w-full  border-b border-b-gray-500 bg-prime">
                     <div className="container hidden md:flex items-center justify-start gap-8 h-10">
                         <Link
                             href="/products"

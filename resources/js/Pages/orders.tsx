@@ -16,33 +16,29 @@ async function getData(): Promise<Payment[]> {
             client: "youcef Hemadou",
             number: "123456789",
             address: "Algeria",
-            amount: 75,
-            status: "pending",
-            email: "john@example.com",
+            total_price: 75,
+            status: "2",
         },
         {
             client: "sami Bouloudnine",
             number: "987654321",
             address: "Algeria",
-            amount: 50,
-            status: "failed",
-            email: "susan@example.com",
+            status: "0",
+            total_price: 100,
         },
         {
             client: "amir Labaci",
             number: "123123123",
             address: "Algeria",
-            amount: 125,
-            status: "pending",
-            email: "jane@example.com",
+            status: "1",
+            total_price: 50,
         },
         {
             client: "oussama Zahi",
             number: "456456456",
             address: "Algeria",
-            amount: 30,
-            status: "success",
-            email: "peter@example.com",
+            status: "3",
+            total_price: 30,
         },
         // Add more entries as needed
     ]
@@ -64,6 +60,7 @@ const Orders = () => {
             try {
                 // Fetch data from your API here.
                 const result = await getData();
+                
                 setData(result);
             } catch (error) {
                 console.error("Error fetching data: ", error);
@@ -75,9 +72,9 @@ const Orders = () => {
     }, []);
 
     return (
-        <div className="flex-1 space-y-4 p-8 pt-6">
+        <div className="flex-1 space-y-4 md:p-8 pt-6">
             <div className="flex items-center flex-col md:flex-row justify-between space-y-2">
-                <h2 className="text-3xl font-bold tracking-tight">Les Commandes</h2>
+                <h2 className="text-2xl font-bold tracking-tight">Les Commandes</h2>
                 <div className="flex items-center space-x-2">
                 </div>
             </div>

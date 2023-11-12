@@ -10,9 +10,20 @@
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "noEmit": true,
+        "noImplicitAny": false,
         "paths": {
-            "@/*": ["./resources/js/*"]
-        }
+            "@/*": [
+                "./resources/js/*"
+            ]
+        },
+        "typeRoots": [
+            "../node_modules/@types",
+            "../@types"
+        ]
     },
-    "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts"]
+    "include": [
+        "resources/js/**/*.ts",
+        "resources/js/**/*.tsx",
+        "resources/js/**/*.d.ts"
+    ]
 }

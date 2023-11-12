@@ -37,7 +37,7 @@ const Home = () => {
     return (
         <>
             <Head title="Perfurms Online" />
-            <div className="w-full md:h-144" >
+            <div className="w-full md:h-128" >
                 <Swiper
                     modules={[Pagination, Autoplay]}
                     spaceBetween={0}
@@ -47,15 +47,15 @@ const Home = () => {
                 >
                     <SwiperSlide>
                         {/* Wallpaper For Information */}
-                        <div className="md:h-144 py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(https://www.gph.com.dz/gph-assets/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDVG9JYTJWNVNTSWhkalZzTUdobGJtUndiM04xWW1FMmN6Tm1aRGh2TW5CcmFUVnNhd1k2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWVKcGJteHBibVU3SUdacGJHVnVZVzFsUFNKemJHbGtaWEl0WW1GamEyZHliM1Z1WkMxd2NtOWtkV04wTFRGbE5EUXdOemhoWldZNVlUZ3pNREEyWXpNNFpHUXhOMk0wWW1ReE1tSmhaakV6WmpReFkyTXdZbUZsT0RneU1UbGtaVEZrTVdRNU56Qm1Zak5qT1RNdWFuQm5JanNnWm1sc1pXNWhiV1VxUFZWVVJpMDRKeWR6Ykdsa1pYSXRZbUZqYTJkeWIzVnVaQzF3Y205a2RXTjBMVEZsTkRRd056aGhaV1k1WVRnek1EQTJZek00WkdReE4yTTBZbVF4TW1KaFpqRXpaalF4WTJNd1ltRmxPRGd5TVRsa1pURmtNV1E1TnpCbVlqTmpPVE11YW5CbkJqc0dWRG9SWTI5dWRHVnVkRjkwZVhCbFNTSVBhVzFoWjJVdmFuQmxad1k3QmxRNkVYTmxjblpwWTJWZmJtRnRaVG9LYkc5allXdz0iLCJleHAiOm51bGwsInB1ciI6ImJsb2Jfa2V5In19--de990537cf82107a3b8f388eb4156c85d96ce753/slider-background-product-1e44078aef9a83006c38dd17c4bd12baf13f41cc0bae88219de1d1d970fb3c93.jpg)" }}
+                        <div className="md:h-128 py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(/image/wallpaper.png)" }}
                         >
-                            <div className="container flex flex-col md:flex-row items-center justify-center md:justify-around gap-5">
+                            <div className="container flex flex-col md:flex-row items-center justify-center md:justify-around gap-5 select-none">
                                 <div className="flex flex-col md:justify-centers items-center  text-center">
                                     <h1 className="text-2xl md:text-5xl md:pl-4 text-white" style={{ textShadow: "0 0 10px #000" }}>COCO EAU DE PARFUM</h1>
                                     <p className="text-xs font-sans mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
                                         CHANEL a toujours confié au noir un rôle essentiel : mettre en valeur une femme
                                     </p>
-                                    <Button variant="outline" className="mt-5 w-44  bg-transparent border-2 border-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-100 hover:text-gray-100 active:text-gray-100">
+                                    <Button variant="default" className="mt-5 w-44 bg-prime border-2 border-prime  text-third  ">
                                         ACHETER
                                     </Button>
                                 </div>
@@ -69,7 +69,7 @@ const Home = () => {
                     </SwiperSlide>
                     <SwiperSlide>
                         {/* Wallpaper For Information */}
-                        <div className="md:h-144 py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(https://bestwallpapers.in/wp-content/uploads/2018/05/leaves-black-blue-drops-4k-wallpaper-3840x2160.jpg)" }}
+                        <div className="md:h-128 py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(/image/wallpaper.png)" }}
                         >
                             <div className="container flex flex-col md:flex-row items-center justify-center md:justify-around gap-5">
                                 <div className="flex flex-col md:justify-centers items-center  text-center">
@@ -91,7 +91,7 @@ const Home = () => {
                     </SwiperSlide>
                 </Swiper>
             </div>
-            <div className="w-full p-1 px-5 sm:px-1 h-32 flex md:hidden justify-center items-center bg-black uppercase">
+            <div className="w-full p-1 px-5 sm:px-1 h-32 flex md:hidden justify-center items-center bg-forth uppercase">
                 <Swiper
                     spaceBetween={0}
                     slidesPerView={1}
@@ -159,43 +159,43 @@ const Home = () => {
                     </SwiperSlide >
                 </Swiper >
             </div>
-            <div className='w-full p-1 h-32 hidden md:flex justify-center items-center bg-black uppercase'>
-                <div className="container h-10  md:flex justify-center items-center space-x-4 text-sm">
+            <div className='w-full p-1 h-32 hidden md:flex justify-center items-center bg-forth uppercase'>
+                <div className="container h-10 md:flex justify-center items-center space-x-4 text-sm">
                     <div className='flex items-center space-x-2'>
-                        <div className=' bg-white rounded-full p-2'>
+                        <div className=' bg-prime rounded-full p-2'>
                             <GiReceiveMoney className="w-7 h-7 text-gray-900" />
                         </div>
-                        <p className="text-gray-100 text-xs font-medium font-sans">
+                        <p className="text-prime text-xs font-medium font-sans">
                             Paiement <br />à la livraison
                         </p>
                     </div>
                     <Separator orientation="vertical" />
                     <div className='flex items-center space-x-2'>
-                        <div className=' bg-white rounded-full p-2'>
+                        <div className=' bg-prime rounded-full p-2'>
                             <TbTruckDelivery className="w-7 h-7 text-gray-900" />
                         </div>
-                        <p className="text-gray-100 text-xs font-medium font-sans">
+                        <p className="text-prime text-xs font-medium font-sans">
                             LIVRAISON <br />
                             58 WILAYAS
                         </p>
                     </div>
                     <Separator orientation="vertical" />
                     <div className='flex items-center space-x-2'>
-                        <div className='bg-white rounded-full p-2'>
+                        <div className='bg-prime rounded-full p-2'>
                             <BiSupport className="w-7 h-7 text-gray-900" />
                         </div>
-                        <p className="text-gray-100 text-xs font-medium font-sans">
+                        <p className="text-prime text-xs font-medium font-sans">
                             Service Client <br />
                             A L'ECOUTE
                         </p>
                     </div>
                     <Separator orientation="vertical" />
                     <div className='flex items-center space-x-2'>
-                        <div className='bg-white rounded-full p-2'>
+                        <div className='bg-prime rounded-full p-2'>
                             {/* Add an icon related to your additional information */}
                             <GiReturnArrow className="w-7 h-7 text-gray-900" />
                         </div>
-                        <p className="text-gray-100 text-xs font-medium font-sans">
+                        <p className="text-prime text-xs font-medium font-sans">
                             {/* Add your return policy information here */}
                             Politique de Retour <br />
                             Retours faciles sous 30 jours
