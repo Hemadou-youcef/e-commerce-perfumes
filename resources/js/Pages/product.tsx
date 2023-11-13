@@ -24,7 +24,7 @@ import 'swiper/css/scrollbar';
 import { BsZoomIn } from 'react-icons/bs';
 
 const Product = () => {
-    const [qte, setQte] = useState(100);
+    const [qte, setQte] = useState(1);
 
     return (
         <>
@@ -102,20 +102,31 @@ const Product = () => {
                                 <TbBookmark className="w-7 h-7 text-gray-600 mr-2 cursor-pointer" />
                             </div>
                             <Separator className="w-full mt-2" />
+                            <p className="w-full mt-2 text-gray-800 text-left text-xs font-bold md:text-sm lg:text-base">
+                                Produit Prix :
+                            </p>
+                            <div className="w-full  grid grid-cols-3 my-2 gap-2">
+                                <div className="flex flex-col gap-1 border-2 py-1 px-5 text-left cursor-pointer">
+                                    <p className="text-gray-900 text-xs font-medium md:text-sm lg:tex">
+                                        100 G
+                                    </p>
+                                    <p className="text-gray-400 text-xs font-bold md:text-sm lg:tex">
+                                        90 DA
+                                    </p>
+                                </div>
+
+                            </div>
                             <div className="flex  md:flex-col lg:flex-row justify-start items-center w-full gap-3 mt-3">
                                 <div className="w-52 flex justify-between gap-1 items-center border-2 overflow-hidden">
-                                    <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 cursor-pointer" onClick={() => (qte > 100) ? setQte(qte - 100) : setQte(0)} />
+                                    <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 cursor-pointer" onClick={() => (qte > 1) ? setQte(qte - 1) : setQte(0)} />
                                     <div className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1">
                                         <input
                                             value={qte}
                                             onChange={(e) => (parseInt(e.target.value) > 0) ? setQte(parseInt(e.target.value)) : setQte(0)}
-                                            className="outline-none w-10 h-10 text-right text-gray-700 font-bold text-xs md:text-sm lg:tex"
+                                            className="outline-none w-10 h-10 text-center text-gray-700 font-bold text-xs md:text-sm lg:tex"
                                         />
-                                        <p className="text-sm text-gray-400 font-bold">
-                                            G
-                                        </p>
                                     </div>
-                                    <AiOutlinePlus className="w-4 h-4 text-gray-600 mr-2 cursor-pointer" onClick={() => setQte(qte + 100)} />
+                                    <AiOutlinePlus className="w-4 h-4 text-gray-600 mr-2 cursor-pointer" onClick={() => setQte(qte + 1)} />
                                 </div>
                                 <Button
                                     variant="default"

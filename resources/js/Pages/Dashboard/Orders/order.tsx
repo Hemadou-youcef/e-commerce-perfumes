@@ -22,8 +22,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
 
 
 // Icons
-import { AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlineRight } from "react-icons/ai";
-import { BsListCheck } from "react-icons/bs";
+import { AiOutlineCalendar, AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlineRight, AiTwotonePhone } from "react-icons/ai";
+import { BsFillTelephoneOutboundFill, BsListCheck } from "react-icons/bs";
+import { IoLocationSharp } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
 
 const Order = () => {
     return (
@@ -31,29 +33,37 @@ const Order = () => {
             {/* TREE */}
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/admin/orders">
-                    <h2 className="text-lg text-gray-900 font-medium tracking-tight">Les Commandes</h2>
+                    <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Commandes</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
                 <h2 className="text-lg text-gray-600 font-medium tracking-tight">CM/123456789</h2>
             </div>
-            <div className="container mx-auto p-0 m-2 border  overflow-hidden">
+            <div className="md:mx-10 p-0 m-2 border rounded-none md:rounded-md overflow-hidden">
                 {/* SHOW ORDER DETAIL */}
-                <div className="flex flex-col">
-                    <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5">
-                        <div className="flex flex-col">
+                <div className="flex flex-col ">
+                    <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 bg-gray-100">
+                        <div className="flex flex-col text-center md:text-left">
                             <h2 className="text-xl text-gray-900 font-bold tracking-tight">La Commande: CM/123456789</h2>
-                            <p className="text-sm text-gray-600">Passé le 12/12/2020</p>
+                            {/* <p className="text-sm text-gray-600">Passé le 12/12/2020</p> */}
                         </div>
                         {/* ACTIONS */}
                         <div className="flex justify-end gap-2">
-                            <Button className="flex items-center h-9 space-x-2 bg-red-500 hover:bg-red-700 active:bg-red-800 text-white rounded-sm">
+                            <Button variant="outline" className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300">
                                 <span className="text-sm font-medium">Rejeter</span>
                                 <AiOutlineCloseCircle className="text-xl" />
                             </Button>
-                            <Button className="flex items-center h-9 space-x-2 bg-blue-900 hover:bg-blue-800 active:bg-blue-700 text-white rounded-sm">
+                            <Button variant="outline" className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300">
                                 <span className="text-sm font-medium">Confirmer la commande</span>
                                 <AiOutlineCheckCircle className="text-xl" />
                             </Button>
+                            {/* <Button className="flex items-center h-9 space-x-2 bg-red-600 hover:bg-red-500 active:bg-red-700 text-white rounded-full">
+                                <span className="text-sm font-medium">Rejeter</span>
+                                <AiOutlineCloseCircle className="text-xl" />
+                            </Button>
+                            <Button className="flex items-center h-9 space-x-2 bg-blue-900 hover:bg-blue-800 active:bg-blue-950 text-white rounded-full">
+                                <span className="text-sm font-medium">Confirmer la commande</span>
+                                <AiOutlineCheckCircle className="text-xl" />
+                            </Button> */}
                             {/* <Button className="flex items-center h-9 space-x-2 bg-blue-900 hover:bg-blue-800 active:bg-blue-700 text-white rounded-sm">
                                 <span className="text-sm font-medium">Verify La Disponibilité</span>
                                 <BsListCheck className="text-xl" />
@@ -64,24 +74,38 @@ const Order = () => {
                     <Separator className="" />
                     <div className="flex flex-col gap-4 py-5 px-5 ">
                         <div className="flex flex-row justify-start items-center gap-2">
-                            <h1 className="text-base font-medium w-52 text-gray-800">Date De Commande :</h1>
-                            <p className="text-base font-normal text-gray-500">12/12/2020</p>
+                            <h1 className="text-sm font-medium w-40 text-gray-800">Date De Commande :</h1>
+                            <div className="flex flex-row justify-start items-center gap-2">
+                                <AiOutlineCalendar className="text-xl text-gray-800" />
+                                <p className="text-sm font-bold text-gray-500">12/12/2020</p>
+                            </div>
                         </div>
                         <div className="flex flex-row justify-start items-center gap-2">
-                            <h1 className="text-base font-medium w-52 text-gray-800">Prix Total :</h1>
-                            <p className="text-base font-normal text-gray-500">12000 DA</p>
+                            <h1 className="text-sm font-medium w-40 text-gray-800">Prix Total :</h1>
+                            <p className="text-sm font-bold text-green-500">12000 DA</p>
                         </div>
                         <div className="flex flex-row justify-start items-center gap-2">
-                            <h1 className="text-base font-medium w-52 text-gray-800">Client :</h1>
-                            <p className="text-base font-normal text-gray-500">Youcef Hemadou</p>
+                            <h1 className="text-sm font-medium w-40 text-gray-800">Client :</h1>
+                            <Link href="/users/1" className="flex flex-row justify-start items-center gap-2">
+                                <CgProfile className="text-xl text-blue-800" />
+                                <p className="text-sm font-bold text-blue-600">
+                                    Youcef Hemadou
+                                </p>
+                            </Link>
                         </div>
                         <div className="flex flex-row justify-start items-center gap-2">
-                            <h1 className="text-base font-medium w-52 text-gray-800">Numéro :</h1>
-                            <p className="text-base font-normal text-gray-500">0555912812</p>
+                            <h1 className="text-sm font-medium w-40 text-gray-800">Numéro :</h1>
+                            <div className="flex flex-row justify-start items-center gap-2">
+                                <BsFillTelephoneOutboundFill className="text-base text-gray-800" />
+                                <p className="text-sm font-bold text-gray-500">0555912812</p>
+                            </div>
                         </div>
                         <div className="flex flex-row justify-start items-center gap-2">
-                            <h1 className="text-base font-medium w-52 text-gray-800">Address :</h1>
-                            <p className="text-base font-normal text-gray-500">Setif</p>
+                            <h1 className="text-sm font-medium w-40 text-gray-800">Address :</h1>
+                            <div className="flex flex-row justify-start items-center gap-2">
+                                <IoLocationSharp className="text-lg text-gray-800" />
+                                <p className="text-sm font-bold text-gray-500">Setif</p>
+                            </div>
                         </div>
                     </div>
                     <Separator className="mt-0" />
@@ -93,7 +117,7 @@ const Order = () => {
                                 <TabsTrigger value="benefices" className="w-52  border-b rounded-none">Bénéfices</TabsTrigger>
                             </TabsList>
                             <TabsContent value="articles">
-                                <div className="w-full md:w-3/4 mb-5 border-2 rounded-lg">
+                                <div className="w-full md:w-3/4 mb-5 border-2 ">
                                     <Table className="w-full">
                                         <TableHeader>
                                             <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
@@ -105,10 +129,10 @@ const Order = () => {
                                         </TableHeader>
                                         <TableBody>
                                             <TableRow>
-                                                <TableCell className="font-medium">INV001</TableCell>
-                                                <TableCell className="font-bold">300 G</TableCell>
-                                                <TableCell className="font-bold">1200 DA</TableCell>
-                                                <TableCell className="text-center">
+                                                <TableCell className="font-medium text-xs">INV001</TableCell>
+                                                <TableCell className="font-bold text-xs">300 G</TableCell>
+                                                <TableCell className="font-bold text-xs">1200 DA</TableCell>
+                                                <TableCell className="text-center text-sm">
                                                     En attente de confirmation
                                                 </TableCell>
                                             </TableRow>

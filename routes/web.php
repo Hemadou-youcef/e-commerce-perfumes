@@ -33,20 +33,32 @@ Route::get('/product/{id}', function () {
 })->name('product');
 
 Route::get('/admin', function () {
-    return Inertia::render('dashboard');
+    return Inertia::render('Dashboard/dashboard');
 })->name('dashboard');
 
 Route::get('/admin/orders', function () {
-    return Inertia::render('orders');
+    return Inertia::render('Dashboard/Orders/orders');
 })->name('orders');
 
 Route::get('/admin/orders/{id}', function () {
-    return Inertia::render('order');
+    return Inertia::render('Dashboard/Orders/order');
 })->name('order');
+
+Route::get('/admin/users', function () {
+    return Inertia::render('Dashboard/Users/users');
+})->name('users');
+
+Route::get('/admin/users/{id}', function () {
+    return Inertia::render('Dashboard/Users/user');
+})->name('user');
 
 Route::get('/login', function () {
     return Inertia::render('auth/login');
 })->name('login');
+
+Route::get('/register', function () {
+    return Inertia::render('auth/register');
+})->name('register');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
