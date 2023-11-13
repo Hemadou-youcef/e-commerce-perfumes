@@ -64,13 +64,13 @@ const LandingNav = () => {
                     {true && <div className="flex items-center gap-2 mx-2 text-forth">
                         <Link
                             href="/login"
-                            className="bg-third h-10 px-2 py-2 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"
+                            className=" bg-third px-3 py-3 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"
                         >
                             LOGIN
                         </Link>
                         <Link
                             href="/register"
-                            className="bg-third h-10 px-2 py-2 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"
+                            className="bg-third px-3 py-3 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"
                         >
                             REGISTER
                         </Link>

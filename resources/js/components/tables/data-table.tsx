@@ -13,16 +13,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/shadcn/ui/table"
-import { Link } from "@inertiajs/react"
+import { Link, router } from "@inertiajs/react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  baseUrl?: string
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  baseUrl,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -30,6 +32,9 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   })
 
+  const goToUrl = (url: string) => {
+    router.visit(`${baseUrl}${url}`)
+  }
   return (
     <div className="rounded-md border">
       <Table>
@@ -38,7 +43,7 @@ export function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} style={{ width: header.getSize() }}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -58,13 +63,13 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className="cursor-pointer hover:bg-gray-100 transition-colors duration-200 ease-in-out"
+                onClick={() => goToUrl(row.id)}
               >
 
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
-                    <Link href={`/admin/orders/${row.id}`}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </Link>
                   </TableCell>
                 ))}
               </TableRow>
