@@ -44,9 +44,9 @@ Route::get('/admin/orders/{id}', function () {
     return Inertia::render('order');
 })->name('order');
 
-Route::get('/login', function () {
-    return Inertia::render('auth/login');
-})->name('login');
+//Route::get('/login', function () {
+//    return Inertia::render('auth/login');
+//})->name('login');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
