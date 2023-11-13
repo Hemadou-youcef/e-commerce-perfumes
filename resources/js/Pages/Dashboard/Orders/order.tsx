@@ -43,7 +43,7 @@ const Order = () => {
                 <div className="flex flex-col ">
                     <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 bg-gray-100">
                         <div className="flex flex-col text-center md:text-left">
-                            <h2 className="text-xl text-gray-900 font-bold tracking-tight">La Commande: CM/123456789</h2>
+                            <h2 className="text-xl text-gray-900 font-bold tracking-tight">CM/123456789</h2>
                             {/* <p className="text-sm text-gray-600">Passé le 12/12/2020</p> */}
                         </div>
                         {/* ACTIONS */}

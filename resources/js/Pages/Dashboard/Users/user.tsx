@@ -52,7 +52,7 @@ const User = () => {
                         </div>
                     </div>
                     <div className="flex flex-row justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium w-40 text-gray-800">Date De Commande :</h1>
+                        <h1 className="text-sm font-medium w-40 text-gray-800">Date De Inscription :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <AiOutlineCalendar className="text-xl text-gray-800" />
                             <p className="text-sm font-bold text-gray-500">12/12/2020</p>
