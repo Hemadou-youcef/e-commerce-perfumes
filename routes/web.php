@@ -44,6 +44,7 @@ Route::get('/admin/orders/{id}', function () {
     return Inertia::render('Dashboard/Orders/order');
 })->name('order');
 
+
 Route::get('/admin/users', function () {
     return Inertia::render('Dashboard/Users/users');
 })->name('users');
@@ -55,6 +56,7 @@ Route::get('/admin/users/{id}', function () {
 Route::get('/login', function () {
     return Inertia::render('auth/login');
 })->name('login');
+
 
 Route::get('/register', function () {
     return Inertia::render('auth/register');
