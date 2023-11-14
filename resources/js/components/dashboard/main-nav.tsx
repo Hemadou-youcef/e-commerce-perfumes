@@ -37,11 +37,11 @@ export function MainNav({
           Les Commandes
         </Link>
         <Link
-          href="/admin/users"
-          className={`"text-sm font-medium transition-colors hover:text-primary" ${pageId === "users" ? "text-primary" : "text-muted-foreground"
+          href="/admin/clients"
+          className={`"text-sm font-medium transition-colors hover:text-primary" ${pageId === "clients" ? "text-primary" : "text-muted-foreground"
             }`}
         >
-          Utilisateurs
+          Les Clients
         </Link>
         <Link
           href="/admin/products"

@@ -12,12 +12,20 @@ import { Separator } from "@/shadcn/ui/separator";
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/shadcn/ui/table"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/shadcn/ui/dialog"
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
 
 
@@ -26,8 +34,10 @@ import { AiOutlineCalendar, AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlin
 import { BsFillTelephoneOutboundFill, BsListCheck } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
+import { useState } from "react";
 
 const Order = () => {
+    const [open, setOpen] = useState(false);
     return (
         <>
             {/* TREE */}
@@ -142,10 +152,21 @@ const Order = () => {
                                 </div>
                             </TabsContent>
                             <TabsContent value="stock">
-                                {true && (
+                                {false && (
                                     <div className="flex flex-col justify-center w-full gap-2 px-5 mt-2 p-5">
                                         <p className="text-base text-center font-bold text-gray-800">Verify La Disponibilité D'abord</p>
 
+                                    </div>
+                                )}
+                                {true && (
+                                    <div className="flex flex-col p-2">
+                                        <div className="flex flex-row items-center gap-4 border-2 p-2">
+                                            <p className="font-bold">INV001</p>
+                                            <p className="font-medium">300 G</p>
+                                            <Button className="h-7 uppercase">
+                                                sélectionner la quantité
+                                            </Button>
+                                        </div>
                                     </div>
                                 )}
 
@@ -162,6 +183,17 @@ const Order = () => {
 
                 </div>
             </div>
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                        <DialogDescription>
+                            This action cannot be undone. This will permanently delete your account
+                            and remove your data from our servers.
+                        </DialogDescription>
+                    </DialogHeader>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
