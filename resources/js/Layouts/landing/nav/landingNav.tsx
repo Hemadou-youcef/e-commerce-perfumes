@@ -5,6 +5,7 @@ import { useState } from "react";
 // Components 
 import { Link, router } from "@inertiajs/react"
 import { Button } from "@/shadcn/ui/button";
+import { Input } from "@/shadcn/ui/input";
 import {
     Select,
     SelectContent,
@@ -16,12 +17,10 @@ import {
 
 // Icons
 import { AiOutlineHome, AiOutlineMenu, AiOutlineSearch } from "react-icons/ai";
-import { HiOutlineShoppingBag } from "react-icons/hi";
+import { HiOutlineShoppingBag, HiOutlineLogout } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { TbBookmark, TbPerfume } from "react-icons/tb";
-import { Input } from "@/shadcn/ui/input";
-
-
+import { MdDashboard } from "react-icons/md";
 
 
 const LandingNav = ({ props }) => {
@@ -42,7 +41,7 @@ const LandingNav = ({ props }) => {
 
 
                 {/* LOGIN ACTIONS */}
-                <div className="hidden md:flex items-center">
+                <div className="hidden md:flex items-center gap-0">
                     <Input
                         placeholder="Recherche..."
                         className="w-72 outline-none mr-5 focus-visible:ring-transparent"
@@ -50,16 +49,29 @@ const LandingNav = ({ props }) => {
 
                     {/* IF LOGGED IN */}
                     {props?.auth?.user !== null && <div className="flex items-center gap-5 text-third">
-                        <HiOutlineShoppingBag className="w-6 h-6 text-third" />
-                        <TbBookmark className="w-6 h-6 text-third" />
-                        <CgProfile className="w-6 h-6 text-third" />
+                        {(props?.auth?.user?.role === "admin" || props?.auth?.users?.role === "workers") ? (
+                            <>
+                                <Link
+                                    href="/admin"
+                                    className="font-medium"
+                                >
+                                    <MdDashboard className="w-8 h-8 text-white hover:text-gray-400" />
+                                </Link>
+                            </>
+                        ) : (
+                            <div className="flex items-center gap-5 ">
+                                <HiOutlineShoppingBag className="w-8 h-8 text-third" />
+                                <TbBookmark className="w-8 h-8 text-third" />
+                                <CgProfile className="w-8 h-8 text-third" />
+                            </div>
+                        )}
                         {/* LOG OUT */}
                         <Button
                             variant="ghost"
                             onClick={() => logout()}
-                            className="font-bold"
+                            className="font-bold hover:text-gray-700 hover:bg-transparent p-0"
                         >
-                            LOG OUT
+                            <HiOutlineLogout className="w-8 h-8 text-white hover:text-gray-400" />
                         </Button>
 
                     </div>}
