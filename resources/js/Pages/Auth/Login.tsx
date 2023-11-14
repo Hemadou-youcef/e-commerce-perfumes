@@ -19,14 +19,14 @@ import { Checkbox } from "@/shadcn/ui/checkbox"
 import { AiOutlineArrowLeft } from "react-icons/ai"
 
 interface formData {
-    user_name: string;
+    username: string;
     password: string;
     remember: boolean;
 }
 
 const Login = () => {
     const { data, setData, post, processing, errors, reset } = useForm<formData>({
-        user_name: '',
+        username: '',
         password: '',
         remember: false,
     });
@@ -63,12 +63,16 @@ const Login = () => {
 
                             <div className="grid gap-4 p-5 pb-0">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="user_name">User name</Label>
-                                    <Input id="user_name" type="user_name" placeholder="User name" className="w-full h-9 focus-visible:ring-transparent" />
+                                    <Label htmlFor="username">User name</Label>
+                                    <Input id="username" type="username" placeholder="User name" className="w-full h-9 focus-visible:ring-transparent"
+                                    onChange={(e ) => setData('username', e.target.value)}
+                                    />
                                 </div>
                                 <div className="grid gap-2">
                                     <Label htmlFor="password">Password</Label>
-                                    <Input id="password" type="password" placeholder="Password" className="w-full h-9 focus-visible:ring-transparent" />
+                                    <Input id="password" type="password" placeholder="Password" className="w-full h-9 focus-visible:ring-transparent"
+                                    onChange={(e) => setData('password', e.target.value)}
+                                    />
                                 </div>
                                 <div className="block mt-2">
                                     <label className="flex items-center gap-2">

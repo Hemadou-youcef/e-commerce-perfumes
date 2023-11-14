@@ -22,7 +22,7 @@ import { Textarea } from "@/shadcn/ui/textarea"
 interface formData {
     first_name: string;
     last_name: string;
-    phone_number: string;
+    phone: string;
     address: string;
     gender: string;
     user_name: string;
@@ -33,7 +33,7 @@ const Register = () => {
     const { data, setData, post, processing, errors, reset } = useForm<formData>({
         first_name: '',
         last_name: '',
-        phone_number: '',
+        phone: '',
         address: '',
         gender: '',
         user_name: '',
@@ -82,8 +82,8 @@ const Register = () => {
                                     </div>
                                 </div>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="phone_number">Numéro de téléphone</Label>
-                                    <Input id="phone_number" type="phone_number" placeholder="Numéro de téléphone" className="w-full h-9 focus-visible:ring-transparent" />
+                                    <Label htmlFor="phone">Numéro de téléphone</Label>
+                                    <Input id="phone" type="phone" placeholder="Numéro de téléphone" className="w-full h-9 focus-visible:ring-transparent" />
                                 </div>
                                 <div className="grid gap-2">
                                     <Label htmlFor="address">Address</Label>
