@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 // Components 
-import { Link } from "@inertiajs/react"
+import { Link, router } from "@inertiajs/react"
 import { Button } from "@/shadcn/ui/button";
 import {
     Select,
@@ -24,8 +24,12 @@ import { Input } from "@/shadcn/ui/input";
 
 
 
-const LandingNav = () => {
+const LandingNav = ({ props }) => {
     const [navbarOpen, setNavbarOpen] = useState(false);
+    console.log(props?.auth?.user)
+    const logout = () => {
+        router.post(route('logout'))
+    }
     return (
         <>
             <div className="container w-full h-24 flex justify-between items-center py-3 pl-3 pr-2 md:px-5 ">
@@ -43,25 +47,26 @@ const LandingNav = () => {
                         placeholder="Recherche..."
                         className="w-72 outline-none mr-5 focus-visible:ring-transparent"
                     />
-                    
+
                     {/* IF LOGGED IN */}
-                    {false && <div className="flex items-center gap-5 text-third">
+                    {props?.auth?.user !== null && <div className="flex items-center gap-5 text-third">
                         <HiOutlineShoppingBag className="w-6 h-6 text-third" />
                         <TbBookmark className="w-6 h-6 text-third" />
                         <CgProfile className="w-6 h-6 text-third" />
+                        {/* LOG OUT */}
+                        <Button
+                            variant="ghost"
+                            onClick={() => logout()}
+                            className="font-bold"
+                        >
+                            LOG OUT
+                        </Button>
+
                     </div>}
 
-                    <Select>
-                        <SelectTrigger className="w-32 h-10">
-                            <SelectValue placeholder="عربية" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="arabic">عربية</SelectItem>
-                            <SelectItem value="french">فرنسية</SelectItem>
-                        </SelectContent>
-                    </Select>
+
                     {/* IF NOT LOGGED IN */}
-                    {true && <div className="flex items-center gap-2 mx-2 text-forth">
+                    {props?.auth?.user === null && <div className="flex items-center gap-2 mx-2 text-forth">
                         <Link
                             href="/login"
                             className=" bg-third px-3 py-3 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"
@@ -76,6 +81,15 @@ const LandingNav = () => {
                         </Link>
 
                     </div>}
+                    {/* <Select>
+                        <SelectTrigger className="w-32 h-10">
+                            <SelectValue placeholder="عربية" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="arabic">عربية</SelectItem>
+                            <SelectItem value="french">فرنسية</SelectItem>
+                        </SelectContent>
+                    </Select> */}
                 </div>
                 {/* <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">

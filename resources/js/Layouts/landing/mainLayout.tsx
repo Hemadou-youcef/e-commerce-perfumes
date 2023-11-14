@@ -1,9 +1,9 @@
 
 
 // Components
-import LandingNav from "@/components/landing/landingNav";
+import LandingNav from "@/Layouts/landing/nav/landingNav";
 import LandingFooter from "./footer/footer";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -15,13 +15,14 @@ import {
     NavigationMenuViewport,
 } from "@/shadcn/ui/navigation-menu"
 
-const LandingMainLayout = ({ children }: { children: React.ReactNode }) => {
-
+const LandingMainLayout = ({ children, ...props }) => {
+    const pageProps = usePage().props
+    // console.log(pageProps)
     return (
         <>
             <div className="flex flex-col min-h-screen">
                 <div className="navElements bg-forth sticky top-0 border-b-2 z-10 shadow-md">
-                    <LandingNav />
+                    <LandingNav props={pageProps} />
                 </div>
                 {/* SECTIONS */}
                 <div className="w-full  border-b border-b-gray-500 bg-third">
