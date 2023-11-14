@@ -21,6 +21,7 @@ import {
     Dialog,
     DialogContent,
     DialogDescription,
+    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -35,9 +36,17 @@ import { BsFillTelephoneOutboundFill, BsListCheck } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { useState } from "react";
+import { Label } from "@/shadcn/ui/label";
+import { Input } from "@/shadcn/ui/input";
 
 const Order = () => {
     const [open, setOpen] = useState(false);
+    const [productSelected, setProductSelected] = useState(null);
+
+    const handleSelectQuantity = (product) => {
+        setProductSelected(product);
+        setOpen(true);
+    }
     return (
         <>
             {/* TREE */}
@@ -163,7 +172,7 @@ const Order = () => {
                                         <div className="flex flex-row items-center gap-4 border-2 p-2">
                                             <p className="font-bold">INV001</p>
                                             <p className="font-medium">300 G</p>
-                                            <Button className="h-7 uppercase">
+                                            <Button className="h-7 uppercase" onClick={() => handleSelectQuantity("INV001")}>
                                                 sélectionner la quantité
                                             </Button>
                                         </div>
@@ -184,14 +193,22 @@ const Order = () => {
                 </div>
             </div>
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent>
+                <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                        <DialogTitle>Sélectionner la quantité En Stock</DialogTitle>
                         <DialogDescription>
-                            This action cannot be undone. This will permanently delete your account
-                            and remove your data from our servers.
+                            <div className="flex flex-row justify-start items-center gap-2">
+                                <AiOutlineCalendar className="text-xl text-gray-800" />
+                                <p className="text-sm font-bold text-gray-500">12/12/2020</p>
+                            </div>
                         </DialogDescription>
                     </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        
+                    </div>
+                    <DialogFooter>
+                        <Button type="submit">Sélectionner</Button>
+                    </DialogFooter>
                 </DialogContent>
             </Dialog>
         </>
