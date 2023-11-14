@@ -68,6 +68,7 @@ const Login = () => {
                                     onChange={(e ) => setData('username', e.target.value)}
                                     />
                                 </div>
+                                
                                 <div className="grid gap-2">
                                     <Label htmlFor="password">Password</Label>
                                     <Input id="password" type="password" placeholder="Password" className="w-full h-9 focus-visible:ring-transparent"
@@ -105,7 +106,7 @@ const Login = () => {
                         </div>
                         <div className="flex justify-center">
                             <Link href="/register" className="w-full px-10">
-                                <Button className="w-full bg-forth hover:bg-prime-dark active:bg-second" onClick={() => post('/login')}>
+                                <Button className="w-full bg-forth hover:bg-prime-dark active:bg-second" onClick={() => get('/login')}>
                                     S'inscrire
                                 </Button>
                             </Link>
