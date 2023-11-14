@@ -12,12 +12,21 @@ import { Separator } from "@/shadcn/ui/separator";
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/shadcn/ui/table"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/shadcn/ui/dialog"
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
 
 
@@ -26,8 +35,18 @@ import { AiOutlineCalendar, AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlin
 import { BsFillTelephoneOutboundFill, BsListCheck } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
+import { useState } from "react";
+import { Label } from "@/shadcn/ui/label";
+import { Input } from "@/shadcn/ui/input";
 
 const Order = () => {
+    const [open, setOpen] = useState(false);
+    const [productSelected, setProductSelected] = useState(null);
+
+    const handleSelectQuantity = (product) => {
+        setProductSelected(product);
+        setOpen(true);
+    }
     return (
         <>
             {/* TREE */}
@@ -142,10 +161,21 @@ const Order = () => {
                                 </div>
                             </TabsContent>
                             <TabsContent value="stock">
-                                {true && (
+                                {false && (
                                     <div className="flex flex-col justify-center w-full gap-2 px-5 mt-2 p-5">
                                         <p className="text-base text-center font-bold text-gray-800">Verify La Disponibilité D'abord</p>
 
+                                    </div>
+                                )}
+                                {true && (
+                                    <div className="flex flex-col p-2">
+                                        <div className="flex flex-row items-center gap-4 border-2 p-2">
+                                            <p className="font-bold">INV001</p>
+                                            <p className="font-medium">300 G</p>
+                                            <Button className="h-7 uppercase" onClick={() => handleSelectQuantity("INV001")}>
+                                                sélectionner la quantité
+                                            </Button>
+                                        </div>
                                     </div>
                                 )}
 
@@ -162,6 +192,25 @@ const Order = () => {
 
                 </div>
             </div>
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Sélectionner la quantité En Stock</DialogTitle>
+                        <DialogDescription>
+                            <div className="flex flex-row justify-start items-center gap-2">
+                                <AiOutlineCalendar className="text-xl text-gray-800" />
+                                <p className="text-sm font-bold text-gray-500">12/12/2020</p>
+                            </div>
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        
+                    </div>
+                    <DialogFooter>
+                        <Button type="submit">Sélectionner</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
