@@ -41,10 +41,10 @@ const LandingNav = ({ props }) => {
 
 
                 {/* LOGIN ACTIONS */}
-                <div className="hidden md:flex items-center gap-0">
+                <div className="hidden md:flex items-center gap-5">
                     <Input
                         placeholder="Recherche..."
-                        className="w-72 outline-none mr-5 focus-visible:ring-transparent"
+                        className="w-72 outline-none focus-visible:ring-transparent"
                     />
 
                     {/* IF LOGGED IN */}
@@ -78,7 +78,7 @@ const LandingNav = ({ props }) => {
 
 
                     {/* IF NOT LOGGED IN */}
-                    {props?.auth?.user === null && <div className="flex items-center gap-2 mx-2 text-forth">
+                    {props?.auth?.user === null && <div className="flex items-center gap-3  text-forth">
                         <Link
                             href="/login"
                             className=" bg-third px-3 py-3 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"

@@ -32,18 +32,19 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   })
 
-  const goToUrl = (url: string) => {
-    router.visit(`${baseUrl}${url}`)
+  const goToUrl = (info: any) => {
+    let id = info.original.id
+    router.visit(`${baseUrl}${id}`)
   }
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border bg-white">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} style={{ width: header.getSize() }}>
+                  <TableHead key={header.id} style={{ width: header.getSize() + "%" }}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -64,7 +65,8 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
                 className="cursor-pointer hover:bg-gray-100 transition-colors duration-200 ease-in-out"
-                onClick={() => goToUrl(row.id)}
+                
+                onClick={() => goToUrl(row)}
               >
 
                 {row.getVisibleCells().map((cell) => (

@@ -20,7 +20,7 @@ class ProductPriceFactory extends Factory
         return [
             'product_id' => Product::factory(),
             'price' => $this->faker->numberBetween(100, 10000), // Adjust the price range as needed
-            'unite' => $this->faker->numberBetween(1,10),
+            'unit' => 'G',
             'quantity' => $this->faker->numberBetween(1, 100),
             'created_at' => now(),
             'updated_at' => now(),

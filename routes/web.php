@@ -68,9 +68,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('test/products' , [App\Http\Controllers\ProductController::class, 'index']);
-Route::get('test/products/{product}' , [App\Http\Controllers\ProductController::class, 'show']);
-Route::get('test/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit']);
+Route::get('/admin/products' , [App\Http\Controllers\ProductController::class, 'index']);
+Route::get('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'show']);
+Route::get('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit']);
 
 
 

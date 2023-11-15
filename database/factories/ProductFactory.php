@@ -26,6 +26,7 @@ class ProductFactory extends Factory
             'description_ar' => $this->faker->paragraph,
             'main_image' => $url,
             'quantity' => 0,
+            'unit' => 'G',
             'status' => $this->faker->randomElement([ null]),
 //            'status' => $this->faker->randomElement(['pinned', 'archived', null]),
             'user_id' => User::factory(),

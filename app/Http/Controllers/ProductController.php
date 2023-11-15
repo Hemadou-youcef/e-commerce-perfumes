@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return inertia::render('testPages/products', [
+        return inertia::render('Dashboard/Products/products', [
             'products' => Product::query()
                 ->when(request('search'), fn ($query, $search) => $query
                     ->where('name', 'LIKE', '%' . $search . '%')
@@ -34,7 +34,7 @@ class ProductController extends Controller
                     'description' => $product->description,
                     'description_ar' => $product->description_ar,
                     'main_image' => $product->main_image,
-                    'quantity' => $product->quantity,
+                    'quantity' => $product->quantity . ' ' . $product->unit,
                     'status' => $product->status,
                     'category' => $product->category,
                 ])
@@ -63,7 +63,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return inertia::render('testPages/products', [
+        return inertia::render('Dashboard/Products/product', [
             'product' => [
                 'id' => $product->id,
                 'name' => $product->name,
@@ -71,6 +71,7 @@ class ProductController extends Controller
                 'description_ar' => $product->description_ar,
                 'main_image' => $product->main_image,
                 'quantity' => $product->quantity,
+                'unit' => $product->unit,
                 'status' => $product->status,
                 'category' => $product->category,
                 'images' => $product->images,

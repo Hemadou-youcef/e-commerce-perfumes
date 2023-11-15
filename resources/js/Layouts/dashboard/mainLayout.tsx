@@ -30,7 +30,7 @@ const DashboardMainLayout = ({ children }: { children: React.ReactNode }) => {
                         </div>
                     </div>
                 </div>
-                <div className="overflow-y-auto" style={{ height: "calc(100vh - 4rem)" }}>
+                <div className="overflow-y-auto bg-gray-50 pb-5" style={{ height: "calc(100vh - 4rem)" }}>
                     {children}
                 </div>
             </div>
