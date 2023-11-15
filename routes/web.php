@@ -72,6 +72,21 @@ Route::get('/admin/products' , [App\Http\Controllers\ProductController::class, '
 Route::get('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'show']);
 Route::get('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit']);
 
+// STOCK PAGES
+// "/admin/reception" => "StockController@index",
+// "/admin/reception/{id}" => "StockController@show",
+
+// NEED IN RECEPTION LIST
+// RECEPTION INFORMATION
+// USER INFORAMATION LIKE FIRST NAME AND LAST NAME
+//////////////////////////////
+// NEED IN RECEPTION PAGE
+// RECEPTION INFORMATION
+// USER INFORMATION FIRST NAME & LAST NAME & ID
+// RESERVATION INFORMATION
+
+
+
 
 
 require __DIR__.'/auth.php';
