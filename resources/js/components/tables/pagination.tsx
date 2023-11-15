@@ -7,11 +7,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/shadcn/ui/select"
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 const Pagination = ({ meta }) => {
+
+
+    const visitPage = (page_url) => {
+        router.visit(page_url)
+    };
     return (
         <div className="flex flex-row justify-between items-center gap-2 mb-5">
             <div className="flex flex-row justify-start items-center gap-2">
@@ -50,14 +55,14 @@ const Pagination = ({ meta }) => {
                 {meta.last_page == 1 ? (
                     <Button disabled> {meta.current_page} </Button>
                 ) : (
-                    <Select>
+                    <Select onValueChange={(value) => visitPage(value)}>
                         <SelectTrigger className="w-20 h-10">
                             <SelectValue placeholder={meta.current_page.toString()} />
                         </SelectTrigger>
                         <SelectContent>
-                            {[...Array(meta.last_page).keys()].map((i) => (
-                                <SelectItem key={i} value={(i + 1).toString()} >
-                                    {i + 1}
+                            {meta?.links.filter((value,index)=>(index != 0 && index != (meta?.links.length - 1))).map((link,index) => (
+                                <SelectItem key={index} value={link?.url}>
+                                    {link?.label}
                                 </SelectItem>
                             ))}
                         </SelectContent>
