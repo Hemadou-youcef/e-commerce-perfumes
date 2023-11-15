@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Image>
@@ -16,8 +18,13 @@ class ImageFactory extends Factory
      */
     public function definition(): array
     {
+        $imageFiles = Storage::files('public/images/'); // Assuming images are in the 'public' directory
+        $url = Storage::url($this->faker->randomElement($imageFiles));
         return [
-            //
+            'product_id' => Product::factory(),
+            'url' => $url,
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

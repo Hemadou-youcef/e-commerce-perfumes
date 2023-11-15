@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('product_price_id')->constrained();
             $table->integer('price');
             $table->integer('total');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,6 +29,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_products');
+        Schema::table('order_products' , function(Blueprint $table){
+            $table->dropSoftDeletes();
+        });
     }
 };

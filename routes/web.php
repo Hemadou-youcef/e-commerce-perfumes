@@ -44,9 +44,11 @@ Route::get('/admin/orders/{id}', function () {
     return Inertia::render('Dashboard/Orders/order');
 })->name('order');
 
+
+
 Route::get('/admin/clients', function () {
     return Inertia::render('Dashboard/Clients/clients');
-})->name('clients');
+})->name('clients')->middleware('admin');
 
 Route::get('/admin/clients/{id}', function () {
     return Inertia::render('Dashboard/Clients/client');
@@ -65,5 +67,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('test/products' , [App\Http\Controllers\ProductController::class, 'index']);
+Route::get('test/products/{product}' , [App\Http\Controllers\ProductController::class, 'show']);
+Route::get('test/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit']);
+
+
 
 require __DIR__.'/auth.php';

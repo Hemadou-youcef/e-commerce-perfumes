@@ -5,11 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @method static inRandomOrder()
+ */
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory , SoftDeletes;
 
     protected $fillable = ['name', 'description', 'description_ar', 'main_image', 'quantity', 'status', 'created_by', 'category'];
 
@@ -23,7 +28,7 @@ class Product extends Model
         return $this->hasMany(Image::class);
     }
 
-    public function prices() : HasMany
+    public function productPrices() : HasMany
     {
         return $this->hasMany(ProductPrice::class);
     }
@@ -31,6 +36,12 @@ class Product extends Model
     public function receptions() : HasMany
     {
         return $this->hasMany(Reception::class);
+    }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, 'order_products', 'product_id', 'order_id')
+            ->withPivot('quantity', 'price', 'total');
     }
 
 

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('confirmed_by')->references('id')->on('users');
             $table->unsignedBigInteger('delivered_by')->nullable();
             $table->foreign('delivered_by')->references('id')->on('users');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
