@@ -14,26 +14,26 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Product extends Model
 {
-    use HasFactory , SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ['name', 'description', 'description_ar', 'main_image', 'quantity', 'status', 'created_by', 'category'];
 
-    public function user() : BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function images() : HasMany
+    public function images(): HasMany
     {
         return $this->hasMany(Image::class);
     }
 
-    public function productPrices() : HasMany
+    public function productPrices(): HasMany
     {
         return $this->hasMany(ProductPrice::class);
     }
 
-    public function receptions() : HasMany
+    public function receptions(): HasMany
     {
         return $this->hasMany(Reception::class);
     }
@@ -44,6 +44,10 @@ class Product extends Model
             ->withPivot('quantity', 'price', 'total');
     }
 
+    public function addStock($quantity)
+    {
+        $this->increment('quantity', $quantity);
+    }
 
 
 }

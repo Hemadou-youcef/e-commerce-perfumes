@@ -36,7 +36,13 @@ class ReceptionController extends Controller
      */
     public function store(StoreReceptionRequest $request)
     {
-        //
+        $reception = $request->validated();
+        $reception['rest'] = $reception['quantity'];
+        $createdReception = Reception::create($reception);
+        $createdReception->addStock($reception['quantity']);
+
+        return redirect()->back();
+
     }
 
     /**
