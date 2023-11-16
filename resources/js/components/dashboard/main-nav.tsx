@@ -51,11 +51,12 @@ export function MainNav({
           Produits
         </Link>
         <Link
-          href="/admin/stock"
-          className={`"text-sm font-medium transition-colors hover:text-primary" ${pageId === "stock" ? "text-primary" : "text-muted-foreground"
+          href="/admin/receptions"
+          className={`"text-sm font-medium transition-colors hover:text-primary" ${pageId === "receptions" ? "text-primary" : "text-muted-foreground"
             }`}
         >
-          Inventaire
+          {/* Inventaire */}
+          Réceptions
         </Link>
         <Link
           href="/admin/settings"

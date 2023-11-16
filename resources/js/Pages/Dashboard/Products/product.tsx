@@ -120,7 +120,7 @@ const Product = ({ ...props }) => {
                     <div className="flex flex-row justify-start items-center gap-2">
                         <h1 className="text-sm font-medium w-20 text-gray-800">Status :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
-                            <p className="text-sm font-bold text-gray-500">{status()}</p>
+                            <div className="text-sm font-bold text-gray-500">{status()}</div>
                         </div>
                     </div>
                     <div className="flex flex-row justify-start items-center gap-2">
@@ -142,7 +142,6 @@ const Product = ({ ...props }) => {
                         </div>
                     </div>
                 </div>
-                <Separator className="mt-0" />
                 <Separator className="mt-0" />
                 <div className="flex flex-col gap-2 px-5 mt-2">
                     <Tabs defaultValue="prices" className="w-full">
@@ -230,7 +229,7 @@ const Product = ({ ...props }) => {
                                                 <TableCell className="font-medium text-xs">{order.id}</TableCell>
                                                 <TableCell className="font-bold text-xs">{order.user_id}</TableCell>
                                                 <TableCell className="font-bold text-xs">{order.total} {product?.unit}</TableCell>
-                                                <TableCell className="font-bold text-xs">{order.status} {product?.unit}</TableCell>
+                                                <TableCell className="font-bold text-xs">{order.status}</TableCell>
                                             </TableRow>
                                         ))}
                                         {(product?.orders || []).length === 0 && (

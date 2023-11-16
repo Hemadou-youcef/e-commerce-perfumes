@@ -32,7 +32,7 @@ const Pagination = ({ meta }) => {
                         <DoubleArrowLeftIcon className="h-4 w-4" />
                     </Button>
                 </Link>
-                <Link href={meta?.prev_page_url} preserveScroll={false}>
+                <Link href={meta?.prev_page_url} preserveScroll={false} >
                     <Button
                         variant="outline"
                         className="h-10 w-10 p-0"
@@ -83,6 +83,7 @@ const Pagination = ({ meta }) => {
                         <Button
                             variant="outline"
                             className="h-10 w-10 p-0"
+                            disabled={!meta?.next_page_url}
                         >
                             <span className="sr-only">Go to next page</span>
                             <ChevronRightIcon className="h-4 w-4" />

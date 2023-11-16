@@ -14,7 +14,7 @@ class ReceptionController extends Controller
      */
     public function index()
     {
-        return Inertia::render('testPages/products', [
+        return Inertia::render('Dashboard/Receptions/receptions', [
             'receptions' => Reception::query()
                 ->when(request('start') , fn($query) => $query->where('created_at' , '>=' , request('start')))
                 ->when(request('end') , fn($query) => $query->where('created_at' , '<=' , request('end')))
@@ -44,7 +44,19 @@ class ReceptionController extends Controller
      */
     public function show(Reception $reception)
     {
-        //
+        return inertia::render('Dashboard/Receptions/reception', [
+            'reception'=>[
+                'id' => $reception->id,
+                'name' => $reception->name,
+                'price' => $reception->price,
+                'product' => $reception->product,
+                'quantity' => $reception->quantity,
+                'rest' => $reception->rest,
+                'user' => $reception->user,
+                'reservations' => $reception->reservations,
+                'created_at' => $reception->created_at,
+            ]
+        ]);
     }
 
     /**

@@ -31,7 +31,7 @@ export const columns: ColumnDef<ProductsInfo>[] = [
     },
     {
         accessorKey: "name",
-        header: "Produit Name",
+        header: "Nom du produit",
         maxSize: 60,
     },
     {
@@ -41,7 +41,7 @@ export const columns: ColumnDef<ProductsInfo>[] = [
     },
     {
         accessorKey: "status",
-        header: "Status",
+        header: "statut",
         cell: ({ row }) => {
             // CHECK IF RO
             let text = "NaN";
@@ -77,7 +77,7 @@ export const columns: ColumnDef<ProductsInfo>[] = [
     },
     {
         accessorKey: "quantity",
-        header: "Quantity En Stock",
+        header: "Quantité En Stock",
         maxSize: 15,
     },
 ]

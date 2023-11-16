@@ -43,7 +43,7 @@ const Products = ({ ...props }) => {
                     <div className="flex items-center justify-between">
                         <div className="flex gap-1 text-white">
                             <Input
-                                placeholder="Filter Clients..."
+                                placeholder="Filter Produits..."
                                 className="max-w-sm"
                             />
                             <Button variant="outline" className="flex items-center space-x-2 border-2 border-dashed border-gray-600 text-gray-600" onClick={() => setShowFilters(!showFilters)}>
