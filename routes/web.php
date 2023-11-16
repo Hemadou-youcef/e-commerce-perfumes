@@ -72,6 +72,10 @@ Route::get('/admin/products' , [App\Http\Controllers\ProductController::class, '
 Route::get('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'show']);
 Route::get('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit']);
 
+
+Route::get('/admin/receptions' , [App\Http\Controllers\ReceptionController::class, 'index']);
+Route::get('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'show']);
+
 // STOCK PAGES
 // "/admin/reception" => "StockController@index",
 // "/admin/reception/{id}" => "StockController@show",

@@ -22,8 +22,8 @@ class Reservation extends Model
         return $this->belongsTo(OrderProduct::class);
     }
 
-    public function product(): BelongsTo
+    public function reception(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Reception::class);
     }
 }

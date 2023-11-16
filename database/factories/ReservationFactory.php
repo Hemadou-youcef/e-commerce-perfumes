@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,12 +19,12 @@ class ReservationFactory extends Factory
      */
     public function definition(): array
     {
-        // random product id
-        $product_id = Product::inRandomOrder()->first();
 
+        $orderProduct = OrderProduct::inRandomOrder()->first();
+        $reception = $orderProduct->product->receptions()->inRandomOrder()->first();
         return [
-            'product_id' => Product::factory()->create()->id,
-            'order_id' => Order::factory()->create()->id,
+            'reception_id' => $reception->id,
+            'order_product_id' => $orderProduct->id,
             'quantity' => $this->faker->numberBetween(1, 10),
             'created_at' => now(),
             'updated_at' => now(),

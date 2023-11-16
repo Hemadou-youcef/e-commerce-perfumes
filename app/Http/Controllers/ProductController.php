@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use function Termwind\renderUsing;
 
@@ -55,7 +57,27 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+        $product = Product::create([
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'description_ar' => $validatedData['description_ar'],
+            'status' => $validatedData['status'],
+            'user_id' => Auth::user()->id,
+            'category' => $validatedData['category'],
+            'main_image' => $imagePath,
+        ]);
+
+        return redirect()->route('products.show', $product->id);
+
+
+
+
+
     }
 
     /**

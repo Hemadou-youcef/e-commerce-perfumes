@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('product_id')->constrained();
+            $table->string('name');
             $table->integer('quantity');
             $table->integer('price');
             $table->integer('rest');

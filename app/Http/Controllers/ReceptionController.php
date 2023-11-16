@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reception;
 use App\Http\Requests\StoreReceptionRequest;
 use App\Http\Requests\UpdateReceptionRequest;
+use Inertia\Inertia;
 
 class ReceptionController extends Controller
 {
@@ -13,7 +14,13 @@ class ReceptionController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('testPages/products', [
+            'receptions' => Reception::query()
+                ->when(request('start') , fn($query) => $query->where('created_at' , '>=' , request('start')))
+                ->when(request('end') , fn($query) => $query->where('created_at' , '<=' , request('end')))
+                ->with(['user' , 'product' , 'reservations'] )
+                ->paginate(10)
+        ]);
     }
 
     /**
