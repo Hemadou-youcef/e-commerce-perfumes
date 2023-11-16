@@ -28,7 +28,10 @@ class ReceptionController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Dashboard/Receptions/receptionForm', [
+            'products' => \App\Models\Product::all()
+        ]);
+
     }
 
     /**

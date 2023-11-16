@@ -97,7 +97,7 @@ const Reception = ({ ...props }) => {
                     <div className="flex flex-row justify-start items-center gap-2">
                         <h1 className="text-sm font-medium w-40 text-gray-800">Quantité reçue :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
-                            <p className="text-sm font-bold text-gray-500">{reception?.quantity} G</p>
+                            <p className="text-sm font-bold text-gray-500">{reception?.quantity} {reception?.product?.unit}</p>
                         </div>
                     </div>
                     <div className="flex flex-row justify-start items-center gap-2">

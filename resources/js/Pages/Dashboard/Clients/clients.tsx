@@ -83,9 +83,7 @@ const Clients = () => {
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
-                <Link href="/admin/orders">
-                    <h2 className="text-2xl text-gray-900 font-bold tracking-tight">Les Clients</h2>
-                </Link>
+                <h2 className="text-2xl text-gray-900 font-bold tracking-tight">Les Clients</h2>
             </div>
             {data === null ? (
                 <LoadingComponent />
