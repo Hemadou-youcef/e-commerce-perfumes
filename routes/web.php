@@ -75,7 +75,7 @@ Route::get('/admin/products/{product}/edit' , [App\Http\Controllers\ProductContr
 
 Route::get('/admin/receptions' , [App\Http\Controllers\ReceptionController::class, 'index']);
 Route::get('/admin/receptions/create', [App\Http\Controllers\ReceptionController::class, 'create']);
-Route::post('/admin/receptions/create', [App\Http\Controllers\ReceptionController::class, 'store']);
+Route::post('/admin/receptions/create', [App\Http\Controllers\ReceptionController::class, 'store'])->name('reception.store');
 Route::get('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'show']);
 
 

@@ -89,7 +89,7 @@ const ReceptionForm = ({ ...props }) => {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('receptions.store'));
+        post(route('reception.store'));
     };
 
     const status = () => {
@@ -151,7 +151,7 @@ const ReceptionForm = ({ ...props }) => {
                         <Button
                             variant="outline"
                             className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
-                            onClick={() => submit}
+                            onClick={(e) => post(route('reception.store'))}
                             disabled={data.name === "" || data.quantity === "" || data.price === "" || data.product_id === ""}
                         >
                             <FaSave className="text-lg" />

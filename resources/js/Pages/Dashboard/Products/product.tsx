@@ -86,17 +86,30 @@ const Product = ({ ...props }) => {
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
                         <Link href={`/admin/receptions/create`}>
-                            <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 " disabled={(product?.reservations || []).length > 0}>
+                            <Button
+                                variant="outline"
+                                className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
+                                disabled={(product?.reservations || []).length > 0}
+                            >
                                 <TiPlus className="text-2xl" />
                             </Button>
                         </Link>
-                        <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 ">
+                        <Button
+                            variant="outline"
+                            className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
+                        >
                             <MdOutlineUnarchive className="text-2xl" />
                         </Button>
-                        <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 ">
+                        <Button
+                            variant="outline"
+                            className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
+                        >
                             <AiOutlineDelete className="text-2xl" />
                         </Button>
-                        <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 ">
+                        <Button
+                            variant="outline"
+                            className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
+                        >
                             <LiaEdit className="text-2xl" />
                         </Button>
                     </div>
