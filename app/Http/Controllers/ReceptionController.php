@@ -43,9 +43,10 @@ class ReceptionController extends Controller
         $reception['user_id'] = auth()->user()->id;
         $reception['rest'] = $reception['quantity'];
         $createdReception = Reception::create($reception);
-        $createdReception->addStock($reception['quantity']);
+        var_dump($createdReception->product);
+        $createdReception->product->addStock($reception['quantity']);
 
-        return redirect()->back();
+        return redirect()->route('receptions');
 
     }
 

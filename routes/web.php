@@ -73,15 +73,15 @@ Route::get('/admin/products/{product}' , [App\Http\Controllers\ProductController
 Route::get('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit']);
 
 
-Route::get('/admin/receptions' , [App\Http\Controllers\ReceptionController::class, 'index']);
-Route::get('/admin/receptions/create', [App\Http\Controllers\ReceptionController::class, 'create']);
+Route::get('/admin/receptions' , [App\Http\Controllers\ReceptionController::class, 'index'])->name('receptions');
+Route::get('/admin/receptions/create', [App\Http\Controllers\ReceptionController::class, 'create'])->name('reception.create');
 Route::post('/admin/receptions/create', [App\Http\Controllers\ReceptionController::class, 'store'])->name('reception.store');
-Route::get('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'show']);
+Route::get('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'show'])->name('reception');
 
 
 // STOCK PAGES
-// "/admin/reception" => "StockController@index",
-// "/admin/reception/{id}" => "StockController@show",
+// "/admin/receptions" => "StockController@index",
+// "/admin/receptions/{id}" => "StockController@show",
 
 // NEED IN RECEPTION LIST
 // RECEPTION INFORMATION
