@@ -23,6 +23,7 @@ class StoreReceptionRequest extends FormRequest
     {
         return [
             'product_id' => 'required|exists:products,id',
+            'name' => 'required|string:255',
             'quantity' => 'required|integer|min:1',
             'price' => 'required|integer|min:1',];
     }

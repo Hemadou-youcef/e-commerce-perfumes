@@ -16,6 +16,7 @@ class Reception extends Model
 
     protected $fillable= [
         'user_id',
+        'name',
         'product_id',
         'quantity',
         'price',
