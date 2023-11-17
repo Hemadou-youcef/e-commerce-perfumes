@@ -28,6 +28,7 @@ import { TiPlus } from "react-icons/ti";
 
 // Types
 import { ProductsInfo } from "@/components/columns/products";
+import { TbExternalLink } from "react-icons/tb";
 
 const Product = ({ ...props }) => {
     // console.log(props?.product)
@@ -205,9 +206,11 @@ const Product = ({ ...props }) => {
                                     <TableHeader>
                                         <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
                                             <TableHead className="w-5">ID</TableHead>
-                                            <TableHead className="w-40">Quantité</TableHead>
-                                            <TableHead className="w-40">Reste En Stock</TableHead>
-                                            <TableHead>Par les employés</TableHead>
+                                            <TableHead className="w-32">Quantité</TableHead>
+                                            <TableHead className="w-36">Reste En Stock</TableHead>
+                                            <TableHead className="w-60">Ajouter par</TableHead>
+                                            <TableHead className="w-auto">Date</TableHead>
+                                            <TableHead className="w-5"></TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -217,6 +220,14 @@ const Product = ({ ...props }) => {
                                                 <TableCell className="font-bold text-xs">{reception.quantity} {product?.unit}</TableCell>
                                                 <TableCell className="font-bold text-xs">{reception.rest} G</TableCell>
                                                 <TableCell className="font-bold text-xs">{reception.user_id}</TableCell>
+                                                <TableCell className="font-bold text-xs">{reception.created_at}</TableCell>
+                                                <TableCell className="font-bold text-xs">
+                                                    <Link href={`/admin/receptions/${reception.id}`}>
+                                                        <Button variant="outline" className="flex items-center space-x-2 bg-transparent hover:bg-gray-200">
+                                                            <TbExternalLink  className="text-lg" />
+                                                        </Button>
+                                                    </Link>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                         {(product?.receptions || []).length === 0 && (

@@ -46,13 +46,13 @@ Route::get('/admin/orders/{id}', function () {
 
 
 
-Route::get('/admin/clients', function () {
-    return Inertia::render('Dashboard/Clients/clients');
-})->name('clients')->middleware('admin');
+// Route::get('/admin/clients', function () {
+//     return Inertia::render('Dashboard/Clients/clients');
+// })->name('clients')->middleware('admin');
 
-Route::get('/admin/clients/{id}', function () {
-    return Inertia::render('Dashboard/Clients/client');
-})->name('clients');
+// Route::get('/admin/clients/{id}', function () {
+//     return Inertia::render('Dashboard/Clients/client');
+// })->name('clients');
 
 Route::get('/login', function () {
     return Inertia::render('auth/login');
@@ -79,10 +79,10 @@ Route::post('/admin/receptions/create', [App\Http\Controllers\ReceptionControlle
 Route::get('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'show'])->name('reception');
 
 
-Route::get('test/admin/clients' , [App\Http\Controllers\ClientController::class, 'index'])->name('clients');
-Route::get('test/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'show'])->name('client');
-Route::delete('test/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'destroy']);
-Route::post('test/admin/clients/{user}/confirm_account' , [App\Http\Controllers\ClientController::class, 'confirm']);
+Route::get('/admin/clients' , [App\Http\Controllers\ClientController::class, 'index'])->name('clients');
+Route::get('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'show'])->name('client');
+Route::delete('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'destroy']);
+Route::post('/admin/clients/{user}/confirm_account' , [App\Http\Controllers\ClientController::class, 'confirm']);
 
 
 // STOCK PAGES

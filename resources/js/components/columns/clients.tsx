@@ -20,43 +20,53 @@ export const columns: ColumnDef<ClientsInfo>[] = [
     {
         accessorKey: "id",
         header: "ID",
-        size:1,
-        maxSize:1,
+        maxSize:5,
     },
     {
         accessorKey: "full_name",
         header: "Utilisateur",
+        cell: ({ row }: { row: any }) => {
+            return (
+                <div className="flex items-center font-bold">
+                    {row?.original.first_name} {row?.original.last_name}
+                </div>
+            )
+        },
+        maxSize: 15,
     },
     {
-        accessorKey: "phone_number",
+        accessorKey: "phone",
         header: "Numéro de téléphone",
+        maxSize: 15,
     },
     {
         accessorKey: "address",
         header: "Address",
+        maxSize: 55,
     },
     {
         accessorKey: "role",
         header: "Role",
-        maxSize: 1,
+        maxSize: 10,
         cell: ({ row }) => {
             // CHECK IF RO
+            const roleValue : string = row.getValue("role")
             let text = "NaN";
             let color = "bg-gray-600";
-            switch (row.getValue("role")) {
-                case 0:
+            switch (roleValue.toUpperCase()) {
+                case "0":
                     text = "GUEST";
                     color = "bg-gray-600";
                     break;
-                case 1:
+                case "1":
                     text = "CLIENT";
                     color = "bg-green-600";
                     break;
-                case 2:
+                case "2":
                     text = "TRAVAILLEUR";
                     color = "bg-yellow-600";
                     break;
-                case 3:
+                case "3":
                     text = "ADMIN";
                     color = "bg-red-600";
                     break;

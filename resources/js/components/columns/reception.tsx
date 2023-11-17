@@ -1,10 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table"
-import {
-    CheckCircledIcon,
-    CrossCircledIcon,
-    StopwatchIcon,
-} from "@radix-ui/react-icons"
-import { CiDeliveryTruck } from "react-icons/ci"
+import { CgProfile } from "react-icons/cg";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type ReceptionInfo = {
@@ -28,6 +23,13 @@ export const columns: ColumnDef<ReceptionInfo>[] = [
     {
         accessorKey: "name",
         header: "Nom du Reception",
+        cell: ({ row }: { row: any }) => {
+            return (
+                <div className="flex items-center font-bold">
+                    {row.getValue("name")}
+                </div>
+            )
+        },
         maxSize: 20,
     },
     {
@@ -38,10 +40,15 @@ export const columns: ColumnDef<ReceptionInfo>[] = [
     {
         accessorKey: "user",
         header: "Ajouter par",
-        cell: ({ row }:{row :any }) => {
+        cell: ({ row }: { row: any }) => {
             return (
-                <div className="flex items-center">
-                    {row?.original.user?.first_name} {row?.original.user?.last_name}
+                <div
+                    className="flex flex-row justify-start items-center gap-2"
+                >
+                    <CgProfile className="text-xl text-blue-800" />
+                    <p className="text-sm font-bold text-blue-600">
+                        {row?.original.user?.first_name} {row?.original.user?.last_name}
+                    </p>
                 </div>
             )
         },
@@ -50,7 +57,7 @@ export const columns: ColumnDef<ReceptionInfo>[] = [
     {
         accessorKey: "quantity",
         header: "Quantity du Reception",
-        cell: ({ row }:{row :any }) => {
+        cell: ({ row }: { row: any }) => {
             return (
                 <div className="flex items-center">
                     {row?.original.quantity} {row?.original.product?.unit}
@@ -62,7 +69,7 @@ export const columns: ColumnDef<ReceptionInfo>[] = [
     {
         accessorKey: "rest",
         header: "Rest En Stock",
-        cell: ({ row }:{row :any }) => {
+        cell: ({ row }: { row: any }) => {
             return (
                 <div className="flex items-center">
                     {row?.original.rest} {row?.original.product?.unit}
