@@ -79,6 +79,12 @@ Route::post('/admin/receptions/create', [App\Http\Controllers\ReceptionControlle
 Route::get('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'show'])->name('reception');
 
 
+Route::get('test/admin/clients' , [App\Http\Controllers\ClientController::class, 'index'])->name('clients');
+Route::get('test/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'show'])->name('client');
+Route::delete('test/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'destroy']);
+Route::post('test/admin/clients/{user}/confirm_account' , [App\Http\Controllers\ClientController::class, 'confirm']);
+
+
 // STOCK PAGES
 // "/admin/receptions" => "StockController@index",
 // "/admin/receptions/{id}" => "StockController@show",

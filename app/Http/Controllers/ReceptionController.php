@@ -18,6 +18,7 @@ class ReceptionController extends Controller
             'receptions' => Reception::query()
                 ->when(request('start') , fn($query) => $query->where('created_at' , '>=' , request('start')))
                 ->when(request('end') , fn($query) => $query->where('created_at' , '<=' , request('end')))
+                ->orderBy('created_at' , 'desc')
                 ->with(['user' , 'product' , 'reservations'] )
                 ->paginate(10)
         ]);
@@ -29,7 +30,7 @@ class ReceptionController extends Controller
     public function create()
     {
         return Inertia::render('Dashboard/Receptions/receptionForm', [
-            'products' => \App\Models\Product::all()
+            'products' => \App\Models\Product::query()->orderBy('quantity' , 'asc')->get(),
         ]);
 
     }
@@ -91,6 +92,7 @@ class ReceptionController extends Controller
      */
     public function destroy(Reception $reception)
     {
-        //
+        $reception->delete();
+        return redirect()->route('receptions');
     }
 }

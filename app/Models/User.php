@@ -61,9 +61,28 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function bookmarks(): HasMany
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
+
     public function isAdmin(): bool
     {
 
         return $this->role === 'admin';
     }
+
+    public function isClient(): bool
+    {
+
+        return $this->role === 'client';
+    }
+
+    public function isGuest(): bool
+    {
+
+        return $this->role === 'guest';
+    }
+
 }

@@ -44,9 +44,20 @@ class Product extends Model
             ->withPivot('quantity', 'price', 'total');
     }
 
+    public function bookmarks(): HasMany
+    {
+
+        return $this->hasMany(Bookmark::class);
+    }
+
     public function addStock($quantity)
     {
         $this->increment('quantity', $quantity);
+    }
+
+    public function removeStock($quantity)
+    {
+        $this->decrement('quantity', $quantity);
     }
 
 
