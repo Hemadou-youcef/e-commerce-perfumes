@@ -24,6 +24,7 @@ import { Separator } from "@/shadcn/ui/separator";
 import { AiOutlineDelete, AiOutlineRight } from "react-icons/ai";
 import { LiaEdit } from "react-icons/lia";
 import { MdOutlineUnarchive } from "react-icons/md";
+import { TiPlus } from "react-icons/ti";
 
 // Types
 import { ProductsInfo } from "@/components/columns/products";
@@ -84,6 +85,11 @@ const Product = ({ ...props }) => {
                     </div>
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
+                        <Link href={`/admin/receptions/create`}>
+                            <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 " disabled={(product?.reservations || []).length > 0}>
+                                <TiPlus className="text-2xl" />
+                            </Button>
+                        </Link>
                         <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 ">
                             <MdOutlineUnarchive className="text-2xl" />
                         </Button>
@@ -143,20 +149,20 @@ const Product = ({ ...props }) => {
                     </div>
                 </div>
                 <Separator className="mt-0" />
-                <div className="flex flex-col gap-2 px-5 mt-2">
+                <div className="flex flex-col gap-2 mt-2">
                     <Tabs defaultValue="prices" className="w-full">
                         <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent">
                             <TabsTrigger value="prices" className="w-52 border-b rounded-none">Les prix</TabsTrigger>
                             <TabsTrigger value="reception" className="w-52  border-b rounded-none">Les reception</TabsTrigger>
                             <TabsTrigger value="orders" className="w-52  border-b rounded-none">Les commandes</TabsTrigger>
                         </TabsList>
-                        <TabsContent value="prices">
-                            <div className="w-full lg:w-[400px] mb-5 border-2 ">
+                        <TabsContent value="prices" className="px-5">
+                            <div className="w-full  mb-5 border-2 ">
                                 <Table className="w-full">
                                     <TableHeader>
                                         <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
-                                            <TableHead className="w-auto">ID</TableHead>
-                                            <TableHead>Quantité</TableHead>
+                                            <TableHead className="w-5">ID</TableHead>
+                                            <TableHead className="w-40">Quantité</TableHead>
                                             <TableHead>Prix</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -180,14 +186,14 @@ const Product = ({ ...props }) => {
                                 </Table>
                             </div>
                         </TabsContent>
-                        <TabsContent value="reception">
-                            <div className="w-full lg:w-[600px] mb-5 border-2 ">
+                        <TabsContent value="reception" className="px-5">
+                            <div className="w-full mb-5 border-2 ">
                                 <Table className="w-full">
                                     <TableHeader>
                                         <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
-                                            <TableHead className="w-auto">ID</TableHead>
-                                            <TableHead>Quantité</TableHead>
-                                            <TableHead>Reste En Stock</TableHead>
+                                            <TableHead className="w-5">ID</TableHead>
+                                            <TableHead className="w-40">Quantité</TableHead>
+                                            <TableHead className="w-40">Reste En Stock</TableHead>
                                             <TableHead>Par les employés</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -208,18 +214,17 @@ const Product = ({ ...props }) => {
                                             </TableRow>
                                         )}
                                     </TableBody>
-
                                 </Table>
                             </div>
                         </TabsContent>
-                        <TabsContent value="orders">
-                            <div className="w-full lg:w-[800px] mb-5 border-2 ">
+                        <TabsContent value="orders" className="px-5">
+                            <div className="w-full mb-5 border-2 ">
                                 <Table className="w-full">
                                     <TableHeader>
                                         <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
-                                            <TableHead className="w-auto">ID</TableHead>
-                                            <TableHead>User</TableHead>
-                                            <TableHead>quantité commandée</TableHead>
+                                            <TableHead className="w-5">ID</TableHead>
+                                            <TableHead className="w-40">User</TableHead>
+                                            <TableHead className="w-60">quantité commandée</TableHead>
                                             <TableHead>Status</TableHead>
                                         </TableRow>
                                     </TableHeader>

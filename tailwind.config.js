@@ -76,6 +76,11 @@ module.exports = {
         '128': '32rem',
         '144': '36rem',
       },
+      width: {
+        '112': '28rem',
+        '128': '32rem',
+        '144': '36rem',
+      },
       fontFamily: {
         sans: ["inter", "sans-serif"],
       },

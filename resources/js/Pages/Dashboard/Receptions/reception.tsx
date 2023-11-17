@@ -22,12 +22,11 @@ import { Separator } from "@/shadcn/ui/separator";
 
 // Icons
 import { AiOutlineCalendar, AiOutlineDelete, AiOutlineRight } from "react-icons/ai";
-import { LiaEdit } from "react-icons/lia";
-import { MdOutlineUnarchive } from "react-icons/md";
+import { CgProfile } from "react-icons/cg";
 
 // Types
 import { ReceptionInfo } from "@/components/columns/reception";
-import { CgProfile } from "react-icons/cg";
+
 
 const Reception = ({ ...props }) => {
     console.log(props?.reception)
@@ -86,6 +85,7 @@ const Reception = ({ ...props }) => {
                     </div>
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
+                        
                         <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 " disabled={(reception?.reservations || []).length > 0}>
                             <AiOutlineDelete className="text-2xl" />
                         </Button>
@@ -157,14 +157,14 @@ const Reception = ({ ...props }) => {
                             </div>
                         </TabsContent>
                         <TabsContent value="reservation">
-                            <div className="w-full lg:w-[600px] mb-5 border-2 ">
+                            <div className="w-full mb-5 border-2 ">
                                 <Table className="w-full">
                                     <TableHeader>
                                         <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
-                                            <TableHead className="w-auto">ID</TableHead>
-                                            <TableHead>Command</TableHead>
-                                            <TableHead>Consommation</TableHead>
-                                            <TableHead>Date De Réservation</TableHead>
+                                            <TableHead className="w-5">ID</TableHead>
+                                            <TableHead className="w-40">Command</TableHead>
+                                            <TableHead className="w-40">Consommation</TableHead>
+                                            <TableHead >Date De Réservation</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>

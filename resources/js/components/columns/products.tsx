@@ -20,6 +20,7 @@ export type ProductsInfo = {
     images?: string[];
     productPrices?: any[];
     receptions?: any[];
+    reservations?: any[];
     orders?: any[];
 }
 
