@@ -26,7 +26,7 @@ class UserFactory extends Factory
             'username' => $this->faker->unique()->userName,
             'phone' => $this->faker->unique()->phoneNumber,
             'address' => $this->faker->address,
-            'role' => $this->faker->randomElement(['client', 'guest' , 'admin']),
+            'role' => $this->faker->numberBetween(0,3),
             'gender' => $this->faker->randomElement(['male', 'female']),
             'password' => bcrypt('password'), // Replace 'password' with your desired default password
             'remember_token' => Str::random(10),

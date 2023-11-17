@@ -17,16 +17,19 @@ class ClientController extends Controller
         $role = request('role');
         $q = request('q');
 
+//        return Inertia::render('testPages/test', [
         return Inertia::render('Dashboard/Clients/clients', [
             'clients' => User::query()
-                ->when(!$role, fn($query ,$role) => $query->where('role', '0')->orWhere('role', '0'))
+                ->when(!$role, fn($query ,$role) => $query->where('role', 0)->orWhere('role', 1))
                 ->when($role, function($query, $role) {
-
                     // check if role either client or guest
-                    if ($role === '1' || $role === '0') {
-                        return $query->where('role', $role);
+                    var_dump($role);
+                    if ($role === 'guest' ) {
+                        return $query->where('role', 0);
+                    }elseif($role === 'client'){
+                        return $query->where('role', 1);
                     }else{
-                        return $query->where('role', '1')->orWhere('role', '0');
+                        return $query->where('role', 0)->orWhere('role', 1);
                     }
                 })
                 ->when(request('start'), fn($query) => $query->where('created_at', '>=', request('start')))
@@ -101,7 +104,7 @@ class ClientController extends Controller
     {
         if ($user->isGuest()) {
             $user->update([
-                'role' => '1',
+                'role' => 1,
             ]);
         }
         return back();

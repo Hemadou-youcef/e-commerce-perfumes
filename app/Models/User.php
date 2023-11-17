@@ -9,6 +9,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property mixed $role
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -67,22 +70,31 @@ class User extends Authenticatable
     }
 
 
+    public function isSuuuperAdmin(): bool
+    {
+        return $this->role === 4;
+    }
     public function isAdmin(): bool
     {
 
-        return $this->role === 'admin';
+        return $this->role === 3;
+    }
+    public function isEmployee(): bool
+    {
+        return $this->role === 2;
     }
 
     public function isClient(): bool
     {
 
-        return $this->role === 'client';
+        return $this->role === 1;
     }
 
     public function isGuest(): bool
     {
 
-        return $this->role === 'guest';
+        return $this->role === 0;
     }
+
 
 }
