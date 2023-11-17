@@ -35,6 +35,7 @@ import { FaAngleDown, FaCheck, FaSave } from "react-icons/fa";
 // Style
 import sheetDialog from '@/styles/dialog.module.css'
 import { IoClose } from "react-icons/io5";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 interface FormData {
     name: string;
@@ -152,9 +153,10 @@ const ReceptionForm = ({ ...props }) => {
                             variant="outline"
                             className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
                             onClick={(e) => post(route('reception.store'))}
-                            disabled={data.name === "" || data.quantity === "" || data.price === "" || data.product_id === ""}
+                            disabled={processing || data.name === "" || data.quantity === "" || data.price === "" || data.product_id === ""}
                         >
-                            <FaSave className="text-lg" />
+                            {processing ? <ReloadIcon className="h-5 w-5 animate-spin" /> : <FaSave className="text-lg" />}
+
                         </Button>
                     </div>
                 </div>

@@ -14,7 +14,7 @@ const LoadingComponent = () => (
 );
 
 const Clients = ({...props}) => {
-    console.log(props)
+    // console.log(props)
     const [data, setData] = useState<ClientsInfo[] | null>(props?.clients?.data);
     const [showFilters, setShowFilters] = useState(false);
 

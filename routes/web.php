@@ -82,7 +82,7 @@ Route::get('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionCont
 Route::get('/admin/clients' , [App\Http\Controllers\ClientController::class, 'index'])->name('clients');
 Route::get('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'show'])->name('client');
 Route::delete('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'destroy']);
-Route::post('/admin/clients/{user}/confirm_account' , [App\Http\Controllers\ClientController::class, 'confirm']);
+Route::post('/admin/clients/{user}/confirm_account' , [App\Http\Controllers\ClientController::class, 'confirm'])->name('confirm_account');
 
 
 // STOCK PAGES

@@ -70,7 +70,7 @@ class ClientController extends Controller
     public function show(User $user)
     {
         if ($user->isClient() || $user->isGuest()) {
-            return Inertia::render('testPages/products', [
+            return Inertia::render('Dashboard/Clients/client', [
                 'client' => array_merge(
                     $user->toArray(), // Convert User model properties to an array
                     [

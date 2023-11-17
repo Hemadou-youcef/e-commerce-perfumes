@@ -49,7 +49,7 @@ const LandingNav = ({ props }) => {
 
                     {/* IF LOGGED IN */}
                     {props?.auth?.user !== null && <div className="flex items-center gap-5 text-third">
-                        {(props?.auth?.user?.role === "admin" || props?.auth?.users?.role === "workers") ? (
+                        {[2,3,4].includes(props?.auth?.user?.role) ? (
                             <>
                                 <Link
                                     href="/admin"
