@@ -11,13 +11,7 @@ use Inertia\Inertia;
 class ClientController extends Controller
 {
 
-    public function serialisation(Request $request)
-    {
-        $data = json_decode ( urldecode( $request->data ) );
-        return response()->json([
-            'data' => $data[2],
-        ]);
-    }
+
     /**
      * Display a listing of the resource.
      */

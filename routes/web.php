@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -36,14 +37,14 @@ Route::get('/admin', function () {
     return Inertia::render('Dashboard/dashboard');
 })->name('dashboard');
 
-Route::get('/admin/orders', function () {
-    return Inertia::render('Dashboard/Orders/orders');
-})->name('orders');
-
-Route::get('/admin/orders/{id}', function () {
-    return Inertia::render('Dashboard/Orders/order');
-})->name('order');
-
+//Route::get('/admin/orders', function () {
+//    return Inertia::render('Dashboard/Orders/orders');
+//})->name('orders');
+//
+//Route::get('/admin/orders/{id}', function () {
+//    return Inertia::render('Dashboard/Orders/order');
+//})->name('order');
+//
 
 
 // Route::get('/admin/clients', function () {
@@ -84,7 +85,27 @@ Route::get('/admin/clients/{user}' , [App\Http\Controllers\ClientController::cla
 Route::delete('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'destroy']);
 Route::post('/admin/clients/{user}/confirm_account' , [App\Http\Controllers\ClientController::class, 'confirm'])->name('confirm_account');
 
-Route::post('/serialisation', [App\Http\Controllers\ClientController::class, 'serialisation']);
+
+// orders routes
+Route::get('/admin/orders' , [App\Http\Controllers\OrderController::class, 'index'])->name('orders');
+Route::get('/admin/orders/{order}' , [App\Http\Controllers\OrderController::class, 'show'])->name('order');
+Route::delete('/admin/orders/{order}' , [App\Http\Controllers\OrderController::class, 'destroy']);
+Route::post('/admin/orders/{order}/confirm' , [App\Http\Controllers\OrderController::class, 'confirm'])->name('confirm_order');
+Route::post('/admin/orders/{order}/cancel' , [App\Http\Controllers\OrderController::class, 'cancel'])->name('cancel_order');
+Route::post('/admin/orders/{order}/deliver' , [App\Http\Controllers\OrderController::class, 'deliver'])->name('deliver_order');
+
+
+Route::post('/serialisation',   function (Request $request)
+{
+    $data = json_decode ( urldecode( $request->data ) );
+//    var_dump($data);
+    foreach ($data as $datum) {
+        var_dump($datum->name);
+    }
+    return response()->json([
+        'data' => $data,
+    ]);
+});
 // STOCK PAGES
 // "/admin/receptions" => "StockController@index",
 // "/admin/receptions/{id}" => "StockController@show",

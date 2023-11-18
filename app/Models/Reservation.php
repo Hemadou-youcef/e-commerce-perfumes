@@ -26,4 +26,14 @@ class Reservation extends Model
     {
         return $this->belongsTo(Reception::class);
     }
+
+    public function apply()
+    {
+        $this->reception->removeStock($this->quantity);
+    }
+
+    public function revert()
+    {
+        $this->reception->addStock($this->quantity);
+    }
 }

@@ -45,4 +45,15 @@ class Reception extends Model
     {
         return $this->rest === 0;
     }
+
+    public function addStock($quantity): void
+    {
+        $this->increment('rest', $quantity);
+    }
+
+    public function removeStock($quantity): void
+    {
+        $this->decrement('rest', $quantity);
+    }
+
 }
