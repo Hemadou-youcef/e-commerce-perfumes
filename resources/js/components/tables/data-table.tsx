@@ -64,7 +64,7 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="cursor-pointer hover:bg-gray-100 transition-colors duration-200 ease-in-out"
+                className="cursor-pointer h-10 hover:bg-gray-100 transition-colors duration-200 ease-in-out"
                 
                 onClick={() => goToUrl(row)}
               >

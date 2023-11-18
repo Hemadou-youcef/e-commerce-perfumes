@@ -35,6 +35,15 @@ export const columns: ColumnDef<ReceptionInfo>[] = [
     {
         accessorKey: "product.name",
         header: "Nom du Produit",
+        cell: ({ row }: { row: any }) => {
+            return (
+                <div className="flex items-center">
+                    {(row?.original.product?.name || "").length > 30
+                        ? row?.original.product?.name?.slice(0, 30) + "..."
+                        : row?.original.product?.name}
+                </div>
+            )
+        },
         maxSize: 20,
     },
     {

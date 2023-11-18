@@ -16,7 +16,8 @@ import { Label } from "@/shadcn/ui/label"
 
 import LandingMainLayout from "@/Layouts/landing/mainLayout"
 import { Checkbox } from "@/shadcn/ui/checkbox"
-import { AiOutlineArrowLeft } from "react-icons/ai"
+import { AiOutlineArrowLeft, AiOutlineLoading3Quarters } from "react-icons/ai"
+import { ReloadIcon } from "@radix-ui/react-icons"
 
 interface formData {
     username: string;
@@ -65,14 +66,14 @@ const Login = () => {
                                 <div className="grid gap-2">
                                     <Label htmlFor="username">User name</Label>
                                     <Input id="username" type="username" placeholder="User name" className="w-full h-9 focus-visible:ring-transparent"
-                                    onChange={(e ) => setData('username', e.target.value)}
+                                        onChange={(e) => setData('username', e.target.value)}
                                     />
                                 </div>
-                                
+
                                 <div className="grid gap-2">
                                     <Label htmlFor="password">Password</Label>
                                     <Input id="password" type="password" placeholder="Password" className="w-full h-9 focus-visible:ring-transparent"
-                                    onChange={(e) => setData('password', e.target.value)}
+                                        onChange={(e) => setData('password', e.target.value)}
                                     />
                                 </div>
                                 <div className="block mt-2">
@@ -88,7 +89,7 @@ const Login = () => {
                                     </label>
                                 </div>
                                 <Button className="w-full bg-forth hover:bg-prime-dark active:bg-second" onClick={() => post('/login')}>
-                                    Se connecter
+                                    {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <p className="text-white"> Se connecter</p>}
                                 </Button>
                             </div>
 
@@ -106,7 +107,7 @@ const Login = () => {
                         </div>
                         <div className="flex justify-center">
                             <Link href="/register" className="w-full px-10">
-                                <Button className="w-full bg-forth hover:bg-prime-dark active:bg-second" onClick={() => get('/login')}>
+                                <Button className="w-full bg-forth hover:bg-prime-dark active:bg-second">
                                     S'inscrire
                                 </Button>
                             </Link>
