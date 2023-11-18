@@ -1,7 +1,7 @@
 
 
 // inertia components
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 // Layouts
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
@@ -47,6 +47,34 @@ const Order = () => {
         setProductSelected(product);
         setOpen(true);
     }
+
+    const testSerialisation = () => {
+        const data = [
+            {
+                "id": 1,
+                "name": "Youcef Hemadou",
+            },
+            {
+                "id": 2,
+                "name": "labaci amire",
+            },
+            {
+                "id": 3,
+                "name": "sami bouloudnine",
+            },
+            {
+                "id": 4,
+                "name": "zahi oussama",
+            },
+            {
+                "id": 5,
+                "name": "bourouba oussama",
+            }
+        ]
+        router.post("/serialisation", {
+            data: encodeURIComponent(JSON.stringify(data))
+        })
+    }
     return (
         <>
             {/* TREE */}
@@ -71,7 +99,11 @@ const Order = () => {
                                 <span className="text-sm font-medium">Rejeter</span>
                                 <AiOutlineCloseCircle className="text-xl" />
                             </Button>
-                            <Button variant="outline" className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300">
+                            <Button
+                                variant="outline"
+                                className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300"
+                                onClick={() => testSerialisation()}
+                            >
                                 <span className="text-sm font-medium">Confirmer la commande</span>
                                 <AiOutlineCheckCircle className="text-xl" />
                             </Button>
@@ -204,7 +236,7 @@ const Order = () => {
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
-                        
+
                     </div>
                     <DialogFooter>
                         <Button type="submit">Sélectionner</Button>

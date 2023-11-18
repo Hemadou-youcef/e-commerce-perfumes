@@ -84,7 +84,7 @@ Route::get('/admin/clients/{user}' , [App\Http\Controllers\ClientController::cla
 Route::delete('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'destroy']);
 Route::post('/admin/clients/{user}/confirm_account' , [App\Http\Controllers\ClientController::class, 'confirm'])->name('confirm_account');
 
-
+Route::post('/serialisation', [App\Http\Controllers\ClientController::class, 'serialisation']);
 // STOCK PAGES
 // "/admin/receptions" => "StockController@index",
 // "/admin/receptions/{id}" => "StockController@show",

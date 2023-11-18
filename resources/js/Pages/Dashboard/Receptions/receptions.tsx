@@ -20,7 +20,7 @@ const LoadingComponent = () => (
 
 const Receptions = ({ ...props }) => {
     console.log(props)
-    const [data, setData] = useState<ReceptionInfo[] | null>(props?.receptions?.data);
+    const [data, setData] = useState<ReceptionInfo[] >(props?.receptions?.data);
     const [showFilters, setShowFilters] = useState(false);
 
     return (
@@ -34,9 +34,6 @@ const Receptions = ({ ...props }) => {
                     </Button>
                 </Link>
             </div>
-            {data === null ? (
-                <LoadingComponent />
-            ) : data.length > 0 ? (
                 <div className="flex flex-col gap-2 mx-10 py-2">
                     <div className="flex items-center justify-between">
                         <div className="flex gap-1 text-white">
@@ -63,9 +60,6 @@ const Receptions = ({ ...props }) => {
                     <DataTable columns={columns} data={data} baseUrl="/admin/receptions/" />
                     <Pagination meta={props?.receptions} />
                 </div>
-            ) : (
-                <div className="container py-2">No data available.</div>
-            )}
         </>
     );
 }

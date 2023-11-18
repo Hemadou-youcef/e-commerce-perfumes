@@ -26,6 +26,7 @@ import { CgProfile } from "react-icons/cg";
 
 // Types
 import { ReceptionInfo } from "@/components/columns/reception";
+import { FaChevronRight } from "react-icons/fa";
 
 
 const Reception = ({ ...props }) => {
@@ -85,7 +86,7 @@ const Reception = ({ ...props }) => {
                     </div>
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
-                        
+
                         <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 " disabled={(reception?.reservations || []).length > 0}>
                             <AiOutlineDelete className="text-2xl" />
                         </Button>
@@ -125,15 +126,15 @@ const Reception = ({ ...props }) => {
                 <div className="flex flex-col gap-2 px-5 mt-2">
                     <Tabs defaultValue="product_information" className="w-full">
                         <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent">
-                            <TabsTrigger value="product_information" className="w-52 border-b rounded-none">Les commandes</TabsTrigger>
-                            <TabsTrigger value="reservation" className="w-52  border-b rounded-none">Réservation</TabsTrigger>
+                            <TabsTrigger value="product_information" className="w-52 border-b rounded-none">Information Du Produit</TabsTrigger>
+                            <TabsTrigger value="reservation" className="w-52  border-b rounded-none">Les Réservation</TabsTrigger>
                         </TabsList>
                         <TabsContent value="product_information">
                             <div className="flex flex-col gap-4 py-5 px-5 ">
                                 <div className="flex flex-row justify-start items-center gap-2">
-                                    <h1 className="text-sm font-medium w-40 text-gray-800">ID :</h1>
+                                    <h1 className="text-sm font-medium w-40 text-gray-800">Nom du Produit :</h1>
                                     <div className="flex flex-row justify-start items-center gap-2">
-                                        <p className="text-sm font-bold text-gray-500">#{reception?.product?.id}</p>
+                                        <p className="text-sm font-bold text-gray-500">#{reception?.product?.name}</p>
                                     </div>
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-2">
@@ -154,6 +155,12 @@ const Reception = ({ ...props }) => {
                                         <p className="text-sm font-bold text-gray-500">{reception?.product?.quantity} {reception?.product?.unit}</p>
                                     </div>
                                 </div>
+                                <Link href={`/admin/products/${reception?.product?.id}`}>
+                                    <Button variant="outline" className="flex items-center gap-2 border-2 border-gray-600 hover:border-gray-800">
+                                        <p className="text-sm font-bold text-gray-600">Voir Le Produit</p>
+                                        <FaChevronRight className="text-sm text-gray-600" />
+                                    </Button>
+                                </Link>
                             </div>
                         </TabsContent>
                         <TabsContent value="reservation">
