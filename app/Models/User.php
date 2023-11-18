@@ -69,6 +69,16 @@ class User extends Authenticatable
         return $this->hasMany(Bookmark::class);
     }
 
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
+    public function emptyCart()
+    {
+        $this->cartItems()->delete();
+
+    }
 
     public function isSuuuperAdmin(): bool
     {
