@@ -16,11 +16,13 @@ import {
 
 
 // Icons
-import { AiOutlineHome, AiOutlineMenu, AiOutlineSearch } from "react-icons/ai";
-import { HiOutlineShoppingBag, HiOutlineLogout } from "react-icons/hi";
+import { AiOutlineHome, AiOutlineSearch } from "react-icons/ai";
+import { HiOutlineShoppingBag } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { TbBookmark, TbPerfume } from "react-icons/tb";
-import { MdDashboard } from "react-icons/md";
+import { MdOutlineDashboard, MdOutlineLogout } from "react-icons/md";
+import { IoMdSearch } from "react-icons/io";
+import { IoPersonAddOutline } from "react-icons/io5";
 
 
 const LandingNav = ({ props }) => {
@@ -31,55 +33,91 @@ const LandingNav = ({ props }) => {
     }
     return (
         <>
-            <div className="container w-full h-24 flex justify-between items-center py-3 pl-3 pr-2 md:px-5 ">
+            <div className="container w-full h-20 flex justify-between items-center py-3 pl-3 pr-2 md:px-5 ">
                 {/* LOGO */}
                 <Link href="/">
                     <div className="flex items-center justify-start">
-                        <img className="h-7 w-auto invert" src="/image/logo.png" alt="Workflow" />
+                        <img className="h-16 w-auto" src="/image/logo.jpg" alt="Logo" />
                     </div>
                 </Link>
 
 
                 {/* LOGIN ACTIONS */}
                 <div className="hidden md:flex items-center gap-5">
-                    <Input
-                        placeholder="Recherche..."
-                        className="w-72 outline-none focus-visible:ring-transparent"
-                    />
+                    <div className="flex items-center gap-3 bg-white rounded-full px-3 py-0 overflow-hidden">
+                        <Input
+                            placeholder="Recherche..."
+                            className="h-12 border-0 focus-visible:ring-transparent bg-white"
+                        />
+                        <IoMdSearch className="w-8 h-8 text-forth" />
+                    </div>
 
                     {/* IF LOGGED IN */}
-                    {props?.auth?.user !== null && <div className="flex items-center gap-5 text-third">
-                        {[2,3,4].includes(props?.auth?.user?.role) ? (
-                            <>
-                                <Link
-                                    href="/admin"
-                                    className="font-medium"
-                                >
-                                    <MdDashboard className="w-8 h-8 text-white hover:text-gray-400" />
-                                </Link>
-                            </>
+                    {props?.auth?.user !== null && <div className="flex items-center gap-3 text-third">
+                        {[2, 3, 4].includes(props?.auth?.user?.role) ? (
+                            <Link
+                                href="/admin"
+                                className="flex flex-col items-center group gap-1"
+                            >
+                                <MdOutlineDashboard className="w-7 h-7 text-white group-hover:text-gray-400" />
+                                <p className="text-xs font-bold group-hover:text-gray-400 uppercase">Tableau de bord</p>
+                            </Link>
                         ) : (
                             <div className="flex items-center gap-5 ">
-                                <HiOutlineShoppingBag className="w-8 h-8 text-third" />
-                                <TbBookmark className="w-8 h-8 text-third" />
-                                <CgProfile className="w-8 h-8 text-third" />
+                                <Link
+                                    href="/cart"
+                                    className="flex flex-col items-center group gap-1"
+                                >
+                                    <HiOutlineShoppingBag className="w-7 h-7 text-white group-hover:text-gray-400" />
+                                    <p className="text-xs font-bold group-hover:text-gray-400 uppercase">panier</p>
+                                </Link>
+                                <Link
+                                    href="/bookmarks"
+                                    className="flex flex-col items-center group gap-1"
+                                >
+                                    <TbBookmark className="w-7 h-7 text-white group-hover:text-gray-400" />
+                                    <p className="text-xs font-bold group-hover:text-gray-400 uppercase">signet</p>
+                                </Link>
+                                <Link
+                                    href="/profile"
+                                    className="flex flex-col items-center group gap-1"
+                                >
+                                    <CgProfile className="w-7 h-7 text-white group-hover:text-gray-400" />
+                                    <p className="text-xs font-bold group-hover:text-gray-400 uppercase">mon compte</p>
+                                </Link>
                             </div>
                         )}
                         {/* LOG OUT */}
-                        <Button
-                            variant="ghost"
-                            onClick={() => logout()}
-                            className="font-bold hover:text-gray-700 hover:bg-transparent p-0"
+                        <Link
+                            href="/logout"
+                            method="post"
+                            className="flex flex-col items-center group gap-1"
                         >
-                            <HiOutlineLogout className="w-8 h-8 text-white hover:text-gray-400" />
-                        </Button>
+                            <MdOutlineLogout className="w-7 h-7 text-white group-hover:text-gray-400" />
+                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">Déconnecter</p>
+                        </Link>
 
                     </div>}
 
 
                     {/* IF NOT LOGGED IN */}
-                    {props?.auth?.user === null && <div className="flex items-center gap-3  text-forth">
+                    {props?.auth?.user === null && <div className="flex items-center gap-3 text-third">
                         <Link
+                            href="/login"
+                            className="flex flex-col items-center group gap-1"
+                        >
+                            <MdOutlineLogout className="w-7 h-7 text-white group-hover:text-gray-400" />
+                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">Se connecter</p>
+                        </Link>
+
+                        <Link
+                            href="/register"
+                            className="flex flex-col items-center group gap-1"
+                        >
+                            <IoPersonAddOutline className="w-7 h-7 text-white group-hover:text-gray-400" />
+                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">S'inscrire</p>
+                        </Link>
+                        {/* <Link
                             href="/login"
                             className=" bg-third px-3 py-3 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"
                         >
@@ -90,7 +128,7 @@ const LandingNav = ({ props }) => {
                             className="bg-third px-3 py-3 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"
                         >
                             REGISTER
-                        </Link>
+                        </Link> */}
 
                     </div>}
                     {/* <Select>

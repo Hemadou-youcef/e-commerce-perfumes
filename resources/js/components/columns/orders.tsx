@@ -8,7 +8,7 @@ import { CiDeliveryTruck } from "react-icons/ci"
 import { Button } from "@/shadcn/ui/button"
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Order = {
+export type OrdersInfo = {
     id: number
     client: string
     number: string
@@ -17,7 +17,7 @@ export type Order = {
     total_price: number
 }
 
-export const columns: ColumnDef<Order>[] = [
+export const columns: ColumnDef<OrdersInfo>[] = [
     {
         accessorKey: "id",
         header: "ID",

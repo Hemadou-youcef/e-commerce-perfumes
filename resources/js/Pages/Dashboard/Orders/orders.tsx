@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Payment, columns } from "@/components/columns/orders"
+import {OrdersInfo, columns } from "@/components/columns/orders"
 import { DataTable } from "@/components/tables/data-table"
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
 
@@ -10,7 +10,7 @@ import { Button } from "@/shadcn/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shadcn/ui/accordion";
 import { Link } from "@inertiajs/react";
 
-async function getData(): Promise<Payment[]> {
+async function getData(): Promise<OrdersInfo[]> {
     // Fetch data from your API here.
     return [
         {
@@ -57,7 +57,7 @@ const LoadingComponent = () => (
 );
 
 const Orders = () => {
-    const [data, setData] = useState<Payment[] | null>(null);
+    const [data, setData] = useState<OrdersInfo[] | null>(null);
     const [showFilters, setShowFilters] = useState(false);
 
     useEffect(() => {

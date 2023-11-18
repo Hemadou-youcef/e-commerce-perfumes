@@ -16,10 +16,10 @@ const LandingFooter = () => {
         <>
             {/* FOOTER FOR PERFUME LANDING PAGE */}
             <footer className="bg-forth text-white mb-14 md:mb-0">
-                <div className="container mx-auto flex flex-wrap justify-between my-5">
+                <div className="container mx-auto flex flex-wrap items-end justify-between my-5">
                     <Link href="/">
                         <div className="flex items-center justify-between">
-                            <img className="invert h-7 w-auto" src="/image/logo.png" alt="Workflow" />
+                            <img className="h-20 w-auto" src="/image/logo.jpg" alt="Workflow" />
 
                         </div>
                     </Link>

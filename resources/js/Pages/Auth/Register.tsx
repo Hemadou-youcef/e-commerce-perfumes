@@ -15,8 +15,9 @@ import { Input } from "@/shadcn/ui/input"
 import { Label } from "@/shadcn/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/shadcn/ui/radio-group"
 
-import { AiOutlineArrowLeft } from "react-icons/ai"
+import { AiOutlineArrowLeft, AiOutlineLoading3Quarters } from "react-icons/ai"
 import { Textarea } from "@/shadcn/ui/textarea"
+import { ReloadIcon } from "@radix-ui/react-icons"
 
 interface formData {
     first_name: string;
@@ -99,7 +100,7 @@ const Register = () => {
                                     />
                                 </div>
                                 {errors.address && <div>{errors.address}</div>}
-                                <RadioGroup defaultValue="male" className="flex gap-5" onValueChange={(v)=> setData('gender', v)}>
+                                <RadioGroup defaultValue="male" className="flex gap-5" onValueChange={(v: 'male'|'female') => setData('gender', v)}>
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="male" id="male" />
                                         <Label htmlFor="male" className="cursor-pointer">Male</Label>
@@ -125,8 +126,8 @@ const Register = () => {
                                 </div>
                                 {errors.password && <div>{errors.password}</div>}
 
-                                <Button className="w-full bg-forth hover:bg-prime-dark active:bg-second" onClick={() => post('/register')}>
-                                    Register
+                                <Button className="w-full bg-forth er:bg-prime-dark active:bg-second" onClick={() => post('/register')}>
+                                    {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> :<p className="text-white">Register</p>}
                                 </Button>
                             </div>
                         </form>
@@ -142,7 +143,7 @@ const Register = () => {
                         </div>
                         <div className="flex justify-center">
                             <Link href="/login" className="w-full px-10">
-                                <Button className="w-full bg-forth hover:bg-prime-dark active:bg-second" onClick={() => get('/login')}>
+                                <Button className="w-full bg-forth hover:bg-prime-dark active:bg-second">
                                     Se connecter
                                 </Button>
                             </Link>

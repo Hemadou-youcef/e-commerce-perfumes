@@ -21,7 +21,7 @@ const LandingMainLayout = ({ children, ...props }) => {
     return (
         <>
             <div className="flex flex-col min-h-screen">
-                <div className="navElements bg-forth sticky top-0 border-b-2 z-10 shadow-md">
+                <div className="navElements bg-forth sticky top-0 border-b-2 border-gray-900 z-10 shadow-md">
                     <LandingNav props={pageProps} />
                 </div>
                 {/* SECTIONS */}
