@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        User::factory()->has(Product::factory()->hasImages(3)->hasProductPrices(2)->hasReceptions(3)->count(20))->has(Order::factory()->hasOrderProducts(3)->count(2))->create();
+        User::factory()->has(Product::factory()->hasImages(3)->hasProductPrices(2)->hasReceptions(3)->hasCategories(2)->count(20))->has(Order::factory()->hasOrderProducts(3)->count(2))->create();
         User::factory()->count(20)->hasBookmarks(3)->create();
         Reservation::factory()->count(20)->create();
         CartItem::factory()->count(20)->create();

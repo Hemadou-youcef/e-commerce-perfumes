@@ -19,10 +19,11 @@ return new class extends Migration
             $table->string('main_image')->nullable();
             $table->bigInteger('quantity')->default(0);
             $table->string('unit')->nullable();
+            $table->string('type')->nullable();
             $table->string('status')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('category');
+//            $table->string('category');
             $table->softDeletes();
             $table->timestamps();
         });

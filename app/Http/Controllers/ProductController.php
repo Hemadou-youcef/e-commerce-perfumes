@@ -26,7 +26,7 @@ class ProductController extends Controller
                     ->orWhere('category', 'LIKE', '%' . $search . '%')
                 )
                 ->when(request('category'), fn ($query, $category) => $query
-                    ->where('category', $category)
+                    ->whereHas('categories', fn ($query) => $query->where('name', $category))
                 )
                 ->paginate(10)
 
@@ -38,7 +38,7 @@ class ProductController extends Controller
                     'main_image' => $product->main_image,
                     'quantity' => $product->quantity . ' ' . $product->unit,
                     'status' => $product->status,
-                    'category' => $product->category,
+                    'categories' => $product->categories,
                 ])
                 ->withQueryString(),
         ]);
@@ -58,6 +58,7 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $validatedData = $request->validated();
+        $categories = $validatedData['category_ids']; // expect array of category ids
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
@@ -68,11 +69,11 @@ class ProductController extends Controller
             'description_ar' => $validatedData['description_ar'],
             'status' => $validatedData['status'],
             'user_id' => Auth::user()->id,
-            'category' => $validatedData['category'],
             'main_image' => $imagePath,
         ]);
+        $product->categories()->attach($categories);
 
-        return redirect()->route('products.show', $product->id);
+        return redirect()->route('product', $product->id);
 
 
 
@@ -95,7 +96,7 @@ class ProductController extends Controller
                 'quantity' => $product->quantity,
                 'unit' => $product->unit,
                 'status' => $product->status,
-                'category' => $product->category,
+                'categories' => $product->categories,
                 'images' => $product->images,
                 'productPrices' => $product->productPrices,
                 'receptions' => $product->receptions,
@@ -123,7 +124,23 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $validatedData = $request->validated();
+        $categories = $validatedData['category_ids']; // expect array of category ids
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+        $product->update([
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'description_ar' => $validatedData['description_ar'],
+            'status' => $validatedData['status'],
+            'user_id' => Auth::user()->id,
+            'main_image' => $imagePath,
+        ]);
+        $product->categories()->sync($categories);
+
+        return redirect()->route('product', $product->id);
     }
 
     /**

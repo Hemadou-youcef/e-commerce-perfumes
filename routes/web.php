@@ -86,6 +86,16 @@ Route::delete('/admin/clients/{user}' , [App\Http\Controllers\ClientController::
 Route::post('/admin/clients/{user}/confirm_account' , [App\Http\Controllers\ClientController::class, 'confirm'])->name('confirm_account');
 
 
+// products routes
+Route::get('/admin/products' , [App\Http\Controllers\ProductController::class, 'index'])->name('products');
+Route::get('/admin/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('product.create');
+Route::post('/admin/products/create', [App\Http\Controllers\ProductController::class, 'store'])->name('product.store');
+Route::get('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'show'])->name('product');
+Route::get('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit'])->name('product.edit');
+Route::patch('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'update'])->name('product.update');
+Route::delete('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.destroy');
+
+
 // orders routes
 Route::get('/admin/orders' , [App\Http\Controllers\OrderController::class, 'index'])->name('orders');
 Route::get('/admin/orders/{order}' , [App\Http\Controllers\OrderController::class, 'show'])->name('order');

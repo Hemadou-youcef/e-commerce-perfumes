@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\OrderProduct;
+use App\Models\Product;
 use App\Models\Reception;
 use App\Models\Reservation;
 use Inertia\Inertia;
@@ -94,28 +96,45 @@ class OrderController extends Controller
     public function verify(Order $order)
     {
         $errors = [];
+        $productQuantities = []; // To aggregate quantities for each product
+
+        // Aggregate quantities for each product in the order
         foreach ($order->orderProducts as $orderProduct) {
-            if ($orderProduct->product->quantity < $orderProduct->quantity) {
-                $errors[] = $orderProduct->product->name . ' a seulement ' . $orderProduct->product->quantity . ' dans le stock';
+            $productId = $orderProduct->product_id;
+            $productQuantities[$productId] = ($productQuantities[$productId] ?? 0) + $orderProduct->totalQuantity();
+        }
+
+        // Check available stock for each product
+        foreach ($productQuantities as $productId => $quantity) {
+            $product = Product::findOrFail($productId); // Retrieve the product
+            if ($product->quantity < $quantity) {
+                $errors[] = $product->name . ' has only ' . $product->quantity . ' in stock';
             }
         }
+
+        // If errors exist, redirect back with errors
         if (count($errors) > 0) {
             return back()->withErrors($errors);
         }
-        foreach ($order->orderProducts as $orderProduct) {
-            $orderProduct->product->removeStock($orderProduct->quantity);
-        }
 
+        // Deduct stock and update order status
+        foreach ($order->orderProducts as $orderProduct) {
+            $orderProduct->product->removeStock($orderProduct->totalQuantity());
+        }
 
         $order->update([
             'status' => 'verified',
             'verified_by' => auth()->user()->id
         ]);
-
     }
 
     public function confirm(Order $order)
     {
+        // check if order is verified
+        if ($order->status != 'verified'){
+            return back()->withErrors(['order' => 'order doit être vérifié']);
+        }
+
         try {
             $data = request('data');
             $reservations = json_decode ( urldecode( $data ) );
@@ -132,21 +151,30 @@ class OrderController extends Controller
             $quantity = $reservation->quantity;
 
 
-            if (Reception::where('id', $reception_id)->doesntExist()) {
+            // check if reception exists
+            $reception = Reception::query()->where('id', $reception_id)->first();
+            if ($reception == null) {
                 return back()->withErrors(['reception_id' => 'reception_id n\'existe pas']);
             }
-            if ($quantity > Reception::where('id' , $reception_id)->first()->rest  ) {
+
+            // check if reception rest is enough
+            if ($quantity > $reception->rest  ) {
                 return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité restante dans la réception']);
             }
-            if ($order->orderProducts()->where('id', $order_product_id)->doesntExist()) {
+
+            // check if order_product exists
+            $order_product = OrderProduct::query()->where('id', $order_product_id)->first();
+            if ($order_product == null) {
                 return back()->withErrors(['order_product_id' => 'order_product_id n\'existe pas']);
             }
-            if ($quantity > $order->orderProducts()->where('id', $order_product_id)->first()->quantity) {
+
+
+            if ($quantity > $order_product->totalQuantity()) {
                 return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité de la commande']);
             }
 
 
-            $reservation = Reservation::create([
+            $reservation = Reservation::query()->create([
                 'reception_id' => $reception_id,
                 'order_product_id' => $order_product_id,
                 'quantity' => $quantity,
@@ -172,6 +200,9 @@ class OrderController extends Controller
 
     public function deliver(Order $order)
     {
+        if ($order->status != 'confirmed'){
+            return back()->withErrors(['order' => 'order doit être confirmé']);
+        }
         $order->update([
             'status' => 'delivered',
             'delivered_by' => auth()->user()->id
@@ -184,7 +215,7 @@ class OrderController extends Controller
     {
         // return stock to products
         $order->orderProducts->each(function ($orderProduct) {
-            $orderProduct->product->addStock($orderProduct->quantity);
+            $orderProduct->product->addStock($orderProduct->totalQuantity());
         });
 
         // delete reservations
@@ -199,6 +230,7 @@ class OrderController extends Controller
             'confirmed_by' => auth()->user()->id
         ]);
 
-        return back();
+        return to_route('orders');
+
     }
 }

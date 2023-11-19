@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property mixed $reception
+ * @property mixed $quantity
+ * @property mixed $orderProduct
+ */
 class Reservation extends Model
 {
     use HasFactory;
@@ -27,12 +32,12 @@ class Reservation extends Model
         return $this->belongsTo(Reception::class);
     }
 
-    public function apply()
+    public function apply(): void
     {
         $this->reception->removeStock($this->quantity);
     }
 
-    public function revert()
+    public function revert(): void
     {
         $this->reception->addStock($this->quantity);
     }

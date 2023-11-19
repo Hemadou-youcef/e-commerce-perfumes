@@ -44,6 +44,11 @@ class Product extends Model
             ->withPivot('quantity', 'price', 'total');
     }
 
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'category_id');
+    }
+
     public function bookmarks(): HasMany
     {
 

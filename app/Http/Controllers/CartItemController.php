@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\CartItem;
 use App\Http\Requests\StoreCartItemRequest;
 use App\Http\Requests\UpdateCartItemRequest;
+use http\Client\Curl\User;
+use Illuminate\Support\Facades\Auth;
 
 class CartItemController extends Controller
 {
@@ -13,7 +15,36 @@ class CartItemController extends Controller
      */
     public function index()
     {
-        //
+        $client = Auth::user();
+        return Inertia::render('testPages/test', [
+            'cartItems' => $client->cartItems()->load(['product' => function ($query) {
+                return $query->through(fn ($product) => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'description' => $product->description,
+                    'description_ar' => $product->description_ar,
+                    'main_image' => $product->main_image,
+
+
+                ]);
+            }
+            , 'product.categories' => function ($query) {
+                return $query->through(fn ($category) => [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'name_ar' => $category->name_ar,
+                ]);
+            }
+            , 'productPrice' => function ($query) {
+                return $query->through(fn ($productPrice) => [
+                    'id' => $productPrice->id,
+                    'price' => $productPrice->price,
+                    'quantity' => $productPrice->quantity,
+                    'unit' => $productPrice->unit,
+                ]);
+            }
+            ])
+        ]);
     }
 
     /**
@@ -29,7 +60,9 @@ class CartItemController extends Controller
      */
     public function store(StoreCartItemRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        Auth::user()->cartItems()->create($validated);
     }
 
     /**
@@ -61,6 +94,7 @@ class CartItemController extends Controller
      */
     public function destroy(CartItem $cartItem)
     {
-        //
+        $cartItem->delete();
+        return redirect()->back();
     }
 }
