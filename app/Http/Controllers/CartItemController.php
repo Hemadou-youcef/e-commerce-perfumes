@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CartItem;
 use App\Http\Requests\StoreCartItemRequest;
 use App\Http\Requests\UpdateCartItemRequest;
+use App\Models\OrderProduct;
 use App\Models\Order;
 use http\Client\Curl\User;
 use Illuminate\Support\Facades\Auth;
