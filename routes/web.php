@@ -111,9 +111,8 @@ Route::get('/products/{product}' , [App\Http\Controllers\ClientProductController
 // client cart items routes
 Route::get('/cart' , [App\Http\Controllers\CartItemController::class, 'index'])->name('cart');
 Route::post('/cart' , [App\Http\Controllers\CartItemController::class, 'store'])->name('cart_item.store');
-Route::delete('/cart/{cartItem}' , [App\Http\Controllers\CartItemController::class, 'destroy'])->name('cart_item.destroy');
-
-
+Route::delete('/cart/{cartItem}' , [App\Http\Controllers\CartItemController::class, 'destroy']);
+Route::post('/cart/checkout' , [App\Http\Controllers\CartItemController::class, 'checkout']);
 
 
 

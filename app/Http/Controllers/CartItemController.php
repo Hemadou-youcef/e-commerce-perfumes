@@ -106,21 +106,14 @@ class CartItemController extends Controller
                 'quantity' => $cartItem->quantity,
                 'product_price_id' => $cartItem->product_price_id,
                 'price' => $cartItem->productPrice->price * $cartItem->quantity,
-                // ...other order product details
+
             ]);
             $order->orderProducts()->save($orderProduct);
         }
 
-        // Clear the user's cart (assuming you have a method to clear cart items)
-        // $user->cartItems()->delete(); // Example method to delete cart items
+        // Delete all cart items for the user
+        $user->emptyCart();
 
-        // Alternatively, if your cart items can be marked as purchased but not deleted
-        // $cartItems->update(['purchased' => true]);
-
-        // Return a response indicating successful checkout or redirect to a success page
-        // return response()->json(['message' => 'Checkout successful']);
-
-        // Redirect to a success page or return a response indicating successful checkout
-        // return redirect()->route('checkout.success');
+        return redirect('/');
     }
 }
