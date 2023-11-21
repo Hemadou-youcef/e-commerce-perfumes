@@ -28,7 +28,6 @@ class OrderProductFactory extends Factory
             'quantity' => $this->faker->numberBetween(1, 5),
             'product_price_id' => $productPrice->id,
             'price' => $productPrice->price,
-            'total' => $productPrice->price * $this->faker->numberBetween(1, 5),
             'created_at' => now(),
             'updated_at' => now(),
         ];

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('quantity');
             $table->foreignId('product_price_id')->constrained();
             $table->integer('price');
-            $table->integer('total');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -66,4 +66,15 @@ class Product extends Model
     }
 
 
+    public function suggestedProducts()
+    {
+        // Get suggested products by selecting products from the same category
+        return Product::whereHas('categories', function ($query) {
+            $query->whereIn('category_id', $this->categories()->pluck('categories.id')); // Use table alias 'categories.id' for 'category_id'
+        })
+            ->where('products.id', '!=', $this->id) // Specify 'products.id' to avoid ambiguity
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
+    }
 }

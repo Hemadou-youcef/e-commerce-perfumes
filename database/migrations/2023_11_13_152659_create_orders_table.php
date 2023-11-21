@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->integer('total');
-            $table->string('status');
+            $table->integer('total')->nullable();
+            $table->string('status')->default('pending');
             $table->string('address')->nullable();
             $table->unsignedBigInteger('confirmed_by')->nullable();
             $table->foreign('confirmed_by')->references('id')->on('users');

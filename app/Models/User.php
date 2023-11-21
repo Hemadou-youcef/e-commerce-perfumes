@@ -80,6 +80,11 @@ class User extends Authenticatable
 
     }
 
+    public function isProductInCart($productId): bool
+    {
+        return $this->cartItems()->where('product_id', $productId)->exists();
+    }
+
     public function isSuuuperAdmin(): bool
     {
         return $this->role === 4;

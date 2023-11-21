@@ -25,13 +25,13 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/products', function () {
-    return Inertia::render('products');
-})->name('products');
-
-Route::get('/product/{id}', function () {
-    return Inertia::render('product');
-})->name('product');
+//Route::get('/products', function () {
+//    return Inertia::render('products');
+//})->name('products');
+//
+//Route::get('/product/{id}', function () {
+//    return Inertia::render('product');
+//})->name('product');
 
 Route::get('/admin', function () {
     return Inertia::render('Dashboard/dashboard');
@@ -103,6 +103,25 @@ Route::delete('/admin/orders/{order}' , [App\Http\Controllers\OrderController::c
 Route::post('/admin/orders/{order}/confirm' , [App\Http\Controllers\OrderController::class, 'confirm'])->name('confirm_order');
 Route::post('/admin/orders/{order}/cancel' , [App\Http\Controllers\OrderController::class, 'cancel'])->name('cancel_order');
 Route::post('/admin/orders/{order}/deliver' , [App\Http\Controllers\OrderController::class, 'deliver'])->name('deliver_order');
+
+
+// client products routes
+Route::get('/products' , [App\Http\Controllers\ClientProductController::class, 'index'])->name('client_products');
+Route::get('/products/{product}' , [App\Http\Controllers\ClientProductController::class, 'show'])->name('client_product');
+// client cart items routes
+Route::get('/cart' , [App\Http\Controllers\CartItemController::class, 'index'])->name('cart');
+Route::post('/cart' , [App\Http\Controllers\CartItemController::class, 'store']);
+Route::delete('/cart/{cartItem}' , [App\Http\Controllers\CartItemController::class, 'destroy'])->name('cart_item.destroy');
+
+
+
+
+
+
+
+
+
+
 
 
 Route::post('/serialisation',   function (Request $request)

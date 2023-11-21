@@ -28,6 +28,11 @@ class OrderProduct extends Model
         return $this->belongsTo(ProductPrice::class);
     }
 
+    public function totalPrice()
+    {
+        
+    }
+
     public function totalQuantity(): int
     {
         return $this->quantity * $this->productPrice->quantity;
