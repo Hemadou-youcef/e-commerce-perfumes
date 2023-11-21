@@ -18,7 +18,7 @@ class CartItemController extends Controller
     public function index()
     {
         $client = Auth::user();
-        return Inertia::render('testPages/test', [
+        return Inertia::render('ClientSide/Cart/cart', [
             'cartItems' => $client->cartItems()->with([
                 'product' => function ($query) {
                     $query->select('id', 'name', 'description','description_ar', 'main_image');

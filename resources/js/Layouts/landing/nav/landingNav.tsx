@@ -103,6 +103,13 @@ const LandingNav = ({ props }) => {
                     {/* IF NOT LOGGED IN */}
                     {props?.auth?.user === null && <div className="flex items-center gap-3 text-third">
                         <Link
+                            href="/register"
+                            className="flex flex-col items-center group gap-1"
+                        >
+                            <IoPersonAddOutline className="w-7 h-7 text-white group-hover:text-gray-400" />
+                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">S'inscrire</p>
+                        </Link>
+                        <Link
                             href="/login"
                             className="flex flex-col items-center group gap-1"
                         >
@@ -110,13 +117,6 @@ const LandingNav = ({ props }) => {
                             <p className="text-xs font-bold group-hover:text-gray-400 uppercase">Se connecter</p>
                         </Link>
 
-                        <Link
-                            href="/register"
-                            className="flex flex-col items-center group gap-1"
-                        >
-                            <IoPersonAddOutline className="w-7 h-7 text-white group-hover:text-gray-400" />
-                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">S'inscrire</p>
-                        </Link>
                         {/* <Link
                             href="/login"
                             className=" bg-third px-3 py-3 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"

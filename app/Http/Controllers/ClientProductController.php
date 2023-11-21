@@ -40,7 +40,7 @@ class ClientProductController extends Controller
      */
     public function show(Product $product)
     {
-        return Inertia::render('testPages/test', [
+        return Inertia::render('ClientSide/Products/Product/product', [
             'product' => [
                 'id' => $product->id,
                 'name' => $product->name,

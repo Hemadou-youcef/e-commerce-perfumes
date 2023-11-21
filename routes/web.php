@@ -110,7 +110,7 @@ Route::get('/products' , [App\Http\Controllers\ClientProductController::class, '
 Route::get('/products/{product}' , [App\Http\Controllers\ClientProductController::class, 'show'])->name('client_product');
 // client cart items routes
 Route::get('/cart' , [App\Http\Controllers\CartItemController::class, 'index'])->name('cart');
-Route::post('/cart' , [App\Http\Controllers\CartItemController::class, 'store']);
+Route::post('/cart' , [App\Http\Controllers\CartItemController::class, 'store'])->name('cart_item.store');
 Route::delete('/cart/{cartItem}' , [App\Http\Controllers\CartItemController::class, 'destroy'])->name('cart_item.destroy');
 
 
