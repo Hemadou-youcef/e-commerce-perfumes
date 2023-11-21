@@ -179,7 +179,7 @@ const Product = ({ ...props }) => {
                         </div>
                     </div>
                     {/* REVIEW */}
-                    <div className="w-full flex flex-col mt-5">
+                    {/* <div className="w-full flex flex-col mt-5">
                         <p className="pb-1 inline text-center text-gray-600 font-bold text-base md:text-3xl font-serif border-b-2 border-gray-600">
                             REVIEWS
                         </p>
@@ -189,7 +189,7 @@ const Product = ({ ...props }) => {
                                 There are no reviews yet.
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* YOU MAY ALSO LIKE */}
 
                 </div>

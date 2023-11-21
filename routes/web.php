@@ -112,7 +112,7 @@ Route::get('/products/{product}' , [App\Http\Controllers\ClientProductController
 Route::get('/cart' , [App\Http\Controllers\CartItemController::class, 'index'])->name('cart');
 Route::post('/cart' , [App\Http\Controllers\CartItemController::class, 'store'])->name('cart_item.store');
 Route::delete('/cart/{cartItem}' , [App\Http\Controllers\CartItemController::class, 'destroy']);
-Route::post('/cart/checkout' , [App\Http\Controllers\CartItemController::class, 'checkout']);
+Route::post('/cart/checkout' , [App\Http\Controllers\CartItemController::class, 'checkout'])->name('cart.checkout');
 
 
 

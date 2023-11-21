@@ -1,13 +1,26 @@
 import LandingMainLayout from "@/Layouts/landing/mainLayout";
 import { Button } from "@/shadcn/ui/button";
+import { router } from "@inertiajs/react";
 import { useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Cart = ({ ...props }) => {
     const [cartItems, setCartItems] = useState(props?.cartItems);
+    const [checkoutLoading, setCheckoutLoading] = useState(false);
 
     const handleSendOrder = () => {
-        // Implement logic for sending orders
-        console.log("Sending orders...");
+        setCheckoutLoading(true);
+        router.post(route('cart.checkout'), {}, {
+            onSuccess: () => {
+                console.log('success');
+            },
+            onError: () => {
+                console.log('error');
+            },
+            onFinish: () => {
+                setCheckoutLoading(false);
+            }
+        });
     };
 
     return (
@@ -39,14 +52,19 @@ const Cart = ({ ...props }) => {
                 )}
 
                 {cartItems.length > 0 && (
-                    <div className="flex justify-between mt-8">
+                    <div className="flex justify-between items-center mt-8">
                         <p className="text-lg font-bold text-gray-900">Total: {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0)} DA</p>
-                        
+
                         <Button
                             onClick={handleSendOrder}
-                            className="text-white px-4 py-2 rounded-md  transition duration-300 ease-in-out bg-second hover:bg-second-hover"
+                            className="w-52 text-white px-4 py-2 rounded-md  transition duration-300 ease-in-out bg-second hover:bg-second-hover"
                         >
-                            Envoyer la commande
+                            {checkoutLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
+                                <p className="text-sm text-gray-50 font-bold">
+                                    Envoyer la commande
+                                </p>
+                            )}
+
                         </Button>
                     </div>
                 )}
