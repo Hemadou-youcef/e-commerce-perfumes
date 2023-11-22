@@ -17,10 +17,14 @@ return new class extends Migration
             $table->integer('total')->nullable();
             $table->string('status')->default('pending');
             $table->string('address')->nullable();
+            $table->unsignedBigInteger('verified_by')->nullable();
+            $table->foreign('verified_by')->references('id')->on('users');
             $table->unsignedBigInteger('confirmed_by')->nullable();
             $table->foreign('confirmed_by')->references('id')->on('users');
             $table->unsignedBigInteger('delivered_by')->nullable();
             $table->foreign('delivered_by')->references('id')->on('users');
+            $table->unsignedBigInteger('cancelled_by')->nullable();
+            $table->foreign('cancelled_by')->references('id')->on('users');
             $table->softDeletes();
             $table->timestamps();
         });

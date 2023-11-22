@@ -19,10 +19,10 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         $imageFiles = Storage::files('public/images/'); // Assuming images are in the 'public' directory
-        $url = Storage::url($this->faker->randomElement($imageFiles));
+        $path = Storage::url($this->faker->randomElement($imageFiles));
         return [
             'product_id' => Product::factory(),
-            'url' => $url,
+            'path' => $path,
             'created_at' => now(),
             'updated_at' => now(),
         ];

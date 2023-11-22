@@ -19,10 +19,13 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+         \App\Models\User::factory()->create([
+             'first_name' => 'admin',
+             'last_name' => 'admin',
+             'username' => 'admin',
+             'phone' => '0606060606',
+             'role' => 3,
+         ]);
         User::factory()->has(Product::factory()->hasImages(3)->hasProductPrices(2)->hasReceptions(3)->hasCategories(2)->count(20))->has(Order::factory()->hasOrderProducts(3)->count(2))->create();
         User::factory()->count(20)->hasBookmarks(3)->create();
         Reservation::factory()->count(20)->create();

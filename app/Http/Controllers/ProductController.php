@@ -49,7 +49,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return inertia::render('Dashboard/Products/create');
     }
 
     /**
@@ -58,28 +58,60 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $validatedData = $request->validated();
-        $categories = $validatedData['category_ids']; // expect array of category ids
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-        }
-        $product = Product::create([
+
+
+        $product = new Product([
             'name' => $validatedData['name'],
             'description' => $validatedData['description'],
             'description_ar' => $validatedData['description_ar'],
             'status' => $validatedData['status'],
             'user_id' => Auth::user()->id,
-            'main_image' => $imagePath,
         ]);
-        $product->categories()->attach($categories);
+
+        try {
+            if ($request->hasFile('main_image')) {
+                $mainImagePath = $request->file('main_image')->store('images', 'public');
+                $product->main_image = $mainImagePath; // Set main image
+            }
+        } catch (\Exception $e) {
+            // Handle exception
+            return back()->withErrors(['main_image' => 'internal server error. could not upload image']);
+        }
+
+        $product->save();
+        if ($request->has('category_ids')) {
+            $categories = $validatedData['category_ids'];// expect array of category ids
+            $product->categories()->attach($categories);
+        }
+
+        // Create product prices
+        $prices = $validatedData['prices'];
+
+        foreach ($prices as $price) {
+            $product->productPrices()->create([
+                'price' => $price['price'],
+                'unit' => $price['unit'],
+                'quantity' => $price['quantity'],
+            ]);
+        }
+
+
+        try {
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $imagePath = $image->store('images', 'public');
+                    $product->images()->create(['path' => $imagePath]);
+                }
+            }
+        } catch (\Exception $e) {
+            // Handle exception
+            return back()->withErrors(['images' => 'internal server error. could not upload images']);
+        }
 
         return redirect()->route('product', $product->id);
-
-
-
-
-
     }
+
 
     /**
      * Display the specified resource.
@@ -115,7 +147,7 @@ class ProductController extends Controller
     {
 
         return Inertia::render('products' , [
-            'product' => $product->load(['images' , 'productPrices' , 'receptions' ]),
+            'product' => $product->load(['images' , 'productPrices','categories' , 'receptions' ]),
         ]);
     }
 
@@ -125,29 +157,55 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         $validatedData = $request->validated();
-        $categories = $validatedData['category_ids']; // expect array of category ids
+         // expect array of category ids
 
+        $product->name = $validatedData['name'];
+        $product->description = $validatedData['description'];
+        $product->description_ar = $validatedData['description_ar'];
+        $product->status = $validatedData['status'];
+
+        // Handle main image update
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
+            $product->main_image = $imagePath;
         }
-        $product->update([
-            'name' => $validatedData['name'],
-            'description' => $validatedData['description'],
-            'description_ar' => $validatedData['description_ar'],
-            'status' => $validatedData['status'],
-            'user_id' => Auth::user()->id,
-            'main_image' => $imagePath,
-        ]);
-        $product->categories()->sync($categories);
+
+        $product->save();
+        if ($request->has('category_ids')) {
+            $categories = $validatedData['category_ids'];
+            $product->categories()->sync($categories);
+        }
+
+        // Handle other images addition and removal
+        try {
+            if ($request->hasFile('other_images')) {
+                $newImages = [];
+                foreach ($request->file('other_images') as $image) {
+                    $imagePath = $image->store('images', 'public');
+                    $newImages[] = ['path' => $imagePath];
+                }
+                $product->images()->createMany($newImages);
+            }
+        } catch (\Exception $e) {
+            // Handle exception
+            return back()->withErrors(['other_images' => 'internal server error. could not upload images']);
+        }
+
+        if ($request->has('removed_images')) {
+            $removedImages = $request->input('removed_images');
+            $product->images()->whereIn('id', $removedImages)->delete();
+        }
 
         return redirect()->route('product', $product->id);
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect()->route('products');
     }
 }

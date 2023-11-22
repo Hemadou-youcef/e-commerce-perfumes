@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\Reception;
 use App\Models\Reservation;
+use Exception;
 use Inertia\Inertia;
 
 class OrderController extends Controller
@@ -27,22 +28,14 @@ class OrderController extends Controller
                             ->orWhere('phone', 'like', '%' . $q . '%');
                     });
                 })
-                ->when(request('start') , fn($query) => $query->where('created_at' , '>=' , request('start')))
-                ->when(request('end') , fn($query) => $query->where('created_at' , '<=' , request('end')))
-                ->orderBy('created_at' , 'desc')
-                ->with(['user'] )
+                ->when(request('start'), fn($query) => $query->where('created_at', '>=', request('start')))
+                ->when(request('end'), fn($query) => $query->where('created_at', '<=', request('end')))
+                ->orderBy('created_at', 'desc')
+                ->with(['user'])
                 ->withCount('orderProducts')
                 ->paginate(10)
                 ->withQueryString()
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -59,9 +52,9 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         return Inertia::render('testPages/test', [
-            'order' => $order->load(['user','confirmedBy' , 'deliveredBy' , 'orderProducts.product.receptions'=> function ($query) {
+            'order' => $order->load(['user', 'confirmedBy', 'deliveredBy', 'orderProducts.product.receptions' => function ($query) {
                 $query->where('rest', '>', 0);
-            } , 'orderProducts.reservations'])
+            }, 'orderProducts.reservations'])
         ]);
     }
 
@@ -69,14 +62,6 @@ class OrderController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateOrderRequest $request, Order $order)
     {
         //
     }
@@ -128,20 +113,27 @@ class OrderController extends Controller
         ]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateOrderRequest $request, Order $order)
+    {
+        //
+    }
+
     public function confirm(Order $order)
     {
         // check if order is verified
-        if ($order->status != 'verified'){
+        if ($order->status != 'verified') {
             return back()->withErrors(['order' => 'order doit être vérifié']);
         }
 
         try {
             $data = request('data');
-            $reservations = json_decode ( urldecode( $data ) );
-        }catch (\Exception $e){
+            $reservations = json_decode(urldecode($data));
+        } catch (Exception $e) {
             return back()->withErrors(['data' => 'Veuillez envoyer les données de dans le format json']);
         }
-
 
 
         foreach ($reservations as $reservation) {
@@ -158,7 +150,7 @@ class OrderController extends Controller
             }
 
             // check if reception rest is enough
-            if ($quantity > $reception->rest  ) {
+            if ($quantity > $reception->rest) {
                 return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité restante dans la réception']);
             }
 
@@ -183,9 +175,6 @@ class OrderController extends Controller
             $reservation->apply();
 
 
-
-
-
         }
 
 
@@ -198,9 +187,17 @@ class OrderController extends Controller
         return back();
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
     public function deliver(Order $order)
     {
-        if ($order->status != 'confirmed'){
+        if ($order->status != 'confirmed') {
             return back()->withErrors(['order' => 'order doit être confirmé']);
         }
         $order->update([
@@ -213,24 +210,41 @@ class OrderController extends Controller
 
     public function cancel(Order $order)
     {
-        // return stock to products
-        $order->orderProducts->each(function ($orderProduct) {
-            $orderProduct->product->addStock($orderProduct->totalQuantity());
-        });
 
-        // delete reservations
-        $order->reservations()->each(function ($reservation) {
-            $reservation->revert();
-            $reservation->delete();
-        });
+        $this->authorize('cancel', $order);
+        switch ($order->status) {
+            case 'delivered':
+                return back()->withErrors(['order' => 'order ne peut pas être annulé car il est déjà livré']);
+            case 'cancelled':
+                return back()->withErrors(['order' => 'order est déjà annulé']);
+            case 'verified':
+                // revert stock for each product
+                $order->orderProducts->each(function ($orderProduct) {
+                    $orderProduct->product->addStock($orderProduct->totalQuantity());
+                });
+                break;
+            case 'confirmed':
+                // revert stock for each product
+                $order->orderProducts->each(function ($orderProduct) {
+                    $orderProduct->product->addStock($orderProduct->totalQuantity());
+                });
+                // delete reservations
+                $order->reservations()->each(function ($reservation) {
+                    $reservation->revert();
+                    $reservation->delete();
+                });
+                break;
+
+
+        }
 
 
         $order->update([
             'status' => 'cancelled',
-            'confirmed_by' => auth()->user()->id
+            'cancelled_by' => auth()->user()->id
         ]);
 
-        return to_route('orders');
+        return back();
 
     }
 }

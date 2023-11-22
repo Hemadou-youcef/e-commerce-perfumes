@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
+use const http\Client\Curl\AUTH_ANY;
 
 /**
  * @method static inRandomOrder()
@@ -76,5 +78,21 @@ class Product extends Model
             ->inRandomOrder()
             ->limit(5)
             ->get();
+    }
+
+    public function isProductBookmarked(): bool
+    {
+        if (Auth::check()){
+            return $this->bookmarks()->where('user_id', Auth::user()->id)->exists();
+        }
+        return false;
+    }
+
+    public function isProductInCart(): bool
+    {
+        if (Auth::check()){
+            return Auth::user()->cartItems()->where('user_id' , Auth::user()->id)->exists();
+        }
+        return false;
     }
 }
