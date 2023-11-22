@@ -45,7 +45,7 @@ class BookmarkPolicy
      */
     public function delete(User $user, Bookmark $bookmark): bool
     {
-        //
+        return $user->id === $bookmark->user_id;
     }
 
     /**

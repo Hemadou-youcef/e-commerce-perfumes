@@ -41,4 +41,9 @@ class CartItem extends Model
     {
         return $this->belongsTo(ProductPrice::class);
     }
+
+    public function price(): int
+    {
+        return $this->productPrice->price * $this->quantity;
+    }
 }

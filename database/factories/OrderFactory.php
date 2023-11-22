@@ -23,8 +23,10 @@ class OrderFactory extends Factory
             'status' => $this->faker->randomElement(['pending']),
 //            'status' => $this->faker->randomElement(['pending', 'confirmed', 'delivered']),
             'address' => $this->faker->address,
+            'verified_by' => null,
             'confirmed_by' => null,
             'delivered_by' => null,
+            'cancelled_by' => null,
             'created_at' => now(),
             'updated_at' => now(),
         ];

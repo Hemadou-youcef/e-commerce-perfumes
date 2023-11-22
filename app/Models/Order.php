@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory , SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
 
@@ -21,6 +21,7 @@ class Order extends Model
         'address',
         'confirmed_by',
         'delivered_by',
+        'cancelled_by',
     ];
 
     public function user(): BelongsTo
@@ -49,4 +50,16 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'delivered_by');
     }
+
+    public function cancelledBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'cancelled_by');
+    }
+
+    public function totalPrice(): int
+    {
+        return $this->orderProducts->sum('price');
+    }
+
+
 }

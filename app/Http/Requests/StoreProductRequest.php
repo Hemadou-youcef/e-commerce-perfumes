@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductRequest extends FormRequest
@@ -27,7 +28,27 @@ class StoreProductRequest extends FormRequest
             'description_ar' => 'required|string',
             'status' => 'nullable|string',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:8192',
-            'category_ids.*' => 'exists:categories,id',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:8192',
+            'category_ids.*' => 'nullable|exists:categories,id',
+            'prices' => [
+                'required',
+                'array',
+                'min:1', // Ensure there's at least one price
+                function ($attribute, $value, $fail) {
+                    foreach ($value as $price) {
+                        if (!isset($price['price'], $price['unit'], $price['quantity'])) {
+                            $fail('The prices array is invalid.');
+                            return;
+                        }
+                    }
+                },
+            ],
+            'prices.*.price' => 'required|numeric|min:0',
+            'prices.*.unit' => 'required|string|max:255',
+            'prices.*.quantity' => 'required|integer|min:0',
         ];
     }
+
+
+
 }

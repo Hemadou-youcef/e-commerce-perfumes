@@ -64,6 +64,10 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function receptions(): HasMany
+    {
+        return $this->hasMany(Reception::class);
+    }
     public function bookmarks(): HasMany
     {
         return $this->hasMany(Bookmark::class);
@@ -74,15 +78,36 @@ class User extends Authenticatable
         return $this->hasMany(CartItem::class);
     }
 
+
+
+
+
     public function emptyCart()
     {
         $this->cartItems()->delete();
 
     }
 
-    public function isProductInCart($productId): bool
+    public function verifiedOrders(): HasMany
     {
-        return $this->cartItems()->where('product_id', $productId)->exists();
+        return $this->hasMany(Order::class, 'verified_by');
+    }
+
+    public function confirmedOrders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'confirmed_by');
+
+    }
+
+    public function deliveredOrders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'delivered_by');
+
+    }
+
+    public function cancelledOrders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'cancelled_by');
     }
 
     public function isSuuuperAdmin(): bool

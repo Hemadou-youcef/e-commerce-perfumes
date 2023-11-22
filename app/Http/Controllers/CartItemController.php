@@ -6,7 +6,7 @@ use App\Models\CartItem;
 use App\Http\Requests\StoreCartItemRequest;
 use App\Http\Requests\UpdateCartItemRequest;
 use App\Models\Order;
-use http\Client\Curl\User;
+use App\Models\OrderProduct;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -28,6 +28,8 @@ class CartItemController extends Controller
                     $query->select('id', 'price', 'unit', 'quantity');
                 }
             ])->get()
+            ,
+
         ]);
     }
 
@@ -78,6 +80,7 @@ class CartItemController extends Controller
      */
     public function destroy(CartItem $cartItem)
     {
+        $this->authorize('delete', $cartItem);
         $cartItem->delete();
         return redirect()->back();
     }
@@ -110,10 +113,13 @@ class CartItemController extends Controller
             ]);
             $order->orderProducts()->save($orderProduct);
         }
+        // order total price
+        $order->total = $order->totalPrice();
+        $order->save();
 
         // Delete all cart items for the user
         $user->emptyCart();
 
-        return redirect('/');
+        return redirect()->to('/orders');
     }
 }

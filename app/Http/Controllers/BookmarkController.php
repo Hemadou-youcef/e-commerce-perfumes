@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bookmark;
 use App\Http\Requests\StoreBookmarkRequest;
 use App\Http\Requests\UpdateBookmarkRequest;
+use App\Models\Bookmark;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class BookmarkController extends Controller
 {
@@ -13,21 +15,35 @@ class BookmarkController extends Controller
      */
     public function index()
     {
-        //
-    }
+        return Inertia::render('testPages/test', [
+            'bookmarks' => Auth::user()->bookmarks()->with([
+                'product' => function ($query) {
+                    $query->select('id', 'name', 'description', 'description_ar', 'main_image');
+                },
+                'product.categories',
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+            ])->get()
+            ,
+
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreBookmarkRequest $request)
+    {
+        $validated = $request->validated();
+
+        Auth::user()->bookmarks()->create($validated);
+
+        return redirect()->back();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
         //
     }
@@ -61,6 +77,9 @@ class BookmarkController extends Controller
      */
     public function destroy(Bookmark $bookmark)
     {
-        //
+        $this->authorize('delete', $bookmark);
+
+        $bookmark->delete();
+        return redirect()->back();
     }
 }

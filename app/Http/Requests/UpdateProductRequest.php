@@ -22,12 +22,30 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'description_ar' => 'required|string',
+            'name' => 'sometimes|required|string|max:255',
+            'description' => 'sometimes|required|string',
+            'description_ar' => 'sometimes|required|string',
             'status' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:8192',
-            'category_ids.*' => 'exists:categories,id',
+            'image' => 'sometimes|required|image|mimes:jpeg,png,jpg|max:8192',
+            'category_ids.*' => 'sometimes|exists:categories,id',
+            'prices' => [
+                'sometimes',
+                'array',
+                'min:1', // Ensure there's at least one price
+                function ($attribute, $value, $fail) {
+                    foreach ($value as $price) {
+                        if (!isset($price['price'], $price['unit'], $price['quantity'])) {
+                            $fail('The prices array is invalid.');
+                            return;
+                        }
+                    }
+                },
+            ],
+            'prices.*.price' => 'sometimes|required|numeric|min:0',
+            'prices.*.unit' => 'sometimes|required|string|max:255',
+            'prices.*.quantity' => 'sometimes|required|integer|min:0',
+            'other_images.*' => 'sometimes|required|image|mimes:jpeg,png,jpg|max:8192',
+            'removed_images.*' => 'sometimes|exists:images,id',
         ];
     }
 }

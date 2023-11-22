@@ -14,7 +14,7 @@ class Image extends Model
     protected $hidden = ['created_at', 'updated_at'];
     protected $fillable = [
         'product_id',
-        'url',
+        'path',
     ];
 
     public function product() : BelongsTo

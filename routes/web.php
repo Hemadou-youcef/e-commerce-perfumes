@@ -55,13 +55,13 @@ Route::get('/admin', function () {
 //     return Inertia::render('Dashboard/Clients/client');
 // })->name('clients');
 
-Route::get('/login', function () {
-    return Inertia::render('auth/login');
-})->name('login');
-
-Route::get('/register', function () {
-    return Inertia::render('auth/register');
-})->name('register');
+//Route::get('/login', function () {
+//    return Inertia::render('auth/login');
+//})->name('login');
+//
+//Route::get('/register', function () {
+//    return Inertia::render('auth/register');
+//})->name('register');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -85,6 +85,14 @@ Route::get('/admin/clients/{user}' , [App\Http\Controllers\ClientController::cla
 Route::delete('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'destroy']);
 Route::post('/admin/clients/{user}/confirm_account' , [App\Http\Controllers\ClientController::class, 'confirm'])->name('confirm_account');
 
+
+// Employees routes
+Route::get('/admin/employees' , [App\Http\Controllers\EmployeeController::class, 'index'])->name('employees');
+Route::get('/admin/employees/create', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create');
+Route::get('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'show'])->name('employee');
+Route::patch('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'update'])->name('employee.update');
+Route::post('/admin/employees', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create');
+Route::delete('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'destroy']);
 
 // products routes
 Route::get('/admin/products' , [App\Http\Controllers\ProductController::class, 'index'])->name('products');
@@ -115,9 +123,16 @@ Route::delete('/cart/{cartItem}' , [App\Http\Controllers\CartItemController::cla
 Route::post('/cart/checkout' , [App\Http\Controllers\CartItemController::class, 'checkout'])->name('cart.checkout');
 
 
+// client orders routes
+Route::get('/orders' , [App\Http\Controllers\ClientOrderController::class, 'index'])->name('client_orders');
+Route::get('/orders/{order}' , [App\Http\Controllers\ClientOrderController::class, 'show'])->name('client_order');
+Route::post('/orders/{order}/cancel' , [App\Http\Controllers\OrderController::class, 'cancel'])->name('client_cancel_order');
 
 
-
+// bookmarks routes
+Route::get('/bookmarks' , [App\Http\Controllers\BookmarkController::class, 'index'])->name('bookmarks');
+Route::post('/bookmarks' , [App\Http\Controllers\BookmarkController::class, 'store'])->name('bookmark.store');
+Route::delete('/bookmarks/{bookmark}' , [App\Http\Controllers\BookmarkController::class, 'destroy']);
 
 
 
