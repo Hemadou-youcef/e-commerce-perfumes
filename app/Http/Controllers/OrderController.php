@@ -19,6 +19,7 @@ class OrderController extends Controller
      */
     public function index()
     {
+
         return Inertia::render('Dashboard/Orders/orders', [
             'orders' => Order::query()
                 ->when(request('q'), function ($query, $q) {
@@ -51,11 +52,22 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return Inertia::render('Dashboard/Orders/order', [
-            'order' => $order->load(['user', 'confirmedBy', 'deliveredBy', 'orderProducts.product.receptions' => function ($query) {
+        $order->load([
+            'user',
+            'confirmedBy',
+            'deliveredBy',
+            'orderProducts.product.receptions' => function ($query) {
                 $query->where('rest', '>', 0);
-            }, 'orderProducts.reservations'])
+            },
+            'orderProducts.reservations'
         ]);
+
+        // Load orderProducts and calculate totalQuantity for each
+        $order->orderProducts->each(function ($orderProduct) {
+            $orderProduct->total_quantity = $orderProduct->totalQuantity();
+        });
+
+        return Inertia::render('Dashboard/Orders/order', ['order' => $order]);
     }
 
     /**
@@ -216,10 +228,10 @@ class OrderController extends Controller
 
         $this->authorize('cancel', $order);
         switch ($order->status) {
-            case 'delivered':
-                return back()->withErrors(['order' => 'order ne peut pas être annulé car il est déjà livré']);
             case 'cancelled':
                 return back()->withErrors(['order' => 'order est déjà annulé']);
+            case 'delivered':
+                return back()->withErrors(['order' => 'order ne peut pas être annulé car il est déjà livré']);
             case 'verified':
                 // revert stock for each product
                 $order->orderProducts->each(function ($orderProduct) {

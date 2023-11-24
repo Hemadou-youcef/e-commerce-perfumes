@@ -106,7 +106,7 @@ class CartItemController extends Controller
         foreach ($cartItems as $cartItem) {
             $orderProduct = new OrderProduct([
                 'product_id' => $cartItem->product_id,
-                'quantity' => $cartItem->productPrice->quantity  * $cartItem->quantity,
+                'quantity' => $cartItem->quantity,
                 'product_price_id' => $cartItem->product_price_id,
                 'price' => $cartItem->productPrice->price * $cartItem->quantity,
 

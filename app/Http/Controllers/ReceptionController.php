@@ -16,6 +16,12 @@ class ReceptionController extends Controller
     {
         return Inertia::render('Dashboard/Receptions/receptions', [
             'receptions' => Reception::query()
+                ->when(request('q') , function ($query , $q){
+                    $query->whereHas('product' , function ($userQuery) use ($q){
+                        $userQuery->where('name' , 'like' , '%'.$q.'%')
+                            ;
+                    });
+                })
                 ->when(request('start') , fn($query) => $query->where('created_at' , '>=' , request('start')))
                 ->when(request('end') , fn($query) => $query->where('created_at' , '<=' , request('end')))
                 ->orderBy('created_at' , 'desc')
@@ -29,8 +35,16 @@ class ReceptionController extends Controller
      */
     public function create()
     {
+//        return Inertia::render('Dashboard/Receptions/receptionForm', [
+//            'products' => \App\Models\Product::query()->orderBy('quantity' , 'asc')->get(),
+//        ]);
+
         return Inertia::render('Dashboard/Receptions/receptionForm', [
-            'products' => \App\Models\Product::query()->orderBy('quantity' , 'asc')->get(),
+            'products' => \App\Models\Product::query()
+                ->when(request('q') , function ($query , $q){
+                    $query->where('name' , 'like' , '%'.$q.'%');
+                })
+                ->orderBy('quantity' , 'asc')->get(),
         ]);
 
     }
@@ -44,7 +58,6 @@ class ReceptionController extends Controller
         $reception['user_id'] = auth()->user()->id;
         $reception['rest'] = $reception['quantity'];
         $createdReception = Reception::create($reception);
-        var_dump($createdReception->product);
         $createdReception->product->addStock($reception['quantity']);
 
         return redirect()->route('receptions');
@@ -92,6 +105,7 @@ class ReceptionController extends Controller
      */
     public function destroy(Reception $reception)
     {
+        $reception->product->removeStock($reception->rest);
         $reception->delete();
         return redirect()->route('receptions');
     }

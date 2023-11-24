@@ -11,6 +11,7 @@ class OrderProduct extends Model
 {
     use HasFactory;
 
+//    protected $appends = ['total_quantity'];
     protected $fillable = ['order_id', 'product_id', 'quantity', 'price' , 'total', 'product_price_id'];
 
     public function order(): BelongsTo
@@ -25,18 +26,22 @@ class OrderProduct extends Model
 
     public function productPrice(): BelongsTo
     {
-        return $this->belongsTo(ProductPrice::class);
+        return $this->belongsTo(ProductPrice::class , 'product_price_id' , 'id');
     }
 
     public function totalPrice()
     {
-        
+
     }
 
     public function totalQuantity(): int
     {
-        // return $this->quantity * $this->productPrice->quantity;
-        return $this->quantity;
+
+
+
+        return $this->quantity * $this->productPrice->quantity;
+
+
     }
 
     public function reservations(): HasMany
