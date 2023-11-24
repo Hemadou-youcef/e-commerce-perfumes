@@ -7,7 +7,6 @@ use App\Http\Requests\StoreCartItemRequest;
 use App\Http\Requests\UpdateCartItemRequest;
 use App\Models\OrderProduct;
 use App\Models\Order;
-use App\Models\OrderProduct;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -107,7 +106,7 @@ class CartItemController extends Controller
         foreach ($cartItems as $cartItem) {
             $orderProduct = new OrderProduct([
                 'product_id' => $cartItem->product_id,
-                'quantity' => $cartItem->quantity,
+                'quantity' => $cartItem->productPrice->quantity  * $cartItem->quantity,
                 'product_price_id' => $cartItem->product_price_id,
                 'price' => $cartItem->productPrice->price * $cartItem->quantity,
 
@@ -121,6 +120,6 @@ class CartItemController extends Controller
         // Delete all cart items for the user
         $user->emptyCart();
 
-        return redirect()->to('/orders');
+        return redirect()->to('/cart');
     }
 }

@@ -13,8 +13,9 @@ export type OrdersInfo = {
     client: string
     number: string
     address: string
-    status: any
-    total_price: number
+    status: string
+    total: number
+    user: any
 }
 
 export const columns: ColumnDef<OrdersInfo>[] = [
@@ -26,11 +27,25 @@ export const columns: ColumnDef<OrdersInfo>[] = [
     {
         accessorKey: "client",
         header: "Client",
+        cell: ({ row }) => {
+            return (
+                <div className="flex flex-row justify-start items-center gap-2">
+                    <p className="text-sm font-medium text-gray-600 uppercase">{row?.original?.user?.first_name} {row?.original?.user?.last_name}</p>
+                </div>
+            )
+        },
         maxSize: 20,
     },
     {
         accessorKey: "number",
         header: "Number",
+        cell: ({ row }) => {
+            return (
+                <div className="flex flex-row justify-start items-center gap-2">
+                    <p className="text-sm font-medium text-gray-600 uppercase">{row?.original?.user?.phone}</p>
+                </div>
+            )
+        },
         maxSize: 10,
     },
     {
@@ -46,19 +61,23 @@ export const columns: ColumnDef<OrdersInfo>[] = [
             let text = "NaN";
             let Icon: JSX.Element = <></>;
             switch (row.getValue("status")) {
-                case "1":
+                case "pending":
                     text = "En attente";
                     Icon = <StopwatchIcon />
                     break;
-                case "2":
+                case "confirmed":
                     text = "Confirmé";
                     Icon = <CheckCircledIcon className="text-green-400" />
                     break;
-                case "3":
+                case "verified":
+                    text = "Vérifié";
+                    Icon = <CheckCircledIcon className="text-green-400" />
+                    break;
+                case "delivered":
                     text = "Livré";
                     Icon = <CiDeliveryTruck className="text-lg" />
                     break;
-                case "0":
+                case "cancelled":
                     text = "Annulé";
                     Icon = <CrossCircledIcon />
                     break;
@@ -76,12 +95,12 @@ export const columns: ColumnDef<OrdersInfo>[] = [
         maxSize: 10,
     },
     {
-        accessorKey: "total_price",
+        accessorKey: "total",
         header: "Prix ​​total",
         cell: ({ row }) => {
             return (
                 <div className="flex flex-row justify-start items-center gap-2">
-                    <p className="text-sm font-medium text-gray-600 uppercase">{row.getValue("total_price") || "---"} DA</p>
+                    <p className="text-sm font-medium text-gray-600 uppercase">{row.getValue("total") || "---"} DA</p>
                 </div>
             )
         },

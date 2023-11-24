@@ -1,12 +1,16 @@
 import LandingMainLayout from "@/Layouts/landing/mainLayout";
 import { Button } from "@/shadcn/ui/button";
 import { router } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Cart = ({ ...props }) => {
     const [cartItems, setCartItems] = useState(props?.cartItems);
     const [checkoutLoading, setCheckoutLoading] = useState(false);
+
+    useEffect(() => {
+        setCartItems(props?.cartItems);
+    }, [props?.cartItems]);
 
     const handleSendOrder = () => {
         setCheckoutLoading(true);

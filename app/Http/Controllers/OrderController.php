@@ -19,7 +19,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return Inertia::render('testPages/test', [
+        return Inertia::render('Dashboard/Orders/orders', [
             'orders' => Order::query()
                 ->when(request('q'), function ($query, $q) {
                     $query->whereHas('user', function ($userQuery) use ($q) {
@@ -51,7 +51,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return Inertia::render('testPages/test', [
+        return Inertia::render('Dashboard/Orders/order', [
             'order' => $order->load(['user', 'confirmedBy', 'deliveredBy', 'orderProducts.product.receptions' => function ($query) {
                 $query->where('rest', '>', 0);
             }, 'orderProducts.reservations'])
@@ -86,6 +86,7 @@ class OrderController extends Controller
         // Aggregate quantities for each product in the order
         foreach ($order->orderProducts as $orderProduct) {
             $productId = $orderProduct->product_id;
+            // $productQuantities[$productId] = ($productQuantities[$productId] ?? 0) + $orderProduct->totalQuantity();
             $productQuantities[$productId] = ($productQuantities[$productId] ?? 0) + $orderProduct->totalQuantity();
         }
 
@@ -93,7 +94,9 @@ class OrderController extends Controller
         foreach ($productQuantities as $productId => $quantity) {
             $product = Product::findOrFail($productId); // Retrieve the product
             if ($product->quantity < $quantity) {
-                $errors[] = $product->name . ' has only ' . $product->quantity . ' in stock';
+                // $errors[] = $product->name . ' has only ' . $product->quantity . ' in stock but ' . $quantity . ' is required';
+                // array_push($errors, ['id' => $productId, 'name' => $product->name, 'quantity' => $product->quantity, 'required' => $quantity]);
+                $errors[] = $productId;
             }
         }
 
@@ -135,7 +138,7 @@ class OrderController extends Controller
             return back()->withErrors(['data' => 'Veuillez envoyer les données de dans le format json']);
         }
 
-
+        // return $reservations;
         foreach ($reservations as $reservation) {
 
             $reception_id = $reservation->reception_id;
@@ -165,7 +168,7 @@ class OrderController extends Controller
                 return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité de la commande']);
             }
 
-
+            // return [$reception_id, $order_product_id, $quantity];
             $reservation = Reservation::query()->create([
                 'reception_id' => $reception_id,
                 'order_product_id' => $order_product_id,

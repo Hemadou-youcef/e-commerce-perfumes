@@ -35,7 +35,8 @@ class OrderProduct extends Model
 
     public function totalQuantity(): int
     {
-        return $this->quantity * $this->productPrice->quantity;
+        // return $this->quantity * $this->productPrice->quantity;
+        return $this->quantity;
     }
 
     public function reservations(): HasMany

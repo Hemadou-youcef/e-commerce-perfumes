@@ -108,6 +108,7 @@ Route::delete('/admin/products/{product}' , [App\Http\Controllers\ProductControl
 Route::get('/admin/orders' , [App\Http\Controllers\OrderController::class, 'index'])->name('orders');
 Route::get('/admin/orders/{order}' , [App\Http\Controllers\OrderController::class, 'show'])->name('order');
 Route::delete('/admin/orders/{order}' , [App\Http\Controllers\OrderController::class, 'destroy']);
+Route::post('/admin/orders/{order}/verify' , [App\Http\Controllers\OrderController::class, 'verify'])->name('verify_order');
 Route::post('/admin/orders/{order}/confirm' , [App\Http\Controllers\OrderController::class, 'confirm'])->name('confirm_order');
 Route::post('/admin/orders/{order}/cancel' , [App\Http\Controllers\OrderController::class, 'cancel'])->name('cancel_order');
 Route::post('/admin/orders/{order}/deliver' , [App\Http\Controllers\OrderController::class, 'deliver'])->name('deliver_order');
