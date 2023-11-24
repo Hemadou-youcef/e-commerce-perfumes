@@ -81,13 +81,13 @@ const Order = ({ ...props }) => {
 
     const getAllReceptions = () => {
         const receptionsList: receptionDataFrame[] = [];
-        order?.order_products.forEach((product) => {
-            product?.product?.receptions?.forEach((reception) => {
+        props?.order?.order_products.forEach((product_order) => {
+            product_order?.product?.receptions?.forEach((reception) => {
                 receptionsList.push({
                     reception_id: reception?.id,
                     reception_name: reception?.name,
                     reception_date: reception?.created_at,
-                    order_product_id: product?.id,
+                    order_product_id: product_order?.id,
                     rest_quantity: reception?.rest,
                     used_quantity: 0,
                     quantity: 0,
@@ -167,18 +167,19 @@ const Order = ({ ...props }) => {
     }
 
     const autoComplete = () => {
-        // Retrieve all receptions
-        getAllReceptions();
+        if (!needQuantityForConfirm()) return false;
 
         // Clone the receptions array to avoid mutating the original
         let updatedReceptions = [...receptions];
 
         // Iterate over each product in the order
-        order?.order_products.forEach((product) => {
-            let remainingQuantity = product?.quantity;
+        props?.order?.order_products.forEach((product_order) => {
+            const usedQuantity = receptions.filter((reception) => reception?.order_product_id == product_order?.id).reduce((a, b) => a + b?.quantity, 0);
+            if (usedQuantity == product_order?.total_quantity) return true; // Skip products that are already fulfilled
+            let remainingQuantity = product_order?.total_quantity - usedQuantity;
 
             // Check each reception for available stock
-            product?.product?.receptions?.some((reception) => {
+            product_order?.product?.receptions?.some((reception) => {
                 if (reception?.rest > 0) {
                     // Sufficient stock is available for the entire quantity needed
                     if (reception?.rest >= remainingQuantity) {
@@ -219,11 +220,11 @@ const Order = ({ ...props }) => {
     };
 
     const needQuantityForConfirm = () => {
-        let neededQuantity = true;
-        order?.order_products.forEach((product) => {
-            const usedQuantity = receptions.filter((reception) => reception?.order_product_id == product?.id).reduce((a, b) => a + b?.quantity, 0);
-            if (usedQuantity != product?.quantity) {
-                neededQuantity = false;
+        let neededQuantity = false;
+        order?.order_products.forEach((product_order) => {
+            const usedQuantity = receptions.filter((reception) => reception?.order_product_id == product_order?.id).reduce((a, b) => a + b?.quantity, 0);
+            if (usedQuantity != product_order?.total_quantity) {
+                neededQuantity = true;
             }
         });
         return neededQuantity;
@@ -316,7 +317,7 @@ const Order = ({ ...props }) => {
                                     variant="outline"
                                     className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300"
                                     onClick={() => handleConfirmOrder()}
-                                    disabled={!needQuantityForConfirm() || loadingAction}
+                                    disabled={needQuantityForConfirm() || loadingAction}
                                 >
                                     <span className="text-sm font-medium">Confirmer la commande</span>
                                     {loadingAction ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineCheckCircle className="text-xl" />}
@@ -421,12 +422,12 @@ const Order = ({ ...props }) => {
                                                 <TableRow key={index} className="hover:bg-gray-100">
                                                     <TableCell className="font-medium text-xs">{product?.product?.id}</TableCell>
                                                     <TableCell className="font-medium text-xs">{product?.product?.name}</TableCell>
-                                                    <TableCell className="font-bold text-xs">{product?.quantity} G</TableCell>
+                                                    <TableCell className="font-bold text-xs">{product?.total_quantity} G</TableCell>
                                                     <TableCell className="font-bold text-xs">{product?.price} DA</TableCell>
                                                     <TableCell className="text-center text-sm">
                                                         {order?.status != "pending" && (
                                                             <p className="text-sm font-bold text-gray-500">
-                                                                {product?.product?.quantity} {product?.product?.unit}
+                                                                {product?.product?.quantity} {product?.product?.unit} ({product?.total_quantity} {product?.product?.unit} réservé)
                                                             </p>
                                                         )}
 
@@ -470,6 +471,7 @@ const Order = ({ ...props }) => {
                                             <Button
                                                 variant="outline" className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300"
                                                 onClick={() => autoComplete()}
+                                                disabled={!needQuantityForConfirm()}
                                             >
                                                 <span className="text-sm font-medium">
                                                     Auto Complete
@@ -491,11 +493,11 @@ const Order = ({ ...props }) => {
                                                     {order?.order_products.map((product, index) => (
                                                         <TableRow key={index} className="hover:bg-gray-100">
                                                             <TableCell className="font-medium text-xs">{product?.product?.name}</TableCell>
-                                                            <TableCell className="font-bold text-xs">{product?.quantity} G</TableCell>
+                                                            <TableCell className="font-bold text-xs">{product?.total_quantity} G</TableCell>
                                                             <TableCell className="font-bold text-xs">
                                                                 <Progress
                                                                     className="bg-gray-300"
-                                                                    value={(receptions.filter((reception) => reception?.order_product_id == product?.id).reduce((a, b) => a + b?.quantity, 0) * 100) / product?.quantity}
+                                                                    value={(receptions.filter((reception) => reception?.order_product_id == product?.id).reduce((a, b) => a + b?.quantity, 0) * 100) / product?.total_quantity}
                                                                 />
                                                             </TableCell>
                                                             <TableCell className="text-center">
@@ -585,13 +587,13 @@ const Order = ({ ...props }) => {
                     <div className="grid gap-4 py-4">
                         {productSelected && (
                             <div className="flex flex-row justify-start items-center gap-2 relative">
-                                <Progress value={(quantityTotalSelected * 100) / productSelected?.quantity} className="h-7 col-span-3 rounded-md bg-gray-300" />
+                                <Progress value={(quantityTotalSelected * 100) / productSelected?.total_quantity} className="h-7 col-span-3 rounded-md bg-gray-300" />
                                 <p className="w-full text-sm text-center font-bold text-white px-3 p-1 rounded-md absolute top-0"
                                     style={{
                                         textShadow: "0px 0px 5px rgba(0,0,0,0.5)"
                                     }}
                                 >
-                                    {quantityTotalSelected}/{productSelected?.quantity}
+                                    {quantityTotalSelected}/{productSelected?.total_quantity} {productSelected?.product?.unit}
                                 </p>
                                 {/* <p className="text-sm font-bold text-gray-500">{quantityTotalSelected} {productSelected?.product?.unit}</p> */}
                             </div>
@@ -646,7 +648,7 @@ const Order = ({ ...props }) => {
                                                     variant="outline"
                                                     className="w-36 col-span-1 p-0 px-5 h-8 font-bold border-gray-400 uppercase"
                                                     onClick={() => {
-                                                        let needed = productSelected?.quantity - quantityTotalSelected;
+                                                        let needed = productSelected?.total_quantity - quantityTotalSelected;
                                                         if (reception?.rest_quantity > needed && needed > 0) {
                                                             setReceptions(receptions.map((item) => {
                                                                 if (item?.reception_id == reception?.reception_id) {
@@ -658,9 +660,20 @@ const Order = ({ ...props }) => {
                                                                 return item;
                                                             }))
                                                             setQuantityTotalSelected(quantityTotalSelected + (needed > reception?.rest_quantity ? reception?.rest_quantity : needed));
+                                                        } else if (reception?.rest_quantity < needed && needed > 0) {
+                                                            setReceptions(receptions.map((item) => {
+                                                                if (item?.reception_id == reception?.reception_id) {
+                                                                    return {
+                                                                        ...item,
+                                                                        used_quantity: item?.used_quantity + reception?.rest_quantity,
+                                                                    }
+                                                                }
+                                                                return item;
+                                                            }))
+                                                            setQuantityTotalSelected(quantityTotalSelected + reception?.rest_quantity);
                                                         }
                                                     }}
-                                                    disabled={quantityTotalSelected == productSelected?.quantity}
+                                                    disabled={quantityTotalSelected == productSelected?.total_quantity}
                                                 >
                                                     Compléter
                                                 </Button>
@@ -670,197 +683,15 @@ const Order = ({ ...props }) => {
                                 </TableBody>
 
                             </Table>
-                            {/* {receptions.filter((reception) => reception?.order_product_id == productSelected?.id).map((reception, index) => (
-                                <div key={index} className="flex flex-col justify-center w-full mt-2 rounded-sm overflow-hidden  shadow-md">
-
-                                    <div className="w-full p-2 bg-gray-50 grid grid-cols-12 gap-2 items-center">
-                                        <p className="col-span-2 text-sm text-center font-bold  text-gray-900">{reception?.reception_name}</p>
-                                        <p className="col-span-2 text-sm text-center font-bold  text-gray-900">{formatDate(reception?.reception_date)}</p>
-                                        <Progress value={(reception?.used_quantity * 100) / reception?.rest_quantity} className="col-span-3 rounded-none bg-gray-300" />
-                                        {/* <div className="flex justify-between gap-1 items-center overflow-hidden">
-                                                <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 cursor-pointer" onClick={() => {
-                                                    if (reception?.used_quantity > 0) {
-                                                        setQuantityTotalSelected(quantityTotalSelected - 1);
-                                                        setReceptions(receptions.map((item) => {
-                                                            if (item?.reception_id == reception?.reception_id) {
-                                                                return {
-                                                                    ...item,
-                                                                    used_quantity: item?.used_quantity - 1,
-                                                                    quantity: item?.quantity - 1,
-                                                                }
-                                                            }
-                                                            return item;
-                                                        }))
-                                                    }
-                                                }} />
-                                                <div className="w-10 h-full flex justify-center items-center text-gray-600 font-bold gap-1">
-                                                    <input
-                                                        value={reception?.used_quantity}
-                                                        className="outline-none w-10 h-full text-center text-gray-700 font-bold text-xs md:text-sm lg:tex"
-                                                        onChange={(e) => {
-                                                            let value = parseInt(e.target.value);
-                                                            if (value >= 0 && value <= reception?.rest_quantity) {
-                                                                setQuantityTotalSelected(quantityTotalSelected - reception?.used_quantity + value);
-                                                                setReceptions(receptions.map((item) => {
-                                                                    if (item?.reception_id == reception?.reception_id) {
-                                                                        return {
-                                                                            ...item,
-                                                                            used_quantity: value,
-                                                                            quantity: value,
-                                                                        }
-                                                                    }
-                                                                    return item;
-                                                                }))
-                                                            } else {
-                                                                // IF THE VALUE IS NOT VALID SET TO 0
-                                                                setQuantityTotalSelected(quantityTotalSelected - reception?.used_quantity);
-                                                                setReceptions(receptions.map((item) => {
-                                                                    if (item?.reception_id == reception?.reception_id) {
-                                                                        return {
-                                                                            ...item,
-                                                                            used_quantity: 0,
-                                                                            quantity: 0,
-                                                                        }
-                                                                    }
-                                                                    return item;
-                                                                }))
-                                                            }
-                                                        }}
-                                                    />
-                                                </div>
-                                                <AiOutlinePlus className="w-4 h-4 text-gray-600 mr-2 cursor-pointer" onClick={() => {
-                                                    if (reception?.used_quantity < reception?.rest_quantity) {
-                                                        setQuantityTotalSelected(quantityTotalSelected + 1);
-                                                        setReceptions(receptions.map((item) => {
-                                                            if (item?.reception_id == reception?.reception_id) {
-                                                                return {
-                                                                    ...item,
-                                                                    used_quantity: item?.used_quantity + 1,
-                                                                    quantity: item?.quantity + 1,
-                                                                }
-                                                            }
-                                                            return item;
-                                                        }))
-                                                    }
-                                                }} />
-                                            </div> 
-                                        <Button
-                                            variant="outline"
-                                            className="col-span-1 p-0 px-5 h-full font-bold border-gray-400 uppercase"
-                                            onClick={() => {
-                                                setReceptions(receptions.map((item) => {
-                                                    if (item?.reception_id == reception?.reception_id) {
-                                                        return {
-                                                            ...item,
-                                                            used_quantity: 0,
-                                                        }
-                                                    }
-                                                    return item;
-                                                }))
-                                                setQuantityTotalSelected(quantityTotalSelected - reception?.used_quantity);
-
-                                            }}
-                                        >
-                                            Vider
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            className="col-span-1 p-0 px-5 text-xs h-full font-bold border-gray-400 uppercase"
-                                            onClick={() => {
-                                                let needed = productSelected?.quantity - quantityTotalSelected;
-                                                if (reception?.rest_quantity > needed && needed > 0) {
-                                                    setReceptions(receptions.map((item) => {
-                                                        if (item?.reception_id == reception?.reception_id) {
-                                                            return {
-                                                                ...item,
-                                                                used_quantity: item?.used_quantity + (needed > reception?.rest_quantity ? reception?.rest_quantity : needed),
-                                                            }
-                                                        }
-                                                        return item;
-                                                    }))
-                                                    setQuantityTotalSelected(quantityTotalSelected + (needed > reception?.rest_quantity ? reception?.rest_quantity : needed));
-                                                }
-                                            }}
-                                        >
-                                            Compléter
-                                        </Button>
-                                        <p className="col-span-2 min-w-[100px] text-sm text-center font-bold text-white bg-gray-900 px-3 p-1 rounded-md">{reception?.used_quantity}/{reception?.rest_quantity}</p>
-                                    </div>
-
-                                    <div className="grid grid-cols-3 gap-2 p-2">
-                                        <div className="flex justify-between gap-1 items-center overflow-hidden">
-                                            <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 cursor-pointer" onClick={() => {
-                                                if (reception?.used_quantity > 0) {
-                                                    setQuantityTotalSelected(quantityTotalSelected - 1);
-                                                    setReceptions(receptions.map((item) => {
-                                                        if (item?.reception_id == reception?.reception_id) {
-                                                            return {
-                                                                ...item,
-                                                                used_quantity: item?.used_quantity - 1,
-                                                                quantity: item?.quantity - 1,
-                                                            }
-                                                        }
-                                                        return item;
-                                                    }))
-                                                }
-                                            }} />
-                                            <div className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1">
-                                                <input
-                                                    value={reception?.used_quantity}
-                                                    className="outline-none w-10 h-10 text-center text-gray-700 font-bold text-xs md:text-sm lg:tex"
-                                                    onChange={(e) => {
-                                                        let value = parseInt(e.target.value);
-                                                        if (value >= 0 && value <= reception?.rest_quantity) {
-                                                            setQuantityTotalSelected(quantityTotalSelected - reception?.used_quantity + value);
-                                                            setReceptions(receptions.map((item) => {
-                                                                if (item?.reception_id == reception?.reception_id) {
-                                                                    return {
-                                                                        ...item,
-                                                                        used_quantity: value,
-                                                                        quantity: value,
-                                                                    }
-                                                                }
-                                                                return item;
-                                                            }))
-                                                        } else {
-                                                            // IF THE VALUE IS NOT VALID SET TO 0
-                                                            setQuantityTotalSelected(quantityTotalSelected - reception?.used_quantity);
-                                                            setReceptions(receptions.map((item) => {
-                                                                if (item?.reception_id == reception?.reception_id) {
-                                                                    return {
-                                                                        ...item,
-                                                                        used_quantity: 0,
-                                                                        quantity: 0,
-                                                                    }
-                                                                }
-                                                                return item;
-                                                            }))
-                                                        }
-                                                    }}
-                                                />
-                                            </div>
-                                            <AiOutlinePlus className="w-4 h-4 text-gray-600 mr-2 cursor-pointer" onClick={() => {
-                                                if (reception?.used_quantity < reception?.rest_quantity) {
-                                                    setQuantityTotalSelected(quantityTotalSelected + 1);
-                                                    setReceptions(receptions.map((item) => {
-                                                        if (item?.reception_id == reception?.reception_id) {
-                                                            return {
-                                                                ...item,
-                                                                used_quantity: item?.used_quantity + 1,
-                                                                quantity: item?.quantity + 1,
-                                                            }
-                                                        }
-                                                        return item;
-                                                    }))
-                                                }
-                                            }} />
-                                        </div>
-                                    </div>
-                                </div>
-                            ))} */}
                         </div>
                     </div>
                     <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setOpen(false)}
+                        >
+                            Annuler
+                        </Button>
                         <Button
                             type="submit"
                             onClick={() => {
@@ -876,9 +707,9 @@ const Order = ({ ...props }) => {
                                 }))
                                 setQuantityTotalSelected(0);
                             }}
-                            disabled={quantityTotalSelected != productSelected?.quantity}
+
                         >
-                            Sélectionner
+                            Sauvegarder
                         </Button>
                     </DialogFooter>
                 </DialogContent>
