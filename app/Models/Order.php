@@ -37,7 +37,7 @@ class Order extends Model
     public function reservations(): BelongsToMany
     {
         return $this->belongsToMany(Reservation::class, 'order_products', 'order_id', 'product_id')
-            ->withPivot('quantity', 'price', 'total');
+            ->withPivot('quantity', 'price');
     }
 
 

@@ -51,6 +51,13 @@ export const columns: ColumnDef<OrdersInfo>[] = [
     {
         accessorKey: "address",
         header: "Address",
+        cell: ({ row }) => {
+            return (
+                <div className="flex flex-row justify-start items-center gap-2">
+                    <p className="text-sm font-medium text-gray-600 uppercase">{row?.original?.user?.address}</p>
+                </div>
+            )
+        },
         maxSize: 40,
     },
     {
