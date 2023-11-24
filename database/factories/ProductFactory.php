@@ -25,7 +25,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->paragraph,
             'description_ar' => $this->faker->paragraph,
             'main_image' => $url,
-            'quantity' => 0,
+            'quantity' => 10000,
             'unit' => $this->faker->randomElement(['kg', 'g', 'l', 'ml', 'unité']),
             'type' => $this->faker->randomElement(['parfum', 'huile', 'encens','accessoires', 'autre']),
             'status' => $this->faker->randomElement([ null]),
