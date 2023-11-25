@@ -66,7 +66,7 @@ const Product = ({ ...props }) => {
                     <div className="flex flex-col md:flex-row justify-center items-start gap-6">
                         <div className="grid grid-cols-1 ">
                             <div
-                                className="w-full md:w-96 md:h-96 flex flex-col items-center justify-center relative border-2 border-gray-200 bg-cover bg-center"
+                                className="w-full md:w-96 h-96 flex flex-col items-center justify-center relative border-2 border-gray-200 bg-cover bg-center"
                                 style={{
                                     backgroundImage: `url(/storage/${selectedImage})`,
                                 }}
