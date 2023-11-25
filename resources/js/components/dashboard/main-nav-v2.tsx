@@ -41,12 +41,6 @@ export function MainNav({
             <FiBox className="w-5 h-5 text-white group-hover:w-6 group-hover:h-6 transition-all" />
           </div>
 
-          <div
-            className={`w-12 h-12 flex justify-center items-center border-2 rounded-full group hover:bg-blue-700 active:bg-blue-800 transition-all shadow-md shadow-blue-900 cursor-pointer ${currentTab === "users" ? "bg-blue-900" : "bg-blue-600 "}`}
-            onClick={() => setCurrentTab("users")}
-          >
-            <FaUserFriends className="w-5 h-5 text-white group-hover:w-6 group-hover:h-6 transition-all" />
-          </div>
 
           <div className="flex flex-col items-center justify-center mb-3 mt-auto p-3 border-2 border-white rounded-full hover:bg-white hover:bg-opacity-10 transition-colors cursor-pointer">
             <FaRegUser className="w-5 h-5 text-white" />
@@ -100,8 +94,6 @@ export function MainNav({
                 </Link>
               </CollapsibleContent>
             </Collapsible>
-          </TabsContent>
-          <TabsContent value="users" className="flex flex-col w-full m-0" >
             <Collapsible className="w-full" defaultOpen>
               <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3 transition-all px-4">
                 <div className="flex items-center gap-3">

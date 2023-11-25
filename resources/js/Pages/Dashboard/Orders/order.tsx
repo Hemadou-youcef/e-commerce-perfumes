@@ -280,7 +280,7 @@ const Order = ({ ...props }) => {
                 <AiOutlineRight className="text-sm text-gray-800" />
                 <h2 className="text-lg text-gray-600 font-medium tracking-tight">CM/{order?.id.toString().padStart(5, "000")}</h2>
             </div>
-            <div className="md:mx-10 p-0 m-2 border rounded-none md:rounded-md overflow-hidden">
+            <div className="md:mx-10 p-0 m-2 border-2  rounded-none md:rounded-md overflow-hidden shadow-md">
                 {/* SHOW ORDER DETAIL */}
                 <div className="flex flex-col ">
                     <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 bg-gray-100">
@@ -334,22 +334,6 @@ const Order = ({ ...props }) => {
                                     {loadingAction ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineCheckCircle className="text-xl" />}
                                 </Button>
                             )}
-                            {/* <Button
-                                variant="outline"
-                                className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300"
-                                onClick={() => testSerialisation()}
-                            >
-                                <span className="text-sm font-medium">Confirmer la commande</span>
-                                <AiOutlineCheckCircle className="text-xl" />
-                            </Button> */}
-                            {/* <Button className="flex items-center h-9 space-x-2 bg-red-600 hover:bg-red-500 active:bg-red-700 text-white rounded-full">
-                                <span className="text-sm font-medium">Rejeter</span>
-                                <AiOutlineCloseCircle className="text-xl" />
-                            </Button>
-                            <Button className="flex items-center h-9 space-x-2 bg-blue-900 hover:bg-blue-800 active:bg-blue-950 text-white rounded-full">
-                                <span className="text-sm font-medium">Confirmer la commande</span>
-                                <AiOutlineCheckCircle className="text-xl" />
-                            </Button> */}
 
                         </div>
                     </div>
