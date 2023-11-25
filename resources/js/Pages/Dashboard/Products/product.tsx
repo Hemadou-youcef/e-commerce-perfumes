@@ -116,10 +116,10 @@ const Product = ({ ...props }) => {
                     </div>
                 </div>
 
-                <Separator className="" />
+                <Separator />
                 <div className="flex flex-col gap-4 py-5 px-5 ">
                     <div className="grid grid-cols-5 gap-5">
-                        {(product?.images || []).map((image, index) => (
+                        {([product?.main_image, product?.images] || []).map((image: any, index) => (
                             <div key={index} className="relative h-64 border shadow-md rounded-md">
                                 <img
                                     src={`/storage/${image.path}`}

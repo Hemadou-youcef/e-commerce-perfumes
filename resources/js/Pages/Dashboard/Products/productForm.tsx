@@ -1,7 +1,7 @@
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
 
 import { Link, useForm } from "@inertiajs/react";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 
 // Shadcn Components
 import {
@@ -42,7 +42,7 @@ import {
 
 // Icons
 import { MdDeleteOutline } from "react-icons/md";
-import { AiOutlineClose, AiOutlineRight } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { FaPlus, FaSave } from "react-icons/fa";
 import { TiPlus } from "react-icons/ti";
 import { LuCrown } from "react-icons/lu";
@@ -57,6 +57,7 @@ interface FormData {
     name: string;
     description: string;
     description_ar: string;
+    unit: string;
     status: string;
     main_image: File | null;
     images: File[];
@@ -69,6 +70,7 @@ const ProductForm = () => {
         name: "",
         description: "",
         description_ar: "",
+        unit: "KG",
         status: "published",
         main_image: null,
         images: [],
@@ -80,20 +82,33 @@ const ProductForm = () => {
     ]);
     const [currentPrice, setCurrentPrice] = useState<prices>({
         price: 0,
-        unit: "",
+        unit: data?.unit,
         quantity: 0,
     });
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
-        // must not be 0 index and not the main image
+    useEffect(() => {
+        imagesToDataForm();
+    }, [imagesUploaded]);
+
+    const imagesToDataForm = () => {
         const images = imagesUploaded.filter((img, index) => {
             const notTheMainImage = img.name !== data.main_image?.name;
             const notZeroIndex = index !== 0;
-            return notTheMainImage && notZeroIndex;
+            return notZeroIndex;
 
         });
         setData("images", images);
+    }
+
+    const changeAllPricesUnit = (unit: string) => {
+        const prices = data.prices.map((price) => {
+            return { ...price, unit: unit };
+        });
+        setData("prices", prices);
+    }
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
         post(route("product.store"), {
             preserveScroll: true,
             onSuccess: () => {
@@ -135,13 +150,13 @@ const ProductForm = () => {
                                 submit(e)
                             }}
                         >
-                            <FaSave className="text-lg" />
+                            {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <FaSave className="text-lg" />}
                         </Button>
                     </div>
                 </div>
                 <Separator className="mb-2" />
                 <form onSubmit={submit} className="w-full">
-                    <div className="grid grid-cols-2 gap-5 ">
+                    <div className="grid lg:grid-cols-2 gap-5 ">
                         <div className="p-5 flex flex-col gap-5">
                             <div className="grid gap-3">
                                 <Label htmlFor="name" className="text-base"> Nom de la produit</Label>
@@ -173,8 +188,30 @@ const ProductForm = () => {
                                 />
                             </div>
                             <div className="grid gap-3">
+                                <Label htmlFor="unit" className="text-base">Unité</Label>
+                                <Select
+                                    value={data.unit}
+                                    onValueChange={(value) => {
+                                        changeAllPricesUnit(value)
+                                        return setData("unit", value)
+                                    }}
+                                >
+                                    <SelectTrigger className="w-full h-12">
+                                        <SelectValue placeholder="Publié" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="G">G</SelectItem>
+                                        <SelectItem value="KG">KG</SelectItem>
+                                        <SelectItem value="L">L</SelectItem>
+                                        <SelectItem value="ML">ML</SelectItem>
+                                        <SelectItem value="U">Unité</SelectItem>
+                                        <SelectItem value="P">Piece</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="grid gap-3">
                                 <Label htmlFor="status" className="text-base">Status</Label>
-                                <Select onValueChange={(value) => setData("status", value)} value={data.status} className="w-full h-12">
+                                <Select onValueChange={(value) => setData("status", value)} value={data.status}>
                                     <SelectTrigger className="w-full h-12">
                                         <SelectValue placeholder="Publié" />
                                     </SelectTrigger>
@@ -186,7 +223,7 @@ const ProductForm = () => {
                                 </Select>
                             </div>
                         </div>
-                        <div className="p-5 flex flex-col gap-5">
+                        <div className="p-5 flex flex-col gap-5 ">
                             <div className="grid gap-3">
                                 <Label htmlFor="file" className="text-base">Ajouter les images</Label>
                                 <div className="flex flex-row flex-wrap gap-5">
@@ -213,6 +250,7 @@ const ProductForm = () => {
                                                     <Input
                                                         id="file"
                                                         type="file"
+                                                        accept="image/*"
                                                         className={`absolute inset-0 w-full h-full opacity-0 cursor-pointer ${index !== 0 ? "hidden" : ""}`}
                                                         onChange={(e: any) => {
                                                             setImagesUploaded([...imagesUploaded, e.target.files[0]]);
@@ -251,7 +289,6 @@ const ProductForm = () => {
                                         <TableHeader>
                                             <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
                                                 <TableHead >Quantité</TableHead>
-                                                <TableHead >Unite</TableHead>
                                                 <TableHead >Prix</TableHead>
                                                 <TableHead className="w-20"></TableHead>
                                             </TableRow>
@@ -260,10 +297,7 @@ const ProductForm = () => {
                                             {data.prices.map((price, index) => (
                                                 <TableRow key={index} className="hover:bg-gray-100">
                                                     <TableCell className="r">
-                                                        {price.quantity}
-                                                    </TableCell>
-                                                    <TableCell className="r">
-                                                        {price.unit}
+                                                        {price.quantity} {price.unit}
                                                     </TableCell>
                                                     <TableCell className="r">
                                                         {price.price} DA
@@ -299,15 +333,7 @@ const ProductForm = () => {
                                             />
                                         </div>
                                         <div className="flex flex-col gap-2">
-                                            <Input
-                                                id="unit"
-                                                type="text"
-                                                className="w-full h-12 border-2 focus-visible:ring-transparent"
-                                                value={currentPrice.unit}
-                                                onChange={(e) => {
-                                                    setCurrentPrice({ ...currentPrice, unit: e.target.value });
-                                                }}
-                                            />
+                                            {data.unit}
                                         </div>
                                         <div className="flex flex-col gap-2">
                                             <Input
@@ -328,7 +354,7 @@ const ProductForm = () => {
                                                     className=" text-gray-900 border border-gray-900 hover:bg-gray-900"
                                                     onClick={() => {
                                                         setData("prices", [...data.prices, currentPrice]);
-                                                        setCurrentPrice({ price: 0, unit: "", quantity: 0 });
+                                                        setCurrentPrice({ price: 0, unit: data?.unit, quantity: 0 });
                                                     }}
                                                 >
                                                     <TiPlus className="w-5 h-5 text-gray-900" />

@@ -30,11 +30,11 @@ export const columns: ColumnDef<OrdersInfo>[] = [
         cell: ({ row }) => {
             return (
                 <div className="flex flex-row justify-start items-center gap-2">
-                    <p className="text-sm font-medium text-gray-600 uppercase">{row?.original?.user?.first_name} {row?.original?.user?.last_name}</p>
+                    <p className="text-sm font-medium text-blue-600 uppercase">{row?.original?.user?.first_name} {row?.original?.user?.last_name}</p>
                 </div>
             )
         },
-        maxSize: 20,
+        maxSize: 10,
     },
     {
         accessorKey: "number",

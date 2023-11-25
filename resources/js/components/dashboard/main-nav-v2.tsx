@@ -13,109 +13,134 @@ import {
   CollapsibleTrigger,
 } from "@/shadcn/ui/collapsible"
 import { useState } from "react";
+import { IoSettingsOutline } from "react-icons/io5";
 
 const parsePageId = (path: string) => path.substring(path.lastIndexOf('/') + 1)
 
-export function MainNav({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement>) {
-
+export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value: boolean) => void }) {
   const pageId = parsePageId(window.location.pathname)
-
   const [currentTab, setCurrentTab] = useState("basic");
 
 
   return (
     <>
-      <div className="flex flex-row fixed h-screen w-[280px] bg-white border-b shadow-md">
 
-        <div className="flex flex-col h-full w-[60px] items-center px-4 bg-forth pt-3 gap-2">
-          <Link href="/" className="w-12 h-12 flex justify-center items-center border-2 border-white rounded-full group hover:bg-white hover:bg-opacity-10 transition-all   ">
-            <FaAngleLeft className="w-5 h-5 text-white group-hover:w-8 group-hover:h-8 transition-all" />
+      <div className={`flex flex-row fixed h-screen  bg-white border-b shadow-md z-10 ${showNav ? "w-[50px] md:w-[270px]" : "w-[50px]"} transition-all duration-300`}>
+        {showNav && <div className="md:hidden fixed w-screen h-screen bg-black bg-opacity-50 z-0" onClick={() => setNav(false)}></div>}
+        <div className="flex flex-col h-full w-[50px] items-center  bg-forth z-20
+        ">
+          <Link href="/" className="w-full h-14 flex justify-center items-center  border-white  group hover:bg-white hover:bg-opacity-10 transition-all   ">
+            <FaAngleLeft className="w-5 h-5 text-white group-hover:w-6 group-hover:h-6 transition-all" />
           </Link>
           <div
-            className={`w-12 h-12 flex justify-center items-center border-2 bg-red-600 rounded-full group hover:bg-red-700h active:bg-red-800 transition-all shadow-md shadow-red-900 cursor-pointer ${currentTab === "basic" ? "bg-red-900" : "bg-red-600 "}`}
-            onClick={() => setCurrentTab("basic")}
+            className={`w-full h-14 flex justify-center items-center group transition-all cursor-pointer ${currentTab === "basic" ? "bg-gray-100 " : "bg-red-600 text-white"}`}
+            onClick={() => {
+              if (currentTab === "basic") {
+                setNav(!showNav)
+              } else {
+                setCurrentTab("basic")
+                !showNav && setNav(true)
+              }
+            }}
           >
-            <FiBox className="w-5 h-5 text-white group-hover:w-6 group-hover:h-6 transition-all" />
+            <FiBox className="w-5 h-5  group-hover:w-6 group-hover:h-6 transition-all" />
           </div>
 
+          <div
+            className={`w-full h-14 flex justify-center items-center group transition-all cursor-pointer ${currentTab === "settings" ? "bg-gray-100 " : "bg-sky-600 text-white"}`}
+            onClick={() => {
+              if (currentTab === "settings") {
+                setNav(!showNav)
+              } else {
+                setCurrentTab("settings")
+                !showNav && setNav(true)
+              }
+            }}
+          >
+            <IoSettingsOutline className="w-5 h-5  group-hover:w-6 group-hover:h-6 transition-all" />
+          </div>
 
-          <div className="flex flex-col items-center justify-center mb-3 mt-auto p-3 border-2 border-white rounded-full hover:bg-white hover:bg-opacity-10 transition-colors cursor-pointer">
+          <div className="flex flex-col items-center justify-center mb-3 mt-auto p-3  border-white  hover:bg-white hover:bg-opacity-10 transition-colors cursor-pointer">
             <FaRegUser className="w-5 h-5 text-white" />
           </div>
         </div>
-        <Tabs className=" h-full w-[220px] items-center pt-5 m-0 bg-zinc-800 gap-2" value={currentTab}>
+        <Tabs
+          value={currentTab}
+          className={`fixed ml-[50px] md:ml-0 md:static h-full w-[220px] items-center pt-5 m-0 bg-gray-100 gap-2 shadow-md ${showNav ? "" : "-ml-[280px] md:-ml-[220px]"} transition-all duration-300`}
+        >
           <TabsContent value="basic" className="flex flex-col w-full m-0">
             <Collapsible className="w-full" defaultOpen>
               <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3   transition-all px-4">
                 <div className="flex items-center gap-3">
-                  <GiBuyCard className="w-5 h-5 text-white " />
-                  <p className="font-bold text-sm text-white">TRANSITION</p>
+                  <GiBuyCard className="w-5 h-5 text-orange-800 " />
+                  <p className=" text-sm text-gray-800">TRANSITION</p>
                 </div>
-                <FaAngleRight className="h-4 w-4 text-white" />
+                <FaAngleRight className="h-4 w-4 text-gray-800" />
               </CollapsibleTrigger>
               <CollapsibleContent className="pl-4 w-full flex flex-col">
                 <Link
                   href="/admin/orders"
-                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4 ${pageId === "orders" ? "bg-gray-700" : ""}`}
-
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4 ${pageId === "orders" ? "bg-gray-200" : ""}`}
+                  onClick={() => setNav(false)}
                 >
-                  <FaList className="w-5 h-5 text-white group-hover:text-gray-200" />
-                  <p className="text-xs font-bold text-white group-hover:text-gray-200">LES COMMANDES</p>
+                  <FaList className="w-5 h-5 text-orange-800 group-hover:text-gray-900" />
+                  <p className="text-xs  text-gray-800 group-hover:text-gray-900">LES COMMANDES</p>
                 </Link>
               </CollapsibleContent>
             </Collapsible>
             <Collapsible className="w-full CollapsibleContent" defaultOpen>
               <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3   transition-all px-4">
                 <div className="flex items-center gap-3">
-                  <FiBox className="w-5 h-5  text-white" />
-                  <p className="font-bold text-sm text-white">STOCK</p>
+                  <FiBox className="w-5 h-5  text-red-800" />
+                  <p className=" text-sm text-gray-800">STOCK</p>
                 </div>
-                <FaAngleRight className="h-4 w-4 text-red text-white" />
+                <FaAngleRight className="h-4 w-4 text-red text-gray-800" />
               </CollapsibleTrigger>
 
               <CollapsibleContent className="pl-4 w-full flex flex-col">
                 <Link
                   href="/admin/products"
-                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  ${pageId === "products" ? "bg-gray-700" : ""}`}
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  ${pageId === "products" ? "bg-gray-200" : ""}`}
+                  onClick={() => setNav(false)}
                 >
-                  <FaBoxesStacked className="w-5 h-5 text-white group-hover:text-gray-200" />
-                  <p className="text-xs font-bold text-white group-hover:text-gray-200">PRODUITS</p>
+                  <FaBoxesStacked className="w-5 h-5 text-red-800 group-hover:text-gray-900" />
+                  <p className="text-xs  text-gray-800 group-hover:text-gray-900">PRODUITS</p>
                 </Link>
                 <Link
                   href="/admin/receptions"
-                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4" ${pageId === "receptions" ? "bg-gray-700" : ""}`}
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4" ${pageId === "receptions" ? "bg-gray-200" : ""}`}
+                  onClick={() => setNav(false)}
                 >
 
-                  <FaTruckRampBox className="w-5 h-5 text-white" />
-                  <p className="text-xs font-bold text-white">RECEPTIONS</p>
+                  <FaTruckRampBox className="w-5 h-5 text-red-800" />
+                  <p className="text-xs  text-gray-800">RECEPTIONS</p>
                 </Link>
               </CollapsibleContent>
             </Collapsible>
             <Collapsible className="w-full" defaultOpen>
               <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3 transition-all px-4">
                 <div className="flex items-center gap-3">
-                  <FaUserFriends className="w-5 h-5 text-white group-hover:text-gray-200" />
-                  <p className="font-bold text-sm text-white group-hover:text-gray-200">UTILISATEURS</p>
+                  <FaUserFriends className="w-5 h-5 text-blue-800 group-hover:text-gray-900" />
+                  <p className=" text-sm text-gray-800 group-hover:text-gray-900">UTILISATEURS</p>
                 </div>
-                <FaAngleRight className="h-4 w-4 text-red text-white" />
+                <FaAngleRight className="h-4 w-4 text-red text-gray-800" />
               </CollapsibleTrigger>
               <CollapsibleContent className="pl-4 w-full flex flex-col">
                 <Link
                   href="/admin/employes"
-                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  hover:text-gray-200 transition-all px-4" ${pageId === "employes" ? "bg-gray-700" : ""}`}
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  hover:text-gray-200 transition-all px-4" ${pageId === "employes" ? "bg-gray-200" : ""}`}
+                  onClick={() => setNav(false)}
                 >
-                  <FaUserTie className="w-5 h-5 text-white group-hover:text-gray-200" />
-                  <p className="text-xs font-bold text-white group-hover:text-gray-200">EMPLOYÉES</p>
+                  <FaUserTie className="w-5 h-5 text-blue-800 group-hover:text-gray-900" />
+                  <p className="text-xs  text-gray-800 group-hover:text-gray-900">EMPLOYÉES</p>
                 </Link>
                 <Link
                   href="/admin/clients"
-                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  hover:text-gray-200 transition-all px-4" ${pageId === "clients" ? "bg-gray-700" : ""}`}
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  hover:text-gray-200 transition-all px-4" ${pageId === "clients" ? "bg-gray-200" : ""}`}
+                  onClick={() => setNav(false)}
                 >
-                  <FaUsers className="w-5 h-5 text-white group-hover:text-gray-200" />
-                  <p className="text-xs font-bold text-white group-hover:text-gray-200">CLIENTS</p>
+                  <FaUsers className="w-5 h-5 text-blue-800 group-hover:text-gray-900" />
+                  <p className="text-xs  text-gray-800 group-hover:text-gray-900">CLIENTS</p>
                 </Link>
               </CollapsibleContent>
             </Collapsible>

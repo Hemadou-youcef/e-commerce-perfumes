@@ -44,7 +44,7 @@ export const columns: ColumnDef<ReceptionInfo>[] = [
                 </div>
             )
         },
-        maxSize: 20,
+        maxSize: 15,
     },
     {
         accessorKey: "user",
