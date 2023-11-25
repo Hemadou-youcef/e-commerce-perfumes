@@ -16,7 +16,7 @@ class ClientProductController extends Controller
      */
     public function index()
     {
-        return Inertia::render('testPages/test', [
+        return Inertia::render('ClientSide/Products/products', [
             'products' => Product::query()
                 ->when(request('q'), fn($query, $search) => $query
                     ->where('name', 'LIKE', '%' . $search . '%')
@@ -34,7 +34,7 @@ class ClientProductController extends Controller
                     ->whereHas('categories', fn($query) => $query->where('name', $category))
                 )
                 ->orderBy('created_at', 'desc')
-                ->paginate(10)
+                ->paginate(12)
                 ->through(fn($product) => [
                     'id' => $product->id,
                     'name' => $product->name,

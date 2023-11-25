@@ -49,7 +49,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return inertia::render('Dashboard/Products/create');
+        return inertia::render('Dashboard/Products/productForm');
     }
 
     /**
@@ -58,7 +58,6 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $validatedData = $request->validated();
-
 
 
         $product = new Product([

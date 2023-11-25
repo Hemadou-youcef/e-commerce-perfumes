@@ -69,9 +69,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/admin/products' , [App\Http\Controllers\ProductController::class, 'index']);
-Route::get('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'show']);
-Route::get('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit']);
+// Route::get('/admin/products' , [App\Http\Controllers\ProductController::class, 'index']);
+// Route::get('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'show']);
+// Route::get('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit']);
 
 
 Route::get('/admin/receptions' , [App\Http\Controllers\ReceptionController::class, 'index'])->name('receptions');
@@ -120,7 +120,7 @@ Route::get('/products/{product}' , [App\Http\Controllers\ClientProductController
 // client cart items routes
 Route::get('/cart' , [App\Http\Controllers\CartItemController::class, 'index'])->name('cart');
 Route::post('/cart' , [App\Http\Controllers\CartItemController::class, 'store'])->name('cart_item.store');
-Route::delete('/cart/{cartItem}' , [App\Http\Controllers\CartItemController::class, 'destroy']);
+Route::delete('/cart/{cartItem}' , [App\Http\Controllers\CartItemController::class, 'destroy'])->name('cart_item.destroy');
 Route::post('/cart/checkout' , [App\Http\Controllers\CartItemController::class, 'checkout'])->name('cart.checkout');
 
 

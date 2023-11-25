@@ -27,7 +27,7 @@ import { IoPersonAddOutline } from "react-icons/io5";
 
 const LandingNav = ({ props }) => {
     const [navbarOpen, setNavbarOpen] = useState(false);
-    console.log(props?.auth?.user)
+    // console.log(props?.auth?.user)
     const logout = () => {
         router.post(route('logout'))
     }

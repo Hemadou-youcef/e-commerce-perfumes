@@ -31,7 +31,7 @@ import { ProductsInfo } from "@/components/columns/products";
 import { TbExternalLink } from "react-icons/tb";
 
 const Product = ({ ...props }) => {
-    // console.log(props?.product)
+    console.log(props?.product)
     const [product, setProduct] = useState<ProductsInfo | null>(props?.product)
 
     const status = () => {
@@ -121,7 +121,10 @@ const Product = ({ ...props }) => {
                     <div className="grid grid-cols-5 gap-5">
                         {(product?.images || []).map((image, index) => (
                             <div key={index} className="relative h-64 border shadow-md rounded-md">
-                                <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/386827449_3477862682473986_2860239670855941125_n.png?_nc_cat=101&ccb=1-7&_nc_sid=510075&_nc_eui2=AeHi-EhS0ArWAV7WS5lYCJubNO4oP-Rsnfg07ig_5Gyd-N2yrq0QtPLKW4SH1e39DjXYnIy45L3XnSjNnxzIxDiF&_nc_ohc=HOVgfuCwnaYAX8T0wvj&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdTkQRgxTO1KetFHr1iEvqD-kKF1KU9NLLyeLvtcKc3__w&oe=657220ED" className="absolute h-full w-full object-cover rounded-md" />
+                                <img
+                                    src={`/storage/${image.path}`}
+                                    className="absolute h-full w-full object-cover rounded-md"
+                                />
                             </div>
                         ))}
                     </div>
@@ -224,7 +227,7 @@ const Product = ({ ...props }) => {
                                                 <TableCell className="font-bold text-xs">
                                                     <Link href={`/admin/receptions/${reception.id}`}>
                                                         <Button variant="outline" className="flex items-center space-x-2 bg-transparent hover:bg-gray-200">
-                                                            <TbExternalLink  className="text-lg" />
+                                                            <TbExternalLink className="text-lg" />
                                                         </Button>
                                                     </Link>
                                                 </TableCell>

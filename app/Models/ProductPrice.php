@@ -13,7 +13,7 @@ class ProductPrice extends Model
     protected $fillable = [
         'product_id',
         'price',
-        'unite',
+        'unit',
         'quantity',
     ];
 

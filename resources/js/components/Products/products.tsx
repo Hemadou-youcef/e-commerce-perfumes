@@ -35,13 +35,13 @@ const Products = () => {
                     },
                 }}
             >
-                {[0, 1, 2, 3, 4, 5, 6].map((item: number, index: number) => (
+                {/* {[0, 1, 2, 3, 4, 5, 6].map((item: number, index: number) => (
                     <SwiperSlide key={index}>
                         <div className=" flex flex-col items-center justify-center p-2">
-                            <Product />
+                            <Product 
                         </div>
                     </SwiperSlide>
-                ))}
+                ))} */}
             </Swiper >
 
 

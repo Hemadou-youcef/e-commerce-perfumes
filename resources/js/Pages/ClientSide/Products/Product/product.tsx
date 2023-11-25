@@ -33,6 +33,7 @@ const getMinPrice = (prices: any) => {
 const Product = ({ ...props }) => {
     console.log(props)
     const [product, setProduct] = useState(props?.product);
+    const [selectedImage, setSelectedImage] = useState(product?.main_image);
     const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.product_prices));
     const [qte, setQte] = useState(1);
     const [addingToCartLoading, setAddingToCartLoading] = useState(false);
@@ -51,7 +52,7 @@ const Product = ({ ...props }) => {
             onError: () => {
                 console.log('Error')
             }
-            ,onFinish: () => {
+            , onFinish: () => {
                 setAddingToCartLoading(false);
             }
         });
@@ -64,12 +65,17 @@ const Product = ({ ...props }) => {
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-col md:flex-row justify-center items-start gap-6">
                         <div className="grid grid-cols-1 ">
-                            <div className="flex flex-col items-center justify-center relative">
-                                <img
+                            <div
+                                className="w-full md:w-96 h-96 flex flex-col items-center justify-center relative border-2 border-gray-200 bg-cover bg-center"
+                                style={{
+                                    backgroundImage: `url(/storage/${selectedImage})`,
+                                }}
+                            >
+                                {/* <img
                                     className="w-full md:w-96 md:h-96  border-2 border-gray-200 "
-                                    src="https://scontent.xx.fbcdn.net/v/t1.15752-9/386827449_3477862682473986_2860239670855941125_n.png?_nc_cat=101&ccb=1-7&_nc_sid=510075&_nc_eui2=AeHi-EhS0ArWAV7WS5lYCJubNO4oP-Rsnfg07ig_5Gyd-N2yrq0QtPLKW4SH1e39DjXYnIy45L3XnSjNnxzIxDiF&_nc_ohc=HOVgfuCwnaYAX8T0wvj&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdTkQRgxTO1KetFHr1iEvqD-kKF1KU9NLLyeLvtcKc3__w&oe=657220ED"
+                                    src={`/storage/${selectedImage}`}
                                     alt="Workflow"
-                                />
+                                /> */}
                                 <div className="absolute top-0 right-0 flex items-center justify-center gap-2">
                                     <button className="flex items-center justify-center gap-2 p-2 ">
                                         <AiOutlineZoomIn className="w-6 h-6 text-gray-900" />
@@ -84,17 +90,27 @@ const Product = ({ ...props }) => {
                                     scrollbar={{ draggable: true }}
                                     className=" md:h-[136px]"
                                 >
-                                    {[0, 1, 2, 3, 4, 5, 6].map((item: number, index: number) => (
-                                        <SwiperSlide key={index}>
-                                            <div className="shrink-0 snap-center flex flex-col items-center justify-start ">
-                                                <img
-                                                    className="border-2 border-gray-200 "
-                                                    src="https://scontent.xx.fbcdn.net/v/t1.15752-9/386827449_3477862682473986_2860239670855941125_n.png?_nc_cat=101&ccb=1-7&_nc_sid=510075&_nc_eui2=AeHi-EhS0ArWAV7WS5lYCJubNO4oP-Rsnfg07ig_5Gyd-N2yrq0QtPLKW4SH1e39DjXYnIy45L3XnSjNnxzIxDiF&_nc_ohc=HOVgfuCwnaYAX8T0wvj&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdTkQRgxTO1KetFHr1iEvqD-kKF1KU9NLLyeLvtcKc3__w&oe=657220ED"
-                                                    alt="Workflow"
-                                                />
-                                            </div>
-                                        </SwiperSlide>
-                                    ))}
+                                    {[...product?.images]
+                                        .map((item: number, index: number) => (
+                                            <SwiperSlide
+                                                key={index}
+                                                className="flex justify-center items-center cursor-pointer"
+                                                onClick={() => setSelectedImage(item.path)}
+                                            >
+                                                <div
+                                                    className="h-32 shrink-0 snap-center flex flex-col items-center justify-start bg-cover bg-center"
+                                                    style={{
+                                                        backgroundImage: `url(/storage/${item.path})`,
+                                                    }}
+                                                >
+                                                    {/* <img
+                                                        className="border-2 border-gray-200 "
+                                                        src={`/storage/${item.path}`}
+                                                        alt="Workflow"
+                                                    /> */}
+                                                </div>
+                                            </SwiperSlide>
+                                        ))}
                                 </Swiper>
                             </div>
                         </div>

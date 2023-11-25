@@ -2,18 +2,25 @@
 import { Button } from "@/shadcn/ui/button";
 import { Link } from "@inertiajs/react";
 import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons";
+import { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { TbBookmark } from "react-icons/tb";
 
-const Product = () => {
+const getMinPrice = (prices: any) => {
+    let min = Math.min(...prices.map((price: any) => price.quantity));
+    return prices.find((price: any) => price.quantity === min);
+}
+
+const Product = ({ product }) => {
+    const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.product_prices));
     return (
         <>
             {/* Link href="/product/5"  */}
-            <div className="group w-full flex flex-col items-center justify-center border overflow-hidden shadow-md">
+            <div className="group w-full md:w-[248px] flex flex-col items-center justify-center border overflow-hidden shadow-md">
                 <div className="w-full h-72  relative bg-cover bg-center border-b"
-                    style={{ backgroundImage: "url(https://scontent.xx.fbcdn.net/v/t1.15752-9/370087658_1076648240174958_48487877131900853_n.png?_nc_cat=104&ccb=1-7&_nc_sid=510075&_nc_eui2=AeHLbGn477Zo-tECgQyfMXCwLHXfZBQUaAUsdd9kFBRoBct3-rb67M-StzTG2xp-VH4EOPHv2xvaYsBJ1h9hCG7_&_nc_ohc=XLk9N66zFuYAX8iuxkD&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdSHigKSY5Wr1xqC7zyLN-aeZWOmtKk8OXmtqeRmaMjF1A&oe=65721E0B)" }}
+                    style={{ backgroundImage: "url(/storage/" + product.main_image + ")" }}
                 >
-                    <Link href="/products/3" className="absolute inset-0 w-full h-full flex items-center justify-center">
+                    <Link href={`/products/${product.id}`} className="absolute inset-0 w-full h-full flex items-center justify-center">
                     </Link>
                     <div className="hidden absolute right-1 top-1 group-hover:flex flex-col gap-2 group-hover:transition-all group-hover:delay-150 group-hover:duration-300">
                         <Button variant="ghost" className="flex items-center justify-center gap-2 p-2 bg-gray-100 bg-opacity-50 rounded-full shadow-md border">
@@ -25,11 +32,11 @@ const Product = () => {
                     </div>
                 </div>
                 <div className="w-full flex flex-col items-center justify-center gap-3 py-3">
-                    <p className="text-black font-serif text-center text-xs md:text-base lg:text-lg ">
-                        COCO CHANEL
+                    <p className="px-2 text-black font-serif text-center text-xs md:text-base lg:text-lg uppercase">
+                        {product.name.length > 16 ? product.name.substring(0, 16) + "..." : product.name}
                     </p>
                     <p className="text-gray-600 text-center font-bold text-xs md:text-sm lg:text-base ">
-                        10.00 DA/G
+                        {currectPrice?.price} DA/{currectPrice?.unit}
                     </p>
                     {/* ADD REVIEW STARS */}
                     {/* <div className="flex items-center justify-center">
