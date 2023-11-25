@@ -29,7 +29,7 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
   const pageId = parsePageId(window.location.pathname)
   const { height, width } = useWindowDimensions();
   const [currentTab, setCurrentTab] = useState("basic");
-
+  console.log(width)
   return (
     <>
 
