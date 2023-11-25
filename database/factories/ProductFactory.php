@@ -23,7 +23,7 @@ class ProductFactory extends Factory
         return [
             'name' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'description_ar' => $this->faker->paragraph,
+            'description_ar' => 'وصف باللغة العربية',
             'main_image' => $url,
             'quantity' => 10000,
             'unit' => $this->faker->randomElement(['kg', 'g', 'l', 'ml', 'unité']),
