@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
-use const http\Client\Curl\AUTH_ANY;
 
 /**
  * @method static inRandomOrder()
@@ -53,8 +52,7 @@ class Product extends Model
 
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class, 'order_products', 'product_id', 'order_id')
-            ->withPivot('quantity', 'price');
+        return $this->belongsToMany(Order::class, 'order_products', 'product_id', 'order_id');
     }
 
     public function categories(): BelongsToMany
