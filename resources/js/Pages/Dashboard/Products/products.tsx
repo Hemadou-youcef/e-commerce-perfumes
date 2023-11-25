@@ -28,7 +28,7 @@ const Products = ({ ...props }) => {
             <div className="flex flex-row justify-between items-center px-5 pt-5 pb-2 gap-2">
                 <h2 className="text-2xl text-gray-900 font-bold tracking-tight">Les Produits</h2>
                 <Link href="/admin/products/create">
-                    <Button className="flex items-center p-0 px-5 h-10  rounded-md">
+                    <Button className="flex items-center p-0 px-5 h-10  rounded-full">
                         <IoMdAdd className="h-5 w-5" />
                         <span className="ml-2">Ajouter un produit</span>
                     </Button>
@@ -48,7 +48,7 @@ const Products = ({ ...props }) => {
                             PINNED
                         </Button>
                     </div>
-                    <Button variant="outline" className="flex items-center space-x-2" onClick={() => setShowFilters(!showFilters)}>
+                    <Button variant="outline" className="flex items-center space-x-2 rounded-full" onClick={() => setShowFilters(!showFilters)}>
                         Filter
                     </Button>
 

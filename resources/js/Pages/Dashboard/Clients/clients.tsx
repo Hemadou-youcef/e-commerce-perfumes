@@ -37,7 +37,7 @@ const Clients = ({ ...props }) => {
                             CLIENT
                         </Button>
                     </div>
-                    <Button variant="outline" className="flex items-center space-x-2" onClick={() => setShowFilters(!showFilters)}>
+                    <Button variant="outline" className="flex items-center space-x-2 rounded-full" onClick={() => setShowFilters(!showFilters)}>
                         Filter
                     </Button>
 

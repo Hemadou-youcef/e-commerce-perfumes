@@ -17,7 +17,7 @@ const DashboardMainLayout = ({ children }: { children: React.ReactNode }) => {
         <>
             <div className="flex">
                 <MainNav />
-                <div className="overflow-y-auto bg-gray-50 pb-5 ml-[300px] w-full"
+                <div className="overflow-y-auto bg-gray-50 pb-5 ml-[280px] w-full"
                 >
                     {children}
                 </div>
