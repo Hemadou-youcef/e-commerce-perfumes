@@ -1,6 +1,5 @@
 {
-    "name": "ECommerce",
-    "type": "project",
+    "name": "e-commerce/e-comme",
     "description": "The skeleton application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",

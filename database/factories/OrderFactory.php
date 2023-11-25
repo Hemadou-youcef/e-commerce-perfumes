@@ -19,10 +19,10 @@ class OrderFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'total' => $this->faker->numberBetween(50, 500),
+            'total' => $this->faker->numberBetween(50, 5000),
             'status' => $this->faker->randomElement(['pending']),
 //            'status' => $this->faker->randomElement(['pending', 'confirmed', 'delivered']),
-            'address' => $this->faker->address,
+            'address_id' => null,
             'verified_by' => null,
             'confirmed_by' => null,
             'delivered_by' => null,
