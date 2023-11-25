@@ -18,7 +18,7 @@ export function MainNav({
       <div className="hidden md:block">
       </div>
       <nav
-        className={cn("hidden lg:flex items-center space-x-4 lg:space-x-6", className)}
+        className={cn("hidden lg:flex flex-col items-center space-x-4 lg:space-x-6", className)}
         {...props}
       >
 

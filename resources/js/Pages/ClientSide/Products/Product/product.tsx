@@ -91,7 +91,7 @@ const Product = ({ ...props }) => {
                                     className=" md:h-[136px]"
                                 >
                                     {[...product?.images]
-                                        .map((item: number, index: number) => (
+                                        .map((item: any, index: number) => (
                                             <SwiperSlide
                                                 key={index}
                                                 className="flex justify-center items-center cursor-pointer"

@@ -30,7 +30,7 @@ export const columns: ColumnDef<ReceptionInfo>[] = [
                 </div>
             )
         },
-        maxSize: 20,
+        maxSize: 10,
     },
     {
         accessorKey: "product.name",
@@ -61,7 +61,7 @@ export const columns: ColumnDef<ReceptionInfo>[] = [
                 </div>
             )
         },
-        maxSize: 20,
+        maxSize: 10,
     },
     {
         accessorKey: "quantity",

@@ -304,7 +304,7 @@ const Order = ({ ...props }) => {
                             {order?.status == "pending" && (
                                 <Button
                                     variant="outline"
-                                    className="flex items-center h-9 space-x-2 bg-blue-900 hover:bg-blue-800 active:bg-blue-700 text-white hover:text-gray-100 rounded-sm"
+                                    className="flex items-center border-transparent h-9 space-x-2 bg-blue-900 hover:bg-blue-800 active:bg-blue-700 text-white hover:text-gray-100"
                                     onClick={() => handleVerifyDisponibility()}
                                     disabled={loadingAction}
                                 >
