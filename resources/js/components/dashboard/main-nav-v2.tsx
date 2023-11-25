@@ -91,8 +91,8 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4 ${pageId === "orders" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
-                  <FaList className="w-5 h-5 text-orange-800 group-hover:text-gray-900" />
-                  <p className="text-xs  text-gray-800 group-hover:text-gray-900">LES COMMANDES</p>
+                  <FaList className="w-5 h-5 text-orange-800 group-hover:text-orange-600" />
+                  <p className="text-xs text-gray-800 ">LES COMMANDES</p>
                 </Link>
               </CollapsibleContent>
             </Collapsible>
@@ -111,8 +111,8 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  ${pageId === "products" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
-                  <FaBoxesStacked className="w-5 h-5 text-red-800 group-hover:text-gray-900" />
-                  <p className="text-xs  text-gray-800 group-hover:text-gray-900">PRODUITS</p>
+                  <FaBoxesStacked className="w-5 h-5 text-red-800 group-hover:text-red-600" />
+                  <p className="text-xs  text-gray-800 ">PRODUITS</p>
                 </Link>
                 <Link
                   href="/admin/receptions"
@@ -120,7 +120,7 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
 
-                  <FaTruckRampBox className="w-5 h-5 text-red-800" />
+                  <FaTruckRampBox className="w-5 h-5 text-red-600" />
                   <p className="text-xs  text-gray-800">RECEPTIONS</p>
                 </Link>
               </CollapsibleContent>
@@ -136,19 +136,19 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
               <CollapsibleContent className="pl-4 w-full flex flex-col">
                 <Link
                   href="/admin/employes"
-                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  hover:text-gray-200 transition-all px-4" ${pageId === "employes" ? "bg-gray-200" : ""}`}
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4" ${pageId === "employes" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
-                  <FaUserTie className="w-5 h-5 text-blue-800 group-hover:text-gray-900" />
-                  <p className="text-xs  text-gray-800 group-hover:text-gray-900">EMPLOYÉES</p>
+                  <FaUserTie className="w-5 h-5 text-blue-800 group-hover:text-blue-600" />
+                  <p className="text-xs  text-gray-800 ">EMPLOYÉES</p>
                 </Link>
                 <Link
                   href="/admin/clients"
-                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  hover:text-gray-200 transition-all px-4" ${pageId === "clients" ? "bg-gray-200" : ""}`}
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4" ${pageId === "clients" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
-                  <FaUsers className="w-5 h-5 text-blue-800 group-hover:text-gray-900" />
-                  <p className="text-xs  text-gray-800 group-hover:text-gray-900">CLIENTS</p>
+                  <FaUsers className="w-5 h-5 text-blue-800 group-hover:text-blue-600" />
+                  <p className="text-xs  text-gray-800 ">CLIENTS</p>
                 </Link>
               </CollapsibleContent>
             </Collapsible>
