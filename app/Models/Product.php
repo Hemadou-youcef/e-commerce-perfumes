@@ -18,7 +18,18 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'description_ar', 'main_image', 'quantity', 'status', 'created_by', 'category'];
+    protected $fillable = [
+        'name',
+        'description',
+        'description_ar',
+        'main_image',
+        'quantity',
+        'status',
+        'created_by',
+        'category',
+        'user_id',
+        'unit',
+    ];
 
     public function user(): BelongsTo
     {
@@ -43,7 +54,7 @@ class Product extends Model
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class, 'order_products', 'product_id', 'order_id')
-            ->withPivot('quantity', 'price', 'total');
+            ->withPivot('quantity', 'price');
     }
 
     public function categories(): BelongsToMany
@@ -82,7 +93,7 @@ class Product extends Model
 
     public function isProductBookmarked(): bool
     {
-        if (Auth::check()){
+        if (Auth::check()) {
             return $this->bookmarks()->where('user_id', Auth::user()->id)->exists();
         }
         return false;
@@ -90,8 +101,8 @@ class Product extends Model
 
     public function isProductInCart(): bool
     {
-        if (Auth::check()){
-            return Auth::user()->cartItems()->where('user_id' , Auth::user()->id)->exists();
+        if (Auth::check()) {
+            return Auth::user()->cartItems()->where('user_id', Auth::user()->id)->exists();
         }
         return false;
     }

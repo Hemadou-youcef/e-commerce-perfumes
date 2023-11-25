@@ -38,9 +38,9 @@ const LandingFooter = () => {
                         </a>
                     </div>
                     <Separator className="w-full my-2" />
-                    <div className="flex justify-between w-full font-bold mb-2">
+                    <div className="flex flex-col md:flex-row items-center md:justify-between w-full font-bold mb-2 gap-5">
 
-                        <div className="flex items-center gap-6 text-gray-100">
+                        <div className="flex flex-col md:flex-row items-center gap-6 text-gray-100">
                             <Link
                                 href="/products"
                                 className="text-xs font-bold transition-colors hover:text-gray-400"

@@ -10,10 +10,22 @@ import { BsSnow2, BsSunFill } from "react-icons/bs";
 import { FaCanadianMapleLeaf, FaLeaf } from "react-icons/fa";
 import { GiNightSleep } from "react-icons/gi";
 import { WiDayHaze } from "react-icons/wi";
+import Pagination from "@/components/tables/pagination";
+import { Label } from "@/shadcn/ui/label";
+import { router, usePage } from "@inertiajs/react";
 
 
-const Products = () => {
+const Products = ({ ...props }) => {
+    console.log(props)
+    const [data, setData] = useState(props?.products?.data)
+    const pageProps = usePage().props
     const [minMaxPrice, setMinMaxPrice] = useState<number[]>([0, 1000]);
+
+    const handleUrlChangeParams = (params: any) => {
+        // I USE INERTIAJS TO CHANGE URL PARAMS
+        
+        router.get(route('client_products', params))
+    }
 
     return (
         <>
@@ -28,22 +40,37 @@ const Products = () => {
                             <p className="text-gray-800 font-semibold font-sans text-sm md:text-lg">
                                 Catégorie
                             </p>
-                            <div className="flex justify-center font-semibold items-center gap-2 pl-2">
-                                <Checkbox />
-                                Homme
+                            <p className="text-gray-800 font-semibold font-sans text-sm md:text-lg pl-2">
+                                Parfums
+                            </p>
+                            <div className="flex justify-center font-semibold items-center gap-2 pl-6">
+                                <Checkbox id="homme" onCheckedChange={() => handleUrlChangeParams({})} />
+                                <Label
+                                    htmlFor="homme"
+                                    className="text-sm md:text-lg cursor-pointer"
+                                >
+                                    Homme
+                                </Label>
                             </div>
-                            <div className="flex justify-center font-semibold items-center gap-2 pl-2">
-                                <Checkbox />
-                                Femme
+                            <div className="flex justify-center font-semibold items-center gap-2 pl-6">
+                                <Checkbox id="femme"/>
+                                <Label
+                                    htmlFor="femme"
+                                    className="text-sm md:text-lg cursor-pointer"
+                                >
+                                    Femme
+                                </Label>
                             </div>
-                            <div className="flex justify-center font-semibold items-center gap-2 pl-2">
-                                <Checkbox />
-                                Enfant
+                            <div className="flex justify-center font-semibold items-center gap-2 pl-6">
+                                <Checkbox id="unisexe" />
+                                <Label
+                                    htmlFor="unisexe"
+                                    className="text-sm md:text-lg cursor-pointer"
+                                >
+                                    Unisexe
+                                </Label>
                             </div>
-                            <div className="flex justify-center font-semibold items-center gap-2 pl-2">
-                                <Checkbox />
-                                Unisexe
-                            </div>
+
                         </div>
                         <Separator className="w-full my-2" />
                         <div className="w-full flex flex-col items-start justify-start gap-2">
@@ -107,7 +134,7 @@ const Products = () => {
                                     <Checkbox />
                                     Agrumes
                                 </div>
-                                
+
                             </div>
                         </div>
 
@@ -116,13 +143,15 @@ const Products = () => {
                 {/* PRODUCTS SECTION */}
                 <div className="md:col-span-9 lg:col-span-10 p-5  border-gray-300 rounded-sm">
                     <p className="text-gray-800 font-semibold font-sans text-sm md:text-lg">
-                        Produits (12)
+                        Produits ({props?.products?.total})
                     </p>
-                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-5">
-                        {[...Array(12)].map((value, index) => (
-                            <Product key={index} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-5 justify-items-center">
+                        {data.map((product, index) => (
+                            <Product key={index} product={product} />
                         ))}
+
                     </div>
+                    <Pagination meta={props?.products} />
                 </div>
             </div>
         </>
