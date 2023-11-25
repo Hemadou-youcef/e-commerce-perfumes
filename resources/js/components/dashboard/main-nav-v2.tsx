@@ -1,5 +1,10 @@
 import { Link } from "@inertiajs/react"
 
+// Hooks
+import useWindowDimensions from "@/components/hooks/useWindowDimensions";
+
+
+// Icons
 import { GiBuyCard } from "react-icons/gi"
 import { FaAngleLeft, FaList, FaRegUser, FaUserFriends } from "react-icons/fa"
 import { FiBox } from "react-icons/fi"
@@ -15,12 +20,15 @@ import {
 import { useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 
+
 const parsePageId = (path: string) => path.substring(path.lastIndexOf('/') + 1)
+
+
 
 export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value: boolean) => void }) {
   const pageId = parsePageId(window.location.pathname)
+  const { height, width } = useWindowDimensions();
   const [currentTab, setCurrentTab] = useState("basic");
-
 
   return (
     <>
@@ -81,7 +89,7 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
                 <Link
                   href="/admin/orders"
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4 ${pageId === "orders" ? "bg-gray-200" : ""}`}
-                  onClick={() => setNav(false)}
+                  onClick={() => (width <= 768) ? setNav(false) : null}
                 >
                   <FaList className="w-5 h-5 text-orange-800 group-hover:text-gray-900" />
                   <p className="text-xs  text-gray-800 group-hover:text-gray-900">LES COMMANDES</p>
@@ -101,7 +109,7 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
                 <Link
                   href="/admin/products"
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  ${pageId === "products" ? "bg-gray-200" : ""}`}
-                  onClick={() => setNav(false)}
+                  onClick={() => (width <= 768) ? setNav(false) : null}
                 >
                   <FaBoxesStacked className="w-5 h-5 text-red-800 group-hover:text-gray-900" />
                   <p className="text-xs  text-gray-800 group-hover:text-gray-900">PRODUITS</p>
@@ -109,7 +117,7 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
                 <Link
                   href="/admin/receptions"
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4" ${pageId === "receptions" ? "bg-gray-200" : ""}`}
-                  onClick={() => setNav(false)}
+                  onClick={() => (width <= 768) ? setNav(false) : null}
                 >
 
                   <FaTruckRampBox className="w-5 h-5 text-red-800" />
@@ -129,7 +137,7 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
                 <Link
                   href="/admin/employes"
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  hover:text-gray-200 transition-all px-4" ${pageId === "employes" ? "bg-gray-200" : ""}`}
-                  onClick={() => setNav(false)}
+                  onClick={() => (width <= 768) ? setNav(false) : null}
                 >
                   <FaUserTie className="w-5 h-5 text-blue-800 group-hover:text-gray-900" />
                   <p className="text-xs  text-gray-800 group-hover:text-gray-900">EMPLOYÉES</p>
@@ -137,7 +145,7 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
                 <Link
                   href="/admin/clients"
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  hover:text-gray-200 transition-all px-4" ${pageId === "clients" ? "bg-gray-200" : ""}`}
-                  onClick={() => setNav(false)}
+                  onClick={() => (width <= 768) ? setNav(false) : null}
                 >
                   <FaUsers className="w-5 h-5 text-blue-800 group-hover:text-gray-900" />
                   <p className="text-xs  text-gray-800 group-hover:text-gray-900">CLIENTS</p>
