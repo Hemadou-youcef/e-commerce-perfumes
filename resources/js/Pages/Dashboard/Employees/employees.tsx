@@ -1,51 +1,47 @@
 import React, { useState, useEffect } from "react";
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
-import { ProductsInfo, columns } from "@/components/columns/products"
+import { ClientsInfo, columns } from "@/components/columns/clients"
 import { DataTable } from "@/components/tables/data-table"
 import { Input } from "@/shadcn/ui/input";
 import { Button } from "@/shadcn/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shadcn/ui/accordion";
 import { Link } from "@inertiajs/react";
 import Pagination from "@/components/tables/pagination";
-
-// Icons
 import { IoMdAdd } from "react-icons/io";
-
-
 
 // Define a placeholder loading state while data is being fetched.
 const LoadingComponent = () => (
     <div className="container mx-auto py-10">Loading...</div>
 );
 
-const Products = ({ ...props }) => {
+const Clients = ({ ...props }) => {
     console.log(props)
-    const [data, setData] = useState<ProductsInfo[]>(props?.products?.data)
+    const [data, setData] = useState<ClientsInfo[]>(props?.employees?.data);
     const [showFilters, setShowFilters] = useState(false);
 
     return (
         <>
-            <div className="flex flex-row justify-between items-center px-5 pt-5 pb-2 gap-2 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
-                <h2 className="text-2xl text-gray-900 font-bold tracking-tight">Les Produits</h2>
-                <Link href="/admin/products/create">
+            <div className="flex flex-row justify-between items-center px-5 py-2 gap-2 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
+                <h2 className="text-2xl text-gray-900 font-bold tracking-tight">Les Employees</h2>
+                <Link href="/admin/employees/create">
                     <Button className="flex items-center p-0 px-5 h-10  rounded-full">
                         <IoMdAdd className="h-5 w-5" />
-                        <span className="ml-2">Ajouter un produit</span>
+                        <span className="ml-2">Ajouter un Employee</span>
                     </Button>
                 </Link>
             </div>
-            <div className="flex flex-col gap-2 px-10 py-2">
+            <div className="flex flex-col gap-2 mx-10 py-2">
                 <div className="flex items-center justify-between">
                     <div className="flex gap-1 text-white">
                         <Input
-                            placeholder="Filter Produits..."
+                            placeholder="Filter Clients..."
                             className="max-w-sm"
                         />
                         <Button variant="outline" className="flex items-center space-x-2 border-2 border-dashed border-gray-600 text-gray-600" onClick={() => setShowFilters(!showFilters)}>
-                            ARCHIVED
+                            GUEST
                         </Button>
                         <Button variant="outline" className="flex items-center space-x-2 border-2 border-dashed border-green-600 text-green-600" onClick={() => setShowFilters(!showFilters)}>
-                            PINNED
+                            CLIENT
                         </Button>
                     </div>
                     <Button variant="outline" className="flex items-center space-x-2 rounded-full" onClick={() => setShowFilters(!showFilters)}>
@@ -64,14 +60,14 @@ const Products = ({ ...props }) => {
                     </AccordionItem>
                 </Accordion>
                 <div className="max-w-full overflow-x-auto pb-2">
-                    <DataTable columns={columns} data={data} baseUrl="/admin/products/" />
+                    <DataTable columns={columns} data={data} baseUrl="/admin/employees/" />
                 </div>
-                <Pagination meta={props?.products} />
+                <Pagination meta={props?.employees} />
             </div>
         </>
     );
 }
 
 
-Products.layout = (page: React.ReactNode) => <DashboardMainLayout children={page} />;
-export default Products;
+Clients.layout = (page: React.ReactNode) => <DashboardMainLayout children={page} />;
+export default Clients;

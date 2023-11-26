@@ -20,7 +20,7 @@ const Clients = ({ ...props }) => {
 
     return (
         <>
-            <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
+            <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2 sticky top-0 bg-gray-50 shadow-sm z-10">
                 <h2 className="text-2xl text-gray-900 font-bold tracking-tight">Les Clients</h2>
             </div>
             <div className="flex flex-col gap-2 mx-10 py-2">
@@ -52,7 +52,9 @@ const Clients = ({ ...props }) => {
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
-                <DataTable columns={columns} data={data} baseUrl="/admin/clients/" />
+                <div className="max-w-full overflow-x-auto pb-2">
+                    <DataTable columns={columns} data={data} baseUrl="/admin/clients/" />
+                </div>
                 <Pagination meta={props?.clients} />
             </div>
         </>

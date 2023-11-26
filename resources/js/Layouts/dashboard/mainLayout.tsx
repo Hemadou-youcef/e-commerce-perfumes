@@ -18,7 +18,7 @@ const DashboardMainLayout = ({ children }: { children: React.ReactNode }) => {
         <>
             <div className="flex h-screen">
                 <MainNav showNav={showNav} setNav={(value) => setShowNav(value)} />
-                <div className={`overflow-y-auto bg-gray-50 pb-5  min-h-full w-full z-0 ${showNav ? "ml-[50px] md:ml-[270px]" : "ml-[50px]"} transition-all duration-300`}
+                <div className={`overflow-y-auto bg-gray-50 pb-5  min-h- w-full z-0 ${showNav ? "ml-[50px] md:ml-[270px]" : "ml-[50px]"} transition-all duration-300`}
                 >
                     {children}
                 </div>

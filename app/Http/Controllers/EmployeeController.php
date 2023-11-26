@@ -16,7 +16,7 @@ class EmployeeController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('testPages/test', [
+        return Inertia::render('Dashboard/Employees/employees', [
             'employees' => User::query()
                 ->where('role', 2)
                 ->when(request('q'), function ($query, $q) {
@@ -25,10 +25,12 @@ class EmployeeController extends Controller
                         ->orWhere('phone', 'like', '%' . $q . '%');
                 })
                 ->orderBy('created_at', 'desc')
+                ->paginate(10)
             ,
             'admins' => User::query()
                 ->where('role', 3)
                 ->orderBy('created_at', 'desc')
+                ->paginate(10)
         ]);
     }
 
@@ -37,7 +39,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return Inertia::render('testPages/test');
+        return Inertia::render('Dashboard/Employees/employeesForm');
     }
 
     /**

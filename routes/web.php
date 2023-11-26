@@ -89,6 +89,7 @@ Route::post('/admin/clients/{user}/confirm_account' , [App\Http\Controllers\Clie
 // Employees routes
 Route::get('/admin/employees' , [App\Http\Controllers\EmployeeController::class, 'index'])->name('employees');
 Route::get('/admin/employees/create', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create');
+Route::post('/admin/employees/create', [App\Http\Controllers\EmployeeController::class, 'store'])->name('employee.store');
 Route::get('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'show'])->name('employee');
 Route::patch('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'update'])->name('employee.update');
 Route::post('/admin/employees', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create');

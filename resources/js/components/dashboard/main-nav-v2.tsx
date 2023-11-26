@@ -21,15 +21,12 @@ import { useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 
 
-const parsePageId = (path: string) => path.substring(path.lastIndexOf('/') + 1)
-
-
+const parsePageId = (path: string) => path.split("/")[2]
 
 export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value: boolean) => void }) {
   const pageId = parsePageId(window.location.pathname)
   const { height, width } = useWindowDimensions();
   const [currentTab, setCurrentTab] = useState("basic");
-  console.log(width)
   return (
     <>
 
@@ -74,7 +71,7 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
         </div>
         <Tabs
           value={currentTab}
-          className={`fixed ml-[50px] md:ml-0 md:static h-full w-[220px] items-center pt-5 m-0 bg-gray-100 gap-2 shadow-md ${showNav ? "" : "-ml-[280px] md:-ml-[220px]"} transition-all duration-300`}
+          className={`fixed   md:static h-full w-[220px] items-center pt-5 m-0 bg-gray-100 gap-2 shadow-md ${showNav ? "ml-[50px] md:ml-0" : "-ml-[280px] md:-ml-[220px]"} transition-all duration-300`}
         >
           <TabsContent value="basic" className="flex flex-col w-full m-0">
             <Collapsible className="w-full" defaultOpen>
@@ -120,7 +117,7 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
 
-                  <FaTruckRampBox className="w-5 h-5 text-red-600" />
+                  <FaTruckRampBox className="w-5 h-5 text-red-800 group-hover:text-red-600" />
                   <p className="text-xs  text-gray-800">RECEPTIONS</p>
                 </Link>
               </CollapsibleContent>
@@ -135,7 +132,7 @@ export function MainNav({ showNav, setNav }: { showNav: boolean, setNav: (value:
               </CollapsibleTrigger>
               <CollapsibleContent className="pl-4 w-full flex flex-col">
                 <Link
-                  href="/admin/employes"
+                  href="/admin/employees"
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4" ${pageId === "employes" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
