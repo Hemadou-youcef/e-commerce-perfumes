@@ -290,7 +290,7 @@ const Order = ({ ...props }) => {
                         </div>
                         {/* ACTIONS */}
                         <div className="flex justify-end gap-2">
-                            {(order?.status != "delivered" && order?.status != "cancelled") && (
+                            {props?.auth?.user?.role === 3 && (order?.status != "delivered" && order?.status != "cancelled") && (
                                 <Button
                                     variant="outline"
                                     className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300"
@@ -301,7 +301,7 @@ const Order = ({ ...props }) => {
                                     {cancelLoading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineCloseCircle className="text-xl" />}
                                 </Button>
                             )}
-                            {order?.status == "pending" && (
+                            {props?.auth?.user?.role === 3 && order?.status == "pending" && (
                                 <Button
                                     variant="outline"
                                     className="flex items-center border-transparent h-9 space-x-2 bg-blue-900 hover:bg-blue-800 active:bg-blue-700 text-white hover:text-gray-100"
@@ -312,7 +312,7 @@ const Order = ({ ...props }) => {
                                     {loadingAction ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <BsListCheck className="text-xl" />}
                                 </Button>
                             )}
-                            {order?.status == "verified" && (
+                            {props?.auth?.user?.role === 3 && order?.status == "verified" && (
                                 <Button
                                     variant="outline"
                                     className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300"
@@ -340,25 +340,28 @@ const Order = ({ ...props }) => {
 
                     <Separator className="" />
                     <div className="flex flex-col gap-4 py-5 px-5 ">
-                        <div className="flex flex-row justify-start items-center gap-2">
-                            <h1 className="text-sm font-medium w-40 text-gray-800">Status </h1>
+                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Status </h1>
                             <div className="flex flex-row justify-start items-center gap-2">
                                 {Status()}
                             </div>
                         </div>
-                        <div className="flex flex-row justify-start items-center gap-2">
-                            <h1 className="text-sm font-medium w-40 text-gray-800">Date De Commande :</h1>
+                        <Separator className="mt-0 md:hidden" />
+                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Date De Commande :</h1>
                             <div className="flex flex-row justify-start items-center gap-2">
                                 <AiOutlineCalendar className="text-xl text-gray-800" />
                                 <p className="text-sm font-bold text-gray-500">{formatDate(order?.created_at)}</p>
                             </div>
                         </div>
-                        <div className="flex flex-row justify-start items-center gap-2">
-                            <h1 className="text-sm font-medium w-40 text-gray-800">Prix Total :</h1>
+                        <Separator className="mt-0 md:hidden" />
+                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Prix Total :</h1>
                             <p className="text-sm font-bold text-green-500">{order?.total} DA</p>
                         </div>
-                        <div className="flex flex-row justify-start items-center gap-2">
-                            <h1 className="text-sm font-medium w-40 text-gray-800">Client :</h1>
+                        <Separator className="mt-0 md:hidden" />
+                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Client :</h1>
                             <Link href={`/users/${order?.user?.id}`} className="flex flex-row justify-start items-center gap-2">
                                 <CgProfile className="text-xl text-blue-800" />
                                 <p className="text-sm font-bold text-blue-600">
@@ -366,32 +369,55 @@ const Order = ({ ...props }) => {
                                 </p>
                             </Link>
                         </div>
-                        <div className="flex flex-row justify-start items-center gap-2">
-                            <h1 className="text-sm font-medium w-40 text-gray-800">Numéro :</h1>
+                        <Separator className="mt-0 md:hidden" />
+                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Numéro :</h1>
                             <div className="flex flex-row justify-start items-center gap-2">
                                 <BsFillTelephoneOutboundFill className="text-base text-gray-800" />
                                 <p className="text-sm font-bold text-gray-500">{order?.user?.phone}</p>
                             </div>
                         </div>
-                        <div className="flex flex-row justify-start items-center gap-2">
-                            <h1 className="text-sm font-medium w-40 text-gray-800">Address :</h1>
+                        <Separator className="mt-0 md:hidden" />
+                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Address :</h1>
                             <div className="flex flex-row justify-start items-center gap-2">
                                 <IoLocationSharp className="text-lg text-gray-800" />
                                 <p className="text-sm font-bold text-gray-500">{order?.user?.address}</p>
                             </div>
                         </div>
+                        <Separator className="mt-0 md:hidden" />
+                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Confirmé Par :</h1>
+                            <Link href={`/users/${order?.confirmed_by?.id}`} className="flex flex-row justify-start items-center gap-2">
+                                <CgProfile className="text-xl text-blue-800" />
+                                <p className="text-sm font-bold text-blue-600">
+                                    {order?.confirmed_by?.first_name} {order?.confirmed_by?.last_name}
+                                </p>
+                            </Link>
+                        </div>
+                        <Separator className="mt-0 md:hidden" />
+                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Livré Par :</h1>
+                            <Link href={`/users/${order?.delivered_by?.id}`} className="flex flex-row justify-start items-center gap-2">
+                                <CgProfile className="text-xl text-blue-800" />
+                                <p className="text-sm font-bold text-blue-600">
+                                    {order?.delivered_by?.first_name} {order?.delivered_by?.last_name}
+                                </p>
+                            </Link>
+                        </div>
+
                     </div>
                     <Separator className="mt-0" />
-                    <div className="flex flex-col gap-2 px-5 mt-2">
+                    <div className="flex flex-col gap-2 px-5 my-2">
                         <Tabs defaultValue="articles" className="w-full">
-                            <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent">
+                            <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent overflow-x-auto">
                                 <TabsTrigger value="articles" className="w-52 border-b rounded-none">Articles</TabsTrigger>
                                 <TabsTrigger value="stock" className="w-52  border-b rounded-none">Stock Consommation</TabsTrigger>
                                 <TabsTrigger value="benefices" className="w-52  border-b rounded-none">Bénéfices</TabsTrigger>
                             </TabsList>
                             <TabsContent value="articles">
                                 <div className="w-full mb-5 border-2 ">
-                                    <Table className="w-full">
+                                    <Table className="min-w-[700px] w-full">
                                         <TableHeader>
                                             <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
                                                 <TableHead className="w-7">ID</TableHead>
@@ -449,7 +475,7 @@ const Order = ({ ...props }) => {
 
                                     </div>
                                 )}
-                                {order?.status == "verified" && (
+                                {props?.auth?.user?.role === 3 && order?.status == "verified" && (
                                     <>
                                         <div className="mb-2 flex justify-end">
                                             <Button
@@ -464,7 +490,7 @@ const Order = ({ ...props }) => {
                                         </div>
                                         <div className="flex flex-col p-0 rounded-md border-2 ">
 
-                                            <Table className="w-full">
+                                            <Table className="min-w-[700px] w-full">
                                                 <TableHeader>
                                                     <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
                                                         <TableHead className="w-auto">Produit</TableHead>
@@ -503,7 +529,7 @@ const Order = ({ ...props }) => {
                                     <>
                                         <div className="flex flex-col p-0 rounded-md border-2 ">
 
-                                            <Table className="w-full">
+                                            <Table className="min-w-[700px] w-full">
                                                 <TableHeader>
                                                     <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
                                                         <TableHead className="text-center ">Product</TableHead>
