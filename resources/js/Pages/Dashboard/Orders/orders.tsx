@@ -19,13 +19,13 @@ const Orders = ({ ...props }) => {
 
     return (
         <div className="">
-            <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2 sticky top-0 bg-gray-50 shadow-sm z-10">
+            <div className="flex flex-row justify-between items-center px-5 py-2 gap-2 h-14 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
                 <Link href="/admin/orders">
-                    <h2 className="text-2xl text-gray-900 font-bold tracking-tight">Les Commandes</h2>
+                    <h2 className="text-base md:text-2xl text-gray-900 font-bold tracking-tight">Les Commandes</h2>
                 </Link>
             </div>
 
-            <div className="flex flex-col gap-2 mx-10 py-2">
+            <div className="flex flex-col gap-2 mx-2 md:mx-10 py-2">
                 <div className="flex items-center justify-between">
                     <Input
                         placeholder="Filter Clients..."

@@ -68,7 +68,7 @@ const EmployeesForm = ({ ...props }) => {
         username: "",
         password: "",
         password_confirmation: "",
-        role: "employee",
+        role: "2",
     });
 
     const isAllRulesVerified = () => {
@@ -78,7 +78,7 @@ const EmployeesForm = ({ ...props }) => {
             data.phone.length > 6,
             data.address.length > 3,
             data.gender == "male" || data.gender == "female",
-            data.role == "employee" || data.role == "admin",
+            data.role == "2" || data.role == "3",
             data.username.length > 5,
             data.password.length > 5,
             data.password_confirmation == data.password,
@@ -204,10 +204,10 @@ const EmployeesForm = ({ ...props }) => {
                                         <SelectValue placeholder="employee" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="employee">
+                                        <SelectItem value="2">
                                             Employee
                                         </SelectItem>
-                                        <SelectItem value="admin" >
+                                        <SelectItem value="3" >
                                             Admin
                                         </SelectItem>
                                     </SelectContent>

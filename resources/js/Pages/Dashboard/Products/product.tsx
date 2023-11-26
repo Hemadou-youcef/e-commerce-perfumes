@@ -128,38 +128,43 @@ const Product = ({ ...props }) => {
                             </div>
                         ))}
                     </div>
-                    <div className="flex flex-row justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium w-20 text-gray-800">ID :</h1>
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">ID :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <p className="text-sm font-bold text-gray-500">#{product?.id}</p>
                         </div>
                     </div>
-                    <div className="flex flex-row justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium w-20 text-gray-800">Category :</h1>
+                    <Separator className="mt-0 md:hidden" />
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Category :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <p className="text-sm font-bold text-gray-500">{product?.category}</p>
                         </div>
                     </div>
-                    <div className="flex flex-row justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium w-20 text-gray-800">Status :</h1>
+                    <Separator className="mt-0 md:hidden" />
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Status :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <div className="text-sm font-bold text-gray-500">{status()}</div>
                         </div>
                     </div>
-                    <div className="flex flex-row justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium w-20 text-gray-800">Quantité</h1>
+                    <Separator className="mt-0 md:hidden" />
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Quantité</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <p className="text-sm font-bold text-gray-500">{product?.quantity} {product?.unit}</p>
                         </div>
                     </div>
-                    <div className="flex flex-col justify-start  gap-2">
-                        <h1 className="text-sm font-medium w-40 text-gray-800">Description :</h1>
+                    <Separator className="mt-0 md:hidden" />
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Description :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <p className="text-sm font-bold text-gray-500">{product?.description.split('<br/>').map((value) => (<><span>{value}</span><br /></>))}</p>
                         </div>
                     </div>
-                    <div className="flex flex-col justify-start  gap-2">
-                        <h1 className="text-sm font-medium w-40 text-gray-800">Description En arabe :</h1>
+                    <Separator className="mt-0 md:hidden" />
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Description En arabe :</h1>
                         <div className="flex flex-row justify-end items-center gap-2">
                             <p className="text-sm font-bold text-gray-500">{product?.description_ar.split('<br/>').map((value) => (<><span>{value}</span><br /></>))}</p>
                         </div>
@@ -168,7 +173,7 @@ const Product = ({ ...props }) => {
                 <Separator className="mt-0" />
                 <div className="flex flex-col gap-2 mt-2">
                     <Tabs defaultValue="prices" className="w-full">
-                        <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent">
+                        <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent  overflow-x-auto">
                             <TabsTrigger value="prices" className="w-52 border-b rounded-none">Les prix</TabsTrigger>
                             <TabsTrigger value="reception" className="w-52  border-b rounded-none">Les reception</TabsTrigger>
                             <TabsTrigger value="orders" className="w-52  border-b rounded-none">Les commandes</TabsTrigger>
@@ -205,7 +210,7 @@ const Product = ({ ...props }) => {
                         </TabsContent>
                         <TabsContent value="reception" className="px-5">
                             <div className="w-full mb-5 border-2 ">
-                                <Table className="w-full">
+                                <Table className="min-w-[700px] w-full">
                                     <TableHeader>
                                         <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
                                             <TableHead className="w-5">ID</TableHead>
@@ -246,7 +251,7 @@ const Product = ({ ...props }) => {
                         </TabsContent>
                         <TabsContent value="orders" className="px-5">
                             <div className="w-full mb-5 border-2 ">
-                                <Table className="w-full">
+                                <Table className="min-w-[700px] w-full">
                                     <TableHeader>
                                         <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
                                             <TableHead className="w-5">ID</TableHead>

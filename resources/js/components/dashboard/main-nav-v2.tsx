@@ -138,7 +138,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                 <CollapsibleContent className="pl-4 w-full flex flex-col">
                   <Link
                     href="/admin/employees"
-                    className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4" ${pageId === "employes" ? "bg-gray-200" : ""}`}
+                    className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4" ${pageId === "employees" ? "bg-gray-200" : ""}`}
                     onClick={() => (width <= 768) ? setNav(false) : null}
                   >
                     <FaUserTie className="w-5 h-5 text-blue-800 group-hover:text-blue-600" />
