@@ -262,4 +262,18 @@ class OrderController extends Controller
         return back();
 
     }
+
+
+    public function PdfReceipt(Order $order)
+    {
+        return Inertia::render('Dashboard/Orders/PdfReceipt', ['order' => $order->load(
+            [
+                'user',
+                'confirmedBy',
+                'deliveredBy',
+                'orderProducts.product ',
+            ]
+        )]);
+
+    }
 }
