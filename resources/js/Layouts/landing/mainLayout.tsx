@@ -14,15 +14,17 @@ import {
     NavigationMenuTrigger,
     NavigationMenuViewport,
 } from "@/shadcn/ui/navigation-menu"
+import { useState } from "react";
 
 const LandingMainLayout = ({ children, ...props }) => {
     const pageProps = usePage().props
+    const [navbarOpen, setNavbarOpen] = useState(false);
     // console.log(pageProps)
     return (
         <>
             <div className="flex flex-col min-h-screen">
                 <div className="navElements bg-forth sticky top-0 border-b-2 border-gray-900 z-10 shadow-md">
-                    <LandingNav props={pageProps} />
+                    <LandingNav props={pageProps} showNavbar={navbarOpen} setNavbarOpen={setNavbarOpen} />
                 </div>
                 {/* SECTIONS */}
                 <div className="w-full  border-b border-b-gray-500 bg-third">

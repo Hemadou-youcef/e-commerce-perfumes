@@ -5,7 +5,7 @@ import { DataTable } from "@/components/tables/data-table"
 import { Input } from "@/shadcn/ui/input";
 import { Button } from "@/shadcn/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shadcn/ui/accordion";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import Pagination from "@/components/tables/pagination";
 
 // Icons
@@ -22,6 +22,16 @@ const Products = ({ ...props }) => {
     console.log(props)
     const [data, setData] = useState<ProductsInfo[]>(props?.products?.data)
     const [showFilters, setShowFilters] = useState(false);
+    const [search, setSearch] = useState("");
+
+
+    const handleSearch = () => {
+        router.get(route("products"), {
+            search: search,
+        }, {
+            preserveScroll: true,
+        });
+    }
 
     return (
         <>
@@ -39,8 +49,17 @@ const Products = ({ ...props }) => {
                     <div className="flex gap-1 text-white">
                         <Input
                             placeholder="Filter Produits..."
-                            className="max-w-sm"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="max-w-sm text-gray-900"
                         />
+                        <Button
+                            variant="outline"
+                            className="flex items-center space-x-2 rounded-full"
+                            onClick={handleSearch}
+                        >
+                            Search
+                        </Button>
                         <Button variant="outline" className="flex items-center space-x-2 border-2 border-dashed border-gray-600 text-gray-600" onClick={() => setShowFilters(!showFilters)}>
                             ARCHIVED
                         </Button>

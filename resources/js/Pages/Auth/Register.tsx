@@ -27,6 +27,7 @@ interface formData {
     gender: "male" | "female";
     username: string;
     password: string;
+    confirm_password?: string;
 }
 
 const Register = () => {
@@ -38,6 +39,7 @@ const Register = () => {
         gender: 'male',
         username: '',
         password: '',
+        confirm_password: '',
     });
 
     const submit: FormEventHandler = (e) => {
@@ -61,7 +63,7 @@ const Register = () => {
                         <AiOutlineArrowLeft className="text-base text-gray-800 group-hover:text-second " />
                         <p className="text-forth group-hover:text-second ">Accueil</p>
                     </Link>
-                    <div className="py-0 mt-10 mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[500px] md:w-[400px] lg:w-[500px]">
+                    <div className="py-0 my-10 mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[500px] md:w-[400px] lg:w-[500px]">
                         <div className="flex flex-col space-y-2 text-center">
                             <h1 className="text-2xl font-semibold tracking-tight">
                                 S'inscrire
@@ -125,6 +127,15 @@ const Register = () => {
                                     />
                                 </div>
                                 {errors.password && <div>{errors.password}</div>}
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor="confirm_password">Confirm Password</Label>
+                                    <Input id="confirm_password" type="password" placeholder="Confirm Password" className="w-full h-9 focus-visible:ring-transparent"
+                                        onChange={(e) => setData('confirm_password', e.target.value)}
+                                    />
+                                </div>
+                                {errors.confirm_password && <div>{errors.confirm_password}</div>}
+
 
                                 <Button className="w-full bg-forth er:bg-prime-dark active:bg-second" onClick={() => post('/register')}>
                                     {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> :<p className="text-white">Register</p>}
