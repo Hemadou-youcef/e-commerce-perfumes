@@ -94,7 +94,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
 
                 <div className="fixed bottom-0 left-0 w-full h-14 bg-white z-10 flex items-center justify-around p-2 border-t shadow-md"
                 >
-                    {isEmployee() && <Link href="/">
+                    {(!isLogged() || isEmployee()) && <Link href="/">
                         <AiOutlineHome className="w-6 h-full text-primary" />
                     </Link>}
                     <Link href="/products">
@@ -121,7 +121,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                     {isEmployee() && <Link href="/admin">
                         <MdOutlineDashboard className="w-6 h-6 text-primary" />
                     </Link>}
-                    {isLogged() && <Link href="/logout">
+                    {isLogged() && <Link href="/logout" method="post">
                         <BiLogOut className="w-6 h-6 text-primary" />
                     </Link>}
                     {!isLogged() && <Link href="/register">
@@ -141,7 +141,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                 </Link>
 
                 {/* LOGIN ACTIONS */}
-                <div className="items-center gap-5">
+                <div className="items-center gap-5 flex">
                     <div className="flex items-center gap-3 bg-white rounded-full px-3 py-0 overflow-hidden">
                         <Input
                             placeholder="Recherche..."
