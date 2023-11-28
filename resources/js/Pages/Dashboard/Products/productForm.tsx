@@ -41,7 +41,7 @@ import {
 } from "@/shadcn/ui/context-menu"
 
 // Icons
-import { MdDeleteOutline } from "react-icons/md";
+import { MdDeleteOutline, MdEdit } from "react-icons/md";
 import { AiOutlineClose, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { FaPlus, FaSave } from "react-icons/fa";
 import { TiPlus } from "react-icons/ti";
@@ -166,7 +166,7 @@ const ProductForm = ({ ...props }) => {
                                 submit(e)
                             }}
                         >
-                            {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <FaSave className="text-lg" />}
+                            {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : editMode ? <MdEdit className="text-lg"/> : <FaSave className="text-lg" />}
                         </Button>
                     </div>
                 </div>
