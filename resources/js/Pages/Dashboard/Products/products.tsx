@@ -10,6 +10,7 @@ import Pagination from "@/components/tables/pagination";
 
 // Icons
 import { IoMdAdd } from "react-icons/io";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 
 
@@ -22,14 +23,17 @@ const Products = ({ ...props }) => {
     console.log(props)
     const [data, setData] = useState<ProductsInfo[]>(props?.products?.data)
     const [showFilters, setShowFilters] = useState(false);
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState(props?.filters?.search || "");
+    const [searchLoading, setSearchLoading] = useState(false);
 
 
     const handleSearch = () => {
+        setSearchLoading(true);
         router.get(route("products"), {
             search: search,
         }, {
             preserveScroll: true,
+            onFinish: () => setSearchLoading(false),
         });
     }
 
@@ -38,7 +42,7 @@ const Products = ({ ...props }) => {
             <div className="flex flex-row justify-between items-center px-5 py-2 gap-2 h-14 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
                 <h2 className="text-base md:text-2xl text-gray-900 font-bold tracking-tight">Les Produits</h2>
                 <Link href="/admin/products/create">
-                    <Button className="flex items-center p-0 px-5 md:h-10 md:rounded-full">
+                    <Button className="flex items-center p-0 px-5 md:h-10 md:rounded-md">
                         <IoMdAdd className="h-5 w-5" />
                         <span className="ml-2 hidden md:block">Ajouter un produit</span>
                     </Button>
@@ -51,23 +55,23 @@ const Products = ({ ...props }) => {
                             placeholder="Filter Produits..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="max-w-sm text-gray-900"
+                            onKeyDown={(key)=>{
+                                if(key.key === "Enter"){
+                                    handleSearch()
+                                }
+                            }}
+                            className="max-w-sm text-gray-900  focus-visible:ring-transparent"
+                            autoFocus
                         />
                         <Button
-                            variant="outline"
-                            className="flex items-center space-x-2 rounded-full"
+                            className="flex items-center space-x-2 rounded-md w-28 focus-visible:ring-transparent"
                             onClick={handleSearch}
+                            disabled={searchLoading}
                         >
-                            Search
-                        </Button>
-                        <Button variant="outline" className="flex items-center space-x-2 border-2 border-dashed border-gray-600 text-gray-600" onClick={() => setShowFilters(!showFilters)}>
-                            ARCHIVED
-                        </Button>
-                        <Button variant="outline" className="flex items-center space-x-2 border-2 border-dashed border-green-600 text-green-600" onClick={() => setShowFilters(!showFilters)}>
-                            PINNED
+                            {searchLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : "Search"}
                         </Button>
                     </div>
-                    <Button variant="outline" className="flex items-center space-x-2 rounded-full" onClick={() => setShowFilters(!showFilters)}>
+                    <Button variant="outline" className="flex items-center space-x-2 rounded-md" onClick={() => setShowFilters(!showFilters)}>
                         Filter
                     </Button>
 

@@ -107,12 +107,15 @@ const Product = ({ ...props }) => {
                         >
                             <AiOutlineDelete className="text-2xl" />
                         </Button>
-                        <Button
-                            variant="outline"
-                            className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
-                        >
-                            <LiaEdit className="text-2xl" />
-                        </Button>
+                        <Link href={`/admin/products/${product?.id}/edit`}>
+                            <Button
+                                variant="outline"
+                                className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
+
+                            >
+                                <LiaEdit className="text-2xl" />
+                            </Button>
+                        </Link>
                     </div>
                 </div>
 

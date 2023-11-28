@@ -1,10 +1,13 @@
 
 import { Button } from "@/shadcn/ui/button";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
-import { AiFillEye } from "react-icons/ai";
-import { TbBookmark } from "react-icons/tb";
+import { AiFillEye, AiOutlineLoading3Quarters } from "react-icons/ai";
+import { BsBookmarkPlusFill } from "react-icons/bs";
+import { FaRegHeart } from "react-icons/fa";
+import { GoBookmark, GoBookmarkSlash } from "react-icons/go";
+import { LuHeartOff } from "react-icons/lu";
 
 const getMinPrice = (prices: any) => {
     let min = Math.min(...prices.map((price: any) => price.quantity));
@@ -13,6 +16,24 @@ const getMinPrice = (prices: any) => {
 
 const Product = ({ product }) => {
     const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.product_prices));
+    const [bookmarkLoading, setBookmarkLoading] = useState(false);
+
+    const handleBookmark = () => {
+        setBookmarkLoading(true);
+        if (product?.isProductBookmarked) {
+            router.delete(route("bookmark.destroy", product?.id), {
+                preserveScroll: true,
+                onFinish: () => setBookmarkLoading(false),
+            });
+        } else {
+            router.post(route("bookmark.store"), {
+                product_id: product.id
+            }, {
+                preserveScroll: true,
+                onFinish: () => setBookmarkLoading(false),
+            })
+        }
+    }
     return (
         <>
             {/* Link href="/product/5"  */}
@@ -23,8 +44,15 @@ const Product = ({ product }) => {
                     <Link href={`/products/${product.id}`} className="absolute inset-0 w-full h-full flex items-center justify-center">
                     </Link>
                     <div className="hidden absolute right-1 top-1 group-hover:flex flex-col gap-2 group-hover:transition-all group-hover:delay-150 group-hover:duration-300">
-                        <Button variant="ghost" className="flex items-center justify-center gap-2 p-2 bg-gray-100 bg-opacity-50 rounded-full shadow-md border">
-                            <TbBookmark className="w-6 h-6 text-gray-900" />
+                        <Button
+                            variant="ghost"
+                            className="flex items-center justify-center gap-2 p-2 bg-gray-100 bg-opacity-50 rounded-full shadow-md border"
+                            onClick={handleBookmark}
+                            disabled={bookmarkLoading}
+
+                        >
+
+                            {bookmarkLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : product?.isProductBookmarked ? <LuHeartOff className="w-5 h-5 text-gray-900" /> : <FaRegHeart className="w-5 h-5 text-gray-900" />}
                         </Button>
                         {/* <div className="flex items-center justify-center gap-2 p-2 bg-gray-100 bg-opacity-50 rounded-full shadow-md border">
                             <AiFillEye className="w-6 h-6 text-gray-900" />

@@ -37,7 +37,13 @@ class OrderController extends Controller
                 ->with(['user'])
                 ->withCount('orderProducts')
                 ->paginate(10)
-                ->withQueryString()
+                ->withQueryString(),
+            'filters' => [
+                'q' => request('q', ''),
+                'start' => request('start', ''),
+                'end' => request('end', ''),
+            ],
+            
         ]);
     }
 

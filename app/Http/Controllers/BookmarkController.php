@@ -15,7 +15,7 @@ class BookmarkController extends Controller
      */
     public function index()
     {
-        return Inertia::render('testPages/test', [
+        return Inertia::render('ClientSide/bookmarks/bookmarks', [
             'bookmarks' => Auth::user()->bookmarks()->with([
                 'product' => function ($query) {
                     $query->select('id', 'name', 'description', 'description_ar', 'main_image');

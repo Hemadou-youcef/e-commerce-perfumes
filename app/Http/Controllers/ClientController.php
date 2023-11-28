@@ -46,7 +46,13 @@ class ClientController extends Controller
                 )
                 ->orderBy('created_at', 'desc')
                 ->paginate(10)
-                ->withQueryString()
+                ->withQueryString(),
+            'filters' => [
+                'role' => request('role', ''),
+                'q' => request('q', ''),
+                'start' => request('start', ''),
+                'end' => request('end', ''),
+            ],
 
         ]);
     }

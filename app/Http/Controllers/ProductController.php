@@ -23,7 +23,6 @@ class ProductController extends Controller
                     ->where('name', 'LIKE', '%' . $search . '%')
                     ->orWhere('description', 'LIKE', '%' . $search . '%')
                     ->orWhere('description_ar', 'LIKE', '%' . $search . '%')
-                    ->orWhere('category', 'LIKE', '%' . $search . '%')
                 )
                 ->when(request('category'), fn ($query, $category) => $query
                     ->whereHas('categories', fn ($query) => $query->where('name', $category))
@@ -41,6 +40,10 @@ class ProductController extends Controller
                     'categories' => $product->categories,
                 ])
                 ->withQueryString(),
+            'filters' => [
+                'search' => request('search', ''),
+                'category' => request('category', ''),
+            ],
         ]);
     }
 
@@ -144,9 +147,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-
-        return Inertia::render('products' , [
+        return Inertia::render('Dashboard/Products/productForm' , [
             'product' => $product->load(['images' , 'productPrices','categories' , 'receptions' ]),
+
         ]);
     }
 
@@ -164,9 +167,13 @@ class ProductController extends Controller
         $product->status = $validatedData['status'];
 
         // Handle main image update
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
+        if ($request->hasFile('main_image')) {
+            $imagePath = $request->file('main_image')->store('images', 'public');
             $product->main_image = $imagePath;
+        }
+        // handle main image only path update
+        if ($request->has('main_image')) {
+            $product->main_image = $request->input('main_image');
         }
 
         $product->save();
