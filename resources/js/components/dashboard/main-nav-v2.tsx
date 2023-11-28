@@ -19,14 +19,16 @@ import {
 } from "@/shadcn/ui/collapsible"
 import { useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
+import { LuLayoutDashboard } from "react-icons/lu";
 
 
-const parsePageId = (path: string) => path.split("/")[2]
+const parsePageId = (path: string) => path.split("/")[2] || "admin"
 
 export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolean, setNav: (value: boolean) => void }) {
   const pageId = parsePageId(window.location.pathname)
   const { height, width } = useWindowDimensions();
   const [currentTab, setCurrentTab] = useState("basic");
+  const [collapsedStateList, setCollapsedStateList] = useState([true, true, true])
   return (
     <>
 
@@ -74,13 +76,21 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
           className={`fixed   md:static h-full w-[220px] items-center pt-5 m-0 bg-gray-100 gap-2 shadow-md ${showNav ? "ml-[50px] md:ml-0" : "-ml-[280px] md:-ml-[220px]"} transition-all duration-300`}
         >
           <TabsContent value="basic" className="flex flex-col w-full m-0">
-            <Collapsible className="w-full" defaultOpen>
+            <Link
+              href="/admin"
+              className={`w-full  h-10 flex justify-start items-center gap-3  group transition-all px-4 ${pageId === "admin" ? "bg-gray-200" : ""}`}
+              onClick={() => (width <= 768) ? setNav(false) : null}
+            >
+              <LuLayoutDashboard className="w-5 h-5 text-sky-800 group-hover:text-sky-600" />
+              <p className="text-sm text-gray-800 ">TABLEAU DE BORD</p>
+            </Link>
+            <Collapsible className="w-full" open={collapsedStateList[0]} onOpenChange={(open) => setCollapsedStateList([open, collapsedStateList[1], collapsedStateList[2]])}>
               <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3   transition-all px-4">
                 <div className="flex items-center gap-3">
                   <GiBuyCard className="w-5 h-5 text-orange-800 " />
                   <p className=" text-sm text-gray-800">TRANSITION</p>
                 </div>
-                <FaAngleRight className="h-4 w-4 text-gray-800" />
+                <FaAngleRight className={`h-4 w-4 text-gray-800 ${collapsedStateList[0] ? "transform rotate-90" : ""} transition-all`} />
               </CollapsibleTrigger>
               <CollapsibleContent className="pl-4 w-full flex flex-col">
                 <Link
@@ -93,13 +103,13 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                 </Link>
               </CollapsibleContent>
             </Collapsible>
-            <Collapsible className="w-full CollapsibleContent" defaultOpen>
+            <Collapsible className="w-full CollapsibleContent" open={collapsedStateList[1]} onOpenChange={(open) => setCollapsedStateList([collapsedStateList[0], open, collapsedStateList[2]])}>
               <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3   transition-all px-4">
                 <div className="flex items-center gap-3">
                   <FiBox className="w-5 h-5  text-red-800" />
                   <p className=" text-sm text-gray-800">STOCK</p>
                 </div>
-                <FaAngleRight className="h-4 w-4 text-red text-gray-800" />
+                <FaAngleRight className={`h-4 w-4 text-red text-gray-800 ${collapsedStateList[1] ? "transform rotate-90" : ""} transition-all`} />
               </CollapsibleTrigger>
 
               <CollapsibleContent className="pl-4 w-full flex flex-col">
@@ -125,7 +135,8 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
             {auth?.user?.role === 3 && (
               <Collapsible
                 className="w-full"
-                defaultOpen
+                open={collapsedStateList[2]}
+                onOpenChange={(open) => setCollapsedStateList([collapsedStateList[0], collapsedStateList[1], open])}
               >
 
                 <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3 transition-all px-4">
@@ -133,7 +144,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                     <FaUserFriends className="w-5 h-5 text-blue-800 group-hover:text-gray-900" />
                     <p className=" text-sm text-gray-800 group-hover:text-gray-900">UTILISATEURS</p>
                   </div>
-                  <FaAngleRight className="h-4 w-4 text-red text-gray-800" />
+                  <FaAngleRight className={`h-4 w-4 text-red text-gray-800 ${collapsedStateList[2] ? "transform rotate-90" : ""} transition-all`} />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pl-4 w-full flex flex-col">
                   <Link

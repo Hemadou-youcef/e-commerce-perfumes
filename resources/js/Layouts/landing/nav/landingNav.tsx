@@ -37,7 +37,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
         return props?.auth?.user !== null
     }
     const isClient = () => {
-        return props?.auth?.user?.role == 1 || props?.auth?.user?.role == 2
+        return props?.auth?.user?.role == 0 || props?.auth?.user?.role == 1
     }
     const isEmployee = () => {
         return props?.auth?.user?.role == 2 || props?.auth?.user?.role == 3
@@ -60,10 +60,10 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
             </div>
             {/* OVERLAY */}
             <div
-                className={`fixed top-0 left-0 w-full h-screen bg-black bg-opacity-50 z-10 ${showNavbar ? "block" : "hidden"}`}
+                className={`fixed top-0 md:hidden left-0 w-full h-screen bg-black bg-opacity-50 z-10 ${showNavbar ? "block" : "hidden"}`}
                 onClick={() => setNavbarOpen(false)}
             ></div>
-            <div className={`fixed w-full h-screen bg-forth z-10 flex flex-col shadow-md ${showNavbar ? "top-0" : "top-full"} transition-all duration-500`}>
+            <div className={`fixed w-full h-screen bg-forth z-10 flex md:hidden flex-col shadow-md ${showNavbar ? "top-0" : "top-full"} transition-all duration-500`}>
 
                 {/* CLOSE BUTTON */}
                 <div className="flex justify-end p-5">

@@ -59,22 +59,27 @@ interface FormData {
     description_ar: string;
     unit: string;
     status: string;
-    main_image: File | null;
+    main_image: File | string | null;
     images: File[];
     prices: prices[];
+    other_images: number[];
+    removed_images: number[];
 }
 
-const ProductForm = () => {
-
-    const { data, setData, post, processing, errors, reset } = useForm<FormData>({
-        name: "",
-        description: "",
-        description_ar: "",
-        unit: "KG",
-        status: "published",
-        main_image: null,
+const ProductForm = ({ ...props }) => {
+    console.log(props)
+    const editMode = props?.product ? true : false;
+    const { data, setData, post, patch, processing, errors, reset } = useForm<FormData>({
+        name: props?.product?.name || "",
+        description: props?.product?.description || "",
+        description_ar: props?.product?.description_ar || "",
+        unit: props?.product?.unit?.toUpperCase() || "G",
+        status: props?.product?.status || "published",
+        main_image: props?.product?.main_image || null,
         images: [],
-        prices: [],
+        prices: props?.product?.product_prices || [],
+        other_images: [],
+        removed_images: [],
     });
 
     const [imagesUploaded, setImagesUploaded] = useState<File[]>([
@@ -92,12 +97,12 @@ const ProductForm = () => {
 
     const imagesToDataForm = () => {
         const images = imagesUploaded.filter((img, index) => {
-            const notTheMainImage = img.name !== data.main_image?.name;
+            // const notTheMainImage = img.name !== data.main_image?.name;
             const notZeroIndex = index !== 0;
             return notZeroIndex;
 
         });
-        setData("images", images);
+        setData(editMode ? "other_images" : "images", images);
     }
 
     const changeAllPricesUnit = (unit: string) => {
@@ -109,22 +114,33 @@ const ProductForm = () => {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route("product.store"), {
-            preserveScroll: true,
-            onSuccess: () => {
-                reset();
-                setImagesUploaded([new File([""], "image1")]);
-            },
-        });
+        if (editMode) {
+            post(route('product.update', props?.product?.id));
+        } else {
+            post(route("product.store"), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    reset();
+                    setImagesUploaded([new File([""], "image1")]);
+                },
+            });
+        }
     };
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
-                <Link href="/admin/receptions">
+                <Link href="/admin/products">
                     <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Produits</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
-                <h2 className="text-lg text-gray-600 font-medium tracking-tight">Ajouter une produit</h2>
+                {editMode && <Link href={`/admin/products/${props?.product?.id}`}>
+                    <h2 className="text-lg text-gray-900 font-bold tracking-tight">
+                        {props?.product?.name.length > 16 ? props?.product?.name.substring(0, 16) + "..." : props?.product?.name}
+                    </h2>
+                </Link>}
+                {editMode && <AiOutlineRight className="text-sm text-gray-800" />}
+                {editMode && <h2 className="text-lg text-gray-900 font-medium tracking-tight">Modifier une produit</h2>}
+                {!editMode && <h2 className="text-lg text-gray-600 font-medium tracking-tight">Ajouter une produit</h2>}
             </div>
             <div className="md:mx-10 p-0 m-2 border rounded-none md:rounded-md overflow-hidden bg-white">
                 <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 ">
@@ -134,10 +150,10 @@ const ProductForm = () => {
                         </div> */}
                         <div className="flex flex-col text-center md:text-left">
                             <h2 className="text-xl text-gray-900 font-bold tracking-tight">
-                                Ajouter une produit
+                                {editMode ? "Modifier une produit" : "Ajouter une produit"}
                             </h2>
                             <p className="text-sm text-gray-600">
-                                Ajouter une produit à votre liste de produits
+                                {editMode ? "Modifier une produit à votre liste de produits" : "Ajouter une produit à votre liste de produits"}
                             </p>
                         </div>
                     </div>
@@ -279,9 +295,51 @@ const ProductForm = () => {
                                             )}
                                         </div>
                                     ))}
+                                    {editMode && props?.product?.images.filter((image) => !data.removed_images.includes(image.id)).map((image, index) => (
+                                        <div key={index} className="relative w-32 h-32 border-2 rounded-md overflow-hidden group">
+                                            <ContextMenu>
+                                                <ContextMenuTrigger>
+                                                    <div
+                                                        style={{ backgroundImage: "url(/storage/" + image.path + ")" }}
+                                                        className={`w-full h-full relative flex items-center justify-center bg-cover bg-center cursor-pointer`}
+                                                        onClick={() => {
+                                                            setData("removed_images", [...data.removed_images, image.id]);
+                                                        }}
+                                                    >
+                                                        <div className="absolute inset-0 w-full h-full bg-gray-300 opacity-0 group-hover:opacity-50 transition-all duration-300">
+                                                        </div>
+                                                        <MdDeleteOutline className=" text-gray-50 w-6 h-6 group-hover:block hidden transition-all duration-300" />
+                                                    </div>
+                                                </ContextMenuTrigger>
+                                                <ContextMenuContent>
+                                                    <ContextMenuItem
+                                                        className="flex items-center justify-center gap-2"
+                                                        onClick={() => {
+                                                            setData("main_image", image.path);
+                                                        }}
+                                                    >
+                                                        Définir comme image principale
+                                                    </ContextMenuItem>
+                                                </ContextMenuContent>
+                                            </ContextMenu>
+                                            {data.main_image === image.path && (
+                                                <div className="absolute top-0 right-0 w-7 h-7 bg-yellow-400 flex items-center justify-center">
+                                                    <LuCrown className="w-4 h-4 text-gray-50" />
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-                            <Separator className="mb-2" />
+                            {/* {editMode && <Separator className="mb-2" />}
+                            <div className="grid gap-3">
+                                <Label htmlFor="prices" className="text-base">Image actuelle</Label>
+                                {editMode && (<div className="flex flex-row gap-2">
+                                    
+                                </div>)}
+                            </div> */}
+
+                            < Separator className="mb-2" />
                             <div className="grid gap-3">
                                 <Label htmlFor="prices" className="text-base">Des prix</Label>
                                 <div className="flex flex-col gap-2">

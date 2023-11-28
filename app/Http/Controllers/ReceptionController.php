@@ -26,7 +26,12 @@ class ReceptionController extends Controller
                 ->when(request('end') , fn($query) => $query->where('created_at' , '<=' , request('end')))
                 ->orderBy('created_at' , 'desc')
                 ->with(['user' , 'product' , 'reservations'] )
-                ->paginate(10)
+                ->paginate(10),
+            "filters" => [
+                "q" => request('q' , ''),
+                "start" => request('start' , ''),
+                "end" => request('end' , ''),
+            ]
         ]);
     }
 

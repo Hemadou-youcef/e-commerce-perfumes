@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Component
 import LandingMainLayout from "@/Layouts/landing/mainLayout";
@@ -20,6 +20,11 @@ const Products = ({ ...props }) => {
     const [data, setData] = useState(props?.products?.data)
     const pageProps = usePage().props
     const [minMaxPrice, setMinMaxPrice] = useState<number[]>([0, 1000]);
+
+
+    useEffect(() => {
+        setData(props?.products?.data)
+    }, [pageProps])
 
     const handleUrlChangeParams = (params: any) => {
         // I USE INERTIAJS TO CHANGE URL PARAMS

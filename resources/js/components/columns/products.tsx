@@ -36,11 +36,6 @@ export const columns: ColumnDef<ProductsInfo>[] = [
         maxSize: 60,
     },
     {
-        accessorKey: "category",
-        header: "Category",
-        maxSize: 10,
-    },
-    {
         accessorKey: "status",
         header: "statut",
         cell: ({ row }) => {
@@ -49,19 +44,19 @@ export const columns: ColumnDef<ProductsInfo>[] = [
             let color = "bg-gray-600";
             switch (row.getValue("status")) {
                 case "archived":
-                    text = "ARCHIVED";
+                    text = "ARCHIVÉ";
                     color = "bg-gray-600";
                     break;
                 case "published":
-                    text = "PUBLISHED";
+                    text = "PUBLIÉ";
                     color = "bg-green-600";
                     break;
                 case "pinned":
-                    text = "PINNED";
+                    text = "ÉPINGLEÉ";
                     color = "bg-blue-600";
                     break;
                 default:
-                    text = "PUBLISHED";
+                    text = "PUBLIÉ";
                     color = "bg-green-600";
                     break;
             }

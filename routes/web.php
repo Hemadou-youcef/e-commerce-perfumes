@@ -101,7 +101,7 @@ Route::get('/admin/products/create', [App\Http\Controllers\ProductController::cl
 Route::post('/admin/products/create', [App\Http\Controllers\ProductController::class, 'store'])->name('product.store');
 Route::get('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'show'])->name('product');
 Route::get('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit'])->name('product.edit');
-Route::patch('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'update'])->name('product.update');
+Route::post('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'update'])->name('product.update');
 Route::delete('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.destroy');
 
 
@@ -134,7 +134,7 @@ Route::post('/orders/{order}/cancel' , [App\Http\Controllers\OrderController::cl
 // bookmarks routes
 Route::get('/bookmarks' , [App\Http\Controllers\BookmarkController::class, 'index'])->name('bookmarks');
 Route::post('/bookmarks' , [App\Http\Controllers\BookmarkController::class, 'store'])->name('bookmark.store');
-Route::delete('/bookmarks/{bookmark}' , [App\Http\Controllers\BookmarkController::class, 'destroy']);
+Route::delete('/bookmarks/{bookmark}' , [App\Http\Controllers\BookmarkController::class, 'destroy'])->name('bookmark.destroy');
 
 
 
