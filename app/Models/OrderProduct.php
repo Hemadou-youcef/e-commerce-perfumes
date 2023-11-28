@@ -29,10 +29,7 @@ class OrderProduct extends Model
         return $this->belongsTo(ProductPrice::class , 'product_price_id' , 'id');
     }
 
-    public function totalPrice()
-    {
 
-    }
 
     public function totalQuantity(): int
     {

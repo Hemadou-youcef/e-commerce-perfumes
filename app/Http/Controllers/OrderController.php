@@ -7,9 +7,11 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\ProductPrice;
 use App\Models\Reception;
 use App\Models\Reservation;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class OrderController extends Controller
@@ -44,7 +46,145 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        //
+        $order_products = $request->validated();
+
+        $errors = [];
+        $productQuantities = []; // To aggregate quantities for each product
+
+        // check if product exists with its price
+        foreach ($order_products['products'] as $product) {
+            $product_id = $product['product_id'];
+            $product_price_id = $product['product_price_id'];
+
+            // check if product exists
+            $productQ = Product::query()->where('id', $product_id)->first();
+            if ($productQ == null) {
+                return back()->withErrors(['product_id' => 'product_id n\'existe pas']);
+            }
+
+            // check if product price exists
+            $product_price = $productQ->prices()->where('id', $product_price_id)->first();
+            if ($product_price == null) {
+                return back()->withErrors(['product_price_id' => 'product_price_id n\'existe pas']);
+            }
+
+
+
+            if (isset($product['reservations'])) {
+                $reservations_total_quantity = 0;
+                foreach ($product['reservations'] as $reservation) {
+                    $reception_id = $reservation['reception_id'];
+                    $quantity = $reservation['quantity'];
+                    $reservations_total_quantity += $quantity;
+
+                    // check if reception has same id as product
+                    if ($reception_id != $product_id) {
+                        return back()->withErrors(['reception_id' => 'reception_id doit être égal à product_id']);
+                    }
+
+                    // check if reception exists
+                    $reception = Reception::query()->where('id', $reception_id)->first();
+                    if ($reception == null || $reception->product_id != $product_id) {
+                        return back()->withErrors(['reception_id' => 'reception_id n\'existe pas']);
+                    }
+
+                    // check if reception rest is enough
+                    if ($quantity > $reception->rest) {
+                        return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité restante dans la réception']);
+                    }
+
+                }
+                if ($reservations_total_quantity > $product_price->quantity * $product['quantity']) {
+                    return back()->withErrors(['quantity' => 'les reservations total quantity doit être inférieur ou égal à la quantité du produit']);
+                }
+            }
+        }
+
+
+        // Aggregate quantities for each product in the order
+        foreach ($order_products['products'] as $order_product) {
+            $product_id = $order_product['product_id'];
+            $product_price = ProductPrice::findOrFail($order_product['product_price_id']);
+            $totalQuantity = $product_price->quantity * $order_product['quantity'];
+            $productQuantities[$product_id] = ($productQuantities[$product_id] ?? 0) + $totalQuantity;
+        }
+
+        // Check available stock for each product
+        foreach ($productQuantities as $productId => $quantity) {
+            $product = Product::findOrFail($productId); // Retrieve the product
+            if ($product->quantity < $quantity) {
+                $errors[] = $productId;
+            }
+        }
+
+        if ($errors) {
+            return back()->withErrors($errors);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $order = Order::query()->create([
+                'user_id' => auth()->user()->id,
+                'status' => 'delivered',
+                'delivered_by' => auth()->user()->id
+            ]);
+
+            // create order products
+            foreach ($order_products['products'] as $order_product) {
+                $product = Product::query()->where('id', $order_product['product_id'])->first();
+                $product_price = ProductPrice::findOrFail($order_product['product_price_id']);
+                $quantity = $order_product['quantity'];
+
+                $created_order_product = $order->orderProducts()->create([
+                    'product_id' => $product->id,
+                    'quantity' => $quantity,
+                    'product_price_id' => $product_price->id,
+                    'price' => $product_price->price * $quantity,
+                ]);
+
+                // deduct stock
+                $product->removeStock($created_order_product->totalQuantity());
+
+
+                // create reservations
+                if (isset($order_product['reservations'])) {
+                    foreach ($order_product['reservations'] as $reservation) {
+                        $reception_id = $reservation['reception_id'];
+                        $quantity = $reservation['quantity'];
+
+                        $reservation = Reservation::query()->create([
+                            'reception_id' => $reception_id,
+                            'order_product_id' => $created_order_product->id,
+                            'quantity' => $quantity,
+                        ]);
+
+                        $reservation->apply();
+                    }
+                }
+
+            }
+
+            $order->shipping_provider = "Magazin";
+            // calculate total
+            $order->total = $order->totalPrice();
+            $order->save();
+
+            DB::commit();
+        }catch (Exception $e){
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Une erreur est survenue']);
+        }
+
+
+        return back()->with('success', 'Commande créée avec succès');
+
+
+
+
+
+
+
     }
 
     /**
