@@ -1,7 +1,7 @@
 
 import { Link, Head, router } from '@inertiajs/react';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Layouts
 import LandingMainLayout from '@/Layouts/landing/mainLayout';
@@ -23,6 +23,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { BsZoomIn } from 'react-icons/bs';
+import { RiBookmarkFill, RiBookmarkLine } from 'react-icons/ri';
 
 
 const getMinPrice = (prices: any) => {
@@ -36,7 +37,30 @@ const Product = ({ ...props }) => {
     const [selectedImage, setSelectedImage] = useState(product?.images.filter((item: any) => product?.main_image_id === item.id)[0]?.path);
     const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.product_prices));
     const [qte, setQte] = useState(1);
+
     const [addingToCartLoading, setAddingToCartLoading] = useState(false);
+    const [bookmarkLoading, setBookmarkLoading] = useState(false);
+
+    useEffect(() => {
+        setProduct(props?.product);
+    }, [props?.product]);
+
+    const handleBookmark = () => {
+        setBookmarkLoading(true);
+        if (product?.isProductBookmarked) {
+            router.delete(route("bookmark.destroy", product?.id), {
+                preserveScroll: true,
+                onFinish: () => setBookmarkLoading(false),
+            });
+        } else {
+            router.post(route("bookmark.store"), {
+                product_id: product.id
+            }, {
+                preserveScroll: true,
+                onFinish: () => setBookmarkLoading(false),
+            })
+        }
+    }
 
     const addToCart = () => {
         setAddingToCartLoading(true);
@@ -64,7 +88,7 @@ const Product = ({ ...props }) => {
             <div className="container mx-auto px-5 pt-2 py-0 bg-white mt-10">
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-col md:flex-row justify-center items-start gap-6">
-                        <div className="grid grid-cols-1 ">
+                        <div className="grid grid-cols-1">
                             <div
                                 className="w-full md:w-96 h-96 flex flex-col items-center justify-center relative border-2 border-gray-200 bg-cover bg-center"
                                 style={{
@@ -114,7 +138,7 @@ const Product = ({ ...props }) => {
                                 </Swiper>
                             </div>
                         </div>
-                        <div className="flex flex-col items-center justify-center w-full md:w-1/3">
+                        <div className="flex flex-col items-center justify-center w-full md:w-[600px]">
                             <div className="flex justify-between w-full font-bold mb-2">
                                 <p className="text-gray-900 text-center md:text-left text-sm lg:tex">
                                     {product?.name}
@@ -133,9 +157,15 @@ const Product = ({ ...props }) => {
                             </div>
                             <div className='flex justify-between items-center w-full mt-6'>
                                 <p className="text-gray-900 text-xs font-bold md:text-sm lg:tex">
-                                    Add To bookmarks
+                                    Ajouter aux Signets
                                 </p>
-                                <TbBookmark className="w-7 h-7 text-gray-600 mr-2 cursor-pointer" />
+                                <Button
+                                    variant="ghost"
+                                    className="hover:bg-gray-50"
+                                    onClick={() => handleBookmark()}
+                                >
+                                    {bookmarkLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : product?.isProductBookmarked ? <RiBookmarkFill className="w-4 h-4 text-gray-900" /> : <RiBookmarkLine className="w-4 h-4 text-gray-900" />}
+                                </Button>
                             </div>
                             <Separator className="w-full mt-2" />
                             <p className="w-full mt-2 text-gray-800 text-left text-xs font-bold md:text-sm lg:text-base">
@@ -176,7 +206,7 @@ const Product = ({ ...props }) => {
                                     onClick={addToCart}
                                 >
                                     <p className="text-xs font-bold md:text-sm lg:tex">
-                                        ADD TO CART
+                                        AJOUTER AU PANIER
                                     </p>
                                     {addingToCartLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
                                         <p className="text-xs text-gray-400 font-bold">

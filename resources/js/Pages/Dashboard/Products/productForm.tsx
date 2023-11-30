@@ -77,7 +77,7 @@ const ProductForm = ({ ...props }) => {
         unit: props?.product?.unit?.toUpperCase() || "G",
         status: props?.product?.status || "published",
         main_image: null,
-        main_image_id: props?.product?.main_image || null,
+        main_image_id: props?.product?.main_image_id || null,
         images: [],
         prices: props?.product?.product_prices || [],
         other_images: [],
