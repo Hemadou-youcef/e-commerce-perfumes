@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('description');
             $table->text('description_ar');
             $table->unsignedBigInteger('main_image_id')->nullable();
-            $table->foreign('main_image_id')->references('id')->on('images')->onDelete('cascade');
             $table->bigInteger('quantity')->default(0);
             $table->string('unit')->nullable();
             $table->string('type')->nullable();
