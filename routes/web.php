@@ -91,6 +91,7 @@ Route::get('/admin/employees' , [App\Http\Controllers\EmployeeController::class,
 Route::get('/admin/employees/create', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create');
 Route::post('/admin/employees/create', [App\Http\Controllers\EmployeeController::class, 'store'])->name('employee.store');
 Route::get('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'show'])->name('employee');
+Route::get('/admin/employees/{user}/edit' , [App\Http\Controllers\EmployeeController::class, 'edit'])->name('employee.edit');
 Route::patch('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'update'])->name('employee.update');
 Route::post('/admin/employees', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create');
 Route::delete('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'destroy']);

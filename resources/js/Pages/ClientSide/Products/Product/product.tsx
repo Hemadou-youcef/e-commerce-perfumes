@@ -33,7 +33,7 @@ const getMinPrice = (prices: any) => {
 const Product = ({ ...props }) => {
     console.log(props)
     const [product, setProduct] = useState(props?.product);
-    const [selectedImage, setSelectedImage] = useState(product?.main_image);
+    const [selectedImage, setSelectedImage] = useState(product?.images.filter((item: any) => product?.main_image_id === item.id)[0]?.path);
     const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.product_prices));
     const [qte, setQte] = useState(1);
     const [addingToCartLoading, setAddingToCartLoading] = useState(false);
@@ -90,7 +90,7 @@ const Product = ({ ...props }) => {
                                     scrollbar={{ draggable: true }}
                                     className=" md:h-[136px]"
                                 >
-                                    {[...product?.images]
+                                    {product?.images
                                         .map((item: any, index: number) => (
                                             <SwiperSlide
                                                 key={index}
@@ -98,7 +98,7 @@ const Product = ({ ...props }) => {
                                                 onClick={() => setSelectedImage(item.path)}
                                             >
                                                 <div
-                                                    className="h-32 shrink-0 snap-center flex flex-col items-center justify-start bg-cover bg-center"
+                                                    className={`h-32 shrink-0 snap-center flex flex-col items-center justify-start bg-cover bg-center ${selectedImage === item.path ? 'border-2 border-primary' : 'border-2 border-gray-200'}`}
                                                     style={{
                                                         backgroundImage: `url(/storage/${item.path})`,
                                                     }}

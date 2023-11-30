@@ -122,10 +122,10 @@ const Product = ({ ...props }) => {
                 <Separator />
                 <div className="flex flex-col gap-4 py-5 px-5 ">
                     <div className="grid grid-cols-5 gap-5">
-                        {([product?.main_image, product?.images] || []).map((image: any, index) => (
+                        {(product?.images || []).map((image: any, index) => (
                             <div key={index} className="relative h-64 border shadow-md rounded-md">
                                 <img
-                                    src={`${image.path}`}
+                                    src={`/storage/${image.path}`}
                                     className="absolute h-full w-full object-cover rounded-md"
                                 />
                             </div>
@@ -162,14 +162,14 @@ const Product = ({ ...props }) => {
                     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                         <h1 className="text-sm font-medium md:w-40 text-gray-800">Description :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
-                            <p className="text-sm font-bold text-gray-500">{product?.description.split('<br/>').map((value) => (<><span>{value}</span><br /></>))}</p>
+                            <div className="text-sm font-bold text-gray-500">{product?.description.split('<br/>').map((value, index) => (<div key={index}><span>{value}</span><br /></div>))}</div>
                         </div>
                     </div>
                     <Separator className="mt-0 md:hidden" />
                     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                         <h1 className="text-sm font-medium md:w-40 text-gray-800">Description En arabe :</h1>
                         <div className="flex flex-row justify-end items-center gap-2">
-                            <p className="text-sm font-bold text-gray-500">{product?.description_ar.split('<br/>').map((value) => (<><span>{value}</span><br /></>))}</p>
+                            <div className="text-sm font-bold text-gray-500">{product?.description_ar.split('<br/>').map((value, index) => (<div key={index}><span>{value}</span><br /></div>))}</div>
                         </div>
                     </div>
                 </div>

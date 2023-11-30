@@ -94,7 +94,7 @@ class EmployeeController extends Controller
     public function edit(User $user)
     {
         if ($user->isEmployee()) {
-            return Inertia::render('testPages/test', [
+            return Inertia::render('Dashboard/Employees/employeesForm', [
                 'employee' => $user
             ]);
         }

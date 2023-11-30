@@ -43,6 +43,7 @@ import { FaAngleDown, FaCheck, FaSave } from "react-icons/fa";
 import sheetDialog from '@/styles/dialog.module.css'
 import { IoClose } from "react-icons/io5";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { MdEdit } from "react-icons/md";
 
 interface FormData {
     first_name: string;
@@ -58,17 +59,18 @@ interface FormData {
 
 
 const EmployeesForm = ({ ...props }) => {
-
-    const { data, setData, post, processing, errors, reset } = useForm<FormData>({
-        first_name: "",
-        last_name: "",
-        phone: "",
-        address: "",
-        gender: "male",
-        username: "",
+    console.log(props)
+    const editMode = props?.employee ? true : false;
+    const { data, setData, post , patch, processing, errors, reset } = useForm<FormData>({
+        first_name: props?.employee?.first_name || "",
+        last_name: props?.employee?.last_name || "",
+        phone: props?.employee?.phone || "",
+        address: props?.employee?.address || "",
+        gender: props?.employee?.gender || "male",
+        username: props?.employee?.username || "",
         password: "",
         password_confirmation: "",
-        role: "2",
+        role: props?.employee?.role?.toString() || "2",
     });
 
     const isAllRulesVerified = () => {
@@ -80,16 +82,20 @@ const EmployeesForm = ({ ...props }) => {
             data.gender == "male" || data.gender == "female",
             data.role == "2" || data.role == "3",
             data.username.length > 5,
-            data.password.length > 5,
-            data.password_confirmation == data.password,
+            editMode || data.password.length > 7,
+            editMode ||  data.password_confirmation == data.password,
         ];
         return rules.every((rule) => rule);
     }
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+        if (editMode) {
+            return patch(route('employee.update', props.employee.id));
+        } else {
+            post(route('employee.store'));
+        }
 
-        post(route('employee.store'));
     };
     return (
         <>
@@ -123,7 +129,7 @@ const EmployeesForm = ({ ...props }) => {
                             onClick={(e) => submit(e)}
                             disabled={processing || !isAllRulesVerified()}
                         >
-                            {processing ? <ReloadIcon className="h-5 w-5 animate-spin" /> : <FaSave className="text-lg" />}
+                            {processing ? <ReloadIcon className="h-5 w-5 animate-spin" /> : editMode ? <MdEdit className="text-lg" /> : <FaSave className="text-lg" />}
 
                         </Button>
                     </div>
@@ -142,6 +148,7 @@ const EmployeesForm = ({ ...props }) => {
                                         value={data.first_name}
                                         onChange={(e) => setData("first_name", e.target.value)}
                                     />
+                                    {errors.first_name && <p className="text-xs text-red-500">{errors.first_name}</p>}
                                 </div>
                                 <div className="grid gap-3">
                                     <Label htmlFor="name" className="text-base">Prénom</Label>
@@ -152,6 +159,7 @@ const EmployeesForm = ({ ...props }) => {
                                         value={data.last_name}
                                         onChange={(e) => setData("last_name", e.target.value)}
                                     />
+                                    {errors.last_name && <p className="text-xs text-red-500">{errors.last_name}</p>}
                                 </div>
                             </div>
 
@@ -164,6 +172,7 @@ const EmployeesForm = ({ ...props }) => {
                                     value={data.phone}
                                     onChange={(e) => setData("phone", e.target.value)}
                                 />
+                                {errors.phone && <p className="text-xs text-red-500">{errors.phone}</p>}
                             </div>
 
                             <div className="grid gap-3">
@@ -175,6 +184,7 @@ const EmployeesForm = ({ ...props }) => {
                                     value={data.address}
                                     onChange={(e) => setData("address", e.target.value)}
                                 />
+                                {errors.address && <p className="text-xs text-red-500">{errors.address}</p>}
                             </div>
 
                             <div className="grid gap-3 pt-3 px-5">
@@ -184,7 +194,7 @@ const EmployeesForm = ({ ...props }) => {
                                         <Label htmlFor="male" className="cursor-pointer text-lg">Male</Label>
                                     </div>
                                     <div className="flex items-center space-x-2">
-                                        <RadioGroupItem value="female" id="female"  className="w-7 h-7 rounded-lg"/>
+                                        <RadioGroupItem value="female" id="female" className="w-7 h-7 rounded-lg" />
                                         <Label htmlFor="female" className="cursor-pointer text-lg">Female</Label>
                                     </div>
                                 </RadioGroup>
@@ -222,6 +232,7 @@ const EmployeesForm = ({ ...props }) => {
                                     value={data.username}
                                     onChange={(e) => setData("username", e.target.value)}
                                 />
+                                {errors.username && <p className="text-xs text-red-500">{errors.username}</p>}
                             </div>
 
                             <div className="grid gap-3">
@@ -233,9 +244,11 @@ const EmployeesForm = ({ ...props }) => {
                                     value={data.password}
                                     onChange={(e) => setData("password", e.target.value)}
                                 />
+                                {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
+                                {!editMode && data.password.length != 0 && (data.password.length > 7 ? <p className="text-xs text-green-500">Mot de passe valide</p> : <p className="text-xs text-red-500">Mot de passe il faudrait supérieur à 7 caractères</p>)}
                             </div>
 
-                            <div className="grid gap-3">
+                            <div className="grid gap-2">
                                 <Label htmlFor="password_confirmation" className="text-base">Confirmer le mot de passe</Label>
                                 <Input
                                     id="password_confirmation"
@@ -244,6 +257,7 @@ const EmployeesForm = ({ ...props }) => {
                                     value={data.password_confirmation}
                                     onChange={(e) => setData("password_confirmation", e.target.value)}
                                 />
+                                {(data.password.length > 7 && data.password_confirmation.length > 0 && data.password_confirmation != data.password) && <p className="text-xs text-red-500">Mot de passe non identique</p>}
                             </div>
                         </div>
                     </div>

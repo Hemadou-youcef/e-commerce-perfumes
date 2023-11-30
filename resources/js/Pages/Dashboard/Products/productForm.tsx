@@ -60,6 +60,7 @@ interface FormData {
     unit: string;
     status: string;
     main_image: File | string | null;
+    main_image_id: number | null;
     images: File[];
     prices: prices[];
     other_images: number[];
@@ -69,13 +70,14 @@ interface FormData {
 const ProductForm = ({ ...props }) => {
     console.log(props)
     const editMode = props?.product ? true : false;
-    const { data, setData, post, patch, processing, errors, reset } = useForm<FormData>({
+    const { data, setData, post, transform, processing, errors, reset } = useForm<FormData>({
         name: props?.product?.name || "",
         description: props?.product?.description || "",
         description_ar: props?.product?.description_ar || "",
         unit: props?.product?.unit?.toUpperCase() || "G",
         status: props?.product?.status || "published",
-        main_image: props?.product?.main_image || null,
+        main_image: null,
+        main_image_id: props?.product?.main_image || null,
         images: [],
         prices: props?.product?.product_prices || [],
         other_images: [],
@@ -112,9 +114,30 @@ const ProductForm = ({ ...props }) => {
         setData("prices", prices);
     }
 
+    const handleChangeMainImage = (type, value) => {
+        if (type === "file") {
+            console.log(value)
+            setData(data => ({ ...data, main_image: value }));
+            setData(data => ({ ...data, main_image_id: null }));
+        } else {
+            setData(data => ({ ...data, main_image_id: value }));
+            setData(data => ({ ...data, main_image: null }));
+        }
+    }
+
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         if (editMode) {
+            transform((data: FormData) => {
+                if (data.main_image_id) {
+                    delete data.main_image;
+                    delete data.images;
+                } else {
+                    delete data.main_image_id;
+                    delete data.other_images;
+                }
+                return data;
+            });
             post(route('product.update', props?.product?.id));
         } else {
             post(route("product.store"), {
@@ -166,7 +189,7 @@ const ProductForm = ({ ...props }) => {
                                 submit(e)
                             }}
                         >
-                            {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : editMode ? <MdEdit className="text-lg"/> : <FaSave className="text-lg" />}
+                            {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : editMode ? <MdEdit className="text-lg" /> : <FaSave className="text-lg" />}
                         </Button>
                     </div>
                 </div>
@@ -277,10 +300,7 @@ const ProductForm = ({ ...props }) => {
                                                     <ContextMenuContent>
                                                         <ContextMenuItem
                                                             className="flex items-center justify-center gap-2"
-                                                            onClick={() => {
-                                                                console.log(data.main_image)
-                                                                setData("main_image", new File([image], image.name));
-                                                            }}
+                                                            onClick={() => handleChangeMainImage("file", new File([image], image.name))}
                                                         >
                                                             Définir comme image principale
                                                         </ContextMenuItem>
@@ -300,7 +320,7 @@ const ProductForm = ({ ...props }) => {
                                             <ContextMenu>
                                                 <ContextMenuTrigger>
                                                     <div
-                                                        style={{ backgroundImage: "url(" + image.path + ")" }}
+                                                        style={{ backgroundImage: "url(/storage/" + image.path + ")" }}
                                                         className={`w-full h-full relative flex items-center justify-center bg-cover bg-center cursor-pointer`}
                                                         onClick={() => {
                                                             setData("removed_images", [...data.removed_images, image.id]);
@@ -315,14 +335,14 @@ const ProductForm = ({ ...props }) => {
                                                     <ContextMenuItem
                                                         className="flex items-center justify-center gap-2"
                                                         onClick={() => {
-                                                            setData("main_image", image.path);
+                                                            handleChangeMainImage("id", image.id);
                                                         }}
                                                     >
                                                         Définir comme image principale
                                                     </ContextMenuItem>
                                                 </ContextMenuContent>
                                             </ContextMenu>
-                                            {data.main_image === image.path && (
+                                            {data.main_image_id === image.id && (
                                                 <div className="absolute top-0 right-0 w-7 h-7 bg-yellow-400 flex items-center justify-center">
                                                     <LuCrown className="w-4 h-4 text-gray-50" />
                                                 </div>

@@ -8,6 +8,7 @@ import { BsBookmarkPlusFill } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa";
 import { GoBookmark, GoBookmarkSlash } from "react-icons/go";
 import { LuHeartOff } from "react-icons/lu";
+import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 
 const getMinPrice = (prices: any) => {
     let min = Math.min(...prices.map((price: any) => price.quantity));
@@ -46,13 +47,13 @@ const Product = ({ product }) => {
                     <div className="hidden absolute right-1 top-1 group-hover:flex flex-col gap-2 group-hover:transition-all group-hover:delay-150 group-hover:duration-300">
                         <Button
                             variant="ghost"
-                            className="flex items-center justify-center gap-2 p-2 bg-gray-100 bg-opacity-50 rounded-full shadow-md border"
+                            className="flex items-center justify-center gap-2 p-2 w-10 h-10 bg-gray-50 rounded-full shadow-md border"
                             onClick={handleBookmark}
                             disabled={bookmarkLoading}
 
                         >
 
-                            {bookmarkLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : product?.isProductBookmarked ? <LuHeartOff className="w-5 h-5 text-gray-900" /> : <FaRegHeart className="w-5 h-5 text-gray-900" />}
+                            {bookmarkLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : product?.isProductBookmarked ? <RiBookmarkFill className="w-4 h-4 text-gray-900" /> : <RiBookmarkLine className="w-4 h-4 text-gray-900" />}
                         </Button>
                         {/* <div className="flex items-center justify-center gap-2 p-2 bg-gray-100 bg-opacity-50 rounded-full shadow-md border">
                             <AiFillEye className="w-6 h-6 text-gray-900" />
