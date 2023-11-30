@@ -125,7 +125,7 @@ const Product = ({ ...props }) => {
                         {([product?.main_image, product?.images] || []).map((image: any, index) => (
                             <div key={index} className="relative h-64 border shadow-md rounded-md">
                                 <img
-                                    src={`/storage/${image.path}`}
+                                    src={`${image.path}`}
                                     className="absolute h-full w-full object-cover rounded-md"
                                 />
                             </div>

@@ -40,7 +40,7 @@ class ClientProductController extends Controller
                     'name' => $product->name,
                     'description' => $product->description,
                     'description_ar' => $product->description_ar,
-                    'main_image' => $product->main_image,
+                    'main_image_id' => $product->main_image_id,
                     'categories' => $product->categories,
                     'product_prices' => $product->productPrices,
                     'isProductBookmarked' => $product->isProductBookmarked()
@@ -81,7 +81,7 @@ class ClientProductController extends Controller
                 'name' => $product->name,
                 'description' => $product->description,
                 'description_ar' => $product->description_ar,
-                'main_image' => $product->main_image,
+                'main_image_id' => $product->main_image_id,
                 'categories' => $product->categories,
                 'images' => $product->images,
                 'product_prices' => $product->productPrices,

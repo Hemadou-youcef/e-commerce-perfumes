@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Reception;
+use App\Models\Product;
 use App\Http\Requests\StoreReceptionRequest;
 use App\Http\Requests\UpdateReceptionRequest;
+use App\Models\Reception;
 use Inertia\Inertia;
 
 class ReceptionController extends Controller
@@ -14,44 +15,33 @@ class ReceptionController extends Controller
      */
     public function index()
     {
+        $receptions = Reception::query()
+            ->when(request('q'), function ($query, $q) {
+
+                $query->whereHas('product', function ($userQuery) use ($q) {
+                    $userQuery->where('name', 'like', '%' . $q . '%');
+                })->orWhereHas('user', function ($userQuery) use ($q) {
+                    $userQuery->where('first_name', 'like', '%' . $q . '%')
+                        ->orWhere('last_name', 'like', '%' . $q . '%')
+                        ->orWhere('phone', 'like', '%' . $q . '%');
+                })->orWhere('name', 'like', '%' . $q . '%');
+            })
+            ->when(request('start'), fn($query) => $query->where('created_at', '>=', request('start')))
+            ->when(request('end'), fn($query) => $query->where('created_at', '<=', request('end')))
+            ->when('orderBy', fn($query) => $query->orderBy(request('orderBy'), request('order') ?? 'desc'))
+            ->orderBy('created_at', 'desc')
+            ->with(['user', 'product', 'reservations'])
+            ->paginate(10)
+            ->withQueryString();
+
         return Inertia::render('Dashboard/Receptions/receptions', [
-            'receptions' => Reception::query()
-                ->when(request('q') , function ($query , $q){
-                    $query->whereHas('product' , function ($userQuery) use ($q){
-                        $userQuery->where('name' , 'like' , '%'.$q.'%')
-                            ;
-                    });
-                })
-                ->when(request('start') , fn($query) => $query->where('created_at' , '>=' , request('start')))
-                ->when(request('end') , fn($query) => $query->where('created_at' , '<=' , request('end')))
-                ->orderBy('created_at' , 'desc')
-                ->with(['user' , 'product' , 'reservations'] )
-                ->paginate(10),
+            'receptions' => $receptions,
             "filters" => [
-                "q" => request('q' , ''),
-                "start" => request('start' , ''),
-                "end" => request('end' , ''),
+                "q" => request('q', ''),
+                "start" => request('start', ''),
+                "end" => request('end', ''),
             ]
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-//        return Inertia::render('Dashboard/Receptions/receptionForm', [
-//            'products' => \App\Models\Product::query()->orderBy('quantity' , 'asc')->get(),
-//        ]);
-
-        return Inertia::render('Dashboard/Receptions/receptionForm', [
-            'products' => \App\Models\Product::query()
-                ->when(request('q') , function ($query , $q){
-                    $query->where('name' , 'like' , '%'.$q.'%');
-                })
-                ->orderBy('quantity' , 'asc')->get(),
-        ]);
-
     }
 
     /**
@@ -70,12 +60,31 @@ class ReceptionController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+//        return Inertia::render('Dashboard/Receptions/receptionForm', [
+//            'products' => \App\Models\Product::query()->orderBy('quantity' , 'asc')->get(),
+//        ]);
+
+        return Inertia::render('Dashboard/Receptions/receptionForm', [
+            'products' => Product::query()
+                ->when(request('q'), function ($query, $q) {
+                    $query->where('name', 'like', '%' . $q . '%');
+                })
+                ->orderBy('quantity', 'asc')->get(),
+        ]);
+
+    }
+
+    /**
      * Display the specified resource.
      */
     public function show(Reception $reception)
     {
         return inertia::render('Dashboard/Receptions/reception', [
-            'reception'=>[
+            'reception' => [
                 'id' => $reception->id,
                 'name' => $reception->name,
                 'price' => $reception->price,

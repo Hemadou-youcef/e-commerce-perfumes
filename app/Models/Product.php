@@ -21,7 +21,7 @@ class Product extends Model
         'name',
         'description',
         'description_ar',
-        'main_image',
+        'main_image_id',
         'quantity',
         'status',
         'created_by',
@@ -48,6 +48,11 @@ class Product extends Model
     public function receptions(): HasMany
     {
         return $this->hasMany(Reception::class);
+    }
+
+    public function main_image(): BelongsTo
+    {
+        return $this->belongsTo(Image::class, 'main_image_id');
     }
 
     public function orders(): BelongsToMany

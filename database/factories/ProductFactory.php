@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
@@ -18,13 +19,12 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $imageFiles = Storage::files('public/images/'); // Assuming images are in the 'public' directory
-        $url = Storage::url($this->faker->randomElement($imageFiles));
+//       $main_image_id = Image::inRandomOrder()->first()->id;
         return [
             'name' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
             'description_ar' => 'وصف باللغة العربية',
-            'main_image' => $url,
+            'main_image_id' => null,
             'quantity' => 10000,
             'unit' => $this->faker->randomElement(['kg', 'g', 'l', 'ml', 'unité']),
             'type' => $this->faker->randomElement(['parfum', 'huile', 'encens','accessoires', 'autre']),
