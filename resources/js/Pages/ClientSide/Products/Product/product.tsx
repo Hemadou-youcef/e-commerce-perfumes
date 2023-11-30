@@ -92,7 +92,7 @@ const Product = ({ ...props }) => {
                             <div
                                 className="w-full md:w-96 h-96 flex flex-col items-center justify-center relative border-2 border-gray-200 bg-cover bg-center"
                                 style={{
-                                    backgroundImage: `url(${selectedImage})`,
+                                    backgroundImage: `url(/storage/${selectedImage})`,
                                 }}
                             >
                                 {/* <img
@@ -124,7 +124,7 @@ const Product = ({ ...props }) => {
                                                 <div
                                                     className={`h-32 shrink-0 snap-center flex flex-col items-center justify-start bg-cover bg-center ${selectedImage === item.path ? 'border-2 border-primary' : 'border-2 border-gray-200'}`}
                                                     style={{
-                                                        backgroundImage: `url(${item.path})`,
+                                                        backgroundImage: `url(/storage/${item.path})`,
                                                     }}
                                                 >
                                                     {/* <img
