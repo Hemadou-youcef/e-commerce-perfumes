@@ -320,7 +320,7 @@ const ProductForm = ({ ...props }) => {
                                             <ContextMenu>
                                                 <ContextMenuTrigger>
                                                     <div
-                                                        style={{ backgroundImage: "url(/storage/" + image.path + ")" }}
+                                                        style={{ backgroundImage: "url(" + image.path + ")" }}
                                                         className={`w-full h-full relative flex items-center justify-center bg-cover bg-center cursor-pointer`}
                                                         onClick={() => {
                                                             setData("removed_images", [...data.removed_images, image.id]);

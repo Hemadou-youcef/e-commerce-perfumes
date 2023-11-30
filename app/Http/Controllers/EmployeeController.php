@@ -72,7 +72,7 @@ class EmployeeController extends Controller
         ]);
 
 
-        return back();
+        return to_route('employees');
     }
 
     /**
@@ -81,7 +81,7 @@ class EmployeeController extends Controller
     public function show(User $user)
     {
         if ($user->isEmployee()) {
-            return Inertia::render('Dashboard/Employees/employee', [
+            return Inertia::render('testPages/test', [
                 'employee' => $user->load(['receptions', 'verifiedOrders', 'confirmedOrders', 'cancelledOrders', 'deliveredOrders', 'receptions'])
             ]);
         }
@@ -125,7 +125,7 @@ class EmployeeController extends Controller
             'address' => 'required|string|max:255',
             'gender' => 'required|string|max:255|in:male,female',
             'role' => 'required|string|max:255|in:2,3',
-            'password' => 'nullable|string|confirmed|min:8',
+            'password' => ['nullable', Rules\Password::defaults()],
         ]);
 
         $user->update([

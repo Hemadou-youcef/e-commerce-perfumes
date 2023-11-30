@@ -228,7 +228,7 @@ const Cart = ({ ...props }) => {
                             <div key={index} className="flex items-center flex-col md:flex-row gap-5 border-b border-gray-300 py-4">
                                 <img
                                     alt=""
-                                    src={"/storage/" + item.product?.main_image}
+                                    src={item.product?.main_image}
                                     className="h-16 w-16 object-cover mr-4 bg-gray-300"
                                 />
 

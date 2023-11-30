@@ -43,6 +43,7 @@ class ClientProductController extends Controller
                     'main_image_id' => $product->main_image_id,
                     'categories' => $product->categories,
                     'product_prices' => $product->productPrices,
+                    'images' => $product->images,
                     'isProductBookmarked' => $product->isProductBookmarked()
                 ])
                 ->withQueryString(),
