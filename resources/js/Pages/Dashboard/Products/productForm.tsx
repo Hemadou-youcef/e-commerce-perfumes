@@ -53,15 +53,21 @@ type prices = {
     unit: string;
     quantity: number;
 }
+
+type Image = {
+    id: number;
+    product_id: number;
+    path: string;
+}
 interface FormData {
     name: string;
     description: string;
     description_ar: string;
     unit: string;
     status: string;
-    main_image: File | string | null;
+    main_image: File | null;
     main_image_id: number | null;
-    images: File[];
+    images: File[] | Image[];
     prices: prices[];
     other_images: number[];
     removed_images: number[];
@@ -78,7 +84,7 @@ const ProductForm = ({ ...props }) => {
         status: props?.product?.status || "published",
         main_image: null,
         main_image_id: props?.product?.main_image_id || null,
-        images: [],
+        images: props?.product?.images || [],
         prices: props?.product?.product_prices || [],
         other_images: [],
         removed_images: [],
@@ -96,6 +102,19 @@ const ProductForm = ({ ...props }) => {
     useEffect(() => {
         imagesToDataForm();
     }, [imagesUploaded]);
+
+    const isAllRulesVerified = () => {
+        const rules = [
+            data.name.length > 0,
+            data.description.length > 0,
+            data.description_ar.length > 0,
+            data.unit.length > 0,
+            data.status.length > 0,
+            data.main_image || data.main_image_id,
+            editMode || data.images.length > 0,
+        ];
+        return rules.every((rule) => rule);
+    }
 
     const imagesToDataForm = () => {
         const images = imagesUploaded.filter((img, index) => {
@@ -188,6 +207,7 @@ const ProductForm = ({ ...props }) => {
                             onClick={(e) => {
                                 submit(e)
                             }}
+                            disabled={!isAllRulesVerified()}
                         >
                             {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : editMode ? <MdEdit className="text-lg" /> : <FaSave className="text-lg" />}
                         </Button>
@@ -206,6 +226,7 @@ const ProductForm = ({ ...props }) => {
                                     value={data.name}
                                     onChange={(e) => setData("name", e.target.value)}
                                 />
+                                {data.name.length === 0 && <p className="text-xs text-red-500">Le nom de la produit est obligatoire</p>}
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="description" className="text-base">Description</Label>
@@ -215,6 +236,7 @@ const ProductForm = ({ ...props }) => {
                                     value={data.description}
                                     onChange={(e) => setData("description", e.target.value)}
                                 />
+                                {data.description.length === 0 && <p className="text-xs text-red-500">La description de la produit est obligatoire</p>}
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="description_ar" className="text-base">Description Arabe</Label>
@@ -225,6 +247,7 @@ const ProductForm = ({ ...props }) => {
                                     value={data.description_ar}
                                     onChange={(e) => setData("description_ar", e.target.value)}
                                 />
+                                {data.description_ar.length === 0 && <p className="text-xs text-red-500">La description de la produit est obligatoire</p>}
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="unit" className="text-base">Unité</Label>
@@ -274,6 +297,9 @@ const ProductForm = ({ ...props }) => {
                                                         style={{ backgroundImage: "url(" + URL.createObjectURL(image) + ")" }}
                                                         className={`w-full h-full relative flex items-center justify-center bg-cover bg-center cursor-pointer`}
                                                         onClick={() => {
+                                                            if (data?.main_image?.name === image.name) {
+                                                                setData(data => ({ ...data, main_image: null }));
+                                                            }
                                                             setImagesUploaded(imagesUploaded.filter((img) => img !== image));
                                                         }}
                                                     >
@@ -308,14 +334,14 @@ const ProductForm = ({ ...props }) => {
                                                 )}
                                             </ContextMenu>
 
-                                            {data.main_image?.name === image.name && (
+                                            {data?.main_image?.name === image.name && (
                                                 <div className="absolute top-0 right-0 w-7 h-7 bg-yellow-400 flex items-center justify-center">
                                                     <LuCrown className="w-4 h-4 text-gray-50" />
                                                 </div>
                                             )}
                                         </div>
                                     ))}
-                                    {editMode && props?.product?.images.filter((image) => !data.removed_images.includes(image.id)).map((image, index) => (
+                                    {editMode && data.images?.filter((image) => !data.removed_images.includes((image as Image).id)).map((image, index) => (
                                         <div key={index} className="relative w-32 h-32 border-2 rounded-md overflow-hidden group">
                                             <ContextMenu>
                                                 <ContextMenuTrigger>
@@ -323,7 +349,11 @@ const ProductForm = ({ ...props }) => {
                                                         style={{ backgroundImage: "url(" + image.path + ")" }}
                                                         className={`w-full h-full relative flex items-center justify-center bg-cover bg-center cursor-pointer`}
                                                         onClick={() => {
-                                                            setData("removed_images", [...data.removed_images, image.id]);
+                                                            if (data.main_image_id === image.id) {
+                                                                setData(data => ({ ...data, main_image_id: null }));
+                                                            }
+                                                            setData(data => ({ ...data, images: data.images?.filter((img) => img.id !== image.id) }));
+                                                            setData(data => ({ ...data, removed_images: [...data.removed_images, image.id] }));
                                                         }}
                                                     >
                                                         <div className="absolute inset-0 w-full h-full bg-gray-300 opacity-0 group-hover:opacity-50 transition-all duration-300">
@@ -350,6 +380,12 @@ const ProductForm = ({ ...props }) => {
                                         </div>
                                     ))}
                                 </div>
+                                {!editMode && imagesUploaded.length > 1 && data.main_image == null && (
+                                    <p className="text-xs text-red-500">Veuillez choisir une image principale</p>
+                                )}
+                                {editMode && (data.main_image == null && data.main_image_id == null) && (
+                                    <p className="text-xs text-red-500">Veuillez choisir une image principale</p>
+                                )}
                             </div>
                             {/* {editMode && <Separator className="mb-2" />}
                             <div className="grid gap-3">
