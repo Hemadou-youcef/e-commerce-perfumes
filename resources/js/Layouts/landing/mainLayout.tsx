@@ -4,16 +4,7 @@
 import LandingNav from "@/Layouts/landing/nav/landingNav";
 import LandingFooter from "./footer/footer";
 import { Link, usePage } from "@inertiajs/react";
-import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuIndicator,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-    NavigationMenuViewport,
-} from "@/shadcn/ui/navigation-menu"
+import { Toaster } from "@/shadcn/ui/toaster"
 import { useState } from "react";
 
 const LandingMainLayout = ({ children, ...props }) => {
@@ -71,6 +62,7 @@ const LandingMainLayout = ({ children, ...props }) => {
                 </div>
                 <LandingFooter />
             </div>
+            <Toaster />
         </>
     );
 }

@@ -1,5 +1,6 @@
 
 import { Button } from "@/shadcn/ui/button";
+import { useToast } from "@/shadcn/ui/use-toast";
 import { Link, router } from "@inertiajs/react";
 import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
@@ -19,12 +20,28 @@ const Product = ({ product }) => {
     
     const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.product_prices));
     const [bookmarkLoading, setBookmarkLoading] = useState(false);
+    const { toast } = useToast()
 
     const handleBookmark = () => {
         setBookmarkLoading(true);
         if (product?.isProductBookmarked) {
             router.delete(route("bookmark.destroy", product?.id), {
                 preserveScroll: true,
+                onSuccess: () => {
+                    toast({
+                        title: "Produit supprimé des signets",
+                        description: "Vous pouvez maintenant consulter votre liste de signets",
+                        duration: 5000,
+                    })
+                },
+                onError: () => {
+                    toast({
+                        variant: "destructive",
+                        title: "Erreur",
+                        description: "Une erreur s'est produite, veuillez réessayer",
+                        duration: 5000,
+                    })
+                },
                 onFinish: () => setBookmarkLoading(false),
             });
         } else {
@@ -32,6 +49,21 @@ const Product = ({ product }) => {
                 product_id: product.id
             }, {
                 preserveScroll: true,
+                onSuccess: () => {
+                    toast({
+                        title: "Produit ajouté aux signets",
+                        description: "Vous pouvez maintenant consulter votre liste de signets",
+                        duration: 5000,
+                    })
+                },
+                onError: () => {
+                    toast({
+                        variant: "destructive",
+                        title: "Erreur",
+                        description: "Une erreur s'est produite, veuillez réessayer",
+                        duration: 5000,
+                    })
+                },
                 onFinish: () => setBookmarkLoading(false),
             })
         }

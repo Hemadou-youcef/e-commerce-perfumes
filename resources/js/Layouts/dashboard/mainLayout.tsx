@@ -7,6 +7,7 @@ import { Search } from "@/components/dashboard/search"
 import { UserNav } from "@/components/dashboard/user-nav"
 import { MainNav } from "@/components/dashboard/main-nav-v2"
 import { useState } from "react"
+import { Toaster } from "@/shadcn/ui/toaster"
 
 // Icons
 
@@ -23,6 +24,7 @@ const DashboardMainLayout = ({ children }: { children: React.ReactNode }) => {
                     {children}
                 </div>
             </div>
+            <Toaster />
         </>
     );
 }

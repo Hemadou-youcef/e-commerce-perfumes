@@ -8,13 +8,14 @@ import LandingMainLayout from '@/Layouts/landing/mainLayout';
 
 // Components
 import { Button } from '@/shadcn/ui/button';
+import { useToast } from "@/shadcn/ui/use-toast"
 import { AiOutlineLoading3Quarters, AiOutlineMinus, AiOutlinePlus, AiOutlineZoomIn } from 'react-icons/ai';
 import { TbBookmark } from 'react-icons/tb';
 import LandingSuggest from '@/components/landing/suggest/landingSuggest';
 import { ReloadIcon, StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
 import { Separator } from '@/shadcn/ui/separator';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Scrollbar, Navigation , Autoplay } from 'swiper/modules';
+import { Scrollbar, Navigation, Autoplay } from 'swiper/modules';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -39,6 +40,8 @@ const Product = ({ ...props }) => {
     const [bookmarkLoading, setBookmarkLoading] = useState(false);
     const [showImageSlider, setShowImageSlider] = useState(false);
 
+    const { toast } = useToast()
+
     useEffect(() => {
         setProduct(props?.product);
     }, [props?.product]);
@@ -48,6 +51,21 @@ const Product = ({ ...props }) => {
         if (product?.isProductBookmarked) {
             router.delete(route("bookmark.destroy", product?.book), {
                 preserveScroll: true,
+                onSuccess: () => {
+                    toast({
+                        title: "Produit supprimé des signets",
+                        description: "Vous pouvez maintenant consulter votre liste de signets",
+                        duration: 5000,
+                    })
+                },
+                onError: () => {
+                    toast({
+                        variant: "destructive",
+                        title: "Erreur",
+                        description: "Une erreur s'est produite, veuillez réessayer",
+                        duration: 5000,
+                    })
+                },
                 onFinish: () => setBookmarkLoading(false),
             });
         } else {
@@ -55,6 +73,21 @@ const Product = ({ ...props }) => {
                 product_id: product.id
             }, {
                 preserveScroll: true,
+                onSuccess: () => {
+                    toast({
+                        title: "Produit ajouté aux signets",
+                        description: "Vous pouvez maintenant consulter votre liste de signets",
+                        duration: 5000,
+                    })
+                },
+                onError: () => {
+                    toast({
+                        variant: "destructive",
+                        title: "Erreur",
+                        description: "Une erreur s'est produite, veuillez réessayer",
+                        duration: 5000,
+                    })
+                },
                 onFinish: () => setBookmarkLoading(false),
             })
         }
@@ -69,10 +102,19 @@ const Product = ({ ...props }) => {
         }, {
             preserveScroll: true,
             onSuccess: () => {
-                console.log('Success')
+                toast({
+                    title: "Produit ajouté au panier",
+                    description: "Vous pouvez maintenant consulter votre panier",
+                    duration: 5000,
+                })
             },
             onError: () => {
-                console.log('Error')
+                toast({
+                    variant: "destructive",
+                    title: "Erreur",
+                    description: "Une erreur s'est produite, veuillez réessayer",
+                    duration: 5000,
+                })
             }
             , onFinish: () => {
                 setAddingToCartLoading(false);
