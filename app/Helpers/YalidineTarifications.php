@@ -9,6 +9,7 @@ class YalidineTarifications
         2 => ['Chlef', 900, 450],
         3 => ['Laghouat', 1200, 600],
         4 => ['Oum El Bouaghi', 900, 350],
+        5 => ['Batna', 850, 400],
         6 => ['Béjaïa', 850, 400],
         7 => ['Biskra', 850, 350],
         8 => ['Béchar', 1400, 800],
@@ -55,7 +56,7 @@ class YalidineTarifications
     ];
 
     public function getFeesByWilayaCode($wilayaCode) {
-        if (isset($this->tarifs[$wilayaCode])) {
+        if ($this->tarifs[$wilayaCode] !== null) {
             $tarif = $this->tarifs[$wilayaCode];
             return [
                 'wilaya' => $tarif[0],
@@ -76,7 +77,7 @@ class YalidineTarifications
         }
     }
 
-    public function getStopDeskDeliveryFee($wilayaCode) {
+    public function getStopDeskDeliveryFee(int $wilayaCode): ?int {
         $fees = $this->getFeesByWilayaCode($wilayaCode);
         if ($fees !== null) {
             return $fees['tarif_point_relais'];

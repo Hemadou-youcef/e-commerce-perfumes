@@ -76,6 +76,7 @@ class Product extends Model
         $this->increment('quantity', $quantity);
     }
 
+
     public function removeStock($quantity)
     {
         $this->decrement('quantity', $quantity);

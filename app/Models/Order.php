@@ -43,9 +43,9 @@ class Order extends Model
     }
 
 
-    public function address(): HasOne
+    public function address(): BelongsTo
     {
-        return $this->hasOne(Address::class);
+        return $this->belongsTo(Address::class);
     }
 
 

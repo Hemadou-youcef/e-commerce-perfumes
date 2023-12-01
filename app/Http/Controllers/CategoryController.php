@@ -19,7 +19,9 @@ class CategoryController extends Controller
                 ->when(request('q'), function ($query) {
                     $query->where('name', 'LIKE', '%' . request('q') . '%');
                 })
+                ->orderBy('created_at', 'desc')
                 ->paginate(10)
+                ->withQueryString()
         ]);
     }
 

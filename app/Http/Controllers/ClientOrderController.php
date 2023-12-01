@@ -17,14 +17,15 @@ class ClientOrderController extends Controller
     {
         return Inertia::render('testPages/test', [
             'orders' => Auth::user()->orders()
-                ->select('id', 'user_id', 'total', 'status', 'address', 'created_at')
+                ->select('id', 'user_id', 'total', 'status', 'created_at')
                 ->with([
                     'orderProducts' => function ($query) {
                         $query->select('id', 'order_id', 'product_id', 'quantity', 'price');
                     },
                     'orderProducts.product' => function ($query) {
-                        $query->select('id', 'name', 'description', 'description_ar', 'main_image');
+                        $query->select('id', 'name', 'description', 'description_ar', 'main_image_id');
                     },
+                    'orderProducts.product.images',
                     'orderProducts.product.categories',
                     'orderProducts.productPrice' => function ($query) {
                         $query->select('id', 'price', 'unit', 'quantity');

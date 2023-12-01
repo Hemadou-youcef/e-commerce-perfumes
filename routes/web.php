@@ -25,60 +25,17 @@ Route::get('/', function () {
     ]);
 });
 
-//Route::get('/products', function () {
-//    return Inertia::render('products');
-//})->name('products');
-//
-//Route::get('/product/{id}', function () {
-//    return Inertia::render('product');
-//})->name('product');
-
 Route::get('/admin', function () {
     return Inertia::render('Dashboard/dashboard');
 })->name('dashboard');
-
-//Route::get('/admin/orders', function () {
-//    return Inertia::render('Dashboard/Orders/orders');
-//})->name('orders');
-//
-//Route::get('/admin/orders/{id}', function () {
-//    return Inertia::render('Dashboard/Orders/order');
-//})->name('order');
-//
-
-
-// Route::get('/admin/clients', function () {
-//     return Inertia::render('Dashboard/Clients/clients');
-// })->name('clients')->middleware('admin');
-
-// Route::get('/admin/clients/{id}', function () {
-//     return Inertia::render('Dashboard/Clients/client');
-// })->name('clients');
-
-//Route::get('/login', function () {
-//    return Inertia::render('auth/login');
-//})->name('login');
-//
-//Route::get('/register', function () {
-//    return Inertia::render('auth/register');
-//})->name('register');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-// Route::get('/admin/products' , [App\Http\Controllers\ProductController::class, 'index']);
-// Route::get('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'show']);
-// Route::get('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit']);
-
 
 Route::get('/admin/receptions' , [App\Http\Controllers\ReceptionController::class, 'index'])->name('receptions');
 Route::get('/admin/receptions/create', [App\Http\Controllers\ReceptionController::class, 'create'])->name('reception.create');
 Route::post('/admin/receptions/create', [App\Http\Controllers\ReceptionController::class, 'store'])->name('reception.store');
 Route::get('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'show'])->name('reception');
-
+Route::get('/admin/receptions/{reception}/edit' , [App\Http\Controllers\ReceptionController::class, 'edit'])->name('reception.edit');
+Route::put('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'update'])->name('reception.update');
+Route::delete('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'destroy'])->name('reception.destroy');
 
 Route::get('/admin/clients' , [App\Http\Controllers\ClientController::class, 'index'])->name('clients');
 Route::get('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'show'])->name('client');
@@ -149,6 +106,8 @@ Route::patch('/admin/categories/{category}/edit' , [App\Http\Controllers\Categor
 Route::delete('/admin/categories/{category}' , [App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.destroy');
 
 
-
+// client profile routes
+Route::get('/profile' , [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile');
+Route::put('/profile' , [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
 require __DIR__.'/auth.php';

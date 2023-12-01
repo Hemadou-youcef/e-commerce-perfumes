@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Helpers\WilayaMapper;
 use App\Helpers\YalidineTarifications;
+use App\Models\Address;
 use App\Models\CartItem;
 use App\Http\Requests\StoreCartItemRequest;
 use App\Http\Requests\UpdateCartItemRequest;
 use App\Models\OrderProduct;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use function Laravel\Prompts\error;
 
 class CartItemController extends Controller
 {
@@ -109,58 +112,72 @@ class CartItemController extends Controller
             'postal_code' => 'nullable|string|max:255',
             'shipping_method' => 'required|integer|between:1,2',
         ]);
-
-        return $WilayaMapper->getProvinceName($address['state_code']);
         // Retrieve cart items for the authenticated user
         $cartItems = $user->cartItems()->get();
 
-        // Create a new order for the user
-        $order = new Order([
-            // Add other order details if needed (e.g., total, address, etc.)
-            'user_id' => $user->id,
-            // ...other order details
-        ]);
-        $order->save();
-
-        // get state name based on state code
-        $wilayaMapper = new WilayaMapper();
-        $address->state = $wilayaMapper->getProvinceName($address['state_code']);
-        // get shipping fees based on shipping address
-        $shippingFees = $this->getShippingFees($address['shipping_method'], $address['state_code']);
-        $address->shipping_fees = $shippingFees;
-
-
-        // Create an address for the order
-        $order->address()->create($address);
-
-        // Convert each cart item to an order product and attach it to the order
-        foreach ($cartItems as $cartItem) {
-            $orderProduct = new OrderProduct([
-                'product_id' => $cartItem->product_id,
-                'quantity' => $cartItem->quantity,
-                'product_price_id' => $cartItem->product_price_id,
-                'price' => $cartItem->productPrice->price * $cartItem->quantity,
-
+        try {
+            DB::beginTransaction();
+            // Create a new order for the user
+            $order = Order::create([
+                'user_id' => $user->id,
             ]);
-            $order->orderProducts()->save($orderProduct);
+
+            // get state name based on state code
+            $wilayaMapper = new WilayaMapper();
+            $address['state'] = $wilayaMapper->getProvinceName($address['state_code']);
+
+            // get shipping fees based on shipping address
+            $shippingFees = $this->getShippingFees($address['shipping_method'], $address['state_code']);
+            if ($shippingFees == null) {
+                return redirect()->back()->withErrors(['cart' => 'something went wrong']);
+            }
+            $address['shipping_fees'] = $shippingFees;
+
+            $createdAddress = Address::create($address);
+
+            // attach address to order
+            $order->address()->associate($createdAddress);
+
+
+
+            // Convert each cart item to an order product and attach it to the order
+            foreach ($cartItems as $cartItem) {
+                $orderProduct = new OrderProduct([
+                    'product_id' => $cartItem->product_id,
+                    'quantity' => $cartItem->quantity,
+                    'product_price_id' => $cartItem->product_price_id,
+                    'price' => $cartItem->productPrice->price * $cartItem->quantity,
+
+                ]);
+                $order->orderProducts()->save($orderProduct);
+            }
+            // order total price
+
+            $order->total = $order->totalPrice();
+            $order->save();
+
+            // Delete all cart items for the user
+            $user->emptyCart();
+            DB::commit();
+        }catch (\Exception $e) {
+            DB::rollBack();
+            error_log($e->getMessage());
+            return redirect()->back()->withErrors(['cart' => 'something went wrong']);
+
         }
-        // order total price
-        $order->total = $order->totalPrice() + $address->shipping_fees;
-        $order->save();
-
-        // Delete all cart items for the user
-        $user->emptyCart();
-
-        return redirect()->to('/cart');
+        return redirect()->to('/orders');
     }
 
-    public function getShippingFees($shippingType, $stateCode)
+    public function getShippingFees($shippingType, $stateCode): int
     {
         $yalidine = new YalidineTarifications();
+        $shippingType = (int)$shippingType;
+        $stateCode = (int)$stateCode;
         if ($shippingType == 1) {
             return $yalidine->getStopDeskDeliveryFee($stateCode);
         } else {
             return $yalidine->getHomeDeliveryFee($stateCode);
         }
+
     }
 }

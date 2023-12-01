@@ -28,9 +28,9 @@ class ReceptionController extends Controller
             })
             ->when(request('start'), fn($query) => $query->where('created_at', '>=', request('start')))
             ->when(request('end'), fn($query) => $query->where('created_at', '<=', request('end')))
-            ->when('orderBy', fn($query) => $query->orderBy(request('orderBy'), request('order') ?? 'desc'))
             ->orderBy('created_at', 'desc')
-            ->with(['user', 'product', 'reservations'])
+            ->when(request('orderBy'), fn($query) => $query->orderBy(request('orderBy'), request('order') ?? 'desc'))
+            ->with(['user', 'product.categories', 'reservations'])
             ->paginate(10)
             ->withQueryString();
 
@@ -103,7 +103,18 @@ class ReceptionController extends Controller
      */
     public function edit(Reception $reception)
     {
-        //
+        return Inertia::render('Dashboard/Receptions/receptionForm', [
+            'reception' => [
+                'id' => $reception->id,
+                'name' => $reception->name,
+                'price' => $reception->price,
+                'product' => $reception->product,
+                'quantity' => $reception->quantity,
+                'rest' => $reception->rest,
+                'user' => $reception->user,
+                'created_at' => $reception->created_at,
+            ]
+        ]);
     }
 
     /**
@@ -111,7 +122,10 @@ class ReceptionController extends Controller
      */
     public function update(UpdateReceptionRequest $request, Reception $reception)
     {
-        //
+        $reception = $request->validated();
+        $reception['user_id'] = auth()->user()->id;
+        $reception->update($reception);
+        return redirect()->route('receptions');
     }
 
     /**
@@ -120,7 +134,14 @@ class ReceptionController extends Controller
     public function destroy(Reception $reception)
     {
         $reception->product->removeStock($reception->rest);
-        $reception->delete();
+
+        if ($reception->rest == $reception->quantity) {
+            $reception->delete();
+        }else{
+            $reception->rest = 0;
+            $reception->save();
+        }
+
         return redirect()->route('receptions');
     }
 }
