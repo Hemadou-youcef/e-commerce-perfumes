@@ -79,7 +79,7 @@ class ProductController extends Controller
     {
         return Inertia::render('Dashboard/Products/productForm', [
             'product' => $product->load(['images', 'productPrices', 'categories', 'receptions']),
-
+            'categories' => \App\Models\Category::all(),
         ]);
     }
 
@@ -211,7 +211,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return inertia::render('Dashboard/Products/productForm');
+        return inertia::render('Dashboard/Products/productForm',[
+            'categories' => \App\Models\Category::all(),
+        ]);
     }
 
     /**

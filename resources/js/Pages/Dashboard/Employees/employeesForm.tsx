@@ -36,7 +36,7 @@ import { Label } from "@/shadcn/ui/label";
 
 
 // Icons
-import { AiOutlineRight } from "react-icons/ai";
+import { AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { FaAngleDown, FaCheck, FaSave } from "react-icons/fa";
 
 // Style
@@ -101,10 +101,10 @@ const EmployeesForm = ({ ...props }) => {
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/admin/employees">
-                    <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Employés</h2>
+                    <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Employés</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
-                <h2 className="text-lg text-gray-600 font-medium tracking-tight">Ajouter un Employé</h2>
+                <h2 className="text-sm md:text-lg text-gray-600 font-medium tracking-tight">Ajouter un Employé</h2>
             </div>
             <div className="md:mx-10 p-0 m-2 border rounded-none md:rounded-md overflow-hidden bg-white">
                 <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 ">
@@ -129,7 +129,7 @@ const EmployeesForm = ({ ...props }) => {
                             onClick={(e) => submit(e)}
                             disabled={processing || !isAllRulesVerified()}
                         >
-                            {processing ? <ReloadIcon className="h-5 w-5 animate-spin" /> : editMode ? <MdEdit className="text-lg" /> : <FaSave className="text-lg" />}
+                            {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : editMode ? <MdEdit className="text-lg" /> : <FaSave className="text-lg" />}
 
                         </Button>
                     </div>

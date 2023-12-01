@@ -23,7 +23,7 @@ class CartItemController extends Controller
         return Inertia::render('ClientSide/Cart/cart', [
             'cartItems' => $client->cartItems()->with([
                 'product' => function ($query) {
-                    $query->select('id', 'name', 'description','description_ar', 'main_image');
+                    $query->select('id', 'name', 'description','description_ar', 'main_image_id');
                 },
                 'product.categories',
                 'productPrice' => function ($query) {

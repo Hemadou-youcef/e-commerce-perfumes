@@ -64,10 +64,10 @@ const Client = ({ ...props }) => {
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/admin/employees">
-                    <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Utilisateurs</h2>
+                    <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Utilisateurs</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
-                <h2 className="text-lg text-gray-600 font-medium tracking-tight">
+                <h2 className="text-sm md:text-lg text-gray-600 font-medium tracking-tight">
                     {data?.first_name} {data?.last_name}
                 </h2>
             </div>

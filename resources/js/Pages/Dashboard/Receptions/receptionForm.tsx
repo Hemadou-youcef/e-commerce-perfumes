@@ -29,7 +29,7 @@ import { Label } from "@/shadcn/ui/label";
 
 
 // Icons
-import { AiOutlineRight } from "react-icons/ai";
+import { AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { FaAngleDown, FaCheck, FaSave } from "react-icons/fa";
 
 // Style
@@ -127,10 +127,10 @@ const ReceptionForm = ({ ...props }) => {
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/admin/receptions">
-                    <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Réceptions</h2>
+                    <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Réceptions</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
-                <h2 className="text-lg text-gray-600 font-medium tracking-tight">Ajouter une réception</h2>
+                <h2 className="text-sm md:text-lg text-gray-600 font-medium tracking-tight">Ajouter une réception</h2>
             </div>
             <div className="md:mx-10 p-0 m-2 border rounded-none md:rounded-md overflow-hidden bg-white">
                 <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 ">
@@ -155,7 +155,7 @@ const ReceptionForm = ({ ...props }) => {
                             onClick={(e) => post(route('reception.store'))}
                             disabled={processing || data.name === "" || data.quantity === "" || data.price === "" || data.product_id === ""}
                         >
-                            {processing ? <ReloadIcon className="h-5 w-5 animate-spin" /> : <FaSave className="text-lg" />}
+                            {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <FaSave className="text-lg" />}
 
                         </Button>
                     </div>
@@ -242,23 +242,23 @@ const ReceptionForm = ({ ...props }) => {
                     </div>
                 </form >
                 <Sheet open={openSheet} onOpenChange={setOpenSheet}>
-                    <SheetContent className={`w-[800px] sm:max-w-none p-0 ${sheetDialog.dialogSheet}`}>
+                    <SheetContent className={`w-full md:w-[768px] sm:max-w-none p-0 ${sheetDialog.dialogSheet}`}>
                         <SheetHeader className="h-screen relative">
                             <SheetTitle className="px-5 pt-3">
 
                                 {/* <Separator className="mt-2"/> */}
-                                <div className="flex flex-row justify-between items-center gap-2 p-0">
-                                    <h2 className="text-2xl text-gray-900 font-bold tracking-tight">
+                                <div className="mt-7 md:mt-0 flex flex-col md:flex-row justify-between items-center gap-2 p-0">
+                                    <h2 className="md:text-2xl text-gray-900 font-bold tracking-tight">
                                         Choisir un produit
                                     </h2>
-                                    <div className="flex flex-row justify-between items-center gap-2">
+                                    <div className="w-full md:w-auto flex flex-row justify-between items-center gap-2">
                                         <Input
                                             id="search"
                                             type="text"
                                             value={search}
                                             onChange={(e) => setSearch(e.target.value)}
                                             placeholder="Rechercher un produit"
-                                            className="w-96 h-12 rounded-3xl border-2 focus-visible:ring-transparent"
+                                            className="md:w-96 h-12 rounded-3xl border-2 focus-visible:ring-transparent"
                                         />
                                         <Button
                                             variant="outline"

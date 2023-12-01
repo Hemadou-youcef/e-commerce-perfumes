@@ -20,6 +20,7 @@ import {
 import { useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LuLayoutDashboard } from "react-icons/lu";
+import { MdCategory } from "react-icons/md";
 
 
 const parsePageId = (path: string) => path.split("/")[2] || "admin"
@@ -78,7 +79,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
           <TabsContent value="basic" className="flex flex-col w-full m-0">
             <Link
               href="/admin"
-              className={`w-full  h-10 flex justify-start items-center gap-3  group transition-all px-4 ${pageId === "admin" ? "bg-gray-200" : ""}`}
+              className={`w-full  h-10 flex justify-start items-center gap-3  group transition-all px-4 hover:bg-gray-200 ${pageId === "admin" ? "bg-gray-200" : ""}`}
               onClick={() => (width <= 768) ? setNav(false) : null}
             >
               <LuLayoutDashboard className="w-5 h-5 text-sky-800 group-hover:text-sky-600" />
@@ -95,7 +96,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
               <CollapsibleContent className="pl-4 w-full flex flex-col">
                 <Link
                   href="/admin/orders"
-                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4 ${pageId === "orders" ? "bg-gray-200" : ""}`}
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  hover:bg-gray-200 ${pageId === "orders" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
                   <FaList className="w-5 h-5 text-orange-800 group-hover:text-orange-600" />
@@ -115,7 +116,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
               <CollapsibleContent className="pl-4 w-full flex flex-col">
                 <Link
                   href="/admin/products"
-                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  ${pageId === "products" ? "bg-gray-200" : ""}`}
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4 hover:bg-gray-200  ${pageId === "products" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
                   <FaBoxesStacked className="w-5 h-5 text-red-800 group-hover:text-red-600" />
@@ -123,12 +124,21 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                 </Link>
                 <Link
                   href="/admin/receptions"
-                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4" ${pageId === "receptions" ? "bg-gray-200" : ""}`}
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4 hover:bg-gray-200 ${pageId === "receptions" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
 
                   <FaTruckRampBox className="w-5 h-5 text-red-800 group-hover:text-red-600" />
                   <p className="text-xs  text-gray-800">RECEPTIONS</p>
+                </Link>
+                <Link
+                  href="/admin/categories"
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  hover:bg-gray-200 ${pageId === "categories" ? "bg-gray-200" : ""}`}
+                  onClick={() => (width <= 768) ? setNav(false) : null}
+                >
+
+                  <MdCategory className="w-5 h-5 text-red-800 group-hover:text-red-600" />
+                  <p className="text-xs  text-gray-800">CATEGORIES</p>
                 </Link>
               </CollapsibleContent>
             </Collapsible>
@@ -149,7 +159,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                 <CollapsibleContent className="pl-4 w-full flex flex-col">
                   <Link
                     href="/admin/employees"
-                    className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4" ${pageId === "employees" ? "bg-gray-200" : ""}`}
+                    className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4 hover:bg-gray-200 ${pageId === "employees" ? "bg-gray-200" : ""}`}
                     onClick={() => (width <= 768) ? setNav(false) : null}
                   >
                     <FaUserTie className="w-5 h-5 text-blue-800 group-hover:text-blue-600" />
@@ -157,7 +167,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                   </Link>
                   <Link
                     href="/admin/clients"
-                    className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4" ${pageId === "clients" ? "bg-gray-200" : ""}`}
+                    className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4 hover:bg-gray-200 ${pageId === "clients" ? "bg-gray-200" : ""}`}
                     onClick={() => (width <= 768) ? setNav(false) : null}
                   >
                     <FaUsers className="w-5 h-5 text-blue-800 group-hover:text-blue-600" />

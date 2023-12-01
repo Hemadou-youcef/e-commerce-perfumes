@@ -5,14 +5,13 @@ import { FormEventHandler, useEffect, useState } from "react";
 
 // Shadcn Components
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/shadcn/ui/form"
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/shadcn/ui/sheet"
 import { Input } from "@/shadcn/ui/input";
 import { Label } from "@/shadcn/ui/label";
 import { Textarea } from "@/shadcn/ui/textarea";
@@ -40,10 +39,13 @@ import {
     ContextMenuTrigger,
 } from "@/shadcn/ui/context-menu"
 
+// Styles
+import sheetDialog from '@/styles/dialog.module.css'
+
 // Icons
 import { MdDeleteOutline, MdEdit } from "react-icons/md";
-import { AiOutlineClose, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
-import { FaPlus, FaSave } from "react-icons/fa";
+import { AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
+import { FaCheck, FaPlus, FaSave } from "react-icons/fa";
 import { TiPlus } from "react-icons/ti";
 import { LuCrown } from "react-icons/lu";
 
@@ -65,6 +67,7 @@ interface FormData {
     description_ar: string;
     unit: string;
     status: string;
+    category_ids: number[];
     main_image: File | null;
     main_image_id: number | null;
     images: File[] | Image[];
@@ -82,6 +85,7 @@ const ProductForm = ({ ...props }) => {
         description_ar: props?.product?.description_ar || "",
         unit: props?.product?.unit?.toUpperCase() || "G",
         status: props?.product?.status || "published",
+        category_ids: props?.product?.categories?.map((category) => category.id) || [],
         main_image: null,
         main_image_id: props?.product?.main_image_id || null,
         images: props?.product?.images || [],
@@ -89,6 +93,7 @@ const ProductForm = ({ ...props }) => {
         other_images: [],
         removed_images: [],
     });
+    const [categories, setCategories] = useState<any[]>(props?.categories || [])
 
     const [imagesUploaded, setImagesUploaded] = useState<File[]>([
         new File([""], "image1"),
@@ -98,6 +103,10 @@ const ProductForm = ({ ...props }) => {
         unit: data?.unit,
         quantity: 0,
     });
+    const [openSheet, setOpenSheet] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState(null)
+    const [checkBoxSelectedCategory, setCheckBoxSelectedCategory] = useState(null)
+    const [search, setSearch] = useState<string>("")
 
     useEffect(() => {
         imagesToDataForm();
@@ -172,17 +181,17 @@ const ProductForm = ({ ...props }) => {
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/admin/products">
-                    <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Produits</h2>
+                    <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Produits</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
                 {editMode && <Link href={`/admin/products/${props?.product?.id}`}>
-                    <h2 className="text-lg text-gray-900 font-bold tracking-tight">
+                    <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">
                         {props?.product?.name.length > 16 ? props?.product?.name.substring(0, 16) + "..." : props?.product?.name}
                     </h2>
                 </Link>}
                 {editMode && <AiOutlineRight className="text-sm text-gray-800" />}
-                {editMode && <h2 className="text-lg text-gray-900 font-medium tracking-tight">Modifier une produit</h2>}
-                {!editMode && <h2 className="text-lg text-gray-600 font-medium tracking-tight">Ajouter une produit</h2>}
+                {editMode && <h2 className="text-sm md:text-lg text-gray-900 font-medium tracking-tight">Modifier une produit</h2>}
+                {!editMode && <h2 className="text-sm md:text-lg text-gray-600 font-medium tracking-tight">Ajouter une produit</h2>}
             </div>
             <div className="md:mx-10 p-0 m-2 border rounded-none md:rounded-md overflow-hidden bg-white">
                 <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 ">
@@ -215,7 +224,7 @@ const ProductForm = ({ ...props }) => {
                 </div>
                 <Separator className="mb-2" />
                 <form onSubmit={submit} className="w-full">
-                    <div className="grid lg:grid-cols-2 gap-5 ">
+                    <div className="grid lg:grid-cols-2 lg:gap-5 ">
                         <div className="p-5 flex flex-col gap-5">
                             <div className="grid gap-3">
                                 <Label htmlFor="name" className="text-base"> Nom de la produit</Label>
@@ -226,7 +235,8 @@ const ProductForm = ({ ...props }) => {
                                     value={data.name}
                                     onChange={(e) => setData("name", e.target.value)}
                                 />
-                                {data.name.length === 0 && <p className="text-xs text-red-500">Le nom de la produit est obligatoire</p>}
+
+                                {editMode && data.name.length === 0 && <p className="text-xs text-red-500">Le nom de la produit est obligatoire</p>}
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="description" className="text-base">Description</Label>
@@ -236,7 +246,7 @@ const ProductForm = ({ ...props }) => {
                                     value={data.description}
                                     onChange={(e) => setData("description", e.target.value)}
                                 />
-                                {data.description.length === 0 && <p className="text-xs text-red-500">La description de la produit est obligatoire</p>}
+                                {editMode && data.description.length === 0 && <p className="text-xs text-red-500">La description de la produit est obligatoire</p>}
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="description_ar" className="text-base">Description Arabe</Label>
@@ -247,7 +257,7 @@ const ProductForm = ({ ...props }) => {
                                     value={data.description_ar}
                                     onChange={(e) => setData("description_ar", e.target.value)}
                                 />
-                                {data.description_ar.length === 0 && <p className="text-xs text-red-500">La description de la produit est obligatoire</p>}
+                                {editMode && data.description_ar.length === 0 && <p className="text-xs text-red-500">La description de la produit est obligatoire</p>}
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="unit" className="text-base">Unité</Label>
@@ -283,6 +293,50 @@ const ProductForm = ({ ...props }) => {
                                         <SelectItem value="archived">Archivé</SelectItem>
                                     </SelectContent>
                                 </Select>
+                            </div>
+                            <div className="grid gap-3">
+                                <Label htmlFor="categories" className="text-base">Catégories</Label>
+                                <div className="w-fit flex flex-col gap-2">
+                                    <div
+                                        className="flex flex-row gap-2 items-center cursor-pointer"
+                                        onClick={() => setOpenSheet(true)}
+                                    >
+                                        <Button
+                                            variant="outline"
+                                            className="h-8 w-8 p-1 rounded-full border-2 border-gray-600 gap-2"
+
+                                        >
+                                            {/* <span className="text-lg text-gray-600">
+                                                Choisir
+                                            </span> */}
+                                            <FaPlus className="h-3 w-3 text-lg text-gray-600" />
+                                        </Button>
+                                        <div className="flex flex-col gap-2 font-bold uppercase text-gray-700">
+                                            Ajouter une categorie
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row flex-wrap gap-2">
+                                        {data.category_ids.map((category_id, index) => (
+                                            <div key={index} className="flex flex-row gap-2 items-center">
+                                                <Button
+                                                    variant="outline"
+                                                    className="h-8 w-8 p-1 rounded-full border-2 border-gray-600 gap-2"
+                                                    onClick={() => {
+                                                        setData("category_ids", data.category_ids.filter((id) => id !== category_id));
+                                                    }}
+                                                >
+                                                    {/* <span className="text-lg text-gray-600">
+                                                        Choisir
+                                                    </span> */}
+                                                    <MdDeleteOutline className="w-4 h-4 text-lg text-gray-600" />
+                                                </Button>
+                                                <div className="flex flex-col gap-2 font-bold uppercase text-gray-700">
+                                                    {categories?.find((category) => category.id === category_id)?.name}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="p-5 flex flex-col gap-5 ">
@@ -483,6 +537,86 @@ const ProductForm = ({ ...props }) => {
                     </div>
                 </form>
             </div>
+            <Sheet open={openSheet} onOpenChange={setOpenSheet}>
+                <SheetContent className={`w-full md:w-[768px] sm:max-w-none p-0 ${sheetDialog.dialogSheet}`}>
+                    <SheetHeader className="h-screen relative">
+                        <SheetTitle className="px-5 pt-3">
+
+                            {/* <Separator className="mt-2"/> */}
+                            <div className="mt-7 md:mt-0 flex flex-col md:flex-row justify-between items-center gap-2 p-0">
+                                <h2 className="md:text-2xl text-gray-900 font-bold tracking-tight">
+                                    Choisir un categorie
+                                </h2>
+                                <div className="w-full md:w-auto flex flex-row justify-between items-center gap-2">
+                                    <Input
+                                        id="search"
+                                        type="text"
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        placeholder="Rechercher un categorie..."
+                                        className="md:w-96 h-12 rounded-3xl border-2 focus-visible:ring-transparent"
+                                    />
+                                    <Button
+                                        variant="outline"
+                                        className="h-11 w-11 p-3 rounded-full border-2 border-gray-600 gap-2"
+                                        onClick={() => {
+                                            if(data.category_ids.includes(checkBoxSelectedCategory?.id)) return
+                                            setOpenSheet(false)
+                                            setSelectedCategory(checkBoxSelectedCategory)
+                                            setData("category_ids", [...data.category_ids, checkBoxSelectedCategory?.id])
+                                            setCheckBoxSelectedCategory(null)
+                                        }}
+                                    >
+                                        {/* <span className="text-lg text-gray-600">
+                                            Choisir
+                                        </span> */}
+                                        <FaCheck className="text-lg text-gray-600" />
+                                    </Button>
+                                </div>
+
+                            </div>
+
+                        </SheetTitle>
+                        <div className="overflow-y-auto border p-2" style={{ scrollbarGutter: 'stable' }}>
+                            <Table className="w-full">
+                                <TableHeader>
+                                    <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
+                                        <TableHead className="w-16">ID</TableHead>
+                                        <TableHead className="w-9/12">Nom De Category</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+
+                                    {(categories || []).filter((category: any) => category.name.toLowerCase().includes(search.toLowerCase())).map((category: any, index: number) => (
+                                        <TableRow
+                                            key={index}
+                                            className={`hover:bg-gray-50 cursor-pointer ${checkBoxSelectedCategory?.id === category.id ? "bg-gray-100" : ""}`}
+                                            onClick={() => setCheckBoxSelectedCategory(category)}
+                                        >
+                                            <TableCell className="h-12 ">
+                                                <div className="w-6 h-6 flex p-1 flex-row justify-center items-center border-2 border-gray-400 rounded-sm gap-2">
+                                                    {checkBoxSelectedCategory?.id === category.id ? <FaCheck className="text-lg text-gray-600" /> : <FaCheck className="text-lg text-gray-600 invisible" />}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="font-bold text-xs">{category.name}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                    {(categories || []).filter((category: any) => category.name.toLowerCase().includes(search.toLowerCase())).length === 0 && (
+                                        <TableRow>
+                                            <TableCell colSpan={3} className="text-center text-sm font-medium text-gray-500 uppercase">
+                                                Aucune donnée
+                                            </TableCell>
+                                        </TableRow>
+                                    )}
+
+                                </TableBody>
+
+                            </Table>
+                        </div>
+
+                    </SheetHeader>
+                </SheetContent>
+            </Sheet>
         </>
     );
 }

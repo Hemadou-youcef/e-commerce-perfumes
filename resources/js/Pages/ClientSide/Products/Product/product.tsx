@@ -112,7 +112,7 @@ const Product = ({ ...props }) => {
                                     spaceBetween={5}
                                     slidesPerView={3}
                                     scrollbar={{ draggable: true }}
-                                    className=" md:h-[136px]"
+                                    className=" md:h-[140px]"
                                 >
                                     {product?.images
                                         .map((item: any, index: number) => (

@@ -16,7 +16,7 @@ export type ProductsInfo = {
     quantity: string;
     unit: string;
     status: string;
-    category: string;
+    categories: number[];
     images?: string[];
     productPrices?: any[];
     receptions?: any[];

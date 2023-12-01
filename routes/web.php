@@ -145,7 +145,7 @@ Route::get('/admin/categories/create', [App\Http\Controllers\CategoryController:
 Route::post('/admin/categories', [App\Http\Controllers\CategoryController::class, 'store'])->name('category.store');
 Route::get('/admin/categories/{category}' , [App\Http\Controllers\CategoryController::class, 'show'])->name('category');
 Route::get('/admin/categories/{category}/edit' , [App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit');
-Route::put('/admin/categories/{category}/edit' , [App\Http\Controllers\CategoryController::class, 'update'])->name('category.update');
+Route::patch('/admin/categories/{category}/edit' , [App\Http\Controllers\CategoryController::class, 'update'])->name('category.update');
 Route::delete('/admin/categories/{category}' , [App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.destroy');
 
 

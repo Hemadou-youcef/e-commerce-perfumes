@@ -275,10 +275,10 @@ const Order = ({ ...props }) => {
             {/* TREE */}
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/admin/orders">
-                    <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Commandes</h2>
+                    <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Commandes</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
-                <h2 className="text-lg text-gray-600 font-medium tracking-tight">CM/{order?.id.toString().padStart(5, "000")}</h2>
+                <h2 className="text-sm md:text-lg text-gray-600 font-medium tracking-tight">CM/{order?.id.toString().padStart(5, "000")}</h2>
             </div>
             <div className="md:mx-10 p-0 m-2 border-2  rounded-none md:rounded-md overflow-hidden shadow-md">
                 {/* SHOW ORDER DETAIL */}

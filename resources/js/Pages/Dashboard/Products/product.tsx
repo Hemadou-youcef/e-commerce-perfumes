@@ -68,10 +68,10 @@ const Product = ({ ...props }) => {
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/admin/products">
-                    <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Produits</h2>
+                    <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Produits</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
-                <h2 className="text-lg text-gray-600 font-medium tracking-tight">{product?.name}</h2>
+                <h2 className="text-sm md:text-lg text-gray-600 font-medium tracking-tight">{product?.name}</h2>
             </div>
             <div className="md:mx-10 p-0 m-2 border rounded-none md:rounded-md overflow-hidden bg-white">
                 <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 ">
@@ -81,7 +81,7 @@ const Product = ({ ...props }) => {
                         </div> */}
                         <div className="flex flex-col text-center md:text-left">
                             <h2 className="text-xl text-gray-900 font-bold tracking-tight">{product?.name}</h2>
-                            <p className="text-sm text-gray-600">{product?.category}</p>
+                            {/* <p className="text-sm text-gray-600">{product?.category}</p> */}
                         </div>
                     </div>
                     {/* ACTIONS */}
@@ -139,9 +139,11 @@ const Product = ({ ...props }) => {
                     </div>
                     <Separator className="mt-0 md:hidden" />
                     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Category :</h1>
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Categories :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
-                            <p className="text-sm font-bold text-gray-500">{product?.category}</p>
+                            {product?.categories.map((category, index) => (
+                                <p key={index} className="px-2 py-1 rounded-sm text-xs font-medium text-white uppercase bg-gray-600">{category.name}</p>
+                            ))}
                         </div>
                     </div>
                     <Separator className="mt-0 md:hidden" />

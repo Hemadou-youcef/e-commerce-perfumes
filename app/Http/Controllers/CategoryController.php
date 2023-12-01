@@ -19,6 +19,7 @@ class CategoryController extends Controller
                 ->when(request('q'), function ($query) {
                     $query->where('name', 'LIKE', '%' . request('q') . '%');
                 })
+                ->paginate(10)
         ]);
     }
 
@@ -27,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Dashboard/Categories/create');
+        return Inertia::render('Dashboard/Categories/categoriesForm');
     }
 
     /**
@@ -49,7 +50,8 @@ class CategoryController extends Controller
                 'id' => $category->id,
                 'name' => $category->name,
                 'name_ar' => $category->name_ar,
-                'products' => $category->products
+                'products' => $category->products,
+                'created_at' => $category->created_at->format('Y-m-d'),
             ]
         ]);
     }
@@ -59,7 +61,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return Inertia::render('Dashboard/Categories/edit', [
+        return Inertia::render('Dashboard/Categories/categoriesForm', [
             'category' => [
                 'id' => $category->id,
                 'name' => $category->name,
@@ -74,7 +76,7 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $category->update($request->validated());
-        return redirect()->route('categories')->with('success', 'Category updated.');
+        return redirect()->route('category', $category)->with('success', 'Category updated.');
     }
 
     /**

@@ -34,6 +34,7 @@ type FormData = {
 import wilaya from "@/data/wilaya";
 
 const Cart = ({ ...props }) => {
+    console.log(props);
     const [cartItems, setCartItems] = useState(props?.cartItems);
 
     const [checkedOut, setCheckedOut] = useState(false);
