@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->string('shipping_provider')->default('Yalidine');
             $table->foreignId('address_id')->nullable()->constrained();
-
+            $table->integer('profit')->nullable();
 
 
 

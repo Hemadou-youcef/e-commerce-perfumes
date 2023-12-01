@@ -96,7 +96,6 @@ class ProductController extends Controller
         $product->description_ar = $validatedData['description_ar'];
         $product->status = $validatedData['status'];
 
-        $product->save();
         if ($request->has('category_ids')) {
             $categories = $validatedData['category_ids'];
             $product->categories()->sync($categories);
@@ -107,8 +106,8 @@ class ProductController extends Controller
             if ($request->hasFile('other_images')) {
                 $newImages = [];
                 foreach ($request->file('other_images') as $image) {
-                    $imagePath = $image->store('images', 'public');
-                    $newImages[] = ['path' => '/storage/' . $imagePath];
+                    $imagePath ='/storage/' . $image->store('images', 'public');
+                    $newImages[] = ['path' =>  $imagePath];
                 }
                 $product->images()->createMany($newImages);
             }
@@ -117,11 +116,11 @@ class ProductController extends Controller
             return back()->withErrors(['other_images' => 'internal server error. could not upload images']);
         }
 
-        
+
         // Handle main image update
         if ($request->hasFile('main_image')) {
-            $imagePath = $request->file('main_image')->store('images', 'public');
-            $main_image = $product->images()->create(['path' => '/storage/' . $imagePath]);
+            $imagePath = '/storage/' .$request->file('main_image')->store('images', 'public');
+            $main_image = $product->images()->create(['path' =>  $imagePath]);
             $product->main_image_id = $main_image->id; // Set main image
         } else {
             if ($request['main_image_id'] != null) {
@@ -163,8 +162,8 @@ class ProductController extends Controller
 
         try {
             if ($request->hasFile('main_image')) {
-                $mainImagePath = $request->file('main_image')->store('images', 'public');
-                $main_image = $product->images()->create(['path' => '/storage/' . $mainImagePath]);
+                $mainImagePath = '/storage/' .$request->file('main_image')->store('images', 'public');
+                $main_image = $product->images()->create(['path' =>  $mainImagePath]);
                 $product->main_image_id = $main_image->id; // Set main image
 
             }
@@ -194,8 +193,8 @@ class ProductController extends Controller
         try {
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $imagePath = $image->store('images', 'public');
-                    $product->images()->create(['path' => '/storage/' . $imagePath]);
+                    $imagePath = '/storage/' .$image->store('images', 'public');
+                    $product->images()->create(['path' =>  $imagePath]);
                 }
             }
         } catch (Exception $e) {

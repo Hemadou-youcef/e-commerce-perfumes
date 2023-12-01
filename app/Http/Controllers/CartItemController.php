@@ -117,6 +117,8 @@ class CartItemController extends Controller
 
         try {
             DB::beginTransaction();
+
+
             // Create a new order for the user
             $order = Order::create([
                 'user_id' => $user->id,
@@ -147,10 +149,13 @@ class CartItemController extends Controller
                     'quantity' => $cartItem->quantity,
                     'product_price_id' => $cartItem->product_price_id,
                     'price' => $cartItem->productPrice->price * $cartItem->quantity,
-
                 ]);
-                $order->orderProducts()->save($orderProduct);
+
+                $created_order_product = $order->orderProducts()->save($orderProduct);
+//                $created_order_product->buying_price = $created_order_product->buyingPrice();
+//                $created_order_product->save();
             }
+
             // order total price
 
             $order->total = $order->totalPrice();

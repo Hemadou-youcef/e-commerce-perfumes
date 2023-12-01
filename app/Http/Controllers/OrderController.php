@@ -194,8 +194,16 @@ class OrderController extends Controller
             }
 
             $order->shipping_provider = "Magazin";
+
             // calculate total
             $order->total = $order->totalPrice();
+
+            $order->orderProducts->each(function ($orderProduct) {
+                $orderProduct->buying_price = $orderProduct->buyingPrice();
+                $orderProduct->save();
+            });
+
+            $order->profit = $order->profit();
             $order->save();
 
             DB::commit();
@@ -358,13 +366,27 @@ class OrderController extends Controller
             $reservation->apply();
 
 
+
+
+
+
         }
+
+        foreach ($order->orderProducts as $orderProduct) {
+            error_log($orderProduct->buyingPrice());
+            $orderProduct->buying_price = $orderProduct->buyingPrice();
+            $orderProduct->save();
+        }
+
 
 
         $order->update([
             'status' => 'confirmed',
-            'confirmed_by' => auth()->user()->id
+            'confirmed_by' => auth()->user()->id,
+            'profit' => $order->profit(),
         ]);
+
+
 
 
         return back();

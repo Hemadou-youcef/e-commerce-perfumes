@@ -24,7 +24,7 @@ class ReceptionFactory extends Factory
             'name' => $this->faker->name,
             'quantity' => 10000,
 //            'quantity' => $this->faker->numberBetween(5000, 100),
-            'price' => $this->faker->numberBetween(10, 1000),
+            'price' => $this->faker->numberBetween(50, 500),
             'rest' => 10000,
             'created_at' => now(),
             'updated_at' => now(),

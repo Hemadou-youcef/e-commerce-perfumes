@@ -18,6 +18,7 @@ class Order extends Model
 
         'user_id',
         'total',
+        'profit',
         'status',
         'address_id',
         'shipping_provider',
@@ -71,6 +72,22 @@ class Order extends Model
         }
         return $this->orderProducts->sum('price');
     }
+
+    public function buyingPrice(): int
+    {
+        $total = 0;
+        $this->orderProducts()->each(function (OrderProduct $orderProduct) use (&$total) {
+            $total += $orderProduct->buying_price;
+        });
+        return $total;
+    }
+
+    public function profit(): int
+    {
+        return $this->total - $this->buyingPrice();
+    }
+
+
 
 
 

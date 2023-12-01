@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             // start transaction
             DB::beginTransaction();
 
-            User::factory()->has(Product::factory()->hasImages(3)->hasProductPrices(2)->hasReceptions(1)->hasCategories(2)->count(20))->has(Order::factory()->hasOrderProducts(3)->count(2))->create();
+            User::factory()->has(Product::factory()->hasImages(3)->hasProductPrices(1)->hasReceptions(1)->hasCategories(2)->count(20))->has(Order::factory()->hasOrderProducts(3)->count(2))->create();
             User::factory()->count(20)->hasBookmarks(3)->create();
 //        Reservation::factory()->count(20)->create();
             CartItem::factory()->count(20)->create();

@@ -12,7 +12,7 @@ class OrderProduct extends Model
     use HasFactory;
 
 //    protected $appends = ['total_quantity'];
-    protected $fillable = ['order_id', 'product_id', 'quantity', 'price' , 'total', 'product_price_id'];
+    protected $fillable = ['order_id', 'product_id', 'quantity', 'price', 'total', 'product_price_id'];
 
     public function order(): BelongsTo
     {
@@ -26,14 +26,12 @@ class OrderProduct extends Model
 
     public function productPrice(): BelongsTo
     {
-        return $this->belongsTo(ProductPrice::class , 'product_price_id' , 'id');
+        return $this->belongsTo(ProductPrice::class, 'product_price_id', 'id');
     }
-
 
 
     public function totalQuantity(): int
     {
-
 
 
         return $this->quantity * $this->productPrice->quantity;
@@ -44,6 +42,21 @@ class OrderProduct extends Model
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function buyingPrice(): int
+    {
+
+        $total = 0;
+        $this->reservations->each(function (Reservation $reservation) use (&$total) {
+            $total += $reservation->buyingPrice();
+        });
+//        if ($total != 0) {
+//            $this->buying_price = $total;
+//            $this->save();
+//        }
+        return $total;
+
     }
 
 }

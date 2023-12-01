@@ -34,6 +34,11 @@ class Reservation extends Model
         return $this->belongsTo(Reception::class);
     }
 
+    public function buyingPrice(): int
+    {
+        return $this->reception->price * $this->quantity;
+    }
+
     public function apply(): void
     {
         $this->reception->removeStock($this->quantity);
@@ -43,4 +48,6 @@ class Reservation extends Model
     {
         $this->reception->addStock($this->quantity);
     }
+
+
 }
