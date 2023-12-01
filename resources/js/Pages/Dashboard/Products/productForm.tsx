@@ -315,7 +315,7 @@ const ProductForm = ({ ...props }) => {
                                             Ajouter une categorie
                                         </div>
                                     </div>
-                                    <div className="flex flex-row flex-wrap gap-2">
+                                    <div className="flex flex-col flex-wrap gap-2">
                                         {data.category_ids.map((category_id, index) => (
                                             <div key={index} className="flex flex-row gap-2 items-center">
                                                 <Button
