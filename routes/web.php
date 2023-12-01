@@ -108,6 +108,7 @@ Route::delete('/admin/products/{product}' , [App\Http\Controllers\ProductControl
 
 // orders routes
 Route::get('/admin/orders' , [App\Http\Controllers\OrderController::class, 'index'])->name('orders');
+Route::get('/admin/orders/create' , [App\Http\Controllers\OrderController::class, 'create'])->name('order.create');
 Route::get('/admin/orders/{order}' , [App\Http\Controllers\OrderController::class, 'show'])->name('order');
 Route::delete('/admin/orders/{order}' , [App\Http\Controllers\OrderController::class, 'destroy']);
 Route::post('/admin/orders/{order}/verify' , [App\Http\Controllers\OrderController::class, 'verify'])->name('verify_order');
@@ -138,33 +139,14 @@ Route::post('/bookmarks' , [App\Http\Controllers\BookmarkController::class, 'sto
 Route::delete('/bookmarks/{bookmark}' , [App\Http\Controllers\BookmarkController::class, 'destroy'])->name('bookmark.destroy');
 
 
-
-
-
-Route::post('/serialisation',   function (Request $request)
-{
-    $data = json_decode ( urldecode( $request->data ) );
-//    var_dump($data);
-    foreach ($data as $datum) {
-        var_dump($datum->name);
-    }
-    return response()->json([
-        'data' => $data,
-    ]);
-});
-// STOCK PAGES
-// "/admin/receptions" => "StockController@index",
-// "/admin/receptions/{id}" => "StockController@show",
-
-// NEED IN RECEPTION LIST
-// RECEPTION INFORMATION
-// USER INFORAMATION LIKE FIRST NAME AND LAST NAME
-//////////////////////////////
-// NEED IN RECEPTION PAGE
-// RECEPTION INFORMATION
-// USER INFORMATION FIRST NAME & LAST NAME & ID
-// RESERVATION INFORMATION
-
+// categories routes
+Route::get('/admin/categories' , [App\Http\Controllers\CategoryController::class, 'index'])->name('categories');
+Route::get('/admin/categories/create', [App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
+Route::post('/admin/categories', [App\Http\Controllers\CategoryController::class, 'store'])->name('category.store');
+Route::get('/admin/categories/{category}' , [App\Http\Controllers\CategoryController::class, 'show'])->name('category');
+Route::get('/admin/categories/{category}/edit' , [App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit');
+Route::put('/admin/categories/{category}/edit' , [App\Http\Controllers\CategoryController::class, 'update'])->name('category.update');
+Route::delete('/admin/categories/{category}' , [App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.destroy');
 
 
 

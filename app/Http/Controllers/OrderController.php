@@ -43,10 +43,32 @@ class OrderController extends Controller
                 'start' => request('start', ''),
                 'end' => request('end', ''),
             ],
-            
+
         ]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $q = request('q');
+        return Inertia::render('testPages/test' , [
+            'products' => Product::query()
+                ->where('quantity', '>', 0)
+                ->where(function ($query) use ($q) {
+                    $query->where('name', 'like', '%' . $q . '%')
+                        ->orWhere('description', 'like', '%' . $q . '%')
+                        ->orWhere('description_ar', 'like', '%' . $q . '%');
+                })
+                ->with(['prices' , 'receptions' => function ($query) {
+                    $query->where('rest', '>', 0);
+                }])
+
+                ,
+        ]);
+
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -348,13 +370,7 @@ class OrderController extends Controller
         return back();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+
 
     public function deliver(Order $order)
     {
