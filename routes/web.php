@@ -108,6 +108,6 @@ Route::delete('/admin/categories/{category}' , [App\Http\Controllers\CategoryCon
 
 // client profile routes
 Route::get('/profile' , [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile');
-Route::put('/profile' , [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+Route::patch('/profile' , [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
 require __DIR__.'/auth.php';

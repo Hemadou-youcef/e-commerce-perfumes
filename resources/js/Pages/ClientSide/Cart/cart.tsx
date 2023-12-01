@@ -34,23 +34,37 @@ import yalidine from "@/data/yalidine";
 const Cart = ({ ...props }) => {
     console.log(props);
     const [cartItems, setCartItems] = useState(props?.cartItems);
-
-    const [checkedOut, setCheckedOut] = useState(false);
     const { data, setData, post, transform, processing, errors, reset } = useForm<FormData>({
-        first_name: '',
-        last_name: '',
-        phone: '',
-        street_address: '',
+        first_name: props?.auth?.user?.first_name || '',
+        last_name: props?.auth?.user?.last_name || '',
+        phone: props?.auth?.user?.phone || '',
+        street_address: props?.auth?.user?.address || '',
         city: '',
         state_code: '',
-        shipping_method: '1',
+        shipping_method: '2',
         postal_code: '',
     });
+    const [checkedOut, setCheckedOut] = useState(false);
     const [checkoutLoading, setCheckoutLoading] = useState(false);
 
     useEffect(() => {
         setCartItems(props?.cartItems);
     }, [props?.cartItems]);
+
+    const isAllRulesVerified = () => {
+        const rules = [
+            data.first_name.length > 0,
+            data.last_name.length > 0,
+            data.phone.length > 0,
+            data.street_address.length > 0,
+            data.city.length > 0,
+            data.state_code.length > 0,
+            data.shipping_method.length > 0,
+            data.postal_code.length > 0,
+        ];
+        return rules.every((rule) => rule);
+    }
+
 
     const handleSendOrder = () => {
         setCheckoutLoading(true);
@@ -83,13 +97,14 @@ const Cart = ({ ...props }) => {
 
     const submit = (e: any) => {
         e.preventDefault();
+        setCheckoutLoading(true);
         transform((data) => {
             return {
                 ...data,
                 state_code: parseInt(data.state_code),
                 shipping_method: parseInt(data.shipping_method),
             };
-        })
+        });
         post(route('cart.checkout'), {
             onSuccess: () => {
                 console.log('success');
@@ -112,8 +127,8 @@ const Cart = ({ ...props }) => {
                     Mon panier
                 </h1>
             </div>
-            <div className="container grid md:grid-cols-2 mx-auto px-4 my-5 bg-white">
-                <div>
+            <div className={`container grid  mx-auto px-4 my-5 bg-white ${checkedOut ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
+                {checkedOut && <div>
                     <form onSubmit={submit} className="w-full p-5 flex flex-col gap-5">
                         <div className="grid gap-3">
                             <Label htmlFor="agency" className="text-base">Agence</Label>
@@ -136,8 +151,8 @@ const Cart = ({ ...props }) => {
                                     <SelectValue placeholder="Livraison à domicile" className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
                                 <SelectContent className="w-full border-2 focus-visible:ring-transparent">
-                                    <SelectItem value="1">Livraison à domicile</SelectItem>
-                                    <SelectItem value="2">Livraison à l'agence</SelectItem>
+                                    <SelectItem value="2">Livraison à domicile</SelectItem>
+                                    <SelectItem value="1">Livraison à l'agence</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -200,7 +215,7 @@ const Cart = ({ ...props }) => {
                                 setData(data => ({ ...data, state_code: value }))
                             }}>
                                 <SelectTrigger >
-                                    <SelectValue placeholder="Wilaya" className="w-full h-12 border-2 focus-visible:ring-transparent" />
+                                    <SelectValue placeholder="" className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
                                 <SelectContent className="w-full h-52 border-2 focus-visible:ring-transparent">
                                     {wilaya.map((item, index): any => (
@@ -242,9 +257,8 @@ const Cart = ({ ...props }) => {
                         </div>
 
                     </form>
-                </div>
+                </div>}
                 <div className="rounded-lg sticky">
-
                     <div className="px-8 w-full">
                         {cartItems.map((item, index) => (
                             <div key={index} className="flex items-center flex-col md:flex-row gap-5 border-b border-gray-300 py-4">
@@ -288,51 +302,71 @@ const Cart = ({ ...props }) => {
 
                     {cartItems.length > 0 && (
                         <div className="flex flex-col p-5 gap-3">
-                            <div className="flex items-center  font-mono justify-between">
-                                <p className="text-lg">
-                                    Sous-total:
-                                </p>
-                                <p className="text-base text-gray-900">
-                                    {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0)},00 DA
-                                </p>
-                            </div>
-                            <div className="flex items-center  font-mono justify-between">
-                                <p className="text-lg">
-                                    Livraison:
-                                </p>
-                                <p className="text-base text-gray-900">
-                                    {data.state_code != "" ?
-                                        yalidine[data.state_code][data.shipping_method] + ",00 DA" :
-                                        "remplir l'entrée"
-                                    }
-                                </p>
-                            </div>
-                            <div className="flex items-center font-bold font-mono justify-between">
-                                <p className="text-lg">
-                                    Total:
-                                </p>
-                                <p className="text-base text-gray-900">
-                                    {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + 800},00 DA
-                                </p>
-                            </div>
-
+                            {checkedOut &&
+                                <><div className="flex items-center  font-mono justify-between">
+                                    <p className="text-lg">
+                                        Sous-total:
+                                    </p>
+                                    <p className="text-base text-gray-900">
+                                        {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0)},00 DA
+                                    </p>
+                                </div>
+                                    <div className="flex items-center  font-mono justify-between">
+                                        <p className="text-lg">
+                                            Livraison:
+                                        </p>
+                                        <p className="text-base text-gray-900">
+                                            {data.state_code != "" ?
+                                                yalidine[data.state_code][data.shipping_method] + ",00 DA" :
+                                                "remplir l'entrée"
+                                            }
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center font-bold font-mono justify-between">
+                                        <p className="text-lg">
+                                            Total:
+                                        </p>
+                                        <p className="text-base text-gray-900">
+                                            {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + (data.state_code != "" ?
+                                                yalidine[data.state_code][data.shipping_method] :
+                                                0
+                                            )},00 DA
+                                        </p>
+                                    </div>
+                                </>
+                            }
 
                             <div className="flex justify-end">
-                                <Button
-                                    type="submit"
-                                    className="w-52 text-white px-4 py-2 bg-gray-900 rounded-md hover:bg-gray-800 active:bg-gray-700"
-                                    onClick={submit}
-                                >
-                                    {checkoutLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
+                                {checkedOut ? (
+                                    <Button
+                                        type="submit"
+                                        className="w-52 text-white px-4 py-2 bg-gray-900 rounded-md hover:bg-gray-800 active:bg-gray-700"
+                                        onClick={submit}
+                                        disabled={processing || !isAllRulesVerified()}
+                                    >
+                                        {checkoutLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
+                                            <div className="flex items-center justify-center gap-2">
+                                                <p className="text-sm text-gray-50 font-bold uppercase">
+                                                    Commander
+                                                </p>
+                                                {/* <MdSend className="h-5 w-5" /> */}
+                                            </div>
+                                        )}
+
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        className="w-52 text-white px-4 py-2 bg-gray-900 rounded-md hover:bg-gray-800 active:bg-gray-700"
+                                        onClick={() => setCheckedOut(true)}
+                                    >
                                         <div className="flex items-center justify-center gap-2">
                                             <p className="text-sm text-gray-50 font-bold uppercase">
-                                                Continuer
+                                                Passer à la caisse
                                             </p>
                                             {/* <MdSend className="h-5 w-5" /> */}
                                         </div>
-                                    )}
-
-                                </Button>
+                                    </Button>
+                                )}
                             </div>
 
                         </div>

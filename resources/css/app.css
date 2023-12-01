@@ -75,6 +75,16 @@
   }
 }
 
+:root {
+  --swiper-theme-color: #000;
+}
+.swiper-button-prev {
+  color: white !important;
+}
+
+.swiper-button-next {
+  color: white !important;
+}
 /* /* add font */
 @font-face {
   font-family: inter;

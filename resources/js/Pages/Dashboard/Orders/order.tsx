@@ -26,6 +26,17 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/shadcn/ui/dialog"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/shadcn/ui/alert-dialog"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
 
@@ -42,6 +53,7 @@ import { CheckCircledIcon, CrossCircledIcon, StopwatchIcon } from "@radix-ui/rea
 import { CiDeliveryTruck } from "react-icons/ci";
 import { Progress } from "@/shadcn/ui/progress";
 import { TbExternalLink } from "react-icons/tb";
+import { FaBuildingUser } from "react-icons/fa6";
 
 
 // Types
@@ -291,15 +303,39 @@ const Order = ({ ...props }) => {
                         {/* ACTIONS */}
                         <div className="flex justify-end gap-2">
                             {props?.auth?.user?.role === 3 && (order?.status != "delivered" && order?.status != "cancelled") && (
-                                <Button
-                                    variant="outline"
-                                    className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300"
-                                    onClick={() => handleCancelOrder()}
-                                    disabled={cancelLoading}
-                                >
-                                    <span className="text-sm font-medium">Cancel</span>
-                                    {cancelLoading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineCloseCircle className="text-xl" />}
-                                </Button>
+                                <AlertDialog>
+                                    <AlertDialogTrigger>
+                                        <Button
+                                            variant="outline"
+                                            className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300"
+                                            disabled={cancelLoading}
+                                        >
+                                            <span className="text-sm font-medium">Annuler</span>
+                                            {cancelLoading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineCloseCircle className="text-xl" />}
+                                        </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle>
+                                                Annuler La Commande
+                                            </AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                Êtes-vous sûr de vouloir annuler cette commande ?
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                            <AlertDialogCancel>
+                                                Annuler
+                                            </AlertDialogCancel>
+                                            <AlertDialogAction
+                                                onClick={() => handleCancelOrder()}
+                                            >
+                                                Continuer
+                                            </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
+
                             )}
                             {props?.auth?.user?.role === 3 && order?.status == "pending" && (
                                 <Button
@@ -387,24 +423,41 @@ const Order = ({ ...props }) => {
                         </div>
                         <Separator className="mt-0 md:hidden" />
                         <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Confirmé Par :</h1>
-                            <Link href={`/users/${order?.confirmed_by?.id}`} className="flex flex-row justify-start items-center gap-2">
-                                <CgProfile className="text-xl text-blue-800" />
-                                <p className="text-sm font-bold text-blue-600">
-                                    {order?.confirmed_by?.first_name} {order?.confirmed_by?.last_name}
-                                </p>
-                            </Link>
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Agence :</h1>
+                            <div className="flex flex-row justify-start items-center gap-2">
+                                <FaBuildingUser className="text-xl text-gray-800" />
+                                <p className="text-sm font-bold text-gray-500">{order?.shipping_provider}</p>
+                            </div>
                         </div>
-                        <Separator className="mt-0 md:hidden" />
-                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Livré Par :</h1>
-                            <Link href={`/users/${order?.delivered_by?.id}`} className="flex flex-row justify-start items-center gap-2">
-                                <CgProfile className="text-xl text-blue-800" />
-                                <p className="text-sm font-bold text-blue-600">
-                                    {order?.delivered_by?.first_name} {order?.delivered_by?.last_name}
-                                </p>
-                            </Link>
-                        </div>
+
+                        {(order?.status != "pending" && order?.status != "cancelled" && order?.status != "verified") && (
+                            <>
+                                <Separator className="mt-0 md:hidden" />
+                                <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                                    <h1 className="text-sm font-medium md:w-40 text-gray-800">Confirmé Par :</h1>
+                                    <Link href={`/employees/${order?.confirmed_by?.id}`} className="flex flex-row justify-start items-center gap-2">
+                                        <CgProfile className="text-xl text-blue-800" />
+                                        <p className="text-sm font-bold text-blue-600">
+                                            {order?.confirmed_by?.first_name} {order?.confirmed_by?.last_name}
+                                        </p>
+                                    </Link>
+                                </div>
+                            </>
+                        )}
+                        {order?.status == "delivered" && (
+                            <>
+                                <Separator className="mt-0 md:hidden" />
+                                <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                                    <h1 className="text-sm font-medium md:w-40 text-gray-800">Livré Par :</h1>
+                                    <Link href={`/employees/${order?.delivered_by?.id}`} className="flex flex-row justify-start items-center gap-2">
+                                        <CgProfile className="text-xl text-blue-800" />
+                                        <p className="text-sm font-bold text-blue-600">
+                                            {order?.delivered_by?.first_name} {order?.delivered_by?.last_name}
+                                        </p>
+                                    </Link>
+                                </div>
+                            </>
+                        )}
 
                     </div>
                     <Separator className="mt-0" />
@@ -412,8 +465,12 @@ const Order = ({ ...props }) => {
                         <Tabs defaultValue="articles" className="w-full">
                             <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent overflow-x-auto">
                                 <TabsTrigger value="articles" className="w-52 border-b rounded-none">Articles</TabsTrigger>
-                                <TabsTrigger value="stock" className="w-52  border-b rounded-none">Stock Consommation</TabsTrigger>
-                                <TabsTrigger value="benefices" className="w-52  border-b rounded-none">Bénéfices</TabsTrigger>
+                                {(order?.status != "cancelled" && order?.status != "pending") && (
+                                    <TabsTrigger value="stock" className="w-52  border-b rounded-none">Stock Consommation</TabsTrigger>
+                                )}
+                                {order?.status == "delivered" && (
+                                    <TabsTrigger value="benefices" className="w-52  border-b rounded-none">Bénéfices</TabsTrigger>
+                                )}
                             </TabsList>
                             <TabsContent value="articles">
                                 <div className="w-full mb-5 border-2 ">
@@ -532,7 +589,7 @@ const Order = ({ ...props }) => {
                                             <Table className="min-w-[700px] w-full">
                                                 <TableHeader>
                                                     <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
-                                                        <TableHead className="text-center ">Product</TableHead>
+                                                        <TableHead className="">Product</TableHead>
                                                         <TableHead className="w-52">Date</TableHead>
                                                         <TableHead className="w-64">QTE</TableHead>
                                                         <TableHead className="w-5">Product</TableHead>

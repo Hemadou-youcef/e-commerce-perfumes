@@ -14,15 +14,12 @@ import LandingSuggest from '@/components/landing/suggest/landingSuggest';
 import { ReloadIcon, StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
 import { Separator } from '@/shadcn/ui/separator';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Scrollbar } from 'swiper/modules';
+import { Scrollbar, Navigation , Autoplay } from 'swiper/modules';
 
 // Import Swiper styles
 import 'swiper/css';
-import 'swiper/css';
 import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { BsZoomIn } from 'react-icons/bs';
 import { RiBookmarkFill, RiBookmarkLine } from 'react-icons/ri';
 
 
@@ -40,6 +37,7 @@ const Product = ({ ...props }) => {
 
     const [addingToCartLoading, setAddingToCartLoading] = useState(false);
     const [bookmarkLoading, setBookmarkLoading] = useState(false);
+    const [showImageSlider, setShowImageSlider] = useState(false);
 
     useEffect(() => {
         setProduct(props?.product);
@@ -48,7 +46,7 @@ const Product = ({ ...props }) => {
     const handleBookmark = () => {
         setBookmarkLoading(true);
         if (product?.isProductBookmarked) {
-            router.delete(route("bookmark.destroy", product?.id), {
+            router.delete(route("bookmark.destroy", product?.book), {
                 preserveScroll: true,
                 onFinish: () => setBookmarkLoading(false),
             });
@@ -88,12 +86,13 @@ const Product = ({ ...props }) => {
             <div className="container mx-auto px-5 pt-2 py-0 bg-white mt-10">
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-col md:flex-row justify-center items-start gap-6">
-                        <div className="grid grid-cols-1">
+                        <div className="w-full md:w-auto">
                             <div
-                                className="w-full md:w-96 h-96 flex flex-col items-center justify-center relative border-2 border-gray-200 bg-cover bg-center"
+                                className="w-full md:w-96 h-96 flex flex-col items-center justify-center relative border-2 border-gray-200 bg-cover bg-center cursor-pointer"
                                 style={{
                                     backgroundImage: `url(${selectedImage})`,
                                 }}
+                                onClick={() => setShowImageSlider(!showImageSlider)}
                             >
                                 {/* <img
                                     className="w-full md:w-96 md:h-96  border-2 border-gray-200 "
@@ -101,7 +100,7 @@ const Product = ({ ...props }) => {
                                     alt="Workflow"
                                 /> */}
                                 <div className="absolute top-0 right-0 flex items-center justify-center gap-2">
-                                    <button className="flex items-center justify-center gap-2 p-2 ">
+                                    <button className="flex items-center justify-center gap-2 p-2 " onClick={() => setShowImageSlider(!showImageSlider)}>
                                         <AiOutlineZoomIn className="w-6 h-6 text-gray-900" />
                                     </button>
                                 </div>
@@ -190,7 +189,7 @@ const Product = ({ ...props }) => {
                             </div>
                             <div className="flex  md:flex-col lg:flex-row justify-start items-center w-full gap-3 mt-3">
                                 <div className="w-52 flex justify-between gap-1 items-center border-2 overflow-hidden">
-                                    <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 cursor-pointer" onClick={() => (qte > 1) ? setQte(qte - 1) : setQte(0)} />
+                                    <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 select-none cursor-pointer" onClick={() => (qte > 1) ? setQte(qte - 1) : setQte(0)} />
                                     <div className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1">
                                         <input
                                             value={qte}
@@ -198,7 +197,7 @@ const Product = ({ ...props }) => {
                                             className="outline-none w-10 h-10 text-center text-gray-700 font-bold text-xs md:text-sm lg:tex"
                                         />
                                     </div>
-                                    <AiOutlinePlus className="w-4 h-4 text-gray-600 mr-2 cursor-pointer" onClick={() => setQte(qte + 1)} />
+                                    <AiOutlinePlus className="w-4 h-4 text-gray-600 mr-2 select-none cursor-pointer" onClick={() => setQte(qte + 1)} />
                                 </div>
                                 <Button
                                     variant="default"
@@ -224,24 +223,40 @@ const Product = ({ ...props }) => {
 
                         </div>
                     </div>
-                    {/* REVIEW */}
-                    {/* <div className="w-full flex flex-col mt-5">
-                        <p className="pb-1 inline text-center text-gray-600 font-bold text-base md:text-3xl font-serif border-b-2 border-gray-600">
-                            REVIEWS
-                        </p>
-
-                        <div className="flex flex-col mt-4">
-                            <div className="text-center text-gray-600 text-xs md:text-sm lg:text-lg">
-                                There are no reviews yet.
-                            </div>
-                        </div>
-                    </div> */}
-                    {/* YOU MAY ALSO LIKE */}
 
                 </div>
                 <LandingSuggest title="You May Also Like" />
             </div>
+            {showImageSlider && (
+                <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
+                    {/* overlay */}
+                    <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50" onClick={() => setShowImageSlider(false)}></div>
+                    <div className="flex justify-center items-center w-full h-full">
+                        <Swiper
+                            modules={[Navigation]}
+                            spaceBetween={0}
+                            slidesPerView={1}
+                            initialSlide={product?.images?.findIndex((item: any) => selectedImage === item.path)}
+                            navigation
+                        >
+                            {product?.images?.map((item: any, index: number) => (
+                                <SwiperSlide key={index} className="my-auto">
+                                    <div
+                                        className="w-full h-full flex justify-center items-center"
+                                    >
+                                        <img
+                                            src={item.path}
+                                            alt="Workflow"
+                                            className="w-full md:w-auto my-auto md:h-128 object-cover"
+                                        />
+                                    </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
 
+                </div>
+            )}
         </>
     );
 }

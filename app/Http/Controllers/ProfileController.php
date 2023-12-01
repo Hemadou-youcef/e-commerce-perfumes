@@ -20,7 +20,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-        return Inertia::render('Profile/Edit');
+        return Inertia::render('ClientSide/Profile/Edit');
     }
 
     /**
@@ -32,7 +32,7 @@ class ProfileController extends Controller
 
         auth()->user()->update($user);
 
-        return Redirect::route('profile.edit');
+        return Redirect::route('profile');
 
 
     }

@@ -33,25 +33,30 @@ const Reception = ({ ...props }) => {
     console.log(props?.reception)
     const [reception, setReception] = useState<ReceptionInfo | null>(props?.reception)
 
+    const formatDate = (date) => {
+        const d = new Date(date);
+        return d.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
     const status = () => {
         let text = "NaN";
         let color = "bg-gray-600";
         switch (reception?.product?.status) {
             case "archived":
-                text = "ARCHIVED";
+                text = "ARCHIVÉ";
                 color = "bg-gray-600";
 
                 break;
             case "published":
-                text = "PUBLISHED";
+                text = "PUBLIÉ";
                 color = "bg-green-600";
                 break;
             case "pinned":
-                text = "PINNED";
+                text = "ÉPINGLEÉ";
                 color = "bg-blue-600";
                 break;
             default:
-                text = "PUBLISHED";
+                text = "PUBLIÉ";
                 color = "bg-green-600";
                 break;
         }
@@ -103,13 +108,13 @@ const Reception = ({ ...props }) => {
                     </div>
                     <div className="flex flex-row justify-start items-center gap-2">
                         <h1 className="text-sm font-medium w-40 text-gray-800">Prix De Unit :</h1>
-                        <p className="text-sm font-bold text-green-500">{reception?.price} DA</p>
+                        <p className="text-sm font-bold text-green-500">{(Math.round(reception?.price * 100) / 100).toFixed(2)} DA</p>
                     </div>
                     <div className="flex flex-row justify-start items-center gap-2">
                         <h1 className="text-sm font-medium w-40 text-gray-800">Date De Création :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <AiOutlineCalendar className="text-xl text-gray-800" />
-                            <p className="text-sm font-bold text-gray-500">{reception?.created_at}</p>
+                            <p className="text-sm font-bold text-gray-500">{formatDate(reception?.created_at)}</p>
                         </div>
                     </div>
                     <div className="flex flex-row justify-start items-center gap-2">
@@ -135,12 +140,6 @@ const Reception = ({ ...props }) => {
                                     <h1 className="text-sm font-medium w-40 text-gray-800">Nom du Produit :</h1>
                                     <div className="flex flex-row justify-start items-center gap-2">
                                         <p className="text-sm font-bold text-gray-500">#{reception?.product?.name}</p>
-                                    </div>
-                                </div>
-                                <div className="flex flex-row justify-start items-center gap-2">
-                                    <h1 className="text-sm font-medium w-40 text-gray-800">Category :</h1>
-                                    <div className="flex flex-row justify-start items-center gap-2">
-                                        <p className="text-sm font-bold text-gray-500">{reception?.product?.category}</p>
                                     </div>
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-2">

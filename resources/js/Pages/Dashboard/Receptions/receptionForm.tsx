@@ -40,7 +40,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 interface FormData {
     name: string;
     quantity: string;
-    price: string;
+    price: number;
     product_id: string;
 }
 
@@ -55,18 +55,13 @@ type SelectOption = {
 
 const ReceptionForm = ({ ...props }) => {
     // console.log(props)
-    // REGISTER NEW RECEPTION
-    // WITH COLUMN :
-    // - Name
-    // - Reception ID
-    // - Quantity
-    // - Price
     const { data, setData, post, processing, errors, reset } = useForm<FormData>({
         name: "",
         quantity: "",
-        price: "",
+        price: 1,
         product_id: "",
     });
+    const [totalPrice, setTotalPrice] = useState(1)
     const [dataProducts, setDataProducts] = useState<SelectOption[]>(() => {
         return props?.products.map((product: any) => {
             return {
@@ -89,7 +84,6 @@ const ReceptionForm = ({ ...props }) => {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-
         post(route('reception.store'));
     };
 
@@ -153,7 +147,7 @@ const ReceptionForm = ({ ...props }) => {
                             variant="outline"
                             className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
                             onClick={(e) => post(route('reception.store'))}
-                            disabled={processing || data.name === "" || data.quantity === "" || data.price === "" || data.product_id === ""}
+                            disabled={processing || data.name === "" || data.quantity === "" || data.price <= 0 || data.product_id === ""}
                         >
                             {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <FaSave className="text-lg" />}
 
@@ -184,12 +178,6 @@ const ReceptionForm = ({ ...props }) => {
                                         </div>
                                     </div>
                                     <div className="flex flex-row justify-start items-center gap-2">
-                                        <h1 className="text-sm font-medium w-20 text-gray-800">Category :</h1>
-                                        <div className="flex flex-row justify-start items-center gap-2">
-                                            <p className="text-sm font-bold text-gray-500">{selectedProduct?.category}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-row justify-start items-center gap-2">
                                         <h1 className="text-sm font-medium w-20 text-gray-800">Status :</h1>
                                         <div className="flex flex-row justify-start items-center gap-2">
                                             <div className="text-sm font-bold text-gray-500">{status()}</div>
@@ -203,6 +191,9 @@ const ReceptionForm = ({ ...props }) => {
                                     </div>
                                 </div>
                             )}
+                            {errors.product_id && (
+                                <p className="text-xs font-bold text-red-500">{errors.product_id}</p>
+                            )}
                         </div>
                         <div className="flex flex-col gap-5">
                             <div className="grid gap-3">
@@ -214,6 +205,9 @@ const ReceptionForm = ({ ...props }) => {
                                     value={data.name}
                                     onChange={(e) => setData("name", e.target.value)}
                                 />
+                                {errors.name && (
+                                    <p className="text-xs font-bold text-red-500">{errors.name}</p>
+                                )}
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="quantity" className="text-base"> Quantité Ajouter </Label>
@@ -225,17 +219,26 @@ const ReceptionForm = ({ ...props }) => {
                                     min={1}
                                     onChange={(e) => setData("quantity", e.target.value)}
                                 />
+                                {errors.quantity && (
+                                    <p className="text-xs  text-red-500">{errors.quantity}</p>
+                                )}
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="price" className="text-base"> Prix de unité</Label>
+                                <Label htmlFor="price" className="text-base"> Prix Total </Label>
                                 <Input
                                     id="price"
                                     type="number"
                                     className="w-full h-12 border-2 focus-visible:ring-transparent"
-                                    value={data.price}
+                                    value={totalPrice}
                                     min={1}
-                                    onChange={(e) => setData("price", e.target.value)}
+                                    onChange={(e) => {
+                                        setTotalPrice(parseInt(e.target.value))
+                                        setData("price", parseInt(e.target.value) / parseInt(data.quantity))
+                                    }}
                                 />
+                                {errors.price && (
+                                    <p className="text-xs  text-red-500">{errors.price}</p>
+                                )}
                             </div>
                         </div>
 

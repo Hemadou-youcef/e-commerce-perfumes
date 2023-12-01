@@ -34,25 +34,30 @@ const Product = ({ ...props }) => {
     console.log(props?.product)
     const [product, setProduct] = useState<ProductsInfo | null>(props?.product)
 
+    const formatDate = (date) => {
+        const d = new Date(date);
+        return d.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
     const status = () => {
         let text = "NaN";
         let color = "bg-gray-600";
         switch (product?.status) {
             case "archived":
-                text = "ARCHIVED";
+                text = "ARCHIVÉ";
                 color = "bg-gray-600";
 
                 break;
             case "published":
-                text = "PUBLISHED";
+                text = "PUBLIÉ";
                 color = "bg-green-600";
                 break;
             case "pinned":
-                text = "PINNED";
+                text = "ÉPINGLEÉ";
                 color = "bg-blue-600";
                 break;
             default:
-                text = "PUBLISHED";
+                text = "PUBLIÉ";
                 color = "bg-green-600";
                 break;
         }
@@ -174,6 +179,13 @@ const Product = ({ ...props }) => {
                             <div className="text-sm font-bold text-gray-500">{product?.description_ar.split('<br/>').map((value, index) => (<div key={index}><span>{value}</span><br /></div>))}</div>
                         </div>
                     </div>
+                    {/* <Separator className="mt-0 md:hidden" />
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Date de création :</h1>
+                        <div className="flex flex-row justify-start items-center gap-2">
+                            <p className="text-sm font-bold text-gray-500">{formatDate(product?.created_at)}</p>
+                        </div>
+                    </div> */}
                 </div>
                 <Separator className="mt-0" />
                 <div className="flex flex-col gap-2 mt-2">
