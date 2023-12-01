@@ -21,35 +21,30 @@ type FormData = {
     phone: string;
     street_address: string;
     city: string;
-    state: string;
     state_code: string;
     shipping_method: string;
-    shipping_fees: string;
     postal_code: string;
-    agency: string;
 };
 
 
 // Information
 import wilaya from "@/data/wilaya";
+import yalidine from "@/data/yalidine";
 
 const Cart = ({ ...props }) => {
     console.log(props);
     const [cartItems, setCartItems] = useState(props?.cartItems);
 
     const [checkedOut, setCheckedOut] = useState(false);
-    const { data, setData, post, processing, errors, reset } = useForm<FormData>({
-        first_name: "",
-        last_name: "",
-        phone: "",
-        street_address: "",
-        city: "",
-        state: "",
-        state_code: "",
-        shipping_method: "",
-        shipping_fees: "",
-        postal_code: "",
-        agency: "",
+    const { data, setData, post, transform, processing, errors, reset } = useForm<FormData>({
+        first_name: '',
+        last_name: '',
+        phone: '',
+        street_address: '',
+        city: '',
+        state_code: '',
+        shipping_method: '1',
+        postal_code: '',
     });
     const [checkoutLoading, setCheckoutLoading] = useState(false);
 
@@ -88,6 +83,13 @@ const Cart = ({ ...props }) => {
 
     const submit = (e: any) => {
         e.preventDefault();
+        transform((data) => {
+            return {
+                ...data,
+                state_code: parseInt(data.state_code),
+                shipping_method: parseInt(data.shipping_method),
+            };
+        })
         post(route('cart.checkout'), {
             onSuccess: () => {
                 console.log('success');
@@ -115,24 +117,29 @@ const Cart = ({ ...props }) => {
                     <form onSubmit={submit} className="w-full p-5 flex flex-col gap-5">
                         <div className="grid gap-3">
                             <Label htmlFor="agency" className="text-base">Agence</Label>
-                            <Input
-                                id="agency"
-                                type="text"
-                                className="w-full h-12 border-2 focus-visible:ring-transparent"
-                                value={data.agency}
-                                onChange={(e) => setData("agency", e.target.value)}
-                            />
+                            <Select>
+                                <SelectTrigger >
+                                    <SelectValue placeholder="Yalidine" className="w-full h-12 border-2 focus-visible:ring-transparent" />
+                                </SelectTrigger>
+                                <SelectContent className="w-full border-2 focus-visible:ring-transparent">
+                                    <SelectItem value="yalidine">Yalidine</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
 
                         <div className="grid gap-3">
                             <Label htmlFor="shipping_method" className="text-base">Mode de livraison</Label>
-                            <Input
-                                id="shipping_method"
-                                type="text"
-                                className="w-full h-12 border-2 focus-visible:ring-transparent"
-                                value={data.shipping_method}
-                                onChange={(e) => setData("shipping_method", e.target.value)}
-                            />
+                            <Select onValueChange={(value) => {
+                                setData(data => ({ ...data, shipping_method: value }))
+                            }}>
+                                <SelectTrigger >
+                                    <SelectValue placeholder="Livraison à domicile" className="w-full h-12 border-2 focus-visible:ring-transparent" />
+                                </SelectTrigger>
+                                <SelectContent className="w-full border-2 focus-visible:ring-transparent">
+                                    <SelectItem value="1">Livraison à domicile</SelectItem>
+                                    <SelectItem value="2">Livraison à l'agence</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
@@ -143,7 +150,9 @@ const Cart = ({ ...props }) => {
                                     type="text"
                                     className="w-full h-12 border-2 focus-visible:ring-transparent"
                                     value={data.first_name}
-                                    onChange={(e) => setData("first_name", e.target.value)}
+                                    onChange={(e) => {
+                                        setData(data => ({ ...data, first_name: e.target.value }))
+                                    }}
                                 />
                             </div>
                             <div className="grid gap-3">
@@ -153,7 +162,9 @@ const Cart = ({ ...props }) => {
                                     type="text"
                                     className="w-full h-12 border-2 focus-visible:ring-transparent"
                                     value={data.last_name}
-                                    onChange={(e) => setData("last_name", e.target.value)}
+                                    onChange={(e) => {
+                                        setData(data => ({ ...data, last_name: e.target.value }))
+                                    }}
                                 />
                             </div>
                         </div>
@@ -165,7 +176,9 @@ const Cart = ({ ...props }) => {
                                 type="text"
                                 className="w-full h-12 border-2 focus-visible:ring-transparent"
                                 value={data.phone}
-                                onChange={(e) => setData("phone", e.target.value)}
+                                onChange={(e) => {
+                                    setData(data => ({ ...data, phone: e.target.value }))
+                                }}
                             />
                         </div>
 
@@ -176,12 +189,16 @@ const Cart = ({ ...props }) => {
                                 type="text"
                                 className="w-full h-12 border-2 focus-visible:ring-transparent"
                                 value={data.street_address}
-                                onChange={(e) => setData("street_address", e.target.value)}
+                                onChange={(e) => {
+                                    setData(data => ({ ...data, street_address: e.target.value }))
+                                }}
                             />
                         </div>
                         <div className="grid gap-3">
                             <Label htmlFor="state" className="text-base">Wilaya</Label>
-                            <Select>
+                            <Select onValueChange={(value) => {
+                                setData(data => ({ ...data, state_code: value }))
+                            }}>
                                 <SelectTrigger >
                                     <SelectValue placeholder="Wilaya" className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
@@ -205,7 +222,9 @@ const Cart = ({ ...props }) => {
                                     type="text"
                                     className="w-full h-12 border-2 focus-visible:ring-transparent"
                                     value={data.postal_code}
-                                    onChange={(e) => setData("postal_code", e.target.value)}
+                                    onChange={(e) => {
+                                        setData(data => ({ ...data, postal_code: e.target.value }))
+                                    }}
                                 />
                             </div>
                             <div className="grid gap-3">
@@ -215,7 +234,9 @@ const Cart = ({ ...props }) => {
                                     type="text"
                                     className="w-full h-12 border-2 focus-visible:ring-transparent"
                                     value={data.city}
-                                    onChange={(e) => setData("city", e.target.value)}
+                                    onChange={(e) => {
+                                        setData(data => ({ ...data, city: e.target.value }))
+                                    }}
                                 />
                             </div>
                         </div>
@@ -280,7 +301,10 @@ const Cart = ({ ...props }) => {
                                     Livraison:
                                 </p>
                                 <p className="text-base text-gray-900">
-                                    800,00 DA
+                                    {data.state_code != "" ?
+                                        yalidine[data.state_code][data.shipping_method] + ",00 DA" :
+                                        "remplir l'entrée"
+                                    }
                                 </p>
                             </div>
                             <div className="flex items-center font-bold font-mono justify-between">
@@ -297,6 +321,7 @@ const Cart = ({ ...props }) => {
                                 <Button
                                     type="submit"
                                     className="w-52 text-white px-4 py-2 bg-gray-900 rounded-md hover:bg-gray-800 active:bg-gray-700"
+                                    onClick={submit}
                                 >
                                     {checkoutLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
                                         <div className="flex items-center justify-center gap-2">

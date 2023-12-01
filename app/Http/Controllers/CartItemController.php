@@ -110,7 +110,7 @@ class CartItemController extends Controller
             'shipping_method' => 'required|integer|between:1,2',
         ]);
 
-
+        return $WilayaMapper->getProvinceName($address['state_code']);
         // Retrieve cart items for the authenticated user
         $cartItems = $user->cartItems()->get();
 
