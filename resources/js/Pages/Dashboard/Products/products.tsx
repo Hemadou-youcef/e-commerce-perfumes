@@ -23,17 +23,39 @@ const Products = ({ ...props }) => {
     console.log(props)
     const [data, setData] = useState<ProductsInfo[]>(props?.products?.data)
     const [showFilters, setShowFilters] = useState(false);
+    const [status, setStatus] = useState(props?.filters?.status || "all");
     const [search, setSearch] = useState(props?.filters?.search || "");
     const [searchLoading, setSearchLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        setData(props?.products?.data);
+    }, [props?.products?.data])
 
     const handleSearch = () => {
         setSearchLoading(true);
+        setLoading(true);
         router.get(route("products"), {
             search: search,
         }, {
             preserveScroll: true,
-            onFinish: () => setSearchLoading(false),
+            onFinish: () => {
+                setSearchLoading(false);
+                setLoading(false);
+            }
+        });
+    }
+
+    const handleFilter = () => {
+        setLoading(true);
+        router.get(route("products"), {
+            search: search,
+            status: status,
+        }, {
+            preserveScroll: true,
+            onFinish: () => {
+                setLoading(false);
+            }
         });
     }
 
@@ -55,8 +77,8 @@ const Products = ({ ...props }) => {
                             placeholder="Filter Produits..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            onKeyDown={(key)=>{
-                                if(key.key === "Enter"){
+                            onKeyDown={(key) => {
+                                if (key.key === "Enter") {
                                     handleSearch()
                                 }
                             }}
@@ -77,17 +99,55 @@ const Products = ({ ...props }) => {
 
                 </div>
                 <Accordion type="single" value={showFilters ? "filter" : undefined}>
-                    <AccordionItem value="filter">
-                        <AccordionContent>
-                            <div className="flex items-center justify-between">
+                    <AccordionItem value="filter" className="border-0">
+                        <AccordionContent >
+                            <div className="p-2 pt-3 border rounded-md flex flex-col gap-5 bg-gray-800">
+                                <div className="flex flex-col gap-2">
+                                    <h1 className="text-sm font-medium  text-gray-50">Status</h1>
+                                    <div className="flex flex-row justify-start items-center gap-2">
+                                        <Button variant="outline"
+                                            className={`flex h-8 items-center space-x-2 rounded-md bg-transparent border border-dashed text-gray-50 hover:bg-gray-50 hover:text-gray-900 ${status === "all" ? "bg-gray-50 text-gray-900" : ""}`}
+                                            onClick={() => setStatus("all")}
+                                        >
+                                            TOUS
+                                        </Button>
+                                        <Button variant="outline"
+                                            className={`flex h-8  items-center space-x-2 rounded-md bg-transparent border border-dashed text-gray-50 hover:bg-green-600 hover:text-gray-50 ${status === "published" ? "bg-green-600 text-gray-50" : ""}`}
+                                            onClick={() => setStatus("published")}
+                                        >
+                                            PUBLIÉ
+                                        </Button>
+                                        <Button variant="outline"
+                                            className={`flex h-8  items-center space-x-2 rounded-md bg-transparent border border-dashed text-gray-50 hover:bg-blue-600 hover:text-gray-50 ${status === "pinned" ? "bg-blue-600 text-gray-50" : ""}`}
+                                            onClick={() => setStatus("pinned")}
+                                        >
+                                            ÉPINGLEÉ
+                                        </Button>
+                                        <Button variant="outline"
+                                            className={`flex h-8  items-center space-x-2 rounded-md bg-transparent border border-dashed text-gray-50 hover:bg-gray-600 hover:text-gray-50 ${status === "archived" ? "bg-gray-600 text-gray-50" : ""}`}
+                                            onClick={() => setStatus("archived")}
+                                        >
+                                            ARCHIVÉ
+                                        </Button>
 
+                                    </div>
 
+                                </div>
+                                <Button
+                                    variant="outline"
+                                    className="flex items-center space-x-2 rounded-md  focus-visible:ring-transparent"
+                                    onClick={handleFilter}
+                                    disabled={searchLoading}
+                                >
+                                    {loading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : "Appliquer les filtres"}
+                                    
+                                </Button>
                             </div>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
                 <div className="max-w-full overflow-x-auto pb-2">
-                    <DataTable columns={columns} data={data} baseUrl="/admin/products/" />
+                    {loading ? null : <DataTable columns={columns} data={data} baseUrl="/admin/products/" />}
                 </div>
                 <Pagination meta={props?.products} />
             </div>

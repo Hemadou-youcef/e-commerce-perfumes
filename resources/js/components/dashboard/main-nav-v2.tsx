@@ -88,7 +88,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
             <Collapsible className="w-full" open={collapsedStateList[0]} onOpenChange={(open) => setCollapsedStateList([open, collapsedStateList[1], collapsedStateList[2]])}>
               <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3   transition-all px-4">
                 <div className="flex items-center gap-3">
-                  <GiBuyCard className="w-5 h-5 text-orange-800 " />
+                  <GiBuyCard className="w-5 h-5 text-green-800 " />
                   <p className=" text-sm text-gray-800">TRANSITION</p>
                 </div>
                 <FaAngleRight className={`h-4 w-4 text-gray-800 ${collapsedStateList[0] ? "transform rotate-90" : ""} transition-all`} />
@@ -99,7 +99,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  hover:bg-gray-200 ${pageId === "orders" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
-                  <FaList className="w-5 h-5 text-orange-800 group-hover:text-orange-600" />
+                  <FaList className="w-5 h-5 text-green-800 group-hover:text-green-600" />
                   <p className="text-xs text-gray-800 ">LES COMMANDES</p>
                 </Link>
               </CollapsibleContent>

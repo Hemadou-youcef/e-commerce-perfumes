@@ -98,7 +98,7 @@ const Cart = ({ ...props }) => {
     const submit = (e: any) => {
         e.preventDefault();
         setCheckoutLoading(true);
-        transform((data) => {
+        transform((data: any) => {
             return {
                 ...data,
                 state_code: parseInt(data.state_code),
@@ -317,7 +317,7 @@ const Cart = ({ ...props }) => {
                                         </p>
                                         <p className="text-base text-gray-900">
                                             {data.state_code != "" ?
-                                                yalidine[data.state_code][data.shipping_method] + ",00 DA" :
+                                                yalidine[data.state_code - 1][data.shipping_method == "1" ? "2" : "1"] + ",00 DA" :
                                                 "remplir l'entrée"
                                             }
                                         </p>
@@ -328,7 +328,7 @@ const Cart = ({ ...props }) => {
                                         </p>
                                         <p className="text-base text-gray-900">
                                             {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + (data.state_code != "" ?
-                                                yalidine[data.state_code][data.shipping_method] :
+                                                yalidine[data.state_code - 1][data.shipping_method] :
                                                 0
                                             )},00 DA
                                         </p>

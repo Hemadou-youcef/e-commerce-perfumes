@@ -54,6 +54,7 @@ import { CiDeliveryTruck } from "react-icons/ci";
 import { Progress } from "@/shadcn/ui/progress";
 import { TbExternalLink } from "react-icons/tb";
 import { FaBuildingUser } from "react-icons/fa6";
+import OrderReceptionsSelector from "@/components/dashboard/order/orderReceptionsSelector";
 
 
 // Types
@@ -67,25 +68,29 @@ type receptionDataFrame = {
     quantity: number,
 }
 
+type reservationDataFrame = {
+    reception_id: number,
+    order_product_id: number,
+    quantity: number,
+}
+
 const Order = ({ ...props }) => {
-    console.log(props)
+    // console.log(props)
+
+    // Order State
     const [order, setOrder] = useState(props?.order)
+    const [productSelected, setProductSelected] = useState<any>(null);
+    const [receptions, setReceptions] = useState<receptionDataFrame[]>([]);
+    const [reservations, setReservations] = useState<reservationDataFrame[]>([]);
+
+    // Order Boolean States
     const [loadingAction, setLoadingAction] = useState(false);
     const [cancelLoading, setCancelLoading] = useState(false);
     const [open, setOpen] = useState(false);
-    const [productSelected, setProductSelected] = useState<any>(null);
-    const [receptions, setReceptions] = useState<receptionDataFrame[]>([]);
 
-    const [quantityTotalSelected, setQuantityTotalSelected] = useState(0);
 
-    const handleSelectQuantity = (product) => {
-        setProductSelected(product);
-        setQuantityTotalSelected(receptions.filter((reception) => reception?.order_product_id == product?.id).reduce((a, b) => a + b?.used_quantity, 0));
-        setOpen(true);
-    }
 
     useEffect(() => {
-
         setOrder(props?.order);
         getAllReceptions();
 
@@ -141,11 +146,12 @@ const Order = ({ ...props }) => {
 
     const handleConfirmOrder = () => {
         setLoadingAction(true);
-        const data = receptions.filter((reception) => reception?.quantity > 0).map((reception) => {
+        const data = reservations.map((reservation) => {
+            if (reservation?.quantity == 0) return false;
             return {
-                reception_id: reception?.reception_id,
-                order_product_id: reception?.order_product_id,
-                quantity: reception?.quantity,
+                reception_id: reservation?.reception_id,
+                order_product_id: reservation?.order_product_id,
+                quantity: reservation?.quantity,
             }
         })
         router.post(route('confirm_order', order?.id), {
@@ -180,61 +186,76 @@ const Order = ({ ...props }) => {
 
     const autoComplete = () => {
         if (!needQuantityForConfirm()) return false;
-
+        
+        // EMPTY THE RESERVATIONS ARRAY
+        setReservations([]);
+        
         // Clone the receptions array to avoid mutating the original
         let updatedReceptions = [...receptions];
+        let updatedReservations = [];
 
-        // Iterate over each product in the order
+        // Iterate over each product in the order and work with the reservations
         props?.order?.order_products.forEach((product_order) => {
-            const usedQuantity = receptions.filter((reception) => reception?.order_product_id == product_order?.id).reduce((a, b) => a + b?.quantity, 0);
-            if (usedQuantity == product_order?.total_quantity) return true; // Skip products that are already fulfilled
-            let remainingQuantity = product_order?.total_quantity - usedQuantity;
-
-            // Check each reception for available stock
-            product_order?.product?.receptions?.some((reception) => {
+            let remainingQuantity = product_order?.total_quantity;
+            // CREATE RESERVATION FOR EACH RECEPTIONS IF NEEDED 
+            product_order?.product?.receptions?.forEach((reception) => {
+                const alreadyReservedQuantity = updatedReservations.filter((reservation) => reservation?.reception_id == reception?.id).reduce((a, b) => a + b?.quantity, 0);
+                
+                const receptionRestQuantity = reception?.rest - alreadyReservedQuantity;
                 if (reception?.rest > 0) {
-                    // Sufficient stock is available for the entire quantity needed
-                    if (reception?.rest >= remainingQuantity) {
-                        updatedReceptions = updatedReceptions.map((item) => {
-                            if (item?.reception_id === reception?.id) {
-                                return {
-                                    ...item,
-                                    used_quantity: remainingQuantity,
-                                    quantity: item?.quantity + remainingQuantity,
-                                };
-                            }
-                            return item;
-                        });
-                        remainingQuantity = 0;
-                        return true; // Break out of the loop since all needed quantity is fulfilled
-                    } else {
-                        // Use the available stock and reduce the remaining quantity
-                        updatedReceptions = updatedReceptions.map((item) => {
-                            if (item?.reception_id === reception?.id) {
-                                const usedQuantity = Math.min(reception?.rest, remainingQuantity);
-                                return {
-                                    ...item,
-                                    used_quantity: item?.used_quantity + usedQuantity,
-                                    quantity: item?.quantity + usedQuantity,
-                                };
-                            }
-                            return item;
-                        });
-                        remainingQuantity -= reception?.rest;
+                    const reservation = {
+                        reception_id: reception?.id,
+                        order_product_id: product_order?.id,
+                        quantity: 0,
                     }
-                }
-            });
-        });
+                    if (remainingQuantity > 0) {
+                        if (remainingQuantity > receptionRestQuantity) {
+                            reservation.quantity = receptionRestQuantity;
+                            remainingQuantity -= receptionRestQuantity;
+                        }
+                        else {
+                            reservation.quantity = remainingQuantity;
+                            remainingQuantity = 0;
+                        }
+                    }
 
-        // Update the state with the modified receptions array and total quantity
+
+                    updatedReservations.push(reservation);
+                    // Update all the reception quantity that have same reception_id
+                    updatedReceptions = updatedReceptions.map((reception) => {
+                        if (reception?.reception_id == reservation?.reception_id) {
+                            reception.quantity = alreadyReservedQuantity + reservation?.quantity;
+                        }
+                        reception.used_quantity = 0;
+                        return reception;
+                    })
+                    
+
+                }
+            })
+        })
         setReceptions(updatedReceptions);
-        setQuantityTotalSelected(order?.total);
+        setReservations(updatedReservations);
+
     };
 
+    const createReservation = () => {
+        const data: reservationDataFrame[] = [];
+        receptions.forEach((reception) => {
+            if (reception?.quantity > 0) {
+                data.push({
+                    reception_id: reception?.reception_id,
+                    order_product_id: reception?.order_product_id,
+                    quantity: reception?.used_quantity,
+                })
+            }
+        })
+        setReservations(data);
+    }
     const needQuantityForConfirm = () => {
         let neededQuantity = false;
         order?.order_products.forEach((product_order) => {
-            const usedQuantity = receptions.filter((reception) => reception?.order_product_id == product_order?.id).reduce((a, b) => a + b?.quantity, 0);
+            const usedQuantity = reservations.filter((reservation) => reservation?.order_product_id == product_order?.id).reduce((a, b) => a + b?.quantity, 0);
             if (usedQuantity != product_order?.total_quantity) {
                 neededQuantity = true;
             }
@@ -564,11 +585,14 @@ const Order = ({ ...props }) => {
                                                             <TableCell className="font-bold text-xs">
                                                                 <Progress
                                                                     className="bg-gray-300"
-                                                                    value={(receptions.filter((reception) => reception?.order_product_id == product?.id).reduce((a, b) => a + b?.quantity, 0) * 100) / product?.total_quantity}
+                                                                    value={(reservations.filter((reservation) => reservation?.order_product_id == product?.id).reduce((a, b) => a + b?.quantity, 0) * 100) / product?.total_quantity}
                                                                 />
                                                             </TableCell>
                                                             <TableCell className="text-center">
-                                                                <Button variant="outline" className="font-medium text-xs border border-gray-400 uppercase" onClick={() => handleSelectQuantity(product)}>
+                                                                <Button variant="outline" className="font-medium text-xs border border-gray-400 uppercase" onClick={() => {
+                                                                    setOpen(true);
+                                                                    setProductSelected(product);
+                                                                }}>
                                                                     sélectionner la quantité
                                                                 </Button>
                                                             </TableCell>
@@ -635,152 +659,19 @@ const Order = ({ ...props }) => {
                                 </div>
                             </TabsContent>
                         </Tabs>
-
                     </div>
-
                 </div>
             </div>
-            <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="max-w-[400px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[1000px] xl:max-w-[1200px]">
-                    <DialogHeader>
-                        <DialogTitle>Sélectionner la quantité En Stock</DialogTitle>
-                        {/* <DialogDescription>
-                            <div className="flex flex-row justify-start items-center gap-2">
-                                <AiOutlineCalendar className="text-xl text-gray-800" />
-                                <p className="text-sm font-bold text-gray-500">{formatDate(order?.created_at)}</p>
-                            </div>
-                        </DialogDescription> */}
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                        {productSelected && (
-                            <div className="flex flex-row justify-start items-center gap-2 relative">
-                                <Progress value={(quantityTotalSelected * 100) / productSelected?.total_quantity} className="h-7 col-span-3 rounded-md bg-gray-300" />
-                                <p className="w-full text-sm text-center font-bold text-white px-3 p-1 rounded-md absolute top-0"
-                                    style={{
-                                        textShadow: "0px 0px 5px rgba(0,0,0,0.5)"
-                                    }}
-                                >
-                                    {quantityTotalSelected}/{productSelected?.total_quantity} {productSelected?.product?.unit}
-                                </p>
-                                {/* <p className="text-sm font-bold text-gray-500">{quantityTotalSelected} {productSelected?.product?.unit}</p> */}
-                            </div>
-                        )}
-                        <div className="">
-                            <Table className="w-full">
-                                <TableHeader>
-                                    <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
-                                        <TableHead className="w-20">Reception</TableHead>
-                                        <TableHead className="w-48">Date</TableHead>
-                                        <TableHead className="w-64">Quantité Sélectionnée</TableHead>
-                                        <TableHead className="text-center w-52">Stock</TableHead>
-                                        <TableHead className="text-center w-52">action</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {receptions.filter((reception) => reception?.order_product_id == productSelected?.id).map((reception, index) => (
-                                        <TableRow key={index} className="hover:bg-gray-100">
-                                            <TableCell className="font-medium text-xs">{reception?.reception_name}</TableCell>
-                                            <TableCell className="font-bold text-xs">{formatDate(reception?.reception_date)}</TableCell>
-                                            <TableCell className="font-bold text-xs">
-                                                <Progress
-                                                    className="bg-gray-300"
-                                                    value={(reception?.used_quantity * 100) / reception?.rest_quantity}
-                                                />
-                                            </TableCell>
-                                            <TableCell>
-                                                <p className="col-span-2 min-w-[100px] text-sm text-center font-bold text-white bg-gray-900 px-3 p-1 rounded-md">{reception?.used_quantity}/{reception?.rest_quantity}</p>
-                                            </TableCell>
-                                            <TableCell className="text-center flex  justify-center items-center gap-2">
-                                                <Button
-                                                    variant="outline"
-                                                    className="w-36 col-span-1 p-0 px-5 h-8 font-bold border-gray-400 uppercase"
-                                                    onClick={() => {
-                                                        setReceptions(receptions.map((item) => {
-                                                            if (item?.reception_id == reception?.reception_id) {
-                                                                return {
-                                                                    ...item,
-                                                                    used_quantity: 0,
-                                                                }
-                                                            }
-                                                            return item;
-                                                        }))
-                                                        setQuantityTotalSelected(quantityTotalSelected - reception?.used_quantity);
-
-                                                    }}
-                                                    disabled={reception?.used_quantity == 0}
-                                                >
-                                                    Vider
-                                                </Button>
-                                                <Button
-                                                    variant="outline"
-                                                    className="w-36 col-span-1 p-0 px-5 h-8 font-bold border-gray-400 uppercase"
-                                                    onClick={() => {
-                                                        let needed = productSelected?.total_quantity - quantityTotalSelected;
-                                                        if (reception?.rest_quantity > needed && needed > 0) {
-                                                            setReceptions(receptions.map((item) => {
-                                                                if (item?.reception_id == reception?.reception_id) {
-                                                                    return {
-                                                                        ...item,
-                                                                        used_quantity: item?.used_quantity + (needed > reception?.rest_quantity ? reception?.rest_quantity : needed),
-                                                                    }
-                                                                }
-                                                                return item;
-                                                            }))
-                                                            setQuantityTotalSelected(quantityTotalSelected + (needed > reception?.rest_quantity ? reception?.rest_quantity : needed));
-                                                        } else if (reception?.rest_quantity < needed && needed > 0) {
-                                                            setReceptions(receptions.map((item) => {
-                                                                if (item?.reception_id == reception?.reception_id) {
-                                                                    return {
-                                                                        ...item,
-                                                                        used_quantity: item?.used_quantity + reception?.rest_quantity,
-                                                                    }
-                                                                }
-                                                                return item;
-                                                            }))
-                                                            setQuantityTotalSelected(quantityTotalSelected + reception?.rest_quantity);
-                                                        }
-                                                    }}
-                                                    disabled={quantityTotalSelected == productSelected?.total_quantity}
-                                                >
-                                                    Compléter
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-
-                            </Table>
-                        </div>
-                    </div>
-                    <DialogFooter>
-                        <Button
-                            variant="outline"
-                            onClick={() => setOpen(false)}
-                        >
-                            Annuler
-                        </Button>
-                        <Button
-                            type="submit"
-                            onClick={() => {
-                                setOpen(false);
-                                setReceptions(receptions.map((item) => {
-                                    if (item?.order_product_id == productSelected?.id) {
-                                        return {
-                                            ...item,
-                                            quantity: item?.used_quantity,
-                                        }
-                                    }
-                                    return item;
-                                }))
-                                setQuantityTotalSelected(0);
-                            }}
-
-                        >
-                            Sauvegarder
-                        </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+            {/* MODAL */}
+            {open && (<OrderReceptionsSelector
+                open={open}
+                setOpen={setOpen}
+                productSelected={productSelected}
+                receptions={receptions}
+                setReceptions={setReceptions}
+                reservations={reservations}
+                setReservations={setReservations}
+            />)}
         </>
     );
 }

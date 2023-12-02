@@ -23,6 +23,9 @@ class ProductController extends Controller
                     ->orWhere('description', 'LIKE', '%' . $search . '%')
                     ->orWhere('description_ar', 'LIKE', '%' . $search . '%')
                 )
+                ->when(request('status'), fn($query, $status) => $query
+                    ->where('status', $status)
+                )
                 ->when(request('category'), fn($query, $category) => $query
                     ->whereHas('categories', fn($query) => $query->where('name', $category))
                 )

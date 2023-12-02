@@ -11,6 +11,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Link, router } from "@inertiajs/react";
 import Pagination from "@/components/tables/pagination";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { IoMdAdd } from "react-icons/io";
 
 
 const Orders = ({ ...props }) => {
@@ -35,6 +36,12 @@ const Orders = ({ ...props }) => {
             <div className="flex flex-row justify-between items-center px-5 py-2 gap-2 h-14 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
                 <Link href="/admin/orders">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Commandes</h2>
+                </Link>
+                <Link href="/admin/orders/create">
+                    <Button className="flex items-center p-0 px-5 h-9 md:h-10 md:rounded-md">
+                        <IoMdAdd className="h-5 w-5" />
+                        <span className="ml-2 hidden md:block">Ajouter une Commande</span>
+                    </Button>
                 </Link>
             </div>
 

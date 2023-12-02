@@ -108,7 +108,7 @@ const Reception = ({ ...props }) => {
                     </div>
                     <div className="flex flex-row justify-start items-center gap-2">
                         <h1 className="text-sm font-medium w-40 text-gray-800">Prix De Unit :</h1>
-                        <p className="text-sm font-bold text-green-500">{(Math.round(reception?.price * 100) / 100).toFixed(2)} DA</p>
+                        <p className="text-sm font-bold text-green-500">{reception?.price && (Math.round(reception?.price * 100) / 100).toFixed(2)} DA</p>
                     </div>
                     <div className="flex flex-row justify-start items-center gap-2">
                         <h1 className="text-sm font-medium w-40 text-gray-800">Date De Création :</h1>
