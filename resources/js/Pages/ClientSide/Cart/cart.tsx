@@ -317,7 +317,7 @@ const Cart = ({ ...props }) => {
                                         </p>
                                         <p className="text-base text-gray-900">
                                             {data.state_code != "" ?
-                                                yalidine[data.state_code - 1][data.shipping_method] + ",00 DA" :
+                                                yalidine[data.state_code - 1][data.shipping_method == "1" ? "2" : "1"] + ",00 DA" :
                                                 "remplir l'entrée"
                                             }
                                         </p>
