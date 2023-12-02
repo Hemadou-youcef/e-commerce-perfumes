@@ -4,10 +4,11 @@ import { DataTable } from "@/components/tables/data-table"
 import { Input } from "@/shadcn/ui/input";
 import { Button } from "@/shadcn/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shadcn/ui/accordion";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import Pagination from "@/components/tables/pagination";
 import { IoMdAdd } from "react-icons/io";
 import { CategorieInfo, columns } from "@/components/columns/categories";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 // Define a placeholder loading state while data is being fetched.
 const LoadingComponent = () => (
@@ -17,9 +18,18 @@ const LoadingComponent = () => (
 const Categories = ({ ...props }) => {
     console.log(props)
     const [data, setData] = useState<CategorieInfo[]>(props?.categories?.data);
-    const [showFilters, setShowFilters] = useState(false);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [search, setSearch] = useState(props?.filters?.q || "");
+    const [searchLoading, setSearchLoading] = useState(false);
 
+    const handleSearch = () => {
+        setSearchLoading(true);
+        router.get(route("orders"), {
+            q: search,
+        }, {
+            preserveScroll: true,
+            onFinish: () => setSearchLoading(false),
+        });
+    }
     return (
         <>
             <div className="flex flex-row justify-between items-center px-5 py-2 gap-2 h-14 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
@@ -35,25 +45,26 @@ const Categories = ({ ...props }) => {
                 <div className="flex items-center justify-between">
                     <div className="flex gap-1 text-white">
                         <Input
-                            placeholder="Rechercher Categories"
-                            className="max-w-sm"
+                            placeholder="Rechercher un Categorie..." 
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            onKeyDown={(key) => {
+                                if (key.key === "Enter") {
+                                    handleSearch()
+                                }
+                            }}
+                            className="max-w-sm text-gray-900  focus-visible:ring-transparent"
+                            autoFocus
                         />
+                        <Button
+                            className="flex items-center space-x-2 rounded-md w-28 focus-visible:ring-transparent"
+                            onClick={handleSearch}
+                            disabled={searchLoading}
+                        >
+                            {searchLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : "Search"}
+                        </Button>
                     </div>
-                    <Button variant="outline" className="flex items-center space-x-2 rounded-full" onClick={() => setShowFilters(!showFilters)}>
-                        Filter
-                    </Button>
-
                 </div>
-                <Accordion type="single" value={showFilters ? "filter" : undefined}>
-                    <AccordionItem value="filter">
-                        <AccordionContent>
-                            <div className="flex items-center justify-between">
-
-
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                </Accordion>
                 <div className="max-w-full overflow-x-auto pb-2">
                     <DataTable columns={columns} data={data} baseUrl="/admin/categories/" />
                 </div>

@@ -146,7 +146,7 @@ const Product = ({ ...props }) => {
                     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                         <h1 className="text-sm font-medium md:w-40 text-gray-800">Categories :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
-                            {product?.categories.map((category, index) => (
+                            {product?.categories.map((category: any, index) => (
                                 <p key={index} className="px-2 py-1 rounded-sm text-xs font-medium text-white uppercase bg-gray-600">{category.name}</p>
                             ))}
                         </div>

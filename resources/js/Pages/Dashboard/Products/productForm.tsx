@@ -61,6 +61,12 @@ type Image = {
     product_id: number;
     path: string;
 }
+
+type Category = {
+    id: number;
+    name: string;
+    name_ar: string;
+}
 interface FormData {
     name: string;
     description: string;
@@ -68,11 +74,11 @@ interface FormData {
     unit: string;
     status: string;
     category_ids: number[];
-    main_image: File | null;
-    main_image_id: number | null;
-    images: File[] | Image[];
+    main_image?: File | null;
+    main_image_id?: number | null;
+    images?: File[] | Image[];
     prices: prices[];
-    other_images: number[];
+    other_images?: number[];
     removed_images: number[];
 }
 
@@ -104,8 +110,8 @@ const ProductForm = ({ ...props }) => {
         quantity: 0,
     });
     const [openSheet, setOpenSheet] = useState(false)
-    const [selectedCategory, setSelectedCategory] = useState(null)
-    const [checkBoxSelectedCategory, setCheckBoxSelectedCategory] = useState(null)
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
+    const [checkBoxSelectedCategory, setCheckBoxSelectedCategory] = useState<Category | null>(null)
     const [search, setSearch] = useState<string>("")
 
     useEffect(() => {
@@ -120,7 +126,7 @@ const ProductForm = ({ ...props }) => {
             data.unit.length > 0,
             data.status.length > 0,
             data.main_image || data.main_image_id,
-            editMode || data.images.length > 0,
+            editMode || (data?.images || []).length > 0,
         ];
         return rules.every((rule) => rule);
     }
@@ -400,14 +406,17 @@ const ProductForm = ({ ...props }) => {
                                             <ContextMenu>
                                                 <ContextMenuTrigger>
                                                     <div
-                                                        style={{ backgroundImage: "url(" + image.path + ")" }}
+                                                        style={{ backgroundImage: "url(" + (image as Image).path + ")" }}
                                                         className={`w-full h-full relative flex items-center justify-center bg-cover bg-center cursor-pointer`}
                                                         onClick={() => {
-                                                            if (data.main_image_id === image.id) {
+                                                            if (data.main_image_id === (image as Image).id) {
                                                                 setData(data => ({ ...data, main_image_id: null }));
                                                             }
-                                                            setData(data => ({ ...data, images: data.images?.filter((img) => img.id !== image.id) }));
-                                                            setData(data => ({ ...data, removed_images: [...data.removed_images, image.id] }));
+                                                            setData((data : any) => ({
+                                                                ...data, 
+                                                                images: data.images?.filter((img) => img.id !== (image as Image).id)
+                                                            }));
+                                                            setData(data => ({ ...data, removed_images: [...data.removed_images, (image as Image).id] }));
                                                         }}
                                                     >
                                                         <div className="absolute inset-0 w-full h-full bg-gray-300 opacity-0 group-hover:opacity-50 transition-all duration-300">
@@ -419,14 +428,14 @@ const ProductForm = ({ ...props }) => {
                                                     <ContextMenuItem
                                                         className="flex items-center justify-center gap-2"
                                                         onClick={() => {
-                                                            handleChangeMainImage("id", image.id);
+                                                            handleChangeMainImage("id", (image as Image).id);
                                                         }}
                                                     >
                                                         Définir comme image principale
                                                     </ContextMenuItem>
                                                 </ContextMenuContent>
                                             </ContextMenu>
-                                            {data.main_image_id === image.id && (
+                                            {data.main_image_id === (image as Image).id && (
                                                 <div className="absolute top-0 right-0 w-7 h-7 bg-yellow-400 flex items-center justify-center">
                                                     <LuCrown className="w-4 h-4 text-gray-50" />
                                                 </div>
@@ -560,10 +569,10 @@ const ProductForm = ({ ...props }) => {
                                         variant="outline"
                                         className="h-11 w-11 p-3 rounded-full border-2 border-gray-600 gap-2"
                                         onClick={() => {
-                                            if(data.category_ids.includes(checkBoxSelectedCategory?.id)) return
+                                            if (data.category_ids.includes((checkBoxSelectedCategory as Category)?.id)) return
                                             setOpenSheet(false)
                                             setSelectedCategory(checkBoxSelectedCategory)
-                                            setData("category_ids", [...data.category_ids, checkBoxSelectedCategory?.id])
+                                            setData("category_ids", [...data.category_ids, (checkBoxSelectedCategory as Category)?.id])
                                             setCheckBoxSelectedCategory(null)
                                         }}
                                     >

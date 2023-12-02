@@ -6,7 +6,7 @@ export type ReceptionInfo = {
     id: number;
     name: string;
     quantity: string;
-    price: string;
+    price: number;
     rest: string;
     user?: any;
     product?: any;
