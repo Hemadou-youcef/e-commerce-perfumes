@@ -116,7 +116,7 @@ const ProductForm = ({ ...props }) => {
 
     useEffect(() => {
         imagesToDataForm();
-    }, [imagesUploaded]);
+    }, [imagesUploaded, data.main_image, data.main_image_id]);
 
     const isAllRulesVerified = () => {
         const rules = [
@@ -126,16 +126,16 @@ const ProductForm = ({ ...props }) => {
             data.unit.length > 0,
             data.status.length > 0,
             data.main_image || data.main_image_id,
-            editMode || (data?.images || []).length > 0,
+            editMode || (imagesUploaded || []).length > 0,
         ];
         return rules.every((rule) => rule);
     }
 
     const imagesToDataForm = () => {
         const images = imagesUploaded.filter((img, index) => {
-            // const notTheMainImage = img.name !== data.main_image?.name;
+            const notTheMainImage = img.name !== data.main_image?.name;
             const notZeroIndex = index !== 0;
-            return notZeroIndex;
+            return notZeroIndex && notTheMainImage;
 
         });
         setData(editMode ? "other_images" : "images", images);
@@ -174,6 +174,12 @@ const ProductForm = ({ ...props }) => {
             });
             post(route('product.update', props?.product?.id));
         } else {
+            transform((data: FormData) => {
+                delete data.main_image_id;
+                delete data.other_images;
+                delete data.removed_images;
+                return data;
+            });
             post(route("product.store"), {
                 preserveScroll: true,
                 onSuccess: () => {

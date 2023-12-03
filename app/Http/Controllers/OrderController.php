@@ -53,7 +53,7 @@ class OrderController extends Controller
     public function create()
     {
         $q = request('q');
-        return Inertia::render('testPages/test' , [
+        return Inertia::render('Dashboard/Orders/ordersForm' , [
             'products' => Product::query()
                 ->where('quantity', '>', 0)
                 ->where(function ($query) use ($q) {

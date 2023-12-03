@@ -16,6 +16,8 @@ import { ReloadIcon, StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
 import { Separator } from '@/shadcn/ui/separator';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Scrollbar, Navigation, Autoplay } from 'swiper/modules';
+import { ToastAction } from "@/shadcn/ui/toast"
+import { TbExternalLink } from "react-icons/tb"
 
 // Import Swiper styles
 import 'swiper/css';
@@ -106,6 +108,7 @@ const Product = ({ ...props }) => {
                     title: "Produit ajouté au panier",
                     description: "Vous pouvez maintenant consulter votre panier",
                     duration: 5000,
+                    action: <Link href="/cart"><Button variant="outline" className="hover:bg-gray-50"><TbExternalLink className="w-5 h-5"/></Button></Link>
                 })
             },
             onError: () => {

@@ -30,6 +30,7 @@ class StoreProductRequest extends FormRequest
             'main_image' => 'required|image|mimes:jpeg,png,jpg|max:8192',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:8192',
             'category_ids.*' => 'nullable|exists:categories,id',
+            'unit' => 'required|string|max:255',
             'prices' => [
                 'required',
                 'array',

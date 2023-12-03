@@ -161,21 +161,9 @@ class ProductController extends Controller
             'description' => $validatedData['description'],
             'description_ar' => $validatedData['description_ar'],
             'status' => $validatedData['status'],
+            'unit' => $validatedData['unit'],
             'user_id' => Auth::user()->id,
         ]);
-
-
-        try {
-            if ($request->hasFile('main_image')) {
-                $mainImagePath = '/storage/' .$request->file('main_image')->store('images', 'public');
-                $main_image = $product->images()->create(['path' =>  $mainImagePath]);
-                $product->main_image_id = $main_image->id; // Set main image
-
-            }
-        } catch (Exception $e) {
-            // Handle exception
-            return back()->withErrors(['main_image' => 'internal server error. could not upload image']);
-        }
 
         $product->save();
         if ($request->has('category_ids')) {
@@ -206,6 +194,21 @@ class ProductController extends Controller
             // Handle exception
             return back()->withErrors(['images' => 'internal server error. could not upload images']);
         }
+
+        try {
+            if ($request->hasFile('main_image')) {
+                $mainImagePath = $request->file('main_image')->store('images', 'public');
+                $main_image = $product->images()->create(['path' => '/storage/' . $mainImagePath]);
+                // 
+                $product->main_image_id = $main_image->id; // Set main image
+
+            }
+        } catch (Exception $e) {
+            // Handle exception
+            return back()->withErrors(['main_image' => 'internal server error. could not upload image']);
+        }
+
+        $product->save();
 
         return redirect()->route('product', $product->id);
     }
