@@ -31,8 +31,8 @@ class OrderController extends Controller
                             ->orWhere('phone', 'like', '%' . $q . '%');
                     });
                 })
-                ->when(request('start'), fn ($query) => $query->where('created_at', '>=', request('start')))
-                ->when(request('end'), fn ($query) => $query->where('created_at', '<=', request('end')))
+                ->when(request('start'), fn($query) => $query->where('created_at', '>=', request('start')))
+                ->when(request('end'), fn($query) => $query->where('created_at', '<=', request('end')))
                 ->orderBy('created_at', 'desc')
                 ->with(['user'])
                 ->withCount('orderProducts')
@@ -69,6 +69,7 @@ class OrderController extends Controller
                 }])
                 ->get()
         ]);
+
     }
     /**
      * Store a newly created resource in storage.
@@ -92,7 +93,7 @@ class OrderController extends Controller
             }
 
             // check if product price exists
-            $product_price = $productQ->prices()->where('id', $product_price_id)->first();
+            $product_price = $productQ->productPrices()->where('id', $product_price_id)->first();
             if ($product_price == null) {
                 return back()->withErrors(['product_price_id' => 'product_price_id n\'existe pas']);
             }
@@ -106,10 +107,6 @@ class OrderController extends Controller
                     $quantity = $reservation['quantity'];
                     $reservations_total_quantity += $quantity;
 
-                    // check if reception has same id as product
-                    if ($reception_id != $product_id) {
-                        return back()->withErrors(['reception_id' => 'reception_id doit être égal à product_id']);
-                    }
 
                     // check if reception exists
                     $reception = Reception::query()->where('id', $reception_id)->first();
@@ -121,6 +118,7 @@ class OrderController extends Controller
                     if ($quantity > $reception->rest) {
                         return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité restante dans la réception']);
                     }
+
                 }
                 if ($reservations_total_quantity > $product_price->quantity * $product['quantity']) {
                     return back()->withErrors(['quantity' => 'les reservations total quantity doit être inférieur ou égal à la quantité du produit']);
@@ -155,7 +153,9 @@ class OrderController extends Controller
             $order = Order::query()->create([
                 'user_id' => auth()->user()->id,
                 'status' => 'delivered',
-                'delivered_by' => auth()->user()->id
+                'verified_by' => auth()->user()->id,
+                'delivered_by' => auth()->user()->id,
+                'confirmed_by' => auth()->user()->id,
             ]);
 
             // create order products
@@ -190,6 +190,7 @@ class OrderController extends Controller
                         $reservation->apply();
                     }
                 }
+
             }
 
             $order->shipping_provider = "Magazin";
@@ -206,13 +207,21 @@ class OrderController extends Controller
             $order->save();
 
             DB::commit();
-        } catch (Exception $e) {
+        }catch (Exception $e){
+            error_log($e);
             DB::rollBack();
             return back()->withErrors(['error' => 'Une erreur est survenue']);
         }
 
 
         return back()->with('success', 'Commande créée avec succès');
+
+
+
+
+
+
+
     }
 
     /**
@@ -255,6 +264,7 @@ class OrderController extends Controller
         $order->delete();
 
         return to_route('orders');
+
     }
 
     public function verify(Order $order)
@@ -355,6 +365,12 @@ class OrderController extends Controller
             ]);
 
             $reservation->apply();
+
+
+
+
+
+
         }
 
         foreach ($order->orderProducts as $orderProduct) {
@@ -418,6 +434,8 @@ class OrderController extends Controller
                     $reservation->delete();
                 });
                 break;
+
+
         }
 
 
@@ -427,6 +445,7 @@ class OrderController extends Controller
         ]);
 
         return back();
+
     }
 
 
@@ -440,5 +459,6 @@ class OrderController extends Controller
                 'orderProducts.product ',
             ]
         )]);
+
     }
 }
