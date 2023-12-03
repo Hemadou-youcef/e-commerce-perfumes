@@ -166,7 +166,6 @@ class CartItemController extends Controller
             DB::commit();
         }catch (\Exception $e) {
             DB::rollBack();
-            error_log($e->getMessage());
             return redirect()->back()->withErrors(['cart' => 'something went wrong']);
 
         }

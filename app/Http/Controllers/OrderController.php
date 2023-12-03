@@ -208,13 +208,12 @@ class OrderController extends Controller
 
             DB::commit();
         }catch (Exception $e){
-            error_log($e);
             DB::rollBack();
             return back()->withErrors(['error' => 'Une erreur est survenue']);
         }
 
 
-        return back()->with('success', 'Commande créée avec succès');
+        return to_route('orders')->with('success', 'Commande créée avec succès');
 
 
 
@@ -374,7 +373,6 @@ class OrderController extends Controller
         }
 
         foreach ($order->orderProducts as $orderProduct) {
-            error_log($orderProduct->buyingPrice());
             $orderProduct->buying_price = $orderProduct->buyingPrice();
             $orderProduct->save();
         }
