@@ -84,6 +84,9 @@ class Order extends Model
 
     public function profit(): int
     {
+        if ($this->address){
+            return $this->totalPrice() - $this->buyingPrice() - $this->address->shipping_fees;
+        }
         return $this->total - $this->buyingPrice();
     }
 

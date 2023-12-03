@@ -61,6 +61,7 @@ Route::get('/admin/products/{product}' , [App\Http\Controllers\ProductController
 Route::get('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit'])->name('product.edit');
 Route::post('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'update'])->name('product.update');
 Route::delete('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.destroy');
+Route::patch('/admin/products/{product}/update_status' , [App\Http\Controllers\ProductController::class, 'updateStatus'])->name('product.update_status');
 
 
 // orders routes
@@ -109,5 +110,10 @@ Route::delete('/admin/categories/{category}' , [App\Http\Controllers\CategoryCon
 // client profile routes
 Route::get('/profile' , [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile');
 Route::patch('/profile' , [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+
+
+
+// dashboard routes
+Route::get('/dashboard' , [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
 require __DIR__.'/auth.php';

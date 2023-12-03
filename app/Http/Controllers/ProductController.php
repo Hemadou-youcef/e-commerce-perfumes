@@ -6,8 +6,10 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ProductController extends Controller
 {
@@ -211,7 +213,7 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         return inertia::render('Dashboard/Products/productForm',[
             'categories' => \App\Models\Category::all(),
@@ -221,9 +223,31 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): RedirectResponse
     {
         $product->delete();
         return redirect()->route('products');
+    }
+
+
+    public function updateStatus(Product $product): RedirectResponse
+    {
+        $status_code = request('status');
+        switch ($status_code) {
+            case 0:
+                $product->status = 'archived';
+                break;
+            case 1:
+                $product->status = 'published';
+                break;
+            case 2:
+                $product->status = 'pinned';
+                break;
+            default:
+                $product->status = 'published';
+        }
+        $product->save();
+
+        return back(200);
     }
 }
