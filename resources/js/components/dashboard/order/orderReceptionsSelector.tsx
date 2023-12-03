@@ -20,12 +20,12 @@ import { Button } from "@/shadcn/ui/button"
 const OrderReceptionsSelector = ({ open, setOpen, receptions, setReceptions, reservations, setReservations, productSelected }) => {
     const [vertualReservations, setVertualReservations] = useState(reservations);
     const [quantityTotalSelected, setQuantityTotalSelected] = useState(vertualReservations.filter((reservation) => reservation?.order_product_id == productSelected?.id).reduce((a, b) => a + b?.quantity, 0));
-    
+
     console.log("quantityTotalSelected : ", quantityTotalSelected);
     useEffect(() => {
         handleFillQuantityTotalSelected();
         handleFillUsedReceptionsQuantity();
-    }, [productSelected,vertualReservations,reservations])
+    }, [productSelected, vertualReservations, reservations])
 
     const handleCompleteReception = (reception) => {
         // FIRST STEP EMPTY THE RECEPTION BY CALLING THE HANDLEEMPTYRECEPTION FUNCTION
@@ -36,7 +36,7 @@ const OrderReceptionsSelector = ({ open, setOpen, receptions, setReceptions, res
 
         console.log('needed', needed, ' and Selected', newReservations.filter((reservation) => reservation?.order_product_id == productSelected?.id).reduce((a, b) => a + b?.quantity, 0), ' and total', productSelected?.total_quantity)
         const rest = reception?.rest_quantity - newReservations.filter((reservation) => reservation?.reception_id == reception?.reception_id).reduce((a, b) => a + b?.quantity, 0);
-        
+
         // THIRD STEP FILL THE RESERVATIONS WITH THE NEEDED QUANTITY AND CALL THE HANDLEFILLUSEDRECEPTIONSQUANTITY FUNCTION
         if (rest > needed && needed > 0) {
             setVertualReservations([...newReservations, {
@@ -78,7 +78,7 @@ const OrderReceptionsSelector = ({ open, setOpen, receptions, setReceptions, res
                     ...item,
                     used_quantity: reservationOfCurrentReception.reduce((a, b) => a + b?.quantity, 0),
                 }
-            }else{
+            } else {
                 return {
                     ...item,
                     used_quantity: 0,
@@ -93,16 +93,16 @@ const OrderReceptionsSelector = ({ open, setOpen, receptions, setReceptions, res
         return d.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
 
-    
+
 
     const handleSaveReceptions = () => {
         setOpen(false);
         setReceptions(receptions.map((item) => {
-                return {
-                    ...item,
-                    quantity: item?.used_quantity,
-                    used_quantity: 0,
-                }
+            return {
+                ...item,
+                quantity: item?.used_quantity,
+                used_quantity: 0,
+            }
         }))
         setReservations(vertualReservations);
         // setVertualReservations();
@@ -159,7 +159,9 @@ const OrderReceptionsSelector = ({ open, setOpen, receptions, setReceptions, res
                                                 />
                                             </TableCell>
                                             <TableCell>
-                                                <p className="col-span-2 min-w-[100px] text-sm text-center font-bold text-white bg-gray-900 px-3 p-1 rounded-md">{reception?.used_quantity}/{reception?.rest_quantity}</p>
+                                                <p className="col-span-2 min-w-[100px] text-sm text-center font-bold text-white bg-gray-900 px-3 p-1 rounded-md">
+                                                    {reception?.used_quantity}/{reception?.rest_quantity}
+                                                </p>
                                             </TableCell>
                                             <TableCell className="text-center flex  justify-center items-center gap-2">
                                                 <Button

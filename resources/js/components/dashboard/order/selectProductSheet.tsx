@@ -19,13 +19,14 @@ import { Button } from "@/shadcn/ui/button"
 import { Input } from "@/shadcn/ui/input"
 
 // React
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Stylesheet
 import sheetDialog from '@/styles/dialog.module.css'
 
 // Icons
 import { FaCheck } from "react-icons/fa";
+import { router } from "@inertiajs/react";
 
 // Types
 type product = {
@@ -40,10 +41,31 @@ type product = {
     deleted_at: string,
 }
 
-const SelectProductSheet = ({ openSheet, setOpenSheet, products, selectedProducts, setSelectedProduct }: any) => {
-    
+const SelectProductSheet = ({ openSheet, setOpenSheet, selectedProducts, setSelectedProduct }: any) => {
+
     const [checkBoxSelectedProduct, setCheckBoxSelectedProduct] = useState<product>()
+    const [products, setProducts] = useState<any>([])
     const [search, setSearch] = useState<string>("")
+    const [searchLoading, setSearchLoading] = useState<boolean>(false)
+
+    useEffect(() => {
+        searchProduct(search)
+    }, [search])
+
+    const searchProduct = (query: string) => {
+        setSearchLoading(true)
+        router.get(route('order.create'), { q: query }, {
+            preserveState: true,
+            preserveScroll: true,
+            only: ['products'],
+            onSuccess: (page: any) => {
+                setProducts(page.props.products)
+            },
+            onFinish: () => {
+                setSearchLoading(false)
+            }
+        })
+    }
 
     return (
         <>
@@ -94,8 +116,13 @@ const SelectProductSheet = ({ openSheet, setOpenSheet, products, selectedProduct
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-
-                                    {(products || []).filter((product: any) => product?.name?.toLowerCase().includes(search.toLowerCase())).map((product: any, index: number) => (
+                                    {searchLoading ? (
+                                        <TableRow>
+                                            <TableCell colSpan={3} className="text-center text-sm font-medium text-gray-500 uppercase">
+                                                Chargement...
+                                            </TableCell>
+                                        </TableRow>
+                                    ) : (products || []).filter((product: any) => product?.name?.toLowerCase().includes(search.toLowerCase())).map((product: any, index: number) => (
                                         <TableRow
                                             key={index}
                                             className={`hover:bg-gray-50 cursor-pointer ${checkBoxSelectedProduct?.id === product.id ? "bg-gray-100" : ""}`}
@@ -110,13 +137,14 @@ const SelectProductSheet = ({ openSheet, setOpenSheet, products, selectedProduct
                                             <TableCell className="font-bold text-xs">{product.quantity}</TableCell>
                                         </TableRow>
                                     ))}
-                                    {(products || []).filter((product: any) => product?.name?.toLowerCase().includes(search.toLowerCase())).length === 0 && (
+                                    {!searchLoading && (products || []).filter((product: any) => product?.name?.toLowerCase().includes(search.toLowerCase())).length === 0 && (
                                         <TableRow>
                                             <TableCell colSpan={3} className="text-center text-sm font-medium text-gray-500 uppercase">
-                                                Aucune donnée
+                                                {search.length > 0 ? "Aucun produit trouvé" : "Rechercher un produit"}
                                             </TableCell>
                                         </TableRow>
                                     )}
+
 
                                 </TableBody>
 

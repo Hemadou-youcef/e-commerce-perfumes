@@ -31,8 +31,8 @@ class OrderController extends Controller
                             ->orWhere('phone', 'like', '%' . $q . '%');
                     });
                 })
-                ->when(request('start'), fn($query) => $query->where('created_at', '>=', request('start')))
-                ->when(request('end'), fn($query) => $query->where('created_at', '<=', request('end')))
+                ->when(request('start'), fn ($query) => $query->where('created_at', '>=', request('start')))
+                ->when(request('end'), fn ($query) => $query->where('created_at', '<=', request('end')))
                 ->orderBy('created_at', 'desc')
                 ->with(['user'])
                 ->withCount('orderProducts')
@@ -53,7 +53,10 @@ class OrderController extends Controller
     public function create()
     {
         $q = request('q');
-        return Inertia::render('Dashboard/Orders/ordersForm' , [
+        if (!$q) return Inertia::render('Dashboard/Orders/ordersForm', [
+            'products' => []
+        ]);
+        return Inertia::render('Dashboard/Orders/ordersForm', [
             'products' => Product::query()
                 ->where('quantity', '>', 0)
                 ->where(function ($query) use ($q) {
@@ -61,13 +64,11 @@ class OrderController extends Controller
                         ->orWhere('description', 'like', '%' . $q . '%')
                         ->orWhere('description_ar', 'like', '%' . $q . '%');
                 })
-                ->with(['prices' , 'receptions' => function ($query) {
+                ->with(['productPrices', 'receptions' => function ($query) {
                     $query->where('rest', '>', 0);
                 }])
-
-                ,
+                ->get()
         ]);
-
     }
     /**
      * Store a newly created resource in storage.
@@ -120,7 +121,6 @@ class OrderController extends Controller
                     if ($quantity > $reception->rest) {
                         return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité restante dans la réception']);
                     }
-
                 }
                 if ($reservations_total_quantity > $product_price->quantity * $product['quantity']) {
                     return back()->withErrors(['quantity' => 'les reservations total quantity doit être inférieur ou égal à la quantité du produit']);
@@ -190,7 +190,6 @@ class OrderController extends Controller
                         $reservation->apply();
                     }
                 }
-
             }
 
             $order->shipping_provider = "Magazin";
@@ -207,20 +206,13 @@ class OrderController extends Controller
             $order->save();
 
             DB::commit();
-        }catch (Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => 'Une erreur est survenue']);
         }
 
 
         return back()->with('success', 'Commande créée avec succès');
-
-
-
-
-
-
-
     }
 
     /**
@@ -263,7 +255,6 @@ class OrderController extends Controller
         $order->delete();
 
         return to_route('orders');
-
     }
 
     public function verify(Order $order)
@@ -364,12 +355,6 @@ class OrderController extends Controller
             ]);
 
             $reservation->apply();
-
-
-
-
-
-
         }
 
         foreach ($order->orderProducts as $orderProduct) {
@@ -433,8 +418,6 @@ class OrderController extends Controller
                     $reservation->delete();
                 });
                 break;
-
-
         }
 
 
@@ -444,7 +427,6 @@ class OrderController extends Controller
         ]);
 
         return back();
-
     }
 
 
@@ -458,6 +440,5 @@ class OrderController extends Controller
                 'orderProducts.product ',
             ]
         )]);
-
     }
 }

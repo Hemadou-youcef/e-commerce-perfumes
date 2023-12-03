@@ -18,15 +18,6 @@ import {
     TableRow,
 } from "@/shadcn/ui/table"
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/shadcn/ui/dialog"
-import {
     AlertDialog,
     AlertDialogAction,
     AlertDialogCancel,
@@ -192,14 +183,14 @@ const Order = ({ ...props }) => {
         
         // Clone the receptions array to avoid mutating the original
         let updatedReceptions = [...receptions];
-        let updatedReservations = [];
+        let updatedReservations: reservationDataFrame[] = [];
 
         // Iterate over each product in the order and work with the reservations
         props?.order?.order_products.forEach((product_order) => {
             let remainingQuantity = product_order?.total_quantity;
             // CREATE RESERVATION FOR EACH RECEPTIONS IF NEEDED 
             product_order?.product?.receptions?.forEach((reception) => {
-                const alreadyReservedQuantity = updatedReservations.filter((reservation) => reservation?.reception_id == reception?.id).reduce((a, b) => a + b?.quantity, 0);
+                const alreadyReservedQuantity = updatedReservations.filter((reservation: reservationDataFrame) => reservation?.reception_id == reception?.id).reduce((a, b) => a + b?.quantity, 0);
                 
                 const receptionRestQuantity = reception?.rest - alreadyReservedQuantity;
                 if (reception?.rest > 0) {

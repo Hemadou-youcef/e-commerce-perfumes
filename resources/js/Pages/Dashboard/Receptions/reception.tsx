@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 // Inertia Components
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 // Main Components
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
@@ -16,12 +16,23 @@ import {
     TableHeader,
     TableRow,
 } from "@/shadcn/ui/table"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/shadcn/ui/alert-dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
 import { Button } from "@/shadcn/ui/button";
 import { Separator } from "@/shadcn/ui/separator";
 
 // Icons
-import { AiOutlineCalendar, AiOutlineDelete, AiOutlineRight } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlineDelete, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 
 // Types
@@ -32,6 +43,7 @@ import { FaChevronRight } from "react-icons/fa";
 const Reception = ({ ...props }) => {
     console.log(props?.reception)
     const [reception, setReception] = useState<ReceptionInfo | null>(props?.reception)
+    const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
 
     const formatDate = (date) => {
         const d = new Date(date);
@@ -69,6 +81,14 @@ const Reception = ({ ...props }) => {
         )
     }
 
+    const handleDeleteReception = () => {
+        setDeleteLoading(true)
+        router.delete(route('reception.destroy', reception?.id), {
+            onFinish: () => {
+                setDeleteLoading(false)
+            }
+        })
+    }
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
@@ -91,10 +111,41 @@ const Reception = ({ ...props }) => {
                     </div>
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
+                        {true && (
+                            <AlertDialog>
+                                <AlertDialogTrigger>
+                                    <Button 
+                                    variant="outline" 
+                                    className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 " 
+                                    disabled={deleteLoading}
+                                    >
+                                        {deleteLoading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            Supprimer La Réception
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Êtes-vous sûr de vouloir supprimer cette réception ?
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            Annuler
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            onClick={() => handleDeleteReception()}
+                                        >
+                                            Continuer
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
 
-                        <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 " disabled={(reception?.reservations || []).length > 0}>
-                            <AiOutlineDelete className="text-2xl" />
-                        </Button>
+                        )}
+
                     </div>
                 </div>
 

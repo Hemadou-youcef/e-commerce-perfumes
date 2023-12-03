@@ -67,6 +67,7 @@ Route::patch('/admin/products/{product}/update_status' , [App\Http\Controllers\P
 // orders routes
 Route::get('/admin/orders' , [App\Http\Controllers\OrderController::class, 'index'])->name('orders');
 Route::get('/admin/orders/create' , [App\Http\Controllers\OrderController::class, 'create'])->name('order.create');
+Route::post('/admin/orders/create' , [App\Http\Controllers\OrderController::class, 'store'])->name('order.store');
 Route::get('/admin/orders/{order}' , [App\Http\Controllers\OrderController::class, 'show'])->name('order');
 Route::delete('/admin/orders/{order}' , [App\Http\Controllers\OrderController::class, 'destroy']);
 Route::post('/admin/orders/{order}/verify' , [App\Http\Controllers\OrderController::class, 'verify'])->name('verify_order');
