@@ -69,10 +69,36 @@ class DashboardController extends Controller
 
     }
 
+    public function profitChartData($startDate = null , $endDate = null)
+    {
+        if(!$startDate) {   $startDate = now()->subMonth(); }
+        if(!$endDate) {    $endDate = now();   }
 
+        // output format
+        // [
+            // name: dd-mm
+            // total: 0
+        // ]
+        $orders = Order::query()
+            ->where('status', ['confirmed' , 'delivered'])
+            ->whereBetween('created_at', [
+                $startDate,
+                $endDate,
+            ])
+            ->get()
+            ->groupBy(function($order) {
+                return $order->created_at->format('d-m');
+            })
+            ->map(fn($orders) => $orders->sum('profit'))
+            ->map(fn($profit , $date) => [
+                'name' => $date,
+                'total' => $profit,
+            ])
+            ->values();
+            
+        return $orders;
 
-
-
+    }
     // order counts function and make the default startDate now and endDate 1 month ago
     private function ordersCount($startDate = null, $endDate = null): array
     {
@@ -121,6 +147,8 @@ class DashboardController extends Controller
 
     private function adminData(): array
     {
+        $startDate = \request('startDate');
+        $endDate = \request('endDate');
 
         $salesStartDate = \request('salesStartDate');
         $salesEndDate = \request('salesEndDate');
@@ -136,11 +164,21 @@ class DashboardController extends Controller
         $orderStartDate = \request('orderStartDate');
         $orderEndDate = \request('orderEndDate');
 
+        if ($startDate && $endDate) {
+            return [
+                'sales' => $this->sales($startDate, $endDate),
+                'profit' => $this->profit($startDate, $endDate),
+                'ordersCount' => $this->ordersCount($startDate, $endDate),
+                'orders' => $this->orders(null,null, $ordersStatus, $ordersLimit),
+                'chartData' => $this->profitChartData(null,null),
+            ];
+        }
         $adminData = [
             'sales' => $this->sales($salesStartDate, $salesEndDate),
             'profit' => $this->profit($profitStartDate, $profitEndDate),
             'ordersCount' => $this->ordersCount($ordersCountStartDate, $ordersCountEndDate),
             'orders' => $this->orders($orderStartDate,$orderEndDate, $ordersStatus, $ordersLimit),
+            'chartData' => $this->profitChartData(null,null),
         ];
 
         return $adminData;
@@ -149,6 +187,8 @@ class DashboardController extends Controller
 
     private function employeeData(): array
     {
+        $startDate = \request('startDate');
+        $endDate = \request('endDate');
 
         $ordersCountStartDate = \request('ordersCountStartDate');
         $ordersCountEndDate = \request('ordersCountEndDate');
@@ -158,6 +198,12 @@ class DashboardController extends Controller
         $orderStartDate = \request('orderStartDate');
         $orderEndDate = \request('orderEndDate');
 
+        if ($startDate && $endDate) {
+            return [
+                'ordersCount' => $this->ordersCount($startDate, $endDate),
+                'orders' => $this->orders($startDate,$endDate, $ordersStatus, $ordersLimit),
+            ];
+        }
         return [
             'ordersCount' => $this->ordersCount($ordersCountStartDate, $ordersCountEndDate),
             'orders' => $this->orders($orderStartDate,$orderEndDate, $ordersStatus, $ordersLimit),

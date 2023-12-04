@@ -12,13 +12,17 @@ import {
   PopoverTrigger,
 } from "@/shadcn/ui/popover"
 
-export function CalendarDateRangePicker({
-  className,
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function CalendarDateRangePicker({ className, setDateRange }: { className?: string, setDateRange?: any }) {
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2023, 0, 20),
-    to: addDays(new Date(2023, 0, 20), 20),
+    from: addDays(new Date(), -7),
+    to: new Date(),
   })
+
+  React.useEffect(() => {
+    setDateRange(date)
+  }, [date])
+
+
 
   return (
     <div className={cn("grid gap-2", className)}>
