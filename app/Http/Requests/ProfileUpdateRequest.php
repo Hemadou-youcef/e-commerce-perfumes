@@ -22,7 +22,8 @@ class ProfileUpdateRequest extends FormRequest
             'phone' => ['sometimes', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
             'address' => ['sometimes', 'max:255'],
             'gender'=> ['sometimes', 'max:255' , 'in:male,female'],
-            'password' => ['sometimes', 'confirmed', 'min:8'],
+            'password' => ['required', 'min:8'],
+            'new_password' => ['sometimes', 'min:8', 'confirmed'],
 
         ];
     }
