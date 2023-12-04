@@ -81,7 +81,7 @@ class EmployeeController extends Controller
     public function show(User $user)
     {
         if ($user->isEmployee()) {
-            return Inertia::render('testPages/test', [
+            return Inertia::render('Dashboard/Employees/employee', [
                 'employee' => $user->load(['receptions', 'verifiedOrders', 'confirmedOrders', 'cancelledOrders', 'deliveredOrders', 'receptions'])
             ]);
         }

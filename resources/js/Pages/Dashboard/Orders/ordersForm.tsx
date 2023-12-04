@@ -161,7 +161,7 @@ const OrdersForm = ({ ...props }) => {
         updatedData.products = selectedProducts.map((product) => {
             return {
                 product_id: product?.real_id,
-                quantity: product?.total_quantity,
+                quantity: product?.price_quantity?.toString(),
                 product_price_id: product?.product_prices[product?.selected_price]?.id,
                 reservations: reservations.filter((reservation) => reservation?.order_product_id == product?.id).map((reservation) => {
                     return {

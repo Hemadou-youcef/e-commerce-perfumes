@@ -17,8 +17,62 @@ import {
 import { Overview } from "@/components/dashboard/overview"
 import { RecentSales } from "@/components/dashboard/recent-sales"
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout"
+import { useEffect, useState } from "react"
+import { GiSellCard } from "react-icons/gi"
+import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker"
+import { Button } from "@/shadcn/ui/button"
+import Analyser from "@/components/dashboard/analytics/analyser"
+import { router } from "@inertiajs/react"
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import { CiDeliveryTruck } from "react-icons/ci"
+import { CheckCircledIcon } from "@radix-ui/react-icons"
 
-const DashboardPage = () => {
+const DashboardPage = ({ ...props }) => {
+    console.log(props)
+    const [data, setData] = useState(props?.data)
+    const [date, setDate] = useState<any>(null)
+    const [loadingData, setLoadingData] = useState<boolean>(false)
+
+    useEffect(() => {
+        setData(props?.data)
+    }, [props?.data])
+
+    const formatDate = (date: string) => {
+        const d = new Date(date);
+        // MAKE IT LIKE THIS 01-01-2021
+        return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, "-");
+    }
+
+    const roleName = () => {
+        switch (props?.auth?.user?.role) {
+            case 2:
+                return "employee"
+            case 3:
+                return "admin"
+            case 4:
+                return "admin"
+            default:
+                return "client"
+        }
+    }
+    const getData = () => {
+        setLoadingData(true)
+        router.get(route('dashboard'), {
+            startDate: date?.from,
+            endDate: date?.to
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+            only: ['data'],
+            onSuccess: (page: any) => {
+                console.log(page.props.data)
+            },
+            onFinish: () => {
+                setLoadingData(false)
+            }
+        })
+    }
+
     return (
         <>
             {/* <div className="hidden flex-col md:flex"> */}
@@ -37,30 +91,26 @@ const DashboardPage = () => {
                     <h2 className="text-3xl font-bold tracking-tight">
                         Tableau de bord
                     </h2>
-                    {/* <div className="flex items-center space-x-2">
-                        <CalendarDateRangePicker />
-                        <Button>Download</Button>
-                    </div> */}
+                    <div className="flex items-center space-x-2">
+                        <CalendarDateRangePicker setDateRange={setDate} />
+                        <Button onClick={getData} className="w-24 flex items-center justify-center">
+                            {loadingData ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <p className="text-white">Filtrer</p>}
+                        </Button>
+                    </div>
                 </div>
                 <Tabs defaultValue="overview" className="space-y-4">
-                    <TabsList>
+                    {/* <TabsList>
                         <TabsTrigger value="overview">Overview</TabsTrigger>
-                        <TabsTrigger value="analytics" disabled>
+                        <TabsTrigger value="analytics" >
                             Analytics
                         </TabsTrigger>
-                        <TabsTrigger value="reports" disabled>
-                            Reports
-                        </TabsTrigger>
-                        <TabsTrigger value="notifications" disabled>
-                            Notifications
-                        </TabsTrigger>
-                    </TabsList>
+                    </TabsList> */}
                     <TabsContent value="overview" className="space-y-4">
-                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                            <Card>
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 ">
+                            {roleName() == "admin" && <Card>
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">
-                                        Total Revenue
+                                        les bénéfices
                                     </CardTitle>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -76,12 +126,74 @@ const DashboardPage = () => {
                                     </svg>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">45,231.89DA</div>
-                                    <p className="text-xs text-muted-foreground">
-                                        +20.1% from last month
-                                    </p>
+                                    {loadingData ? <AiOutlineLoading3Quarters className="h-4 w-4 mt-2 animate-spin" /> : <div className="text-2xl font-bold">{data?.profit} DA</div>}
+                                </CardContent>
+                            </Card>}
+                            {roleName() == "admin" && <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">Les ventes</CardTitle>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        className="h-4 w-4 text-muted-foreground"
+                                    >
+                                        <rect width="20" height="14" x="2" y="5" rx="2" />
+                                        <path d="M2 10h20" />
+                                    </svg>
+                                </CardHeader>
+                                <CardContent>
+                                    {loadingData ? <AiOutlineLoading3Quarters className="h-4 w-4 mt-2 animate-spin" /> : <div className="text-2xl font-bold">{data?.sales} DA</div>}
+                                </CardContent>
+                            </Card>}
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">
+                                        Nomber total des commandes
+                                    </CardTitle>
+                                    <GiSellCard className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    {loadingData ? <AiOutlineLoading3Quarters className="h-4 w-4 mt-2 animate-spin" /> : (<>
+                                        <div className="text-2xl font-bold">{data?.ordersCount?.total}</div>
+                                        <p className="text-xs text-muted-foreground">
+                                            {data?.ordersCount?.pending} en attente
+                                        </p>
+                                    </>)}
                                 </CardContent>
                             </Card>
+                            {roleName() == "employee" && <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">
+                                        Commande livrée
+                                    </CardTitle>
+                                    <CiDeliveryTruck className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    {loadingData ? <AiOutlineLoading3Quarters className="h-4 w-4 mt-2 animate-spin" /> : (<>
+                                        <div className="text-2xl font-bold">{data?.ordersCount?.delivered}</div>
+                                    </>)}
+                                </CardContent>
+                            </Card>
+                            }
+                            {roleName() == "employee" && <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">
+                                        Commande confirmées
+                                    </CardTitle>
+                                    <CheckCircledIcon className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    {loadingData ? <AiOutlineLoading3Quarters className="h-4 w-4 mt-2 animate-spin" /> : (<>
+                                        <div className="text-2xl font-bold">{data?.ordersCount?.confirmed}</div>
+                                    </>)}
+                                </CardContent>
+                            </Card>
+                            }
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">
@@ -103,59 +215,11 @@ const DashboardPage = () => {
                                     </svg>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">+2350</div>
-                                    <p className="text-xs text-muted-foreground">
-                                        +180.1% from last month
-                                    </p>
-                                </CardContent>
-                            </Card>
-                            <Card>
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">Sales</CardTitle>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        className="h-4 w-4 text-muted-foreground"
-                                    >
-                                        <rect width="20" height="14" x="2" y="5" rx="2" />
-                                        <path d="M2 10h20" />
-                                    </svg>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold">+12,234</div>
-                                    <p className="text-xs text-muted-foreground">
-                                        +19% from last month
-                                    </p>
-                                </CardContent>
-                            </Card>
-                            <Card>
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">
-                                        Active Now
-                                    </CardTitle>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        className="h-4 w-4 text-muted-foreground"
-                                    >
-                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                                    </svg>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold">+573</div>
-                                    <p className="text-xs text-muted-foreground">
-                                        +201 since last hour
-                                    </p>
+                                    {loadingData ? <AiOutlineLoading3Quarters className="h-4 w-4 mt-2 animate-spin" /> : (
+                                        <>
+                                            <div className="text-2xl font-bold">+2350</div>
+                                        </>
+                                    )}
                                 </CardContent>
                             </Card>
                         </div>
@@ -170,20 +234,19 @@ const DashboardPage = () => {
                             </Card>
                             <Card className="col-span-3">
                                 <CardHeader>
-                                    <CardTitle>Recent Sales</CardTitle>
+                                    <CardTitle>Dernières commandes</CardTitle>
                                     <CardDescription>
-                                        You made 265 sales this month.
+
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <RecentSales />
+                                    <RecentSales orders={data?.orders} />
                                 </CardContent>
                             </Card>
                         </div>
                     </TabsContent>
                 </Tabs>
-            </div>
-            {/* </div> */}
+            </div >
         </>
     )
 }
