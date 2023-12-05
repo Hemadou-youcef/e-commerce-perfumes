@@ -251,6 +251,7 @@ class DashboardController extends Controller
             ->get();
 
         $profit = [];
+        $itemOrder = 0;
 
         for ($date = clone $startDate; $date->lte($endDate); $date->add($interval)) {
             $periodLabel = $date->format($format);
@@ -261,7 +262,11 @@ class DashboardController extends Controller
                 return $order->profit;
             });
 
-            $profit[$periodLabel] = $periodProfit;
+            $profit[] = [
+                'period' => $periodLabel,
+                'profit' => $periodProfit,
+                'order' => $itemOrder++,
+            ];
         }
 
         return $profit;
@@ -316,6 +321,7 @@ class DashboardController extends Controller
             ->get();
 
         $ordersCount = [];
+        $itemOrder = 0;
 
         for ($date = clone $startDate; $date->lte($endDate); $date->add($interval)) {
             $periodLabel = $date->format($format);
@@ -324,7 +330,11 @@ class DashboardController extends Controller
                 return $order->created_at->format($format) == $periodLabel;
             })->count();
 
-            $ordersCount[$periodLabel] = $periodOrdersCount;
+            $ordersCount[] =  [
+                'period' => $periodLabel,
+                'ordersCount' => $periodOrdersCount,
+                'order' => $itemOrder++,
+            ];
         }
 
         return $ordersCount;
