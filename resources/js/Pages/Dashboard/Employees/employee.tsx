@@ -1,6 +1,6 @@
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
 
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { useState } from "react";
 
 
@@ -13,20 +13,35 @@ import {
     TableHeader,
     TableRow,
 } from "@/shadcn/ui/table"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/shadcn/ui/alert-dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
 import { Button } from "@/shadcn/ui/button";
 import { Separator } from "@/shadcn/ui/separator";
 
 // Icons
-import { AiOutlineCalendar, AiOutlineDelete, AiOutlineRight } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlineDelete, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { BsFillTelephoneOutboundFill, BsPersonBadgeFill } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import { LiaEdit } from "react-icons/lia";
 import { RiAdminFill } from "react-icons/ri";
+import { useToast } from "@/shadcn/ui/use-toast";
 
 // Types
 const Client = ({ ...props }) => {
     const [data, setData] = useState(props?.employee)
+    const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
+
+    const { toast } = useToast()
 
     const formatDate = (date) => {
         const d = new Date(date);
@@ -60,6 +75,30 @@ const Client = ({ ...props }) => {
         )
     }
 
+    const handleDeleteEmployee = () => {
+        setDeleteLoading(true)
+        router.delete(route('employee.destroy', data?.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast({
+                    title: 'Succès',
+                    description: 'Le Utilisateur a été supprimé avec succès',
+                    duration: 5000,
+                })
+            },
+            onError: () => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Erreur',
+                    description: 'Une erreur s\'est produite lors de la suppression du Utilisateur',
+                    duration: 5000,
+                })
+            },
+            onFinish: () => {
+                setDeleteLoading(false)
+            },
+        })
+    }
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
@@ -83,12 +122,47 @@ const Client = ({ ...props }) => {
                     </div>
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
-                        <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 ">
-                            <AiOutlineDelete className="text-2xl" />
-                        </Button>
+                        {true && (
+                            <AlertDialog>
+                                <AlertDialogTrigger>
+                                    <Button
+                                        variant="outline"
+                                        className="group p-1 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                        disabled={deleteLoading}
+                                    >
+                                        {deleteLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
+                                        <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Supprimer</p>
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            Supprimer L'Utilisateur
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Êtes-vous sûr de vouloir supprimer cette Utilisateur ? Cette action est irréversible.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            Annuler
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            onClick={() => handleDeleteEmployee()}
+                                        >
+                                            Continuer
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        )}
                         <Link href={`/admin/employees/${data?.id}/edit`}>
-                            <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 ">
+                            <Button
+                                variant="outline"
+                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                            >
                                 <LiaEdit className="text-2xl" />
+                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Modifier</p>
                             </Button>
                         </Link>
                     </div>

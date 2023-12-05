@@ -68,7 +68,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
             <IoSettingsOutline className="w-5 h-5  group-hover:w-6 group-hover:h-6 transition-all" />
           </div>
 
-          <div className="flex flex-col items-center justify-center mb-3 mt-auto p-3  border-white  hover:bg-white hover:bg-opacity-10 transition-colors cursor-pointer">
+          <div className="flex flex-col items-center justify-center mb-3 mt-auto p-2 rounded-md border-white  hover:bg-white hover:bg-opacity-10 transition-colors cursor-pointer">
             <FaRegUser className="w-5 h-5 text-white" />
           </div>
         </div>

@@ -38,12 +38,15 @@ import { CgProfile } from "react-icons/cg";
 // Types
 import { ReceptionInfo } from "@/components/columns/reception";
 import { FaChevronRight } from "react-icons/fa";
+import { useToast } from "@/shadcn/ui/use-toast";
 
 
 const Reception = ({ ...props }) => {
     console.log(props?.reception)
     const [reception, setReception] = useState<ReceptionInfo | null>(props?.reception)
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
+
+    const { toast } = useToast()
 
     const formatDate = (date) => {
         const d = new Date(date);
@@ -84,6 +87,22 @@ const Reception = ({ ...props }) => {
     const handleDeleteReception = () => {
         setDeleteLoading(true)
         router.delete(route('reception.destroy', reception?.id), {
+            preserveState: false,
+            onSuccess: () => {
+                toast({
+                    title: "La réception a été supprimé avec succès",
+                    description: "",
+                    duration: 5000,
+                })
+            },
+            onError: () => {
+                toast({
+                    variant: "destructive",
+                    title: "Une erreur s'est produite lors de la suppression de la réception",
+                    description: "",
+                    duration: 5000,
+                })
+            },
             onFinish: () => {
                 setDeleteLoading(false)
             }
@@ -116,10 +135,11 @@ const Reception = ({ ...props }) => {
                                 <AlertDialogTrigger>
                                     <Button 
                                     variant="outline" 
-                                    className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 " 
+                                    className="group p-0 h-12 w-12 hover:w-32 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                                     disabled={deleteLoading}
                                     >
                                         {deleteLoading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
+                                        <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Supprimer</p>
                                     </Button>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
@@ -143,7 +163,6 @@ const Reception = ({ ...props }) => {
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
                             </AlertDialog>
-
                         )}
 
                     </div>

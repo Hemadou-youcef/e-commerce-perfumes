@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 // Inertia Components
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 // Main Components
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
@@ -16,23 +16,38 @@ import {
     TableHeader,
     TableRow,
 } from "@/shadcn/ui/table"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/shadcn/ui/alert-dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
 import { Button } from "@/shadcn/ui/button";
 import { Separator } from "@/shadcn/ui/separator";
 
 // Icons
-import { AiOutlineDelete, AiOutlineRight } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { LiaEdit } from "react-icons/lia";
 import { MdOutlineUnarchive } from "react-icons/md";
-import { TiPlus } from "react-icons/ti";
+import { TiPinOutline, TiPlus } from "react-icons/ti";
 
 // Types
 import { ProductsInfo } from "@/components/columns/products";
 import { TbExternalLink } from "react-icons/tb";
+import { useToast } from "@/shadcn/ui/use-toast";
 
 const Product = ({ ...props }) => {
     console.log(props?.product)
     const [product, setProduct] = useState<ProductsInfo | null>(props?.product)
+    const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
+
+    const { toast } = useToast()
 
     const formatDate = (date) => {
         const d = new Date(date);
@@ -69,6 +84,31 @@ const Product = ({ ...props }) => {
             </div>
         )
     }
+
+    const handleDeleteProduct = () => {
+        setDeleteLoading(true)
+        router.delete(route('product.destroy', product?.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast({
+                    title: 'Product supprimé',
+                    description: 'Le product a été supprimé avec succès',
+                    duration: 5000,
+                })
+            },
+            onError: () => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Erreur',
+                    description: 'Une erreur s\'est produite lors de la suppression du product',
+                    duration: 5000,
+                })
+            },
+            onFinish: () => {
+                setDeleteLoading(false)
+            },
+        })
+    }
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
@@ -94,31 +134,62 @@ const Product = ({ ...props }) => {
                         <Link href={`/admin/receptions/create`}>
                             <Button
                                 variant="outline"
-                                className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
-                                disabled={(product?.reservations || []).length > 0}
+                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+
                             >
-                                <TiPlus className="text-2xl" />
+                                <TiPinOutline className="text-2xl" />
+                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Épingler</p>
                             </Button>
                         </Link>
                         <Button
                             variant="outline"
-                            className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
+                            className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                         >
                             <MdOutlineUnarchive className="text-2xl" />
+                            <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Archiver</p>
                         </Button>
-                        <Button
-                            variant="outline"
-                            className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
-                        >
-                            <AiOutlineDelete className="text-2xl" />
-                        </Button>
+                        {true && (
+                            <AlertDialog>
+                                <AlertDialogTrigger>
+                                    <Button
+                                        variant="outline"
+                                        className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                        disabled={deleteLoading}
+                                    >
+                                        {deleteLoading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
+                                        <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Supprimer</p>
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            Supprimer La Product
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Êtes-vous sûr de vouloir supprimer cette product ? Cette action est irréversible.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            Annuler
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            onClick={() => handleDeleteProduct()}
+                                        >
+                                            Continuer
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        )}
+
                         <Link href={`/admin/products/${product?.id}/edit`}>
                             <Button
                                 variant="outline"
-                                className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
-
+                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                             >
                                 <LiaEdit className="text-2xl" />
+                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Modifier</p>
                             </Button>
                         </Link>
                     </div>

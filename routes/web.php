@@ -25,9 +25,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/admin', function () {
-    return Inertia::render('Dashboard/dashboard');
-})->name('dashboard');
+Route::get('/admin', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/admin/receptions' , [App\Http\Controllers\ReceptionController::class, 'index'])->name('receptions');
 Route::get('/admin/receptions/create', [App\Http\Controllers\ReceptionController::class, 'create'])->name('reception.create');
@@ -39,7 +37,7 @@ Route::delete('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionC
 
 Route::get('/admin/clients' , [App\Http\Controllers\ClientController::class, 'index'])->name('clients');
 Route::get('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'show'])->name('client');
-Route::delete('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'destroy']);
+Route::delete('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'destroy'])->name('client.destroy');
 Route::post('/admin/clients/{user}/confirm_account' , [App\Http\Controllers\ClientController::class, 'confirm'])->name('confirm_account');
 
 
@@ -51,7 +49,7 @@ Route::get('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController:
 Route::get('/admin/employees/{user}/edit' , [App\Http\Controllers\EmployeeController::class, 'edit'])->name('employee.edit');
 Route::patch('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'update'])->name('employee.update');
 Route::post('/admin/employees', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create');
-Route::delete('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'destroy']);
+Route::delete('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employee.destroy');
 
 // products routes
 Route::get('/admin/products' , [App\Http\Controllers\ProductController::class, 'index'])->name('products');
@@ -115,6 +113,6 @@ Route::patch('/profile' , [App\Http\Controllers\ProfileController::class, 'updat
 
 
 // dashboard routes
-Route::get('/dashboard' , [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+// Route::get('/dashboard' , [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
 require __DIR__.'/auth.php';

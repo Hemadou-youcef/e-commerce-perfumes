@@ -28,9 +28,6 @@ const Products = ({ ...props }) => {
     const [searchLoading, setSearchLoading] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        setData(props?.products?.data);
-    }, [props?.products?.data])
 
     const handleSearch = () => {
         setSearchLoading(true);
@@ -39,6 +36,10 @@ const Products = ({ ...props }) => {
             search: search,
         }, {
             preserveScroll: true,
+            preserveState: true,
+            onSuccess: (page : any) => {
+                setData(page.props?.products?.data || []);
+            },
             onFinish: () => {
                 setSearchLoading(false);
                 setLoading(false);
@@ -53,6 +54,10 @@ const Products = ({ ...props }) => {
             status: status,
         }, {
             preserveScroll: true,
+            preserveState: true,
+            onSuccess: (page : any) => {
+                setData(page.props?.products?.data || []);
+            },
             onFinish: () => {
                 setLoading(false);
             }

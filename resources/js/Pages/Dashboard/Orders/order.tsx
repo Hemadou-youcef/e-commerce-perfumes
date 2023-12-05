@@ -66,7 +66,7 @@ type reservationDataFrame = {
 }
 
 const Order = ({ ...props }) => {
-    // console.log(props)
+    console.log(props)
 
     // Order State
     const [order, setOrder] = useState(props?.order)
@@ -177,10 +177,10 @@ const Order = ({ ...props }) => {
 
     const autoComplete = () => {
         if (!needQuantityForConfirm()) return false;
-        
+
         // EMPTY THE RESERVATIONS ARRAY
         setReservations([]);
-        
+
         // Clone the receptions array to avoid mutating the original
         let updatedReceptions = [...receptions];
         let updatedReservations: reservationDataFrame[] = [];
@@ -191,7 +191,7 @@ const Order = ({ ...props }) => {
             // CREATE RESERVATION FOR EACH RECEPTIONS IF NEEDED 
             product_order?.product?.receptions?.forEach((reception) => {
                 const alreadyReservedQuantity = updatedReservations.filter((reservation: reservationDataFrame) => reservation?.reception_id == reception?.id).reduce((a, b) => a + b?.quantity, 0);
-                
+
                 const receptionRestQuantity = reception?.rest - alreadyReservedQuantity;
                 if (reception?.rest > 0) {
                     const reservation = {
@@ -220,7 +220,7 @@ const Order = ({ ...props }) => {
                         reception.used_quantity = 0;
                         return reception;
                     })
-                    
+
 
                 }
             })
@@ -396,17 +396,26 @@ const Order = ({ ...props }) => {
                         </div>
                         <Separator className="mt-0 md:hidden" />
                         <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Date De Commande :</h1>
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Agence :</h1>
                             <div className="flex flex-row justify-start items-center gap-2">
-                                <AiOutlineCalendar className="text-xl text-gray-800" />
-                                <p className="text-sm font-bold text-gray-500">{formatDate(order?.created_at)}</p>
+                                <FaBuildingUser className="text-xl text-gray-800" />
+                                <p className="text-sm font-bold text-gray-500">{order?.shipping_provider}</p>
                             </div>
                         </div>
                         <Separator className="mt-0 md:hidden" />
                         <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                             <h1 className="text-sm font-medium md:w-40 text-gray-800">Prix Total :</h1>
-                            <p className="text-sm font-bold text-green-500">{order?.total} DA</p>
+                            <p className="text-sm font-bold text-blue-500">{order?.total} DA</p>
                         </div>
+                        {order?.status == "delivered" && (
+                            <>
+                                <Separator className="mt-0 md:hidden" />
+                                <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                                    <h1 className="text-sm font-medium md:w-40 text-gray-800">Bénéfice :</h1>
+                                    <p className="text-sm font-bold text-green-500">{order?.profit} DA</p>
+                                </div>
+                            </>
+                        )}
                         <Separator className="mt-0 md:hidden" />
                         <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                             <h1 className="text-sm font-medium md:w-40 text-gray-800">Client :</h1>
@@ -433,49 +442,12 @@ const Order = ({ ...props }) => {
                                 <p className="text-sm font-bold text-gray-500">{order?.user?.address}</p>
                             </div>
                         </div>
-                        <Separator className="mt-0 md:hidden" />
-                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Agence :</h1>
-                            <div className="flex flex-row justify-start items-center gap-2">
-                                <FaBuildingUser className="text-xl text-gray-800" />
-                                <p className="text-sm font-bold text-gray-500">{order?.shipping_provider}</p>
-                            </div>
-                        </div>
-
-                        {(order?.status != "pending" && order?.status != "cancelled" && order?.status != "verified") && (
-                            <>
-                                <Separator className="mt-0 md:hidden" />
-                                <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                                    <h1 className="text-sm font-medium md:w-40 text-gray-800">Confirmé Par :</h1>
-                                    <Link href={`/employees/${order?.confirmed_by?.id}`} className="flex flex-row justify-start items-center gap-2">
-                                        <CgProfile className="text-xl text-blue-800" />
-                                        <p className="text-sm font-bold text-blue-600">
-                                            {order?.confirmed_by?.first_name} {order?.confirmed_by?.last_name}
-                                        </p>
-                                    </Link>
-                                </div>
-                            </>
-                        )}
-                        {order?.status == "delivered" && (
-                            <>
-                                <Separator className="mt-0 md:hidden" />
-                                <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                                    <h1 className="text-sm font-medium md:w-40 text-gray-800">Livré Par :</h1>
-                                    <Link href={`/employees/${order?.delivered_by?.id}`} className="flex flex-row justify-start items-center gap-2">
-                                        <CgProfile className="text-xl text-blue-800" />
-                                        <p className="text-sm font-bold text-blue-600">
-                                            {order?.delivered_by?.first_name} {order?.delivered_by?.last_name}
-                                        </p>
-                                    </Link>
-                                </div>
-                            </>
-                        )}
-
                     </div>
                     <Separator className="mt-0" />
                     <div className="flex flex-col gap-2 px-5 my-2">
-                        <Tabs defaultValue="articles" className="w-full">
+                        <Tabs defaultValue="infos" className="w-full">
                             <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent overflow-x-auto">
+                                <TabsTrigger value="infos" className="w-52 border-b rounded-none">Informations Supplémentaires</TabsTrigger>
                                 <TabsTrigger value="articles" className="w-52 border-b rounded-none">Articles</TabsTrigger>
                                 {(order?.status != "cancelled" && order?.status != "pending") && (
                                     <TabsTrigger value="stock" className="w-52  border-b rounded-none">Stock Consommation</TabsTrigger>
@@ -484,6 +456,72 @@ const Order = ({ ...props }) => {
                                     <TabsTrigger value="benefices" className="w-52  border-b rounded-none">Bénéfices</TabsTrigger>
                                 )}
                             </TabsList>
+                            <TabsContent value="infos">
+                                <div className="flex flex-col gap-3 px-5 p-5">
+                                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Total Articles :</h1>
+                                        <p className="text-sm font-bold text-gray-500">{order?.order_products?.length}</p>
+                                    </div>
+                                    <Separator className="mt-0 md:hidden" />
+                                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Date De Commande :</h1>
+                                        <div className="flex flex-row justify-start items-center gap-2">
+                                            <AiOutlineCalendar className="text-xl text-gray-800" />
+                                            <p className="text-sm font-bold text-gray-500">{formatDate(order?.created_at)}</p>
+                                        </div>
+                                    </div>
+                                    <Separator className="mt-0 md:hidden" />
+                                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Dernière Modification :</h1>
+                                        <div className="flex flex-row justify-start items-center gap-2">
+                                            <AiOutlineCalendar className="text-xl text-gray-800" />
+                                            <p className="text-sm font-bold text-gray-500">{formatDate(order?.updated_at)}</p>
+                                        </div>
+                                    </div>
+                                    {(order?.status != "pending" && order?.status != "cancelled" && order?.status != "verified") && (
+                                        <>
+                                            <Separator className="mt-0 md:hidden" />
+                                            <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                                                <h1 className="text-sm font-medium md:w-40 text-gray-800">Confirmé Par :</h1>
+                                                <Link href={`/employees/${order?.confirmed_by?.id}`} className="flex flex-row justify-start items-center gap-2">
+                                                    <CgProfile className="text-xl text-blue-800" />
+                                                    <p className="text-sm font-bold text-blue-600">
+                                                        {order?.confirmed_by?.first_name} {order?.confirmed_by?.last_name}
+                                                    </p>
+                                                </Link>
+                                            </div>
+                                        </>
+                                    )}
+                                    {order?.status == "delivered" && (
+                                        <>
+                                            <Separator className="mt-0 md:hidden" />
+                                            <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                                                <h1 className="text-sm font-medium md:w-40 text-gray-800">Livré Par :</h1>
+                                                <Link href={`/employees/${order?.delivered_by?.id}`} className="flex flex-row justify-start items-center gap-2">
+                                                    <CgProfile className="text-xl text-blue-800" />
+                                                    <p className="text-sm font-bold text-blue-600">
+                                                        {order?.delivered_by?.first_name} {order?.delivered_by?.last_name}
+                                                    </p>
+                                                </Link>
+                                            </div>
+                                        </>
+                                    )}
+                                    {order?.status == "cancelled" && (
+                                        <>
+                                            <Separator className="mt-0 md:hidden" />
+                                            <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                                                <h1 className="text-sm font-medium md:w-40 text-gray-800">Annulé Par :</h1>
+                                                <Link href={`/employees/${order?.cancelled_by?.id}`} className="flex flex-row justify-start items-center gap-2">
+                                                    <CgProfile className="text-xl text-blue-800" />
+                                                    <p className="text-sm font-bold text-blue-600">
+                                                        {order?.cancelled_by?.first_name} {order?.cancelled_by?.last_name}
+                                                    </p>
+                                                </Link>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </TabsContent>
                             <TabsContent value="articles">
                                 <div className="w-full mb-5 border-2 ">
                                     <Table className="min-w-[700px] w-full">
@@ -644,25 +682,66 @@ const Order = ({ ...props }) => {
                                 )}
                             </TabsContent>
                             <TabsContent value="benefices">
-                                <div className="flex flex-col justify-center w-full gap-2 px-5 mt-2 p-5">
-                                    <p className="text-base text-center font-bold text-gray-800">Soon</p>
+                                <div className="flex flex-col justify-center w-full gap-2 mt-2 p-2 ">
+                                    <Table className="min-w-[700px] w-full font-mono border-y border-dashed border-gray-900">
+                                        <TableHeader>
+                                            <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
+                                                <TableHead className="w-auto">Produit</TableHead>
+                                                <TableHead className="w-20">Qte</TableHead>
+                                                <TableHead className="w-32">Price</TableHead>
+                                                <TableHead className="text-center w-80">Prix ​​d'achat</TableHead>
+                                                <TableHead className="text-center w-80">Bénéfice</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {order?.order_products.map((product, index) => (
+                                                <TableRow key={index} className="hover:bg-gray-100 border-b border-dashed border-gray-500">
+                                                    <TableCell className="font-medium text-xs">{product?.product?.name}</TableCell>
+                                                    <TableCell className="font-bold text-xs">{product?.total_quantity} G</TableCell>
+                                                    <TableCell className="font-bold text-xs">{product?.price} DA</TableCell>
+                                                    <TableCell className="text-center text-sm">{product?.buying_price} DA</TableCell>
+                                                    <TableCell className="font-bold text-green-500  text-center  text-sm">{product?.price - product?.buying_price} DA</TableCell>
+                                                </TableRow>
+                                            ))}
+                                            <TableRow className="hover:bg-gray-100 border-b-2">
+                                                <TableCell className="font-medium text-base text-center" colSpan={2}>
+                                                    Total
+                                                </TableCell>
+                                                <TableCell className="font-bold text-xs">{order?.total} DA</TableCell>
+                                                <TableCell className="text-center text-sm">
+                                                    {order?.order_products.reduce((a, b) => a + b?.buying_price, 0)}
+                                                    DA</TableCell>
+                                                <TableCell className="font-bold text-green-500 text-center text-sm">{order?.profit} DA</TableCell>
+                                            </TableRow>
+                                            {/* <TableRow>
+                                                <TableCell className="font-medium text-xs">INV001</TableCell>
+                                                <TableCell className="font-bold text-xs">300 G</TableCell>
+                                                <TableCell className="font-bold text-xs">1200 DA</TableCell>
+                                                <TableCell className="text-center text-sm">
+                                                    En attente de confirmation
+                                                </TableCell>
+                                            </TableRow> */}
+                                        </TableBody>
+                                    </Table>
 
                                 </div>
                             </TabsContent>
                         </Tabs>
                     </div>
                 </div>
-            </div>
+            </div >
             {/* MODAL */}
-            {open && (<OrderReceptionsSelector
-                open={open}
-                setOpen={setOpen}
-                productSelected={productSelected}
-                receptions={receptions}
-                setReceptions={setReceptions}
-                reservations={reservations}
-                setReservations={setReservations}
-            />)}
+            {
+                open && (<OrderReceptionsSelector
+                    open={open}
+                    setOpen={setOpen}
+                    productSelected={productSelected}
+                    receptions={receptions}
+                    setReceptions={setReceptions}
+                    reservations={reservations}
+                    setReservations={setReservations}
+                />)
+            }
         </>
     );
 }

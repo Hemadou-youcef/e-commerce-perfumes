@@ -1,27 +1,65 @@
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
 
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { useState } from "react";
 
 
 // Shadcn Components
 import { Button } from "@/shadcn/ui/button";
 import { Separator } from "@/shadcn/ui/separator";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/shadcn/ui/alert-dialog"
 
 // Icons
-import { AiOutlineCalendar, AiOutlineDelete, AiOutlineRight } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlineDelete, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { LiaEdit } from "react-icons/lia";
+import { useToast } from "@/shadcn/ui/use-toast";
 
 // Types
 const Category = ({ ...props }) => {
     console.log(props)
     const [data, setData] = useState(props?.category)
+    const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
+
+    const { toast } = useToast()
 
     const formatDate = (date) => {
         const d = new Date(date);
         return d.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
-
+    const handleDeleteCategory = () => {
+        setDeleteLoading(true)
+        router.delete(route('category.destroy', data?.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast({
+                    title: 'Succès',
+                    description: 'Le Categorie a été supprimé avec succès',
+                    duration: 5000,
+                })
+            },
+            onError: () => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Erreur',
+                    description: 'Une erreur s\'est produite lors de la suppression du Categorie',
+                    duration: 5000,
+                })
+            },
+            onFinish: () => {
+                setDeleteLoading(false)
+            },
+        })
+    }
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
@@ -45,12 +83,48 @@ const Category = ({ ...props }) => {
                     </div>
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
-                        <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 ">
-                            <AiOutlineDelete className="text-2xl" />
-                        </Button>
+                        {true && (
+                            <AlertDialog>
+                                <AlertDialogTrigger>
+                                    <Button
+                                        variant="outline"
+                                        className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                        disabled={deleteLoading}
+                                    >
+                                        {deleteLoading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
+                                        <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Supprimer</p>
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            Supprimer La Categorie
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Êtes-vous sûr de vouloir supprimer cette Categorie ? Cette action est irréversible.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            Annuler
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            onClick={() => handleDeleteCategory()}
+                                        >
+                                            Continuer
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        )}
+
                         <Link href={`/admin/categories/${data?.id}/edit`}>
-                            <Button variant="outline" className="p-0 h-12 w-12 border-0 bg-transparent hover:border border-gray-300 ">
+                            <Button
+                                variant="outline"
+                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                            >
                                 <LiaEdit className="text-2xl" />
+                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Modifier</p>
                             </Button>
                         </Link>
                     </div>

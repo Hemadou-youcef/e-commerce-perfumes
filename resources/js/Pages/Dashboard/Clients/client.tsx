@@ -17,23 +17,37 @@ import {
     TableHeader,
     TableRow,
 } from "@/shadcn/ui/table"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/shadcn/ui/alert-dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
 import { Button } from "@/shadcn/ui/button";
 import { Separator } from "@/shadcn/ui/separator";
 
 // Icons
-import { AiOutlineCalendar, AiOutlineCheckCircle, AiOutlineDelete, AiOutlineRight } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlineCheckCircle, AiOutlineDelete, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { BsFillTelephoneOutboundFill } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import { MdOutlineSystemSecurityUpdateGood, MdSecurityUpdateWarning } from "react-icons/md";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { FaFemale, FaMale } from "react-icons/fa";
+import { useToast } from "@/shadcn/ui/use-toast";
 
 const Client = ({ ...props }) => {
     console.log(props)
     const [client, setClient] = useState(props?.client)
     const [confirmeloading, setConfirmeloading] = useState(false)
     const [deleteloading, setDeleteloading] = useState(false)
+
+    const { toast } = useToast()
 
     useEffect(() => {
         setClient(props?.client)
@@ -70,15 +84,50 @@ const Client = ({ ...props }) => {
         setConfirmeloading(true)
         router.post(route('confirm_account', { id: client?.id }), {}, {
             onSuccess: () => {
-                setConfirmeloading(false)
+                toast({
+                    title: 'Succès',
+                    description: 'Le Client a été confirmé avec succès',
+                    duration: 5000,
+                })
                 setClient({ ...client, role: 1 })
             },
             onError: () => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Erreur',
+                    description: 'Une erreur s\'est produite lors de la confirmation du Client',
+                    duration: 5000,
+                })
+            },
+            onFinish: () => {
                 setConfirmeloading(false)
-            }
+            },
         })
     }
-    const deleteClient = () => {
+    const handleDeleteClient = () => {
+        setDeleteloading(true)
+        router.delete(route('client.destroy', { id: client?.id }), {
+            onSuccess: () => {
+                toast({
+                    title: 'Succès',
+                    description: 'Le Client a été supprimé avec succès',
+                    duration: 5000,
+                })
+                router.push(route('clients'))
+            },
+            onError: () => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Erreur',
+                    description: 'Une erreur s\'est produite lors de la suppression du Client',
+                    duration: 5000,
+                })
+            },
+            onFinish: () => {
+                setDeleteloading(false)
+            },
+        })
+
     }
     return (
         <>
@@ -99,18 +148,42 @@ const Client = ({ ...props }) => {
                     </div>
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
-                        {[3, 4].includes(props?.auth?.user?.role) &&
-                            <Button
-                                variant="outline"
-                                className="flex items-center w-44 h-9 space-x-2 border-transparent bg-transparent border-red-600 text-red-600 hover:text-red-700"
-                                onClick={() => deleteClient()}
-                                disabled={deleteloading}
-                            >
-                                <span className="text-sm font-medium">
-                                    Supprimer Client
-                                </span>
-                                {deleteloading ? <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-xl" />}
-                            </Button>
+                        {[3, 4].includes(props?.auth?.user?.role) && (
+                                <AlertDialog>
+                                    <AlertDialogTrigger>
+                                        <Button
+                                            variant="outline"
+                                            className="flex items-center w-44 h-9 space-x-2 border-transparent bg-transparent border-red-600 text-red-600 hover:text-red-700"
+                                            disabled={deleteloading}
+                                        >
+                                            <span className="text-sm font-medium">
+                                                Supprimer Client
+                                            </span>
+                                            {deleteloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-xl" />}
+                                        </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle>
+                                                Supprimer L'Utilisateur
+                                            </AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                Êtes-vous sûr de vouloir supprimer cette Utilisateur ? Cette action est irréversible.
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                            <AlertDialogCancel>
+                                                Annuler
+                                            </AlertDialogCancel>
+                                            <AlertDialogAction
+                                                onClick={() => handleDeleteClient()}
+                                            >
+                                                Continuer
+                                            </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
+                            )
                         }
                         {[3, 4].includes(props?.auth?.user?.role) && client?.role == 0 && (
                             <Button
@@ -120,7 +193,7 @@ const Client = ({ ...props }) => {
                                 disabled={confirmeloading}
                             >
                                 <span className="text-sm font-medium">Confirmer Client</span>
-                                {confirmeloading ? <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineCheckCircle className="text-xl" />}
+                                {confirmeloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineCheckCircle className="text-xl" />}
                             </Button>
                         )}
 

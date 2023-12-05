@@ -30,7 +30,7 @@ class EmployeeController extends Controller
             'admins' => User::query()
                 ->where('role', 3)
                 ->orderBy('created_at', 'desc')
-                ->paginate(10)
+                ->get()
         ]);
     }
 
@@ -125,7 +125,7 @@ class EmployeeController extends Controller
             'address' => 'required|string|max:255',
             'gender' => 'required|string|max:255|in:male,female',
             'role' => 'required|string|max:255|in:2,3',
-            'password' => ['nullable', Rules\Password::defaults()],
+            'password' => 'nullable|string|confirmed|min:8',
         ]);
 
         $user->update([

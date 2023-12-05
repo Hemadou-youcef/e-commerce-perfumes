@@ -27,7 +27,7 @@ interface formData {
     gender: "male" | "female";
     username: string;
     password: string;
-    confirm_password?: string;
+    confirm_password: string;
 }
 
 const Register = () => {
@@ -41,6 +41,21 @@ const Register = () => {
         password: '',
         confirm_password: '',
     });
+
+    const isAllRulesVerified = () => {
+        const rules = [
+            data.first_name.length > 2,
+            data.last_name.length > 2,
+            data.phone.length == 10,
+            data.address.length > 3,
+            data.gender == "male" || data.gender == "female",
+            data.username.length > 5,
+            data.password.length > 5,
+            data.confirm_password?.length > 5,
+            data.password == data.confirm_password,
+        ];
+        return rules.every((rule) => rule);
+    }
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -85,24 +100,24 @@ const Register = () => {
                                             onChange={(e) => setData('last_name', e.target.value)}
                                         />
                                     </div>
+                                    {errors.first_name && <p className="text-xs text-red-500">{errors.first_name}</p>}
+                                    {errors.last_name && <p className="text-xs text-red-500">{errors.last_name}</p>}
                                 </div>
-                                {errors.first_name && <div>{errors.first_name}</div>}
-                                {errors.last_name && <div>{errors.last_name}</div>}
                                 <div className="grid gap-2">
                                     <Label htmlFor="phone">Numéro de téléphone</Label>
                                     <Input id="phone" type="phone" placeholder="Numéro de téléphone" className="w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('phone', e.target.value)}
                                     />
+                                    {errors.phone && <p className="text-xs text-red-500">{errors.phone}</p>}
                                 </div>
-                                {errors.phone && <div>{errors.phone}</div>}
                                 <div className="grid gap-2">
                                     <Label htmlFor="address">Address</Label>
                                     <Textarea id="address" placeholder="Address" className="w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('address', e.target.value)}
                                     />
+                                    {errors.address && <p className="text-xs text-red-500">{errors.address}</p>}
                                 </div>
-                                {errors.address && <div>{errors.address}</div>}
-                                <RadioGroup defaultValue="male" className="flex gap-5" onValueChange={(v: 'male'|'female') => setData('gender', v)}>
+                                <RadioGroup defaultValue="male" className="flex gap-5" onValueChange={(v: 'male' | 'female') => setData('gender', v)}>
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="male" id="male" />
                                         <Label htmlFor="male" className="cursor-pointer">Male</Label>
@@ -112,33 +127,36 @@ const Register = () => {
                                         <Label htmlFor="female" className="cursor-pointer">Female</Label>
                                     </div>
                                 </RadioGroup>
-                                {errors.gender && <div>{errors.gender}</div>}
+                                {errors.gender && <p className="text-xs text-red-500">{errors.gender}</p>}
                                 <div className="grid gap-2">
                                     <Label htmlFor="user_name">User name</Label>
                                     <Input id="user_name" placeholder="User name" className="w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('username', e.target.value)}
                                     />
+                                    {errors.username && <p className="text-xs text-red-500">{errors.username}</p>}
                                 </div>
-                                {errors.username && <div>{errors.username}</div>}
                                 <div className="grid gap-2">
                                     <Label htmlFor="password">Password</Label>
                                     <Input id="password" type="password" placeholder="Password" className="w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('password', e.target.value)}
                                     />
+                                    {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
+                                    {data.password.length != 0 && (data.password.length > 7 ? <p className="text-xs text-green-500">Mot de passe valide</p> : <p className="text-xs text-red-500">Mot de passe il faudrait supérieur à 7 caractères</p>)}
                                 </div>
-                                {errors.password && <div>{errors.password}</div>}
+
 
                                 <div className="grid gap-2">
                                     <Label htmlFor="confirm_password">Confirm Password</Label>
                                     <Input id="confirm_password" type="password" placeholder="Confirm Password" className="w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('confirm_password', e.target.value)}
                                     />
+                                    {errors.confirm_password && <p className="text-xs text-red-500">{errors.confirm_password}</p>}
+                                    {(data.password.length > 7 && data.confirm_password?.length > 0 && data.confirm_password != data.password) && <p className="text-xs text-red-500">Mot de passe non identique</p>}
                                 </div>
-                                {errors.confirm_password && <div>{errors.confirm_password}</div>}
 
 
-                                <Button className="w-full bg-forth er:bg-prime-dark active:bg-second" onClick={() => post('/register')}>
-                                    {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> :<p className="text-white">Register</p>}
+                                <Button className="w-full bg-forth er:bg-prime-dark active:bg-second" onClick={() => post('/register')} disabled={!isAllRulesVerified() || processing}>
+                                    {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <p className="text-white">Register</p>}
                                 </Button>
                             </div>
                         </form>

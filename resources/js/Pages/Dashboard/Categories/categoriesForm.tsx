@@ -83,7 +83,14 @@ const CategoriesForm = ({ ...props }) => {
                     <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Categories</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
-                <h2 className="text-lg text-gray-600 font-medium tracking-tight">Ajouter un Categorie</h2>
+                {editMode && <Link href={`/admin/categories/${props?.category?.id}`}>
+                    <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">
+                        {props?.category?.name.length > 16 ? props?.category?.name.substring(0, 16) + "..." : props?.category?.name}
+                    </h2>
+                </Link>}
+                {editMode && <AiOutlineRight className="text-sm text-gray-800" />}
+                {editMode && <h2 className="text-sm md:text-lg text-gray-900 font-medium tracking-tight">Modifier un Categorie</h2>}
+                {!editMode && <h2 className="text-sm md:text-lg text-gray-600 font-medium tracking-tight">Ajouter un Categorie</h2>}
             </div>
             <div className="md:mx-10 p-0 m-2 border rounded-none md:rounded-md overflow-hidden bg-white">
                 <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 ">
@@ -93,10 +100,10 @@ const CategoriesForm = ({ ...props }) => {
                         </div> */}
                         <div className="flex flex-col text-center md:text-left">
                             <h2 className="text-xl text-gray-900 font-bold tracking-tight">
-                                Ajouter un Categorie
+                               {editMode ? "Modifier un Categorie" : "Ajouter un Categorie"}
                             </h2>
                             <p className="text-sm text-gray-600">
-                                Ajouter un Categorie dans votre base de données
+                                {editMode ? "Modifier les informations du Categorie" : "Ajouter un Categorie dans votre base de données"}
                             </p>
                         </div>
                     </div>
@@ -104,12 +111,12 @@ const CategoriesForm = ({ ...props }) => {
                     <div className="flex justify-end gap-2">
                         <Button
                             variant="outline"
-                            className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
+                            className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                             onClick={(e) => submit(e)}
                             disabled={processing || !isAllRulesVerified()}
                         >
                             {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : editMode ? <MdEdit className="text-lg" /> : <FaSave className="text-lg" />}
-
+                            <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">{editMode ? "Modifier" : "Ajouter"}</p>
                         </Button>
                     </div>
                 </div>
@@ -136,6 +143,7 @@ const CategoriesForm = ({ ...props }) => {
                                 <Input
                                     id="name_ar"
                                     type="text"
+                                    dir="rtl"
                                     className="w-full h-12 border-2 focus-visible:ring-transparent"
                                     value={data.name_ar}
                                     onChange={(e) => setData("name_ar", e.target.value)}

@@ -26,8 +26,6 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard/dashboard', [
             'data' => $data,
         ]);
-
-
     }
 
 
@@ -48,7 +46,6 @@ class DashboardController extends Controller
                 $endDate,
             ])
             ->get()->sum('total');
-
     }
 
 
@@ -71,7 +68,6 @@ class DashboardController extends Controller
                 $endDate,
             ])
             ->get()->sum('profit');
-
     }
 
     public function ordersCount($startDate = null, $endDate = null): array
@@ -115,7 +111,7 @@ class DashboardController extends Controller
             ->where('status', $status)
             ->take($limit)
             ->get()
-            ->map(fn(Order $order) => [
+            ->map(fn (Order $order) => [
                 'id' => $order->id,
                 'user' => $order->user->name,
                 'profit' => $order->profit,
@@ -127,6 +123,8 @@ class DashboardController extends Controller
 
     public function adminData(): array
     {
+        $startDate = \request('startDate');
+        $endDate = \request('endDate');
 
         $salesStartDate = request('salesStartDate');
         $salesEndDate = request('salesEndDate');
@@ -147,21 +145,35 @@ class DashboardController extends Controller
         $chartEndDate = request('chartEndDate');
         $chartPeriod = request('chartPeriod'); // yearly, monthly, daily
 
+        if ($startDate && $endDate) {
+            return [
+                'sales' => $this->sales($startDate, $endDate),
+                'profit' => $this->profit($startDate, $endDate),
+                'ordersCount' => $this->ordersCount($startDate, $endDate),
+                'orders' => $this->orders(null, null, $ordersStatus, $ordersLimit),
+                'clientsCount' => User::query()
+                    ->whereHas('orders', fn ($query) => $query->whereIn('status', ['confirmed', 'delivered']))
+                    ->count(),
+                'profitChart' => $this->profitChart($chartStartDate, $chartEndDate, $chartPeriod),
+            ];
+        }
         return [
             'sales' => $this->sales($salesStartDate, $salesEndDate),
             'profit' => $this->profit($profitStartDate, $profitEndDate),
             'ordersCount' => $this->ordersCount($ordersCountStartDate, $ordersCountEndDate),
             'orders' => $this->orders($orderStartDate, $orderEndDate, $ordersStatus, $ordersLimit),
             'clientsCount' => User::query()
-                ->whereHas('orders', fn($query) => $query->whereIn('status', ['confirmed', 'delivered']))
+                ->whereHas('orders', fn ($query) => $query->whereIn('status', ['confirmed', 'delivered']))
                 ->count(),
-            'profitChart' => $this->profitChart( $chartStartDate, $chartEndDate, $chartPeriod),
+            'profitChart' => $this->profitChart($chartStartDate, $chartEndDate, $chartPeriod),
 
         ];
     }
 
     public function employeeData(): array
     {
+        $startDate = \request('startDate');
+        $endDate = \request('endDate');
 
         $ordersCountStartDate = request('ordersCountStartDate');
         $ordersCountEndDate = request('ordersCountEndDate');
@@ -174,14 +186,18 @@ class DashboardController extends Controller
         $chartStartDate = request('chartStartDate');
         $chartEndDate = request('chartEndDate');
         $chartPeriod = request('chartPeriod'); // yearly, monthly, daily
+        if ($startDate && $endDate) {
+            return [
+                'ordersCount' => $this->ordersCount($startDate, $endDate),
+                'orders' => $this->orders($startDate,$endDate, $ordersStatus, $ordersLimit),
+                'ordersCountChart' => $this->ordersCountChart($chartStartDate, $chartEndDate, $chartPeriod),
+            ];
+        }
         return [
             'ordersCount' => $this->ordersCount($ordersCountStartDate, $ordersCountEndDate),
             'orders' => $this->orders($orderStartDate, $orderEndDate, $ordersStatus, $ordersLimit),
-            'ordersCountChart' => $this->ordersCountChart( $chartStartDate, $chartEndDate, $chartPeriod),
-
-
+            'ordersCountChart' => $this->ordersCountChart($chartStartDate, $chartEndDate, $chartPeriod),
         ];
-
     }
 
 
@@ -189,12 +205,9 @@ class DashboardController extends Controller
         $startDate = null,
         $endDate = null,
         $period = 'monthly'
-    ): array
-    {
+    ): array {
 
-        if (!$startDate) {
-            $startDate = now()->subYear();
-        }
+
 
         if (!$endDate) {
             $endDate = now();
@@ -204,21 +217,33 @@ class DashboardController extends Controller
             case "yearly":
                 $format = 'Y';
                 $interval = '1 year'; // Modify intervals to ensure they are strings
+                if (!$startDate) {
+                    $startDate = now()->subYears(5);
+                }
                 break;
 
             case "monthly":
                 $format = 'F Y';
                 $interval = '1 month';
+                if (!$startDate) {
+                    $startDate = now()->subYear();
+                }
                 break;
 
             case "daily":
                 $format = 'm/d/Y';
                 $interval = '1 day';
+                if (!$startDate) {
+                    $startDate = now()->subMonth();
+                }
                 break;
 
             default:
                 $format = 'F Y';
                 $interval = '1 month';
+                if (!$startDate) {
+                    $startDate = now()->subYear();
+                }
         }
 
         $orders = Order::query()
@@ -242,7 +267,7 @@ class DashboardController extends Controller
         return $profit;
     }
 
-    public function ordersCountChart( $startDate = null, $endDate = null, $period = 'monthly'): array
+    public function ordersCountChart($startDate = null, $endDate = null, $period = 'monthly'): array
     {
         if (!$startDate) {
             $startDate = now()->subYear();
@@ -256,21 +281,33 @@ class DashboardController extends Controller
             case "yearly":
                 $format = 'Y';
                 $interval = '1 year'; // Modify intervals to ensure they are strings
+                if (!$startDate) {
+                    $startDate = now()->subYears(5);
+                }
                 break;
 
             case "monthly":
                 $format = 'F Y';
                 $interval = '1 month';
+                if (!$startDate) {
+                    $startDate = now()->subYear();
+                }
                 break;
 
             case "daily":
                 $format = 'm/d/Y';
                 $interval = '1 day';
+                if (!$startDate) {
+                    $startDate = now()->subMonth();
+                }
                 break;
 
             default:
                 $format = 'F Y';
                 $interval = '1 month';
+                if (!$startDate) {
+                    $startDate = now()->subYear();
+                }
         }
 
         $orders = Order::query()
@@ -292,7 +329,4 @@ class DashboardController extends Controller
 
         return $ordersCount;
     }
-
-
-
 }

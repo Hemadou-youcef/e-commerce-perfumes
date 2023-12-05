@@ -197,7 +197,7 @@ const DashboardPage = ({ ...props }) => {
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">
-                                        Subscriptions
+                                    Nombre total de clients
                                     </CardTitle>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -217,7 +217,7 @@ const DashboardPage = ({ ...props }) => {
                                 <CardContent>
                                     {loadingData ? <AiOutlineLoading3Quarters className="h-4 w-4 mt-2 animate-spin" /> : (
                                         <>
-                                            <div className="text-2xl font-bold">+2350</div>
+                                            <div className="text-2xl font-bold">{data?.clientsCount}</div>
                                         </>
                                     )}
                                 </CardContent>
@@ -226,10 +226,10 @@ const DashboardPage = ({ ...props }) => {
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                             <Card className="hidden md:block col-span-4">
                                 <CardHeader>
-                                    <CardTitle>Overview</CardTitle>
+                                    <CardTitle>Aperçu</CardTitle>
                                 </CardHeader>
                                 <CardContent className="pl-2">
-                                    <Overview />
+                                    <Overview data={data?.profitChart} />
                                 </CardContent>
                             </Card>
                             <Card className="col-span-3">

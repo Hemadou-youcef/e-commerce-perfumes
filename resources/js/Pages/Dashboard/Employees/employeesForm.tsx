@@ -52,8 +52,8 @@ interface FormData {
     address: string;
     gender: string;
     username: string;
-    password: string;
-    password_confirmation: string;
+    password?: string;
+    password_confirmation?: string;
     role: string;
 }
 
@@ -61,7 +61,7 @@ interface FormData {
 const EmployeesForm = ({ ...props }) => {
     console.log(props)
     const editMode = props?.employee ? true : false;
-    const { data, setData, post , patch, processing, errors, reset } = useForm<FormData>({
+    const { data, setData, post, patch, transform, processing, errors, reset } = useForm<FormData>({
         first_name: props?.employee?.first_name || "",
         last_name: props?.employee?.last_name || "",
         phone: props?.employee?.phone || "",
@@ -77,13 +77,13 @@ const EmployeesForm = ({ ...props }) => {
         const rules = [
             data.first_name.length > 2,
             data.last_name.length > 2,
-            data.phone.length > 6,
+            data.phone.length == 10,
             data.address.length > 3,
             data.gender == "male" || data.gender == "female",
             data.role == "2" || data.role == "3",
             data.username.length > 5,
-            editMode || data.password.length > 7,
-            editMode ||  data.password_confirmation == data.password,
+            editMode || (data?.password?.length || 0) > 7,
+            (data?.password?.length || 0) > 0 ? data.password_confirmation == data.password : editMode,
         ];
         return rules.every((rule) => rule);
     }
@@ -91,6 +91,10 @@ const EmployeesForm = ({ ...props }) => {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         if (editMode) {
+            
+            transform((data) => (
+                data?.password?.length == 0 ? { ...data, password: undefined, password_confirmation: undefined } : data
+            ))
             return patch(route('employee.update', props.employee.id));
         } else {
             post(route('employee.store'));
@@ -104,7 +108,14 @@ const EmployeesForm = ({ ...props }) => {
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Employés</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
-                <h2 className="text-sm md:text-lg text-gray-600 font-medium tracking-tight">Ajouter un Employé</h2>
+                {editMode && <Link href={`/admin/employees/${props?.employee?.id}`}>
+                    <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">
+                        {props?.employee?.first_name} {props?.employee?.last_name}
+                    </h2>
+                </Link>}
+                {editMode && <AiOutlineRight className="text-sm text-gray-800" />}
+                {editMode && <h2 className="text-sm md:text-lg text-gray-900 font-medium tracking-tight">Modifier un Employé</h2>}
+                {!editMode && <h2 className="text-sm md:text-lg text-gray-600 font-medium tracking-tight">Ajouter un Employé</h2>}
             </div>
             <div className="md:mx-10 p-0 m-2 border rounded-none md:rounded-md overflow-hidden bg-white">
                 <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 ">
@@ -114,10 +125,11 @@ const EmployeesForm = ({ ...props }) => {
                         </div> */}
                         <div className="flex flex-col text-center md:text-left">
                             <h2 className="text-xl text-gray-900 font-bold tracking-tight">
-                                Ajouter un Employé
+
+                                {editMode ? "Modifier un Employé" : "Ajouter un Employét"}
                             </h2>
                             <p className="text-sm text-gray-600">
-                                Ajouter un Employé dans votre base de données
+                                {editMode ? "Modifier les informations de l'employé" : "Ajouter un Employé dans votre base de données"}
                             </p>
                         </div>
                     </div>
@@ -125,12 +137,12 @@ const EmployeesForm = ({ ...props }) => {
                     <div className="flex justify-end gap-2">
                         <Button
                             variant="outline"
-                            className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
+                            className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                             onClick={(e) => submit(e)}
                             disabled={processing || !isAllRulesVerified()}
                         >
                             {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : editMode ? <MdEdit className="text-lg" /> : <FaSave className="text-lg" />}
-
+                            <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">{editMode ? "Modifier" : "Ajouter"}</p>
                         </Button>
                     </div>
                 </div>
@@ -245,7 +257,7 @@ const EmployeesForm = ({ ...props }) => {
                                     onChange={(e) => setData("password", e.target.value)}
                                 />
                                 {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
-                                {!editMode && data.password.length != 0 && (data.password.length > 7 ? <p className="text-xs text-green-500">Mot de passe valide</p> : <p className="text-xs text-red-500">Mot de passe il faudrait supérieur à 7 caractères</p>)}
+                                {!editMode && data?.password?.length != 0 && ((data?.password?.length || 0) > 7 ? <p className="text-xs text-green-500">Mot de passe valide</p> : <p className="text-xs text-red-500">Mot de passe il faudrait supérieur à 7 caractères</p>)}
                             </div>
 
                             <div className="grid gap-2">
@@ -257,7 +269,8 @@ const EmployeesForm = ({ ...props }) => {
                                     value={data.password_confirmation}
                                     onChange={(e) => setData("password_confirmation", e.target.value)}
                                 />
-                                {(data.password.length > 7 && data.password_confirmation.length > 0 && data.password_confirmation != data.password) && <p className="text-xs text-red-500">Mot de passe non identique</p>}
+                                {(data?.password?.length || 0) > 7 && (data?.password_confirmation?.length || 0) > 0 && (data.password_confirmation != data.password) && <p className="text-xs text-red-500">Mot de passe non identique</p>}
+
                             </div>
                         </div>
                     </div>

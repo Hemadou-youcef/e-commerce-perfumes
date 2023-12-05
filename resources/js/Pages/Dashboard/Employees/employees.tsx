@@ -8,6 +8,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Link } from "@inertiajs/react";
 import Pagination from "@/components/tables/pagination";
 import { IoMdAdd } from "react-icons/io";
+import { Separator } from "@/shadcn/ui/separator";
 
 // Define a placeholder loading state while data is being fetched.
 const LoadingComponent = () => (
@@ -16,7 +17,9 @@ const LoadingComponent = () => (
 
 const Clients = ({ ...props }) => {
     console.log(props)
-    const [data, setData] = useState<ClientsInfo[]>(props?.employees?.data);
+    const [admins, setAdmins] = useState<ClientsInfo[]>(props?.admins);
+    const [employees, setData] = useState<ClientsInfo[]>(props?.employees?.data);
+
     const [showFilters, setShowFilters] = useState(false);
 
     return (
@@ -34,15 +37,9 @@ const Clients = ({ ...props }) => {
                 <div className="flex items-center justify-between">
                     <div className="flex gap-1 text-white">
                         <Input
-                            placeholder="Filter Clients..."
+                            placeholder="Rechercher un Employee..."
                             className="max-w-sm"
                         />
-                        <Button variant="outline" className="flex items-center space-x-2 border-2 border-dashed border-gray-600 text-gray-600" onClick={() => setShowFilters(!showFilters)}>
-                            GUEST
-                        </Button>
-                        <Button variant="outline" className="flex items-center space-x-2 border-2 border-dashed border-green-600 text-green-600" onClick={() => setShowFilters(!showFilters)}>
-                            CLIENT
-                        </Button>
                     </div>
                     <Button variant="outline" className="flex items-center space-x-2 rounded-full" onClick={() => setShowFilters(!showFilters)}>
                         Filter
@@ -59,8 +56,14 @@ const Clients = ({ ...props }) => {
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
-                <div className="max-w-full overflow-x-auto pb-2">
-                    <DataTable columns={columns} data={data} baseUrl="/admin/employees/" />
+                <div className="max-w-full overflow-x-auto flex flex-col pb-2 gap-2">
+                    <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Admins</h2>
+                    <DataTable columns={columns} data={admins} baseUrl="/admin/employees/" />
+                </div>
+                <Separator />
+                <div className="max-w-full overflow-x-auto flex flex-col pb-2 gap-2">
+                    <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Employees</h2>
+                    <DataTable columns={columns} data={employees} baseUrl="/admin/employees/" />
                 </div>
                 <Pagination meta={props?.employees} />
             </div>
