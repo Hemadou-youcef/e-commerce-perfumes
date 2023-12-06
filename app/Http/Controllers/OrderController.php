@@ -65,7 +65,7 @@ class OrderController extends Controller
                         ->orWhere('description', 'like', '%' . $q . '%')
                         ->orWhere('description_ar', 'like', '%' . $q . '%');
                 })
-                ->with(['productPrices', 'receptions' => function ($query) {
+                ->with(['activeProductPrices', 'receptions' => function ($query) {
                     $query->where('rest', '>', 0);
                 }])
                 ->get()

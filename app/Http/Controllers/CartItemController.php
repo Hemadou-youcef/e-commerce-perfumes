@@ -10,6 +10,8 @@ use App\Http\Requests\StoreCartItemRequest;
 use App\Http\Requests\UpdateCartItemRequest;
 use App\Models\OrderProduct;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductPrice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -29,7 +31,7 @@ class CartItemController extends Controller
                     $query->select('id', 'name', 'description','description_ar', 'main_image_id');
                 },
                 'product.categories',
-                'productPrice' => function ($query) {
+                'activeProductPrice' => function ($query) {
                     $query->select('id', 'price', 'unit', 'quantity');
                 }
             ])->get()
@@ -52,6 +54,13 @@ class CartItemController extends Controller
     public function store(StoreCartItemRequest $request)
     {
         $validated = $request->validated();
+        // check if product_price is active
+        $product = Product::query()->find($validated['product_id']);
+        $productPrice = ProductPrice::query()->find($validated['product_price_id']);
+        // check if price belongs to product and active
+        if ($productPrice->product_id != $product->id || !$productPrice->active) {
+            return redirect()->back()->withErrors(['cart' => 'something went wrong']);
+        }
 
         Auth::user()->cartItems()->create($validated);
     }

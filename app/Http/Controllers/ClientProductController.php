@@ -25,10 +25,10 @@ class ClientProductController extends Controller
                     ->orWhere('category', 'LIKE', '%' . $search . '%')
                 )
                 ->when(request('startPrice'), fn($query, $price) => $query
-                    ->whereHas('productPrices', fn($query) => $query->where('price', '>=', $price))
+                    ->whereHas('activeProductPrices', fn($query) => $query->where('price', '>=', $price))
                 )
                 ->when(request('endPrice'), fn($query, $price) => $query
-                    ->whereHas('productPrices', fn($query) => $query->where('price', '<=', $price))
+                    ->whereHas('activeProductPrices', fn($query) => $query->where('price', '<=', $price))
                 )
                 ->when(request('category'), fn($query, $category) => $query
                     ->whereHas('categories', fn($query) => $query->where('name', $category))
@@ -42,7 +42,7 @@ class ClientProductController extends Controller
                     'description_ar' => $product->description_ar,
                     'main_image_id' => $product->main_image_id,
                     'categories' => $product->categories,
-                    'product_prices' => $product->productPrices,
+                    'active_product_prices' => $product->activeProductPrices,
                     'images' => $product->images,
                     'isProductBookmarked' => $product->isProductBookmarked()
                 ])
@@ -85,7 +85,7 @@ class ClientProductController extends Controller
                 'main_image_id' => $product->main_image_id,
                 'categories' => $product->categories,
                 'images' => $product->images,
-                'product_prices' => $product->productPrices,
+                'active_product_prices' => $product->activeProductPrices,
                 'isProductInCart' => $product->isProductInCart(),
                 'isProductBookmarked' => $product->isProductBookmarked(),
                 'suggestedProducts' => $product->suggestedProducts(),

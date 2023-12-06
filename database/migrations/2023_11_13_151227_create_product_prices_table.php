@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('price');
             $table->string('unit');
             $table->integer('quantity');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

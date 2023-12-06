@@ -34,16 +34,24 @@ class UpdateProductRequest extends FormRequest
                 'min:1', // Ensure there's at least one price
                 function ($attribute, $value, $fail) {
                     foreach ($value as $price) {
-                        if (!isset($price['price'], $price['unit'], $price['quantity'])) {
+                        if (!isset($price['price'], $price['unit'], $price['quantity'] , $price['active'])) {
                             $fail('The prices array is invalid.');
                             return;
                         }
                     }
                 },
             ],
+            'prices.*.id' => 'sometimes|exists:product_prices,id',
             'prices.*.price' => 'sometimes|required|numeric|min:0',
             'prices.*.unit' => 'sometimes|required|string|max:255',
             'prices.*.quantity' => 'sometimes|required|integer|min:0',
+            'prices.*.active' => 'sometimes|required|boolean',
+
+
+
+
+
+
             'other_images.*' => 'sometimes|required|image|mimes:jpeg,png,jpg|max:8192',
             'removed_images.*' => 'sometimes|exists:images,id',
         ];

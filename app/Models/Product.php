@@ -45,6 +45,11 @@ class Product extends Model
         return $this->hasMany(ProductPrice::class);
     }
 
+    public function activeProductPrices(): HasMany
+    {
+        return $this->hasMany(ProductPrice::class)->where('active', true);
+    }
+
     public function receptions(): HasMany
     {
         return $this->hasMany(Reception::class);

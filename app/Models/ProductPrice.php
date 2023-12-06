@@ -15,6 +15,7 @@ class ProductPrice extends Model
         'price',
         'unit',
         'quantity',
+        'active',
     ];
 
     public function product(): BelongsTo

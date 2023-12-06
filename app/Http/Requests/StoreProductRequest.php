@@ -47,6 +47,7 @@ class StoreProductRequest extends FormRequest
             'prices.*.price' => 'required|numeric|min:0',
             'prices.*.unit' => 'required|string|max:255',
             'prices.*.quantity' => 'required|integer|min:0',
+            'prices.*.active' => 'required|boolean',
         ];
     }
 

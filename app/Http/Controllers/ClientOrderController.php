@@ -27,7 +27,7 @@ class ClientOrderController extends Controller
                     },
                     'orderProducts.product.images',
                     'orderProducts.product.categories',
-                    'orderProducts.productPrice' => function ($query) {
+                    'orderProducts.activeProductPrice' => function ($query) {
                         $query->select('id', 'price', 'unit', 'quantity');
                     }
                 ])

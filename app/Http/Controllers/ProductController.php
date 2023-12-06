@@ -106,6 +106,29 @@ class ProductController extends Controller
             $product->categories()->sync($categories);
         }
 
+
+        if ($request->has("prices")) {
+            $prices = $validatedData['prices'];
+            foreach ($prices as $price) {
+                if (isset($price['id'])) {
+                    $product->productPrices()->where('id', $price['id'])->update([
+                        'price' => $price['price'],
+                        'unit' => $price['unit'],
+                        'quantity' => $price['quantity'],
+                        'active' => $price['active'],
+                    ]);
+                } else {
+                    $product->productPrices()->create([
+                        'price' => $price['price'],
+                        'unit' => $price['unit'],
+                        'quantity' => $price['quantity'],
+                        'active' => $price['active'],
+                    ]);
+                }
+
+            }
+        }
+
         // Handle other images addition and removal
         try {
             if ($request->hasFile('other_images')) {
@@ -179,6 +202,7 @@ class ProductController extends Controller
                 'price' => $price['price'],
                 'unit' => $price['unit'],
                 'quantity' => $price['quantity'],
+                'active' => $price['active'],
             ]);
         }
 
@@ -199,7 +223,7 @@ class ProductController extends Controller
             if ($request->hasFile('main_image')) {
                 $mainImagePath = $request->file('main_image')->store('images', 'public');
                 $main_image = $product->images()->create(['path' => '/storage/' . $mainImagePath]);
-                // 
+                //
                 $product->main_image_id = $main_image->id; // Set main image
 
             }
