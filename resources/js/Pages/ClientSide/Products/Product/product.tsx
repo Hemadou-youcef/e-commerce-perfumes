@@ -10,13 +10,10 @@ import LandingMainLayout from '@/Layouts/landing/mainLayout';
 import { Button } from '@/shadcn/ui/button';
 import { useToast } from "@/shadcn/ui/use-toast"
 import { AiOutlineLoading3Quarters, AiOutlineMinus, AiOutlinePlus, AiOutlineZoomIn } from 'react-icons/ai';
-import { TbBookmark } from 'react-icons/tb';
 import LandingSuggest from '@/components/landing/suggest/landingSuggest';
-import { ReloadIcon, StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
 import { Separator } from '@/shadcn/ui/separator';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Scrollbar, Navigation, Autoplay } from 'swiper/modules';
-import { ToastAction } from "@/shadcn/ui/toast"
 import { TbExternalLink } from "react-icons/tb"
 
 // Import Swiper styles
@@ -35,7 +32,7 @@ const Product = ({ ...props }) => {
     console.log(props)
     const [product, setProduct] = useState(props?.product);
     const [selectedImage, setSelectedImage] = useState(product?.images.filter((item: any) => product?.main_image_id === item.id)[0]?.path);
-    const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.product_prices));
+    const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.active_product_prices));
     const [qte, setQte] = useState(1);
 
     const [addingToCartLoading, setAddingToCartLoading] = useState(false);
@@ -188,7 +185,7 @@ const Product = ({ ...props }) => {
                                     {product?.name}
                                 </p>
                                 <p className="text-gray-900 text-center text-sm lg:tex">
-                                    {currectPrice?.price} DA/{currectPrice?.unit}
+                                    {currectPrice?.price} DA
                                 </p>
                             </div>
                             <hr className="w-full rounded-sm border-gray-400" />
@@ -216,7 +213,7 @@ const Product = ({ ...props }) => {
                                 Produit Prix :
                             </p>
                             <div className="w-full  grid grid-cols-3 my-2 gap-2">
-                                {product?.product_prices.sort((a: any, b: any) => a.quantity - b.quantity).map((price: any, index: number) => (
+                                {product?.active_product_prices.sort((a: any, b: any) => a.quantity - b.quantity).map((price: any, index: number) => (
                                     <div
                                         key={index}
                                         className={`flex flex-col gap-1 border-2 py-1 px-5 text-left cursor-pointer ${currectPrice?.quantity === price.quantity ? 'border-primary' : 'border-gray-300'}`}

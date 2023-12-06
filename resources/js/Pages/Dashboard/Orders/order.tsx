@@ -686,11 +686,11 @@ const Order = ({ ...props }) => {
                                     <Table className="min-w-[700px] w-full font-mono border-y border-dashed border-gray-900">
                                         <TableHeader>
                                             <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
-                                                <TableHead className="w-auto">Produit</TableHead>
+                                                <TableHead className="w-96">Produit</TableHead>
                                                 <TableHead className="w-20">Qte</TableHead>
-                                                <TableHead className="w-32">Price</TableHead>
-                                                <TableHead className="text-center w-80">Prix ​​d'achat</TableHead>
-                                                <TableHead className="text-center w-80">Bénéfice</TableHead>
+                                                <TableHead className="">Price</TableHead>
+                                                <TableHead className="text-center min-w-[150px]">Prix ​​d'achat</TableHead>
+                                                <TableHead className="text-center min-w-[150px]">Bénéfice</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>

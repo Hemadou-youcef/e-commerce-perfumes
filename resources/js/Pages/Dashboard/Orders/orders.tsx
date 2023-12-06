@@ -75,9 +75,9 @@ const Orders = ({ ...props }) => {
                 <div className="flex items-center justify-between">
                     <div className="flex gap-1">
                         <Input
-                            placeholder="Filter Produits..."
+                            placeholder="Rechercher une commande..."
                             value={search}
-                            onChange={(e) => handleFilter()}
+                            onChange={(e) => setSearch(e.target.value)}
                             onKeyDown={(key) => {
                                 if (key.key === "Enter") {
                                     handleFilter()

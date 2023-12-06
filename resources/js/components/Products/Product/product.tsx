@@ -18,7 +18,7 @@ const getMinPrice = (prices: any) => {
 
 const Product = ({ product }) => {
     
-    const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.product_prices));
+    const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.active_product_prices));
     const [bookmarkLoading, setBookmarkLoading] = useState(false);
     const { toast } = useToast()
 
@@ -98,7 +98,7 @@ const Product = ({ product }) => {
                         {product.name.length > 16 ? product.name.substring(0, 16) + "..." : product.name}
                     </p>
                     <p className="text-gray-600 text-center font-bold text-xs md:text-sm lg:text-base ">
-                        {currectPrice?.price} DA/{currectPrice?.unit}
+                        {currectPrice?.price} DA
                     </p>
                     {/* ADD REVIEW STARS */}
                     {/* <div className="flex items-center justify-center">

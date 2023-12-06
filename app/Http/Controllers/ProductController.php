@@ -275,6 +275,6 @@ class ProductController extends Controller
         }
         $product->save();
 
-        return back(200);
+        return redirect()->route('product', $product->id);
     }
 }

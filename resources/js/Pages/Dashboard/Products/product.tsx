@@ -1,5 +1,5 @@
 // React Components
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Inertia Components
 import { Link, router } from "@inertiajs/react";
@@ -34,8 +34,8 @@ import { Separator } from "@/shadcn/ui/separator";
 // Icons
 import { AiOutlineDelete, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { LiaEdit } from "react-icons/lia";
-import { MdOutlineUnarchive } from "react-icons/md";
-import { TiPinOutline, TiPlus } from "react-icons/ti";
+import { MdOutlineArchive, MdOutlineUnarchive, MdUnarchive } from "react-icons/md";
+import { TiPin, TiPinOutline, TiPlus } from "react-icons/ti";
 
 // Types
 import { ProductsInfo } from "@/components/columns/products";
@@ -45,9 +45,14 @@ import { useToast } from "@/shadcn/ui/use-toast";
 const Product = ({ ...props }) => {
     console.log(props?.product)
     const [product, setProduct] = useState<ProductsInfo | null>(props?.product)
+    const [statusLoading, setStatusLoading] = useState<[boolean, number]>([false, -1])
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
 
     const { toast } = useToast()
+
+    useEffect(() => {
+        setProduct(props?.product)
+    }, [props?.product])
 
     const formatDate = (date) => {
         const d = new Date(date);
@@ -83,6 +88,33 @@ const Product = ({ ...props }) => {
                 </p>
             </div>
         )
+    }
+
+    const handleUpdateStatus = (status: number) => {
+        setStatusLoading([true, status])
+        router.patch(route('product.update_status', product?.id), {
+            status: status,
+        }, {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast({
+                    title: 'Status modifié',
+                    description: 'Le status a été modifié avec succès',
+                    duration: 5000,
+                })
+            },
+            onError: () => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Erreur',
+                    description: 'Une erreur s\'est produite lors de la modification du status',
+                    duration: 5000,
+                })
+            },
+            onFinish: () => {
+                setStatusLoading([false, -1])
+            },
+        })
     }
 
     const handleDeleteProduct = () => {
@@ -131,23 +163,50 @@ const Product = ({ ...props }) => {
                     </div>
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
-                        <Link href={`/admin/receptions/create`}>
+                        {product?.status === "pinned" && (
                             <Button
                                 variant="outline"
                                 className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
-
+                                disabled={statusLoading[0] && statusLoading[1] === 1}
+                                onClick={() => handleUpdateStatus(1)}
                             >
-                                <TiPinOutline className="text-2xl" />
+                                {statusLoading[0] && statusLoading[1] === 1 ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <TiPin className="text-2xl" />}
+                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Détacher</p>
+                            </Button>
+                        )}
+                        {product?.status !== "pinned" && (
+                            <Button
+                                variant="outline"
+                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                disabled={statusLoading[0] && statusLoading[1] === 2}
+                                onClick={() => handleUpdateStatus(2)}
+                            >
+                                {statusLoading[0] && statusLoading[1] === 2 ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <TiPinOutline className="text-2xl" />}
                                 <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Épingler</p>
                             </Button>
-                        </Link>
-                        <Button
-                            variant="outline"
-                            className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
-                        >
-                            <MdOutlineUnarchive className="text-2xl" />
-                            <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Archiver</p>
-                        </Button>
+                        )}
+                        {product?.status === "archived" && (
+                            <Button
+                                variant="outline"
+                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                disabled={statusLoading[0] && statusLoading[1] === 1}
+                                onClick={() => handleUpdateStatus(1)}
+                            >
+                                {statusLoading[0] && statusLoading[1] === 1 ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <MdUnarchive className="text-2xl" />}
+                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Publier</p>
+                            </Button>
+                        )}
+                        {product?.status !== "archived" && (
+                            <Button
+                                variant="outline"
+                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                disabled={statusLoading[0] && statusLoading[1] === 0}
+                                onClick={() => handleUpdateStatus(0)}
+                            >
+                                {statusLoading[0] && statusLoading[1] === 0 ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <MdOutlineArchive className="text-2xl" />}
+                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Archiver</p>
+                            </Button>
+                        )}
                         {true && (
                             <AlertDialog>
                                 <AlertDialogTrigger>
@@ -156,7 +215,7 @@ const Product = ({ ...props }) => {
                                         className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                                         disabled={deleteLoading}
                                     >
-                                        {deleteLoading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
+                                        {deleteLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
                                         <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Supprimer</p>
                                     </Button>
                                 </AlertDialogTrigger>
@@ -277,9 +336,21 @@ const Product = ({ ...props }) => {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {(product?.productPrices || []).map((price, index) => (
-                                            <TableRow key={index} >
-                                                <TableCell className="font-medium text-xs">{price.id}</TableCell>
+                                        {(product?.productPrices || []).sort((a, b) => a.active ? -1 : 1).map((price, index) => (
+                                            <TableRow key={index} className="relative">
+
+                                                <TableCell className="font-medium text-xs">
+                                                    {!price.active && (
+                                                        <>
+                                                            <div className="absolute inset-0 bg-gray-100 opacity-50"></div>
+                                                            {/* MAKE A LINE IN THE MIDDLE */}
+                                                            <div className="absolute inset-0 flex flex-row justify-center items-center">
+                                                                <div className="w-full h-[1px] bg-gray-600"></div>
+                                                            </div>
+                                                        </>
+                                                    )}
+                                                    {price.id}
+                                                </TableCell>
                                                 <TableCell className="font-bold text-xs">{price.quantity} {price.unit}</TableCell>
                                                 <TableCell className="font-bold text-xs">{price.price} DA</TableCell>
                                             </TableRow>

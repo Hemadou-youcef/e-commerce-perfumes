@@ -3,6 +3,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/shadcn/ui/avatar"
+import { Link } from "@inertiajs/react";
 
 export function RecentSales({ orders }) {
 
@@ -14,7 +15,11 @@ export function RecentSales({ orders }) {
   return (
     <div className="space-y-8">
       {orders.map((order, index) => (
-        <div key={index} className="flex items-center">
+        <Link 
+          href={`/admin/orders/${order.id}`}
+          key={index}
+          className="flex items-center"
+          >
           <Avatar className="h-9 w-9">
             <AvatarImage src="/avatars/01.png" alt="Avatar" />
             <AvatarFallback>OM</AvatarFallback>
@@ -26,7 +31,7 @@ export function RecentSales({ orders }) {
             </p>
           </div>
           <div className="ml-auto font-medium">{order?.total} DA</div>
-        </div>
+        </Link>
       ))}
       {orders.length === 0 && (
         <div className="flex items-center justify-center">

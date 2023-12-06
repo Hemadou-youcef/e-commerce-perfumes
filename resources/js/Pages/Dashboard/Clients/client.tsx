@@ -113,7 +113,7 @@ const Client = ({ ...props }) => {
                     description: 'Le Client a été supprimé avec succès',
                     duration: 5000,
                 })
-                router.push(route('clients'))
+                // router.push(route('clients'))
             },
             onError: () => {
                 toast({

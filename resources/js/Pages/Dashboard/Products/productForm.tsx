@@ -54,6 +54,7 @@ type prices = {
     price: number;
     unit: string;
     quantity: number;
+    active?: boolean;
 }
 
 type Image = {
@@ -73,13 +74,13 @@ interface FormData {
     description_ar: string;
     unit: string;
     status: string;
-    category_ids: number[];
+    category_ids?: number[];
     main_image?: File | null;
     main_image_id?: number | null;
     images?: File[] | Image[];
     prices: prices[];
     other_images?: number[];
-    removed_images: number[];
+    removed_images?: number[];
 }
 
 const ProductForm = ({ ...props }) => {
@@ -108,6 +109,7 @@ const ProductForm = ({ ...props }) => {
         price: 0,
         unit: data?.unit,
         quantity: 0,
+        active: true
     });
     const [openSheet, setOpenSheet] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
@@ -162,23 +164,27 @@ const ProductForm = ({ ...props }) => {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         if (editMode) {
+
             transform((data: FormData) => {
+                let dataToSubmit = { ...data };
                 if (data.main_image_id) {
-                    delete data.main_image;
-                    delete data.images;
+                    const { main_image, images, ...rest } = dataToSubmit
+                    dataToSubmit = rest
                 } else {
-                    delete data.main_image_id;
-                    delete data.other_images;
+                    const { main_image_id, other_images, ...rest } = dataToSubmit
+                    dataToSubmit = rest
                 }
-                return data;
+                if ((data?.category_ids?.length || 0) === 0) {
+                    const { category_ids, ...rest } = dataToSubmit
+                    dataToSubmit = rest
+                }
+                return dataToSubmit;
             });
             post(route('product.update', props?.product?.id));
         } else {
             transform((data: FormData) => {
-                delete data.main_image_id;
-                delete data.other_images;
-                delete data.removed_images;
-                return data;
+                const { main_image_id, other_images, removed_images, ...rest } = data
+                return rest;
             });
             post(route("product.store"), {
                 preserveScroll: true,
@@ -329,13 +335,13 @@ const ProductForm = ({ ...props }) => {
                                         </div>
                                     </div>
                                     <div className="flex flex-col flex-wrap gap-2">
-                                        {data.category_ids.map((category_id, index) => (
+                                        {data?.category_ids?.map((category_id, index) => (
                                             <div key={index} className="flex flex-row gap-2 items-center">
                                                 <Button
                                                     variant="outline"
                                                     className="h-8 w-8 p-1 rounded-full border-2 border-gray-600 gap-2"
                                                     onClick={() => {
-                                                        setData("category_ids", data.category_ids.filter((id) => id !== category_id));
+                                                        setData("category_ids", data?.category_ids?.filter((id) => id !== category_id));
                                                     }}
                                                 >
                                                     {/* <span className="text-lg text-gray-600">
@@ -408,7 +414,7 @@ const ProductForm = ({ ...props }) => {
                                             )}
                                         </div>
                                     ))}
-                                    {editMode && data.images?.filter((image) => !data.removed_images.includes((image as Image).id)).map((image, index) => (
+                                    {editMode && data.images?.filter((image) => !data?.removed_images?.includes((image as Image).id)).map((image, index) => (
                                         <div key={index} className="relative w-32 h-32 border-2 rounded-md overflow-hidden group">
                                             <ContextMenu>
                                                 <ContextMenuTrigger>
@@ -419,11 +425,11 @@ const ProductForm = ({ ...props }) => {
                                                             if (data.main_image_id === (image as Image).id) {
                                                                 setData(data => ({ ...data, main_image_id: null }));
                                                             }
-                                                            setData((data : any) => ({
-                                                                ...data, 
+                                                            setData((data: any) => ({
+                                                                ...data,
                                                                 images: data.images?.filter((img) => img.id !== (image as Image).id)
                                                             }));
-                                                            setData(data => ({ ...data, removed_images: [...data.removed_images, (image as Image).id] }));
+                                                            setData(data => ({ ...data, removed_images: [...(data?.removed_images || []), (image as Image).id] }));
                                                         }}
                                                     >
                                                         <div className="absolute inset-0 w-full h-full bg-gray-300 opacity-0 group-hover:opacity-50 transition-all duration-300">
@@ -478,7 +484,7 @@ const ProductForm = ({ ...props }) => {
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
-                                            {data.prices.map((price, index) => (
+                                            {data.prices.filter((price) => price.active).map((price, index) => (
                                                 <TableRow key={index} className="hover:bg-gray-100">
                                                     <TableCell className="r">
                                                         {price.quantity} {price.unit}
@@ -489,10 +495,19 @@ const ProductForm = ({ ...props }) => {
                                                     <TableCell className="r">
                                                         <div className="flex flex-row gap-2">
                                                             <Button
+                                                                type="button"
                                                                 variant="ghost"
                                                                 className="p-2 text-red-600 border-0"
                                                                 onClick={() => {
-                                                                    setData("prices", data.prices.filter((p) => p !== price));
+                                                                    setData(data => ({
+                                                                        ...data,
+                                                                        prices: data.prices.map((price, i) => {
+                                                                            if (i === index) {
+                                                                                return { ...price, active: false }
+                                                                            }
+                                                                            return price
+                                                                        })
+                                                                    }));
                                                                 }}
                                                             >
                                                                 <MdDeleteOutline className="w-6 h-6" />
@@ -538,7 +553,7 @@ const ProductForm = ({ ...props }) => {
                                                     className=" text-gray-900 border border-gray-900 hover:bg-gray-900"
                                                     onClick={() => {
                                                         setData("prices", [...data.prices, currentPrice]);
-                                                        setCurrentPrice({ price: 0, unit: data?.unit, quantity: 0 });
+                                                        setCurrentPrice({ price: 0, unit: data?.unit, quantity: 0, active: true });
                                                     }}
                                                 >
                                                     <TiPlus className="w-5 h-5 text-gray-900" />
@@ -576,10 +591,10 @@ const ProductForm = ({ ...props }) => {
                                         variant="outline"
                                         className="h-11 w-11 p-3 rounded-full border-2 border-gray-600 gap-2"
                                         onClick={() => {
-                                            if (data.category_ids.includes((checkBoxSelectedCategory as Category)?.id)) return
+                                            if (data?.category_ids?.includes((checkBoxSelectedCategory as Category)?.id)) return
                                             setOpenSheet(false)
                                             setSelectedCategory(checkBoxSelectedCategory)
-                                            setData("category_ids", [...data.category_ids, (checkBoxSelectedCategory as Category)?.id])
+                                            setData("category_ids", [...(data?.category_ids || []), (checkBoxSelectedCategory as Category)?.id])
                                             setCheckBoxSelectedCategory(null)
                                         }}
                                     >
