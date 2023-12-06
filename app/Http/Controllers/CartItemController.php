@@ -31,7 +31,7 @@ class CartItemController extends Controller
                     $query->select('id', 'name', 'description','description_ar', 'main_image_id');
                 },
                 'product.categories',
-                'activeProductPrice' => function ($query) {
+                'ProductPrice' => function ($query) {
                     $query->select('id', 'price', 'unit', 'quantity');
                 }
             ])->get()
