@@ -42,6 +42,13 @@ import { ProductsInfo } from "@/components/columns/products";
 import { TbExternalLink } from "react-icons/tb";
 import { useToast } from "@/shadcn/ui/use-toast";
 
+// Swiper
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Scrollbar, Navigation, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
+
 const Product = ({ ...props }) => {
     console.log(props?.product)
     const [product, setProduct] = useState<ProductsInfo | null>(props?.product)
@@ -256,16 +263,50 @@ const Product = ({ ...props }) => {
 
                 <Separator />
                 <div className="flex flex-col gap-4 py-5 px-5 ">
-                    <div className="grid grid-cols-5 gap-5">
-                        {(product?.images || []).map((image: any, index) => (
+                        <Swiper
+                            modules={[Scrollbar]}
+                            spaceBetween={5}
+                            scrollbar={{ draggable: true }}
+                            slidesPerView={1}
+                            breakpoints={{
+                                // when window width is >= 640px
+                                640: {
+                                    slidesPerView: 3,
+                                },
+                                // when window width is >= 768px
+                                768: {
+                                    slidesPerView: 3,
+                                },
+                                // when window width is >= 1200px
+                                1200: {
+                                    slidesPerView: 5,
+                                },
+                            }}
+                            className="w-full h-[250px]"
+                        >
+                            {(product?.images || []).map((image: any, index) => (
+                                    <SwiperSlide
+                                        key={index}
+                                        className="flex justify-center items-center cursor-pointer"
+                                    >
+                                        <div
+                                            className={`w-auto h-52 md:h-56 shrink-0 snap-center flex flex-col items-center justify-start bg-cover bg-center border shadow-md rounded-md`}
+                                            style={{
+                                                backgroundImage: `url(${image.path})`,
+                                            }}
+                                        >
+                                        </div>
+                                    </SwiperSlide>
+                                ))}
+                        </Swiper>
+                        {/* {(product?.images || []).map((image: any, index) => (
                             <div key={index} className="relative h-64 border shadow-md rounded-md">
                                 <img
                                     src={`${image.path}`}
                                     className="absolute h-full w-full object-cover rounded-md"
                                 />
                             </div>
-                        ))}
-                    </div>
+                        ))} */}
                     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                         <h1 className="text-sm font-medium md:w-40 text-gray-800">ID :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
