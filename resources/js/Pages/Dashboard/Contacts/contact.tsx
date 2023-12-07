@@ -44,13 +44,40 @@ import { TbExternalLink } from "react-icons/tb";
 
 const Contact = ({ ...props }) => {
     const [message, setClient] = useState(props?.contact)
+    const [deleteloading, setDeleteloading] = useState(false)
 
+    const { toast } = useToast()
 
     const formatDate = (date) => {
         const d = new Date(date);
         return d.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
 
+    const handleDeleteClient = () => {
+        setDeleteloading(true)
+        router.delete(route('contact.destroy', { id: message?.id }), {
+            onSuccess: () => {
+                toast({
+                    title: 'Succès',
+                    description: 'Le Client a été supprimé avec succès',
+                    duration: 5000,
+                })
+                // router.push(route('clients'))
+            },
+            onError: () => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Erreur',
+                    description: 'Une erreur s\'est produite lors de la suppression du Client',
+                    duration: 5000,
+                })
+            },
+            onFinish: () => {
+                setDeleteloading(false)
+            },
+        })
+
+    }
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
@@ -68,6 +95,40 @@ const Contact = ({ ...props }) => {
                         <h2 className="text-xl text-gray-900 font-bold tracking-tight">{message?.subject}</h2>
                         <p className="text-sm text-gray-600">{message?.first_name} {message?.last_name}</p>
                     </div>
+                    {[3, 4].includes(props?.auth?.user?.role) && (
+                        <AlertDialog>
+                            <AlertDialogTrigger>
+                                <Button
+                                    variant="outline"
+                                    className="group p-0 h-12 w-12 hover:w-32 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                    disabled={deleteloading}
+                                >
+                                    {deleteloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
+                                    <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Supprimer</p>
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>
+                                        Supprimer L'Utilisateur
+                                    </AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Êtes-vous sûr de vouloir supprimer cette Utilisateur ? Cette action est irréversible.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>
+                                        Annuler
+                                    </AlertDialogCancel>
+                                    <AlertDialogAction
+                                        onClick={() => handleDeleteClient()}
+                                    >
+                                        Continuer
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                    )}
                 </div>
 
                 <Separator className="" />

@@ -110,7 +110,7 @@ const Client = ({ ...props }) => {
             },
         })
     }
-    const handleDeleteClient = () => {
+    const handleDeleteMessage = () => {
         setDeleteloading(true)
         router.delete(route('client.destroy', { id: client?.id }), {
             onSuccess: () => {
@@ -159,22 +159,20 @@ const Client = ({ ...props }) => {
                                 <AlertDialogTrigger>
                                     <Button
                                         variant="outline"
-                                        className="flex items-center w-44 h-9 space-x-2 border-transparent bg-transparent border-red-600 text-red-600 hover:text-red-700"
+                                        className="group p-0 h-12 w-12 hover:w-32 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                                         disabled={deleteloading}
                                     >
-                                        <span className="text-sm font-medium">
-                                            Supprimer Client
-                                        </span>
-                                        {deleteloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-xl" />}
+                                        {deleteloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
+                                        <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Supprimer</p>
                                     </Button>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
                                     <AlertDialogHeader>
                                         <AlertDialogTitle>
-                                            Supprimer L'Utilisateur
+                                            Supprimer Message
                                         </AlertDialogTitle>
                                         <AlertDialogDescription>
-                                            Êtes-vous sûr de vouloir supprimer cette Utilisateur ? Cette action est irréversible.
+                                            Êtes-vous sûr de vouloir supprimer cette Message ? Cette action est irréversible.
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
@@ -182,15 +180,14 @@ const Client = ({ ...props }) => {
                                             Annuler
                                         </AlertDialogCancel>
                                         <AlertDialogAction
-                                            onClick={() => handleDeleteClient()}
+                                            onClick={() => handleDeleteMessage()}
                                         >
                                             Continuer
                                         </AlertDialogAction>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
                             </AlertDialog>
-                        )
-                        }
+                        )}
                         {[3, 4].includes(props?.auth?.user?.role) && client?.role == 0 && (
                             <Button
                                 variant="outline"
