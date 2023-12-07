@@ -20,7 +20,8 @@ import {
 import { useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LuLayoutDashboard } from "react-icons/lu";
-import { MdCategory } from "react-icons/md";
+import { MdCategory, MdMailOutline } from "react-icons/md";
+import { TiMessage } from "react-icons/ti";
 
 
 const parsePageId = (path: string) => path.split("/")[2] || "admin"
@@ -54,19 +55,13 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
             <FiBox className="w-5 h-5  group-hover:w-6 group-hover:h-6 transition-all" />
           </div>
 
-          <div
-            className={`w-full h-14 flex justify-center items-center group transition-all cursor-pointer ${currentTab === "settings" ? "bg-gray-100 " : "bg-sky-600 text-white"}`}
-            onClick={() => {
-              if (currentTab === "settings") {
-                setNav(!showNav)
-              } else {
-                setCurrentTab("settings")
-                !showNav && setNav(true)
-              }
-            }}
+          {auth?.user?.role === 3 && (<Link
+            href={"/dashboard/contacts"}
+            className={`w-full h-14 flex justify-center items-center group transition-all cursor-pointer bg-purple-600 text-white`}
           >
-            <IoSettingsOutline className="w-5 h-5  group-hover:w-6 group-hover:h-6 transition-all" />
-          </div>
+            <MdMailOutline className="w-5 h-5  group-hover:w-6 group-hover:h-6 transition-all" />
+          </Link>
+          )}
 
           <Link
             href="/dashboard/profile"
@@ -82,11 +77,11 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
             <Link
               href="/dashboard"
               className={`w-full  h-10 flex justify-start items-center gap-3  group transition-all px-4 hover:bg-gray-200 ${pageId === "admin" ? "bg-gray-200" : ""}`}
-              onClick={() => (width <= 768) ? setNav(false) : null}
             >
               <LuLayoutDashboard className="w-5 h-5 text-sky-800 group-hover:text-sky-600" />
               <p className="text-sm text-gray-800 ">TABLEAU DE BORD</p>
             </Link>
+
             <Collapsible className="w-full" open={collapsedStateList[0]} onOpenChange={(open) => setCollapsedStateList([open, collapsedStateList[1], collapsedStateList[2]])}>
               <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3   transition-all px-4">
                 <div className="flex items-center gap-3">

@@ -208,14 +208,15 @@ const Client = ({ ...props }) => {
 
                 <Separator className="" />
                 <div className="flex flex-col gap-4 py-5 px-5 ">
-                    <div className="flex flex-row justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium w-40 text-gray-800">Rôle :</h1>
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Rôle :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             {role()}
                         </div>
                     </div>
-                    <div className="flex flex-row justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium w-40 text-gray-800">Genre :</h1>
+                    <Separator className="mt-0 md:hidden" />
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Genre :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             {client?.gender == "male" ? (
                                 <div className="flex flex-row justify-start items-center gap-2">
@@ -234,8 +235,9 @@ const Client = ({ ...props }) => {
                             )}
                         </div>
                     </div>
-                    <div className="flex flex-row justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium w-40 text-gray-800">Numéro :</h1>
+                    <Separator className="mt-0 md:hidden" />
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Numéro :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <BsFillTelephoneOutboundFill className="text-base text-gray-800" />
                             <p className="text-sm font-bold text-gray-500">
@@ -243,8 +245,9 @@ const Client = ({ ...props }) => {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-row justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium w-40 text-gray-800">Address :</h1>
+                    <Separator className="mt-0 md:hidden" />
+                    <div className="fflex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Address :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <IoLocationSharp className="text-lg text-gray-800" />
                             <p className="text-sm font-bold text-gray-500">
@@ -252,8 +255,9 @@ const Client = ({ ...props }) => {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-row justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium w-40 text-gray-800">Date De Inscription :</h1>
+                    <Separator className="mt-0 md:hidden" />
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Date De Inscription :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <AiOutlineCalendar className="text-xl text-gray-800" />
                             <p className="text-sm font-bold text-gray-500">

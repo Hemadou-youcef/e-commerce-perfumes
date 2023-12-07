@@ -11,12 +11,12 @@ class ContactController
 
     public function index(): Response
     {
-        return Inertia::render('testPages/test');
+        return Inertia::render('ClientSide/Contact/contact');
     }
 
     public function dashboard_index(): Response
     {
-        return Inertia::render('testPages/test' , [
+        return Inertia::render('Dashboard/Contacts/contacts' , [
             'contacts' => Contact::query()
                 ->orderBy('created_at', 'desc')
                 ->paginate(10)
@@ -46,7 +46,7 @@ class ContactController
 
     public function show(Contact $contact): Response
     {
-        return Inertia::render('testPages/test' , [
+        return Inertia::render('Dashboard/Contacts/contact' , [
             'contact' => $contact
         ]);
     }

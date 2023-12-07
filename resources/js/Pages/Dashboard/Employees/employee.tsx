@@ -170,12 +170,13 @@ const Client = ({ ...props }) => {
 
                 <Separator className="" />
                 <div className="flex flex-col gap-4 py-5 px-5 ">
-                    <div className="flex flex-row justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium w-40 text-gray-800">Rôle :</h1>
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Rôle :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             {role()}
                         </div>
                     </div>
+                    <Separator className="mt-0 md:hidden" />
                     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                         <h1 className="text-sm font-medium md:w-40 text-gray-800">Numéro :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
