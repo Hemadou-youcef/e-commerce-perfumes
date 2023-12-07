@@ -16,6 +16,11 @@ export type ContactsInfo = {
     message: number;
 }
 
+const formatDate = (date) => {
+    const d = new Date(date);
+    return d.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+}
+
 export const columns: ColumnDef<ContactsInfo>[] = [
     {
         accessorKey: "id",
@@ -44,7 +49,7 @@ export const columns: ColumnDef<ContactsInfo>[] = [
                 </div>
             )
         },
-        maxSize: 30,
+        maxSize: 20,
     },
     {
         accessorKey: "email",
@@ -53,8 +58,15 @@ export const columns: ColumnDef<ContactsInfo>[] = [
     },
     
     {
-        accessorKey: "phone",
-        header: "Numéro de téléphone",
+        accessorKey: "created_at",
+        header: "Date d'envoi",
+        cell: ({ row }: { row: any }) => {
+            return (
+                <div className="flex items-center font-medium">
+                    {formatDate(row?.original.created_at)}
+                </div>
+            )
+        },
         maxSize: 20,
     },
 ]

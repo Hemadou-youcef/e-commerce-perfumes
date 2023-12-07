@@ -41,6 +41,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { FaFemale, FaMale } from "react-icons/fa";
 import { useToast } from "@/shadcn/ui/use-toast";
 import { TbExternalLink } from "react-icons/tb";
+import { IoMdSend } from "react-icons/io";
 
 const Contact = ({ ...props }) => {
     const [message, setClient] = useState(props?.contact)
@@ -95,40 +96,55 @@ const Contact = ({ ...props }) => {
                         <h2 className="text-xl text-gray-900 font-bold tracking-tight">{message?.subject}</h2>
                         <p className="text-sm text-gray-600">{message?.first_name} {message?.last_name}</p>
                     </div>
-                    {[3, 4].includes(props?.auth?.user?.role) && (
-                        <AlertDialog>
-                            <AlertDialogTrigger>
-                                <Button
-                                    variant="outline"
-                                    className="group p-0 h-12 w-12 hover:w-32 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
-                                    disabled={deleteloading}
-                                >
-                                    {deleteloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
-                                    <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Supprimer</p>
-                                </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>
-                                        Supprimer L'Utilisateur
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        Êtes-vous sûr de vouloir supprimer cette Utilisateur ? Cette action est irréversible.
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>
-                                        Annuler
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction
-                                        onClick={() => handleDeleteClient()}
+                    {/* ACTIONS */}
+                    <div className="flex justify-end gap-2">
+                        <a
+                            href={`mailto:${message?.email}`}
+                            className="flex flex-row justify-center items-center gap-2"
+                        >
+                            <Button
+                                variant="outline"
+                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                            >
+                                <IoMdSend className="text-2xl" />
+                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Répondre</p>
+                            </Button>
+                        </a>
+                        {[3, 4].includes(props?.auth?.user?.role) && (
+                            <AlertDialog>
+                                <AlertDialogTrigger>
+                                    <Button
+                                        variant="outline"
+                                        className="group p-0 h-12 w-12 hover:w-32 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                        disabled={deleteloading}
                                     >
-                                        Continuer
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                    )}
+                                        {deleteloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
+                                        <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Supprimer</p>
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            Supprimer L'Utilisateur
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Êtes-vous sûr de vouloir supprimer cette Utilisateur ? Cette action est irréversible.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            Annuler
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            onClick={() => handleDeleteClient()}
+                                        >
+                                            Continuer
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        )}
+                    </div>
                 </div>
 
                 <Separator className="" />
