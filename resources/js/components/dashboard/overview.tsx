@@ -13,10 +13,9 @@ export function Overview({ data }: any) {
   const reformData = () => {
     const reformatedData: { name: string; total: any }[] = [] // Explicitly define the type of reformatedData
     data.forEach((element: any) => {
-      console.log(element)
       reformatedData.push({
         name: element.period,
-        total: Math.floor(Math.random() * 1000)
+        total: element?.profit || element?.ordersCount
       })
     })
     return reformatedData

@@ -229,7 +229,7 @@ const DashboardPage = ({ ...props }) => {
                                     <CardTitle>Aperçu</CardTitle>
                                 </CardHeader>
                                 <CardContent className="pl-2">
-                                    <Overview data={data?.profitChart} />
+                                    <Overview data={data?.profitChart || data?.ordersCountChart} />
                                 </CardContent>
                             </Card>
                             <Card className="col-span-3">
