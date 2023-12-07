@@ -30,8 +30,8 @@ class ContactController
             'last_name' => 'required:max:255',
             'email' => 'required|email',
             'phone' => 'required:max:255',
-            'title' => 'required:max:255',
-            'subject' => 'required',
+            'subject' => 'required:max:255',
+            'message' => 'required',
         ]);
         Contact::create($contact);
 
