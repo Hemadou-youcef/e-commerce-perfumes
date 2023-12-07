@@ -25,53 +25,53 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/admin', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/admin/receptions' , [App\Http\Controllers\ReceptionController::class, 'index'])->name('receptions');
-Route::get('/admin/receptions/create', [App\Http\Controllers\ReceptionController::class, 'create'])->name('reception.create');
-Route::post('/admin/receptions/create', [App\Http\Controllers\ReceptionController::class, 'store'])->name('reception.store');
-Route::get('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'show'])->name('reception');
-Route::get('/admin/receptions/{reception}/edit' , [App\Http\Controllers\ReceptionController::class, 'edit'])->name('reception.edit');
-Route::put('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'update'])->name('reception.update');
-Route::delete('/admin/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'destroy'])->name('reception.destroy');
+Route::get('/dashboard/receptions' , [App\Http\Controllers\ReceptionController::class, 'index'])->name('receptions');
+Route::get('/dashboard/receptions/create', [App\Http\Controllers\ReceptionController::class, 'create'])->name('reception.create');
+Route::post('/dashboard/receptions/create', [App\Http\Controllers\ReceptionController::class, 'store'])->name('reception.store');
+Route::get('/dashboard/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'show'])->name('reception');
+Route::get('/dashboard/receptions/{reception}/edit' , [App\Http\Controllers\ReceptionController::class, 'edit'])->name('reception.edit');
+Route::put('/dashboard/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'update'])->name('reception.update');
+Route::delete('/dashboard/receptions/{reception}' , [App\Http\Controllers\ReceptionController::class, 'destroy'])->name('reception.destroy');
 
-Route::get('/admin/clients' , [App\Http\Controllers\ClientController::class, 'index'])->name('clients');
-Route::get('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'show'])->name('client');
-Route::delete('/admin/clients/{user}' , [App\Http\Controllers\ClientController::class, 'destroy'])->name('client.destroy');
-Route::post('/admin/clients/{user}/confirm_account' , [App\Http\Controllers\ClientController::class, 'confirm'])->name('confirm_account');
+Route::get('/dashboard/clients' , [App\Http\Controllers\ClientController::class, 'index'])->name('clients');
+Route::get('/dashboard/clients/{user}' , [App\Http\Controllers\ClientController::class, 'show'])->name('client');
+Route::delete('/dashboard/clients/{user}' , [App\Http\Controllers\ClientController::class, 'destroy'])->name('client.destroy');
+Route::post('/dashboard/clients/{user}/confirm_account' , [App\Http\Controllers\ClientController::class, 'confirm'])->name('confirm_account');
 
 
 // Employees routes
-Route::get('/admin/employees' , [App\Http\Controllers\EmployeeController::class, 'index'])->name('employees');
-Route::get('/admin/employees/create', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create');
-Route::post('/admin/employees/create', [App\Http\Controllers\EmployeeController::class, 'store'])->name('employee.store');
-Route::get('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'show'])->name('employee');
-Route::get('/admin/employees/{user}/edit' , [App\Http\Controllers\EmployeeController::class, 'edit'])->name('employee.edit');
-Route::patch('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'update'])->name('employee.update');
-Route::post('/admin/employees', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create');
-Route::delete('/admin/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employee.destroy');
+Route::get('/dashboard/employees' , [App\Http\Controllers\EmployeeController::class, 'index'])->name('employees');
+Route::get('/dashboard/employees/create', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create');
+Route::post('/dashboard/employees/create', [App\Http\Controllers\EmployeeController::class, 'store'])->name('employee.store');
+Route::get('/dashboard/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'show'])->name('employee');
+Route::get('/dashboard/employees/{user}/edit' , [App\Http\Controllers\EmployeeController::class, 'edit'])->name('employee.edit');
+Route::patch('/dashboard/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'update'])->name('employee.update');
+Route::post('/dashboard/employees', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create');
+Route::delete('/dashboard/employees/{user}' , [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employee.destroy');
 
 // products routes
-Route::get('/admin/products' , [App\Http\Controllers\ProductController::class, 'index'])->name('products');
-Route::get('/admin/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('product.create');
-Route::post('/admin/products/create', [App\Http\Controllers\ProductController::class, 'store'])->name('product.store');
-Route::get('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'show'])->name('product');
-Route::get('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit'])->name('product.edit');
-Route::post('/admin/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'update'])->name('product.update');
-Route::delete('/admin/products/{product}' , [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.destroy');
-Route::patch('/admin/products/{product}/update_status' , [App\Http\Controllers\ProductController::class, 'updateStatus'])->name('product.update_status');
+Route::get('/dashboard/products' , [App\Http\Controllers\ProductController::class, 'index'])->name('products');
+Route::get('/dashboard/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('product.create');
+Route::post('/dashboard/products/create', [App\Http\Controllers\ProductController::class, 'store'])->name('product.store');
+Route::get('/dashboard/products/{product}' , [App\Http\Controllers\ProductController::class, 'show'])->name('product');
+Route::get('/dashboard/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'edit'])->name('product.edit');
+Route::post('/dashboard/products/{product}/edit' , [App\Http\Controllers\ProductController::class, 'update'])->name('product.update');
+Route::delete('/dashboard/products/{product}' , [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.destroy');
+Route::patch('/dashboard/products/{product}/update_status' , [App\Http\Controllers\ProductController::class, 'updateStatus'])->name('product.update_status');
 
 
 // orders routes
-Route::get('/admin/orders' , [App\Http\Controllers\OrderController::class, 'index'])->name('orders');
-Route::get('/admin/orders/create' , [App\Http\Controllers\OrderController::class, 'create'])->name('order.create');
-Route::post('/admin/orders/create' , [App\Http\Controllers\OrderController::class, 'store'])->name('order.store');
-Route::get('/admin/orders/{order}' , [App\Http\Controllers\OrderController::class, 'show'])->name('order');
-Route::delete('/admin/orders/{order}' , [App\Http\Controllers\OrderController::class, 'destroy']);
-Route::post('/admin/orders/{order}/verify' , [App\Http\Controllers\OrderController::class, 'verify'])->name('verify_order');
-Route::post('/admin/orders/{order}/confirm' , [App\Http\Controllers\OrderController::class, 'confirm'])->name('confirm_order');
-Route::post('/admin/orders/{order}/cancel' , [App\Http\Controllers\OrderController::class, 'cancel'])->name('cancel_order');
-Route::post('/admin/orders/{order}/deliver' , [App\Http\Controllers\OrderController::class, 'deliver'])->name('deliver_order');
+Route::get('/dashboard/orders' , [App\Http\Controllers\OrderController::class, 'index'])->name('orders');
+Route::get('/dashboard/orders/create' , [App\Http\Controllers\OrderController::class, 'create'])->name('order.create');
+Route::post('/dashboard/orders/create' , [App\Http\Controllers\OrderController::class, 'store'])->name('order.store');
+Route::get('/dashboard/orders/{order}' , [App\Http\Controllers\OrderController::class, 'show'])->name('order');
+Route::delete('/dashboard/orders/{order}' , [App\Http\Controllers\OrderController::class, 'destroy']);
+Route::post('/dashboard/orders/{order}/verify' , [App\Http\Controllers\OrderController::class, 'verify'])->name('verify_order');
+Route::post('/dashboard/orders/{order}/confirm' , [App\Http\Controllers\OrderController::class, 'confirm'])->name('confirm_order');
+Route::post('/dashboard/orders/{order}/cancel' , [App\Http\Controllers\OrderController::class, 'cancel'])->name('cancel_order');
+Route::post('/dashboard/orders/{order}/deliver' , [App\Http\Controllers\OrderController::class, 'deliver'])->name('deliver_order');
 
 
 // client products routes
@@ -97,22 +97,20 @@ Route::delete('/bookmarks/{bookmark}' , [App\Http\Controllers\BookmarkController
 
 
 // categories routes
-Route::get('/admin/categories' , [App\Http\Controllers\CategoryController::class, 'index'])->name('categories');
-Route::get('/admin/categories/create', [App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
-Route::post('/admin/categories', [App\Http\Controllers\CategoryController::class, 'store'])->name('category.store');
-Route::get('/admin/categories/{category}' , [App\Http\Controllers\CategoryController::class, 'show'])->name('category');
-Route::get('/admin/categories/{category}/edit' , [App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit');
-Route::patch('/admin/categories/{category}/edit' , [App\Http\Controllers\CategoryController::class, 'update'])->name('category.update');
-Route::delete('/admin/categories/{category}' , [App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.destroy');
+Route::get('/dashboard/categories' , [App\Http\Controllers\CategoryController::class, 'index'])->name('categories');
+Route::get('/dashboard/categories/create', [App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
+Route::post('/dashboard/categories', [App\Http\Controllers\CategoryController::class, 'store'])->name('category.store');
+Route::get('/dashboard/categories/{category}' , [App\Http\Controllers\CategoryController::class, 'show'])->name('category');
+Route::get('/dashboard/categories/{category}/edit' , [App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit');
+Route::patch('/dashboard/categories/{category}/edit' , [App\Http\Controllers\CategoryController::class, 'update'])->name('category.update');
+Route::delete('/dashboard/categories/{category}' , [App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.destroy');
 
 
-// client profile routes
+// profile routes
 Route::get('/profile' , [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile');
 Route::patch('/profile' , [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+Route::get('/dashboard/profile' , [App\Http\Controllers\ProfileController::class, 'edit'])->name('dashboard_profile');
+Route::patch('/dashboard/profile' , [App\Http\Controllers\ProfileController::class, 'update'])->name('dashboard_profile.update');
 
-
-
-// dashboard routes
-// Route::get('/dashboard' , [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
 require __DIR__.'/auth.php';
