@@ -63,7 +63,7 @@ const Category = ({ ...props }) => {
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
-                <Link href="/admin/categories">
+                <Link href="/dashboard/categories">
                     <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Categories</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
@@ -118,7 +118,7 @@ const Category = ({ ...props }) => {
                             </AlertDialog>
                         )}
 
-                        <Link href={`/admin/categories/${data?.id}/edit`}>
+                        <Link href={`/dashboard/categories/${data?.id}/edit`}>
                             <Button
                                 variant="outline"
                                 className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"

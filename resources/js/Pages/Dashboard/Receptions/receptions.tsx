@@ -40,7 +40,7 @@ const Receptions = ({ ...props }) => {
         <>
             <div className="flex flex-row justify-between items-center px-5 py-2 gap-2 h-14 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
                 <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Réceptions</h2>
-                <Link href="/admin/receptions/create">
+                <Link href="/dashboard/receptions/create">
                     <Button className="flex items-center p-0 px-5 h-9 md:h-10 md:rounded-md">
                         <IoMdAdd className="h-5 w-5" />
                         <span className="ml-2 hidden md:block">Ajouter un reception</span>
@@ -83,7 +83,7 @@ const Receptions = ({ ...props }) => {
                     </AccordionItem>
                 </Accordion>
                 <div className="max-w-full overflow-x-auto pb-2">
-                    <DataTable columns={columns} data={data} baseUrl="/admin/receptions/" />
+                    <DataTable columns={columns} data={data} baseUrl="/dashboard/receptions/" />
                 </div>
                 <Pagination meta={props?.receptions} />
             </div>

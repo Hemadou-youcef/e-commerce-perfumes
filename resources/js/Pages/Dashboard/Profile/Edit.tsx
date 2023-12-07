@@ -1,31 +1,8 @@
+import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
 import LandingMainLayout from "@/Layouts/landing/mainLayout";
 import { CgProfile } from "react-icons/cg";
 
 // Shadcn
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/shadcn/ui/table"
-import { Separator } from "@/shadcn/ui/separator";
-import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/shadcn/ui/sheet"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/shadcn/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/shadcn/ui/radio-group"
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
@@ -43,13 +20,15 @@ import {
     DialogTrigger,
 } from "@/shadcn/ui/dialog"
 
+
 // Icons
 import { FormEventHandler, useEffect, useState } from "react";
 import { MdEdit, MdOutlineSystemSecurityUpdateGood, MdSecurityUpdateWarning } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
+import { BsPersonBadgeFill } from "react-icons/bs";
+import { RiAdminFill } from "react-icons/ri";
 
 
-// Types
 interface FormData {
     first_name: string;
     last_name: string;
@@ -60,7 +39,8 @@ interface FormData {
     new_password: string;
     new_password_confirmation: string;
 }
-const ProfileEdit = ({ ...props }) => {
+
+const Profile = ({ ...props }) => {
     console.log(props?.auth?.user);
     const { data, setData, patch,transform, processing, errors, reset } = useForm<FormData>({
         first_name: props?.auth?.user?.first_name,
@@ -109,15 +89,15 @@ const ProfileEdit = ({ ...props }) => {
         let color = "bg-gray-600";
         let Icon: JSX.Element = <></>;
         switch (props?.auth?.user?.role) {
-            case 0:
-                text = "GUEST";
-                color = "bg-gray-600";
-                Icon = <MdSecurityUpdateWarning className="text-xl text-gray-600" />
+            case 2:
+                text = "EMPLOYEE";
+                color = "bg-blue-600";
+                Icon = <BsPersonBadgeFill className="text-xl text-blue-600" />
                 break;
-            case 1:
-                text = "CLIENT";
-                color = "bg-green-600";
-                Icon = <MdOutlineSystemSecurityUpdateGood className="text-xl text-green-600" />
+            case 3:
+                text = "ADMIN";
+                color = "bg-purple-600";
+                Icon = <RiAdminFill className="text-xl text-purple-600" />
                 break;
 
         }
@@ -141,7 +121,7 @@ const ProfileEdit = ({ ...props }) => {
                     return rest;
                 }
             });
-            patch(route('profile.update'), {
+            patch(route('dashboard_profile.update'), {
                 onSuccess: () => {
                     reset();
                     setEditMode(false);
@@ -375,5 +355,6 @@ const ProfileEdit = ({ ...props }) => {
         </>
     );
 }
-ProfileEdit.layout = (page: React.ReactNode) => <LandingMainLayout children={page} />;
-export default ProfileEdit;
+
+Profile.layout = (page: React.ReactNode) => <DashboardMainLayout children={page} />;
+export default Profile;

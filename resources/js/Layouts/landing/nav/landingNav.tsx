@@ -118,7 +118,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                     {isClient() && <Link href="/profile">
                         <CgProfile className="w-6 h-6 text-primary" />
                     </Link>}
-                    {isEmployee() && <Link href="/admin">
+                    {isEmployee() && <Link href="/dashboard">
                         <MdOutlineDashboard className="w-6 h-6 text-primary" />
                     </Link>}
                     {isLogged() && <Link href="/logout" method="post">
@@ -154,7 +154,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                     {props?.auth?.user !== null && <div className="flex items-center gap-3 text-third">
                         {[2, 3, 4].includes(props?.auth?.user?.role) ? (
                             <Link
-                                href="/admin"
+                                href="/dashboard"
                                 className="flex flex-col items-center group gap-1"
                             >
                                 <MdOutlineDashboard className="w-7 h-7 text-white group-hover:text-gray-400" />
@@ -267,7 +267,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                             Contact
                         </Link>
                         <Link
-                            href="/admin"
+                            href="/dashboard"
                             className="text-sm font-medium transition-colors hover:text-primary"
                         >
                             login

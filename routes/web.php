@@ -109,7 +109,7 @@ Route::delete('/dashboard/categories/{category}' , [App\Http\Controllers\Categor
 // profile routes
 Route::get('/profile' , [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile');
 Route::patch('/profile' , [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
-Route::get('/dashboard/profile' , [App\Http\Controllers\ProfileController::class, 'edit'])->name('dashboard_profile');
+Route::get('/dashboard/profile' , [App\Http\Controllers\ProfileController::class, 'dashboard_edit'])->name('dashboard_profile');
 Route::patch('/dashboard/profile' , [App\Http\Controllers\ProfileController::class, 'update'])->name('dashboard_profile.update');
 
 

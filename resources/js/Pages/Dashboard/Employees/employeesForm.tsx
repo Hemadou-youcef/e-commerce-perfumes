@@ -104,11 +104,11 @@ const EmployeesForm = ({ ...props }) => {
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
-                <Link href="/admin/employees">
+                <Link href="/dashboard/employees">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Employés</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
-                {editMode && <Link href={`/admin/employees/${props?.employee?.id}`}>
+                {editMode && <Link href={`/dashboard/employees/${props?.employee?.id}`}>
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">
                         {props?.employee?.first_name} {props?.employee?.last_name}
                     </h2>

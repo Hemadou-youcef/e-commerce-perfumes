@@ -24,12 +24,18 @@ class ProfileController extends Controller
         return Inertia::render('ClientSide/Profile/Edit');
     }
 
+    public function dashboard_edit(Request $request): Response
+    {
+        return Inertia::render('Dashboard/Profile/Edit');
+    }
+
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
         $user = $request->validated();
+
         if (Hash::make($user['password']) == auth()->user()->password) {
             auth()->user()->update($user);
             if (isset($user['new_password'])) {

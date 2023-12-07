@@ -68,17 +68,19 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
             <IoSettingsOutline className="w-5 h-5  group-hover:w-6 group-hover:h-6 transition-all" />
           </div>
 
-          <div className="flex flex-col items-center justify-center mb-3 mt-auto p-2 rounded-md border-white  hover:bg-white hover:bg-opacity-10 transition-colors cursor-pointer">
+          <Link
+            href="/dashboard/profile"
+            className="flex flex-col items-center justify-center mb-3 mt-auto p-2 rounded-md border-white  hover:bg-white hover:bg-opacity-10 transition-colors cursor-pointer">
             <FaRegUser className="w-5 h-5 text-white" />
-          </div>
+          </Link>
         </div>
         <Tabs
           value={currentTab}
-          className={`fixed   md:static h-full w-[220px] items-center pt-5 m-0 bg-gray-100 gap-2 shadow-md ${showNav ? "ml-[50px] md:ml-0" : "-ml-[280px] md:-ml-[220px]"} transition-all duration-300`}
+          className={`fixed  pr-2 md:static h-full w-[220px] items-center pt-5 m-0 bg-gray-100 gap-2 shadow-md ${showNav ? "ml-[50px] md:ml-0" : "-ml-[280px] md:-ml-[220px]"} transition-all duration-300`}
         >
           <TabsContent value="basic" className="flex flex-col w-full m-0">
             <Link
-              href="/admin"
+              href="/dashboard"
               className={`w-full  h-10 flex justify-start items-center gap-3  group transition-all px-4 hover:bg-gray-200 ${pageId === "admin" ? "bg-gray-200" : ""}`}
               onClick={() => (width <= 768) ? setNav(false) : null}
             >
@@ -95,7 +97,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
               </CollapsibleTrigger>
               <CollapsibleContent className="pl-4 w-full flex flex-col">
                 <Link
-                  href="/admin/orders"
+                  href="/dashboard/orders"
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  hover:bg-gray-200 ${pageId === "orders" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
@@ -115,7 +117,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
 
               <CollapsibleContent className="pl-4 w-full flex flex-col">
                 <Link
-                  href="/admin/products"
+                  href="/dashboard/products"
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4 hover:bg-gray-200  ${pageId === "products" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
@@ -123,7 +125,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                   <p className="text-xs  text-gray-800 ">PRODUITS</p>
                 </Link>
                 <Link
-                  href="/admin/receptions"
+                  href="/dashboard/receptions"
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4 hover:bg-gray-200 ${pageId === "receptions" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
@@ -132,7 +134,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                   <p className="text-xs  text-gray-800">RECEPTIONS</p>
                 </Link>
                 <Link
-                  href="/admin/categories"
+                  href="/dashboard/categories"
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  hover:bg-gray-200 ${pageId === "categories" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}
                 >
@@ -158,7 +160,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pl-4 w-full flex flex-col">
                   <Link
-                    href="/admin/employees"
+                    href="/dashboard/employees"
                     className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4 hover:bg-gray-200 ${pageId === "employees" ? "bg-gray-200" : ""}`}
                     onClick={() => (width <= 768) ? setNav(false) : null}
                   >
@@ -166,7 +168,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                     <p className="text-xs  text-gray-800 ">EMPLOYÉES</p>
                   </Link>
                   <Link
-                    href="/admin/clients"
+                    href="/dashboard/clients"
                     className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4 hover:bg-gray-200 ${pageId === "clients" ? "bg-gray-200" : ""}`}
                     onClick={() => (width <= 768) ? setNav(false) : null}
                   >

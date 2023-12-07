@@ -79,11 +79,11 @@ const CategoriesForm = ({ ...props }) => {
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
-                <Link href="/admin/categories">
+                <Link href={route("categories")}>
                     <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Categories</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
-                {editMode && <Link href={`/admin/categories/${props?.category?.id}`}>
+                {editMode && <Link href={`/dashboard/categories/${props?.category?.id}`}>
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">
                         {props?.category?.name.length > 16 ? props?.category?.name.substring(0, 16) + "..." : props?.category?.name}
                     </h2>

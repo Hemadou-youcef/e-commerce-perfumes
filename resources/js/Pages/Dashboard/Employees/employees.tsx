@@ -26,7 +26,7 @@ const Clients = ({ ...props }) => {
         <>
             <div className="flex flex-row justify-between items-center px-5 py-2 gap-2 h-14 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
                 <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Employees</h2>
-                <Link href="/admin/employees/create">
+                <Link href="/dashboard/employees/create">
                     <Button className="flex items-center p-0 px-5 h-9 md:h-10 md:rounded-md">
                         <IoMdAdd className="h-5 w-5" />
                         <span className="ml-2 hidden md:block">Ajouter un Employee</span>
@@ -58,12 +58,12 @@ const Clients = ({ ...props }) => {
                 </Accordion>
                 <div className="max-w-full overflow-x-auto flex flex-col pb-2 gap-2">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Admins</h2>
-                    <DataTable columns={columns} data={admins} baseUrl="/admin/employees/" />
+                    <DataTable columns={columns} data={admins} baseUrl="/dashboard/employees/" />
                 </div>
                 <Separator />
                 <div className="max-w-full overflow-x-auto flex flex-col pb-2 gap-2">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Employees</h2>
-                    <DataTable columns={columns} data={employees} baseUrl="/admin/employees/" />
+                    <DataTable columns={columns} data={employees} baseUrl="/dashboard/employees/" />
                 </div>
                 <Pagination meta={props?.employees} />
             </div>

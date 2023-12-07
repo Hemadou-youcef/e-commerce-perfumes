@@ -78,7 +78,7 @@ const Clients = ({ ...props }) => {
                     </AccordionItem>
                 </Accordion>
                 <div className="max-w-full overflow-x-auto pb-2">
-                    <DataTable columns={columns} data={data} baseUrl="/admin/clients/" />
+                    <DataTable columns={columns} data={data} baseUrl="/dashboard/clients/" />
                 </div>
                 <Pagination meta={props?.clients} />
             </div>

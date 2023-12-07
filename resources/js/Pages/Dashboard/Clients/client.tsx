@@ -40,6 +40,7 @@ import { MdOutlineSystemSecurityUpdateGood, MdSecurityUpdateWarning } from "reac
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { FaFemale, FaMale } from "react-icons/fa";
 import { useToast } from "@/shadcn/ui/use-toast";
+import { TbExternalLink } from "react-icons/tb";
 
 const Client = ({ ...props }) => {
     console.log(props)
@@ -78,6 +79,11 @@ const Client = ({ ...props }) => {
                 </p>
             </div>
         )
+    }
+
+    const formatDate = (date) => {
+        const d = new Date(date);
+        return d.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
 
     const confirmClient = () => {
@@ -132,7 +138,7 @@ const Client = ({ ...props }) => {
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
-                <Link href="/admin/clients">
+                <Link href="/dashboard/clients">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Clients</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
@@ -149,41 +155,41 @@ const Client = ({ ...props }) => {
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
                         {[3, 4].includes(props?.auth?.user?.role) && (
-                                <AlertDialog>
-                                    <AlertDialogTrigger>
-                                        <Button
-                                            variant="outline"
-                                            className="flex items-center w-44 h-9 space-x-2 border-transparent bg-transparent border-red-600 text-red-600 hover:text-red-700"
-                                            disabled={deleteloading}
+                            <AlertDialog>
+                                <AlertDialogTrigger>
+                                    <Button
+                                        variant="outline"
+                                        className="flex items-center w-44 h-9 space-x-2 border-transparent bg-transparent border-red-600 text-red-600 hover:text-red-700"
+                                        disabled={deleteloading}
+                                    >
+                                        <span className="text-sm font-medium">
+                                            Supprimer Client
+                                        </span>
+                                        {deleteloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-xl" />}
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            Supprimer L'Utilisateur
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Êtes-vous sûr de vouloir supprimer cette Utilisateur ? Cette action est irréversible.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            Annuler
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            onClick={() => handleDeleteClient()}
                                         >
-                                            <span className="text-sm font-medium">
-                                                Supprimer Client
-                                            </span>
-                                            {deleteloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-xl" />}
-                                        </Button>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                            <AlertDialogTitle>
-                                                Supprimer L'Utilisateur
-                                            </AlertDialogTitle>
-                                            <AlertDialogDescription>
-                                                Êtes-vous sûr de vouloir supprimer cette Utilisateur ? Cette action est irréversible.
-                                            </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                            <AlertDialogCancel>
-                                                Annuler
-                                            </AlertDialogCancel>
-                                            <AlertDialogAction
-                                                onClick={() => handleDeleteClient()}
-                                            >
-                                                Continuer
-                                            </AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                            )
+                                            Continuer
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        )
                         }
                         {[3, 4].includes(props?.auth?.user?.role) && client?.role == 0 && (
                             <Button
@@ -251,7 +257,7 @@ const Client = ({ ...props }) => {
                         <div className="flex flex-row justify-start items-center gap-2">
                             <AiOutlineCalendar className="text-xl text-gray-800" />
                             <p className="text-sm font-bold text-gray-500">
-                                {client?.created_at}
+                                {formatDate(client?.created_at)}
                             </p>
                         </div>
                     </div>
@@ -303,6 +309,7 @@ const Client = ({ ...props }) => {
                                             <TableHead className="w-5">ID</TableHead>
                                             <TableHead className="w-40">Produit</TableHead>
                                             <TableHead className="w-60">Date de création</TableHead>
+                                            <TableHead>Lien</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -310,7 +317,14 @@ const Client = ({ ...props }) => {
                                             <TableRow key={index} >
                                                 <TableCell className="font-medium text-xs">{bookmark.id}</TableCell>
                                                 <TableCell className="font-bold text-xs">{bookmark.product_id}</TableCell>
-                                                <TableCell className="font-bold text-xs">{bookmark.created_at}</TableCell>
+                                                <TableCell className="font-bold text-xs">{formatDate(bookmark.created_at)}</TableCell>
+                                                <TableCell className="font-bold text-xs">
+                                                    <Link href={`/dashboard/products/${bookmark.product_id}`}>
+                                                        <Button variant="outline" className="flex items-center border-gray-900 space-x-2 bg-transparent hover:bg-gray-200">
+                                                            <TbExternalLink className="text-lg" />
+                                                        </Button>
+                                                    </Link>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                         {(client?.bookmarks || []).length === 0 && (

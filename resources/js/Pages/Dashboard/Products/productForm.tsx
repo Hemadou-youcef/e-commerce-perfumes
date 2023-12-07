@@ -198,11 +198,11 @@ const ProductForm = ({ ...props }) => {
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
-                <Link href="/admin/products">
+                <Link href="/dashboard/products">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Produits</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
-                {editMode && <Link href={`/admin/products/${props?.product?.id}`}>
+                {editMode && <Link href={`/dashboard/products/${props?.product?.id}`}>
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">
                         {props?.product?.name.length > 16 ? props?.product?.name.substring(0, 16) + "..." : props?.product?.name}
                     </h2>

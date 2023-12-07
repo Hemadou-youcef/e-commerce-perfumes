@@ -16,7 +16,7 @@ export function RecentSales({ orders }) {
     <div className="space-y-8">
       {orders.map((order, index) => (
         <Link 
-          href={`/admin/orders/${order.id}`}
+          href={`/dashboard/orders/${order.id}`}
           key={index}
           className="flex items-center"
           >

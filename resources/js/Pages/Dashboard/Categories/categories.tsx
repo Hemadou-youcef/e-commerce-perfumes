@@ -34,7 +34,7 @@ const Categories = ({ ...props }) => {
         <>
             <div className="flex flex-row justify-between items-center px-5 py-2 gap-2 h-14 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
                 <h2 className="text-base md:text-2xl text-gray-900 font-bold tracking-tight">Les Categories</h2>
-                <Link href="/admin/categories/create">
+                <Link href="/dashboard/categories/create">
                     <Button className="flex items-center p-0 px-5 md:h-10 md:rounded-md">
                         <IoMdAdd className="h-5 w-5" />
                         <span className="ml-2 hidden md:block">Ajouter un Categorie</span>
@@ -66,7 +66,7 @@ const Categories = ({ ...props }) => {
                     </div>
                 </div>
                 <div className="max-w-full overflow-x-auto pb-2">
-                    <DataTable columns={columns} data={data} baseUrl="/admin/categories/" />
+                    <DataTable columns={columns} data={data} baseUrl="/dashboard/categories/" />
                 </div>
                 <Pagination meta={props?.categories} />
             </div>

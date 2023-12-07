@@ -144,7 +144,7 @@ const Product = ({ ...props }) => {
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
-                <Link href="/admin/products">
+                <Link href="/dashboard/products">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Produits</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
@@ -242,7 +242,7 @@ const Product = ({ ...props }) => {
                             </AlertDialog>
                         )}
 
-                        <Link href={`/admin/products/${product?.id}/edit`}>
+                        <Link href={`/dashboard/products/${product?.id}/edit`}>
                             <Button
                                 variant="outline"
                                 className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
@@ -296,16 +296,16 @@ const Product = ({ ...props }) => {
                         </div>
                     </div>
                     <Separator className="mt-0 md:hidden" />
-                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                    <div className="flex flex-col justify-center md:justify-start items-start gap-2">
                         <h1 className="text-sm font-medium md:w-128 text-gray-800">Description :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <div className="text-sm font-bold text-gray-500">{product?.description.split('<br/>').map((value, index) => (<div key={index}><span>{value}</span><br /></div>))}</div>
                         </div>
                     </div>
                     <Separator className="mt-0 md:hidden" />
-                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                    <div className="flex flex-col  justify-center md:justify-start items-start gap-2">
                         <h1 className="text-sm font-medium md:w-128 text-gray-800">Description En arabe :</h1>
-                        <div className="flex flex-row justify-end items-center gap-2">
+                        <div dir="rtl" className="w-full flex flex-row justify-start items-center gap-2">
                             <div className="text-sm font-bold text-gray-500">{product?.description_ar.split('<br/>').map((value, index) => (<div key={index}><span>{value}</span><br /></div>))}</div>
                         </div>
                     </div>
@@ -389,7 +389,7 @@ const Product = ({ ...props }) => {
                                                 <TableCell className="font-bold text-xs">{reception.user_id}</TableCell>
                                                 <TableCell className="font-bold text-xs">{reception.created_at}</TableCell>
                                                 <TableCell className="font-bold text-xs">
-                                                    <Link href={`/admin/receptions/${reception.id}`}>
+                                                    <Link href={`/dashboard/receptions/${reception.id}`}>
                                                         <Button variant="outline" className="flex items-center space-x-2 bg-transparent hover:bg-gray-200">
                                                             <TbExternalLink className="text-lg" />
                                                         </Button>

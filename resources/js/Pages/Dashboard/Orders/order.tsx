@@ -298,7 +298,7 @@ const Order = ({ ...props }) => {
         <>
             {/* TREE */}
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
-                <Link href="/admin/orders">
+                <Link href="/dashboard/orders">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Commandes</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
@@ -657,14 +657,14 @@ const Order = ({ ...props }) => {
                                                             <TableCell className="font-bold text-xs">{formatDate(reservation?.created_at)}</TableCell>
                                                             <TableCell className="font-bold text-xs">{reservation?.quantity} G</TableCell>
                                                             <TableCell className="font-bold text-xs">
-                                                                <Link href={`/admin/products/${product?.product_id}`}>
+                                                                <Link href={`/dashboard/products/${product?.product_id}`}>
                                                                     <Button variant="outline" className="flex items-center border-gray-900 space-x-2 bg-transparent hover:bg-gray-200">
                                                                         <TbExternalLink className="text-lg" />
                                                                     </Button>
                                                                 </Link>
                                                             </TableCell>
                                                             <TableCell className="font-bold text-xs">
-                                                                <Link href={`/admin/receptions/${reservation.reception_id}`}>
+                                                                <Link href={`/dashboard/receptions/${reservation.reception_id}`}>
                                                                     <Button variant="outline" className="flex items-center border-gray-900 space-x-2 bg-transparent hover:bg-gray-200">
                                                                         <TbExternalLink className="text-lg" />
                                                                     </Button>

@@ -111,7 +111,7 @@ const Reception = ({ ...props }) => {
     return (
         <>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
-                <Link href="/admin/receptions">
+                <Link href="/dashboard/receptions">
                     <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Réceptions</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
@@ -224,7 +224,7 @@ const Reception = ({ ...props }) => {
                                         <p className="text-sm font-bold text-gray-500">{reception?.product?.quantity} {reception?.product?.unit}</p>
                                     </div>
                                 </div>
-                                <Link href={`/admin/products/${reception?.product?.id}`}>
+                                <Link href={`/dashboard/products/${reception?.product?.id}`}>
                                     <Button variant="outline" className="flex items-center gap-2 border-2 border-gray-600 hover:border-gray-800">
                                         <p className="text-sm font-bold text-gray-600">Voir Le Produit</p>
                                         <FaChevronRight className="text-sm text-gray-600" />
