@@ -105,6 +105,10 @@ Route::get('/dashboard/categories/{category}/edit' , [App\Http\Controllers\Categ
 Route::patch('/dashboard/categories/{category}/edit' , [App\Http\Controllers\CategoryController::class, 'update'])->name('category.update');
 Route::delete('/dashboard/categories/{category}' , [App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.destroy');
 
+// dashboard contact routes
+Route::get('/dashboard/contacts' , [App\Http\Controllers\ContactController::class, 'dashboard_index'])->name('contacts');
+Route::get('/dashboard/contacts/{contact}' , [App\Http\Controllers\ContactController::class, 'show']);
+Route::delete('/dashboard/contacts/{contact}' , [App\Http\Controllers\ContactController::class, 'destroy'])->name('contact.destroy');
 
 // profile routes
 Route::get('/profile' , [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile');
@@ -112,5 +116,9 @@ Route::patch('/profile' , [App\Http\Controllers\ProfileController::class, 'updat
 Route::get('/dashboard/profile' , [App\Http\Controllers\ProfileController::class, 'dashboard_edit'])->name('dashboard_profile');
 Route::patch('/dashboard/profile' , [App\Http\Controllers\ProfileController::class, 'update'])->name('dashboard_profile.update');
 
+
+// client contact routes
+Route::get('/contact' , [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
+Route::post('/contact' , [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
 require __DIR__.'/auth.php';

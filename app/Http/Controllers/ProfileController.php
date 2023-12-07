@@ -36,7 +36,7 @@ class ProfileController extends Controller
     {
         $user = $request->validated();
 
-        if (Hash::make($user['password']) == auth()->user()->password) {
+        if (Hash::check($user['password'], auth()->user()->password) ) {
             auth()->user()->update($user);
             if (isset($user['new_password'])) {
                 auth()->user()->update(['password' => Hash::make($user['new_password'])]);
@@ -47,7 +47,11 @@ class ProfileController extends Controller
 
 
 
-        return Redirect::route('profile');
+        if (Auth::user()->isAdmin() || Auth::user()->isEmployee()){
+            return to_route('/dashboard/profile');
+        }else{
+            return to_route('/profile');
+        }
 
 
     }

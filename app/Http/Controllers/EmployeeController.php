@@ -35,14 +35,6 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return Inertia::render('Dashboard/Employees/employeesForm');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -76,16 +68,22 @@ class EmployeeController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return Inertia::render('Dashboard/Employees/employeesForm');
+    }
+
+    /**
      * Display the specified resource.
      */
     public function show(User $user)
     {
-        if ($user->isEmployee()) {
-            return Inertia::render('Dashboard/Employees/employee', [
-                'employee' => $user->load(['receptions', 'verifiedOrders', 'confirmedOrders', 'cancelledOrders', 'deliveredOrders', 'receptions'])
-            ]);
-        }
-        return back();
+        return Inertia::render('Dashboard/Employees/employee', [
+            'employee' => $user->load(['receptions', 'verifiedOrders', 'confirmedOrders', 'cancelledOrders', 'deliveredOrders', 'receptions'])
+        ]);
+
     }
 
     /**
@@ -93,12 +91,10 @@ class EmployeeController extends Controller
      */
     public function edit(User $user)
     {
-        if ($user->isEmployee()) {
             return Inertia::render('Dashboard/Employees/employeesForm', [
                 'employee' => $user
             ]);
-        }
-        return back();
+
     }
 
     /**
@@ -146,11 +142,11 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
-    {
-
-        $user->delete();
-
-        return to_route('employees');
-    }
+//    public function destroy(User $user)
+//    {
+//
+//        $user->delete();
+//
+//        return to_route('employees');
+//    }
 }

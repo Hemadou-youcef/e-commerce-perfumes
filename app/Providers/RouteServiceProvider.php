@@ -24,9 +24,8 @@ class RouteServiceProvider extends ServiceProvider
     public const LOGOUT = '/logout';
     public const FORGOT_PASSWORD = '/forgot-password';
 
-    public const ADMIN = '/admin';
 
-    public const ADMIN_DASHBOARD = '/admin/dashboard';
+    public const ADMIN_DASHBOARD = '/dashboard';
 
 
 
@@ -38,6 +37,9 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
+
+
+
 
         $this->routes(function () {
             Route::middleware('api')

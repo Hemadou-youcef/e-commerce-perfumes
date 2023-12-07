@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Reservation;
 use App\Models\User;
+use Database\Factories\ContactFactory;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -38,6 +39,7 @@ class DatabaseSeeder extends Seeder
 //        Reservation::factory()->count(20)->create();
             CartItem::factory()->count(20)->create();
 //            Image::factory()->count(20)->create();
+            ContactFactory::new()->count(20)->create();
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
