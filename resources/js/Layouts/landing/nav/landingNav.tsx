@@ -53,7 +53,6 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
     const handleSearch = (search: string) => {
         setSearchLoading(true);
         router.get("/products?q=" + search, {}, {
-            preserveState: true,
             preserveScroll: true,
             onFinish: () => {
                 setSearchLoading(false);
@@ -120,7 +119,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
             </div>
             <div className="block md:hidden">
 
-                <div className="fixed bottom-0 left-0 w-full h-14 bg-white z-10 flex items-center justify-around p-2 border-t shadow-md"
+                <div dir='ltr' className="fixed bottom-0 left-0 w-full h-14 bg-white z-10 flex items-center justify-around p-2 border-t shadow-md"
                 >
                     {(!isLogged() || isEmployee()) && <Link href="/">
                         <AiOutlineHome className="w-6 h-full text-primary" />

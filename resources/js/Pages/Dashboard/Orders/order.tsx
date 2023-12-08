@@ -313,7 +313,7 @@ const Order = ({ ...props }) => {
                             {/* <p className="text-sm text-gray-600">Passé le 12/12/2020</p> */}
                         </div>
                         {/* ACTIONS */}
-                        <div className="flex justify-end gap-2">
+                        <div className="flex flex-col md:flex-row items-center md:justify-end gap-2">
                             {props?.auth?.user?.role === 3 && (order?.status != "delivered" && order?.status != "cancelled") && (
                                 <AlertDialog>
                                     <AlertDialogTrigger>

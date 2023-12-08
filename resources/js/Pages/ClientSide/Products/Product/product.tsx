@@ -65,7 +65,7 @@ const Product = ({ ...props }) => {
     const handleBookmark = () => {
         setBookmarkLoading(true);
         if (product?.isProductBookmarked) {
-            router.delete(route("bookmark.destroy", product?.book), {
+            router.delete(route("bookmark.destroy", product?.id), {
                 preserveScroll: true,
                 onSuccess: () => {
                     toast({
@@ -225,8 +225,15 @@ const Product = ({ ...props }) => {
                                             <p key={index}>{item}</p>
                                         ))}
                                 </div>
+
                             </div>
-                            <div className='flex justify-between items-center w-full mt-6'>
+                            {/* CATEGORY */}
+                            <div className="w-full flex flex-row justify-start items-center mt-5 gap-2">
+                                {product?.categories.map((category: any, index) => (
+                                    <p key={index} className="px-2 py-1 rounded-sm text-xs font-medium text-white uppercase bg-gray-600">{i18n.language === "fr" ? category.name : category.name_ar}</p>
+                                ))}
+                            </div>
+                            <div className='flex justify-between items-center w-full'>
                                 <p className="text-gray-900 text-xs font-bold md:text-sm lg:tex">
                                     {t("product_page.add_to_bookmarks")}
                                     {/* Ajouter aux Signets */}
@@ -326,7 +333,7 @@ const Product = ({ ...props }) => {
                     </div>
 
                 </div>
-                <LandingSuggest title="You May Also Like" />
+                <LandingSuggest title="You May Also Like" products={props?.product?.suggestedProducts} />
             </div>
             {showImageSlider && (
                 <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">

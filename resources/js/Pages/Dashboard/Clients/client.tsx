@@ -188,15 +188,15 @@ const Client = ({ ...props }) => {
                                 </AlertDialogContent>
                             </AlertDialog>
                         )}
-                        {[3, 4].includes(props?.auth?.user?.role) && client?.role == 0 && (
+                        {[3, 4].includes(props?.auth?.user?.role) && client?.role == 1 && (
                             <Button
                                 variant="outline"
-                                className="flex items-center w-44 h-9 space-x-2 border-transparent bg-transparent border-green-600 text-green-600 hover:text-green-700"
+                                className="group p-0 h-12 w-12 hover:w-32 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                                 onClick={() => confirmClient()}
                                 disabled={confirmeloading}
                             >
-                                <span className="text-sm font-medium">Confirmer Client</span>
                                 {confirmeloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineCheckCircle className="text-xl" />}
+                                <p className="group-hover:w-20 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Confirmer</p>
                             </Button>
                         )}
 

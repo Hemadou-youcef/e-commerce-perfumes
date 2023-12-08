@@ -299,8 +299,8 @@ const Cart = ({ ...props }) => {
                             <div key={index} className="flex items-center flex-col md:flex-row gap-5 border-b border-gray-300 py-4">
                                 <img
                                     alt=""
-                                    src={item.product?.main_image}
-                                    className="h-16 w-16 object-cover mr-4 bg-gray-300"
+                                    src={item?.product?.main_image?.path}
+                                    className="h-24 w-24 object-cover mr-4 border-2 border-gray-700 rounded-md bg-gray-300"
                                 />
 
                                 <div className="flex md:flex-1 flex-col items-center md:items-start justify-center">
@@ -355,7 +355,7 @@ const Cart = ({ ...props }) => {
                                         </p>
                                         <p className="text-base text-gray-900">
                                             {data.state_code != "" ?
-                                                yalidine[(parseInt(data.state_code, 10) || 1) - 1][data.shipping_method == "1" ? "2" : "1"] + ",00" + t("global.da") :
+                                                yalidine[(parseInt(data.state_code) || 1) - 1][data.shipping_method == "1" ? "2" : "1"] + ",00" + t("global.da") :
                                                 "remplir l'entrée"
                                             } 
                                         </p>
@@ -366,7 +366,7 @@ const Cart = ({ ...props }) => {
                                         </p>
                                         <p className="text-base text-gray-900">
                                             {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + (data.state_code != "" ?
-                                                yalidine[(parseInt(data.state_code, 10) || 1) - 1][data.shipping_method] :
+                                                yalidine[(parseInt(data.state_code) || 1) - 1][data.shipping_method == "1" ? "2" : "1"] :
                                                 0
                                             )},00 {t("global.da")}
                                         </p>

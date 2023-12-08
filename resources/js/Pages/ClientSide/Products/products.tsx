@@ -18,11 +18,15 @@ const Products = ({ ...props }) => {
     console.log(props)
     const [data, setData] = useState(props?.products?.data)
     const [categoriesList, setCategoriesList] = useState(props?.categories || []);
-    const [minMaxPrice, setMinMaxPrice] = useState<number[]>([0, 1000]);
+
+    const [minMaxPrice, setMinMaxPrice] = useState<number[]>([0, 10000]);
     const [search, setSearch] = useState<string | undefined>(props?.filters?.q || undefined);
-    const [categories, setCategories] = useState<string | undefined>(props?.filters?.category || undefined);
+    const [delayedSearch, setDelayedSearch] = useState<string | undefined>(props?.filters?.q || undefined);
+    const [categories, setCategories] = useState<string[]>(props?.filters?.category.split(","));
+
     const [loading, setLoading] = useState(false);
     const firstUpdate = useRef(true);
+
     const { t, i18n } = useTranslation()
 
     const alreadyUsedCategories = [
@@ -31,9 +35,13 @@ const Products = ({ ...props }) => {
         "unisexe",
     ]
 
+    // MAKE A DELAYED SEARCH
     useLayoutEffect(() => {
-        setSearch(props?.filters?.q || undefined);
-    }, [props?.filters?.q]);
+        const getData = setTimeout(() => {
+            setDelayedSearch(search);
+        }, 500);
+        return () => clearTimeout(getData);
+    }, [search]);
 
     useLayoutEffect(() => {
         if (firstUpdate.current) {
@@ -41,15 +49,15 @@ const Products = ({ ...props }) => {
             return;
         }
         handleFilter();
-    }, [categories, search, minMaxPrice]);
+    }, [categories, delayedSearch, minMaxPrice]);
 
 
 
     const handleFilter = () => {
         setLoading(true);
         router.get(route("client_products"), {
-            q: search,
-            category: categories,
+            q: delayedSearch,
+            category: categories?.join(","),
             startPrice: minMaxPrice[0],
             endPrice: minMaxPrice[1],
         }, {
@@ -84,12 +92,12 @@ const Products = ({ ...props }) => {
                             <div className="flex justify-center font-semibold items-center gap-2 pl-6">
                                 <Checkbox id="homme" onCheckedChange={(checked) => {
                                     if (checked) {
-                                        setCategories("homme");
+                                        setCategories((data) => [...data, "homme"])
                                     } else {
-                                        setCategories(undefined);
+                                        setCategories((data) => data?.filter((item) => item !== "homme"));
                                     }
                                 }}
-                                    checked={categories === "homme" ? true : false} />
+                                    checked={categories?.includes("homme") ? true : false} />
 
                                 <Label
                                     htmlFor="homme"
@@ -102,12 +110,12 @@ const Products = ({ ...props }) => {
                                 <Checkbox id="femme"
                                     onCheckedChange={(checked) => {
                                         if (checked) {
-                                            setCategories("femme");
+                                            setCategories((data) => [...data, "femme"])
                                         } else {
-                                            setCategories(undefined);
+                                            setCategories((data) => data?.filter((item) => item !== "femme"));
                                         }
                                     }}
-                                    checked={categories === "femme" ? true : false} />
+                                    checked={categories?.includes("femme") ? true : false} />
                                 <Label
                                     htmlFor="femme"
                                     className="text-sm md:text-lg cursor-pointer"
@@ -119,12 +127,12 @@ const Products = ({ ...props }) => {
                                 <Checkbox id="unisexe"
                                     onCheckedChange={(checked) => {
                                         if (checked) {
-                                            setCategories("unisexe");
+                                            setCategories((data) => [...data, "unisexe"])
                                         } else {
-                                            setCategories(undefined);
+                                            setCategories((data) => data?.filter((item) => item !== "unisexe"));
                                         }
                                     }}
-                                    checked={categories === "unisexe" ? true : false} />
+                                    checked={categories?.includes("unisexe") ? true : false} />
                                 <Label
                                     htmlFor="unisexe"
                                     className="text-sm md:text-lg cursor-pointer"
@@ -194,17 +202,17 @@ const Products = ({ ...props }) => {
                             <div className="w-full flex flex-col justify-start overflow-y-auto max-h-96 py-2">
                                 {categoriesList.filter((category) => !alreadyUsedCategories.includes(category.name.toLowerCase())).map((category, index) => (
                                     <div key={index} className="flex justify-start font-semibold items-center gap-2 pl-2">
-                                        <Checkbox id={category.id.toString()}
+                                        <Checkbox id={category.name}
                                             onCheckedChange={(checked) => {
                                                 if (checked) {
-                                                    setCategories(category.id.toString());
+                                                    setCategories((data) => [...data, category.name])
                                                 } else {
-                                                    setCategories(undefined);
+                                                    setCategories((data) => data?.filter((item) => item !== category.name));
                                                 }
                                             }}
-                                            checked={categories === category.id.toString() ? true : false} />
+                                            checked={categories?.includes(category.name) ? true : false} />
                                         <Label
-                                            htmlFor={category.id.toString()}
+                                            htmlFor={category.name}
                                             className="text-sm md:text-lg cursor-pointer"
                                         >
                                             {i18n.language === "fr" ? category.name : category.name_ar}

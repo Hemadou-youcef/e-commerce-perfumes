@@ -38,8 +38,8 @@ const Bookmarks = ({ ...props }) => {
                             <div key={index} className="flex items-center flex-col md:flex-row gap-5 border-b border-gray-300 py-4">
                                 <img
                                     alt=""
-                                    src={item.product?.main_image}
-                                    className="h-16 w-16 object-cover mr-4 bg-gray-300"
+                                    src={item?.product?.main_image?.path}
+                                    className="h-24 w-24 object-cover mr-4 border-2 border-gray-700 shadow-md rounded-md bg-gray-300"
                                 />
                                 <div className="flex md:flex-1 flex-col items-center md:items-start justify-center">
                                     <Link

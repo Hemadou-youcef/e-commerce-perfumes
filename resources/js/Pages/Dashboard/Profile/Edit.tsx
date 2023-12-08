@@ -334,7 +334,7 @@ const Profile = ({ ...props }) => {
                                 {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
                             </div>
                         </DialogDescription>
-                        <DialogFooter>
+                        <DialogFooter className="flex gap-2">
                             <Button
                                 variant="outline"
                                 onClick={() => setShowConfirmPassword(false)}

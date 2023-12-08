@@ -20,12 +20,15 @@ import 'swiper/css/autoplay';
 import { TbTruckDelivery } from 'react-icons/tb';
 import { GiReceiveMoney, GiReturnArrow } from 'react-icons/gi';
 import { BiSupport } from 'react-icons/bi';
+import { useTranslation } from 'react-i18next';
 
 
 // export default function Welcome(Props: PageProps<{ laravelVersion: string, phpVersion: string }>) {
 
-const Home = ({...props}) => {
+const Home = ({ ...props }) => {
     console.log(props)
+
+    const { t, i18n } = useTranslation()
     const handleTest = () => {
         router.post('/test', {
             name: 'test'
@@ -46,50 +49,32 @@ const Home = ({...props}) => {
                     pagination={{ clickable: true }}
                     autoplay={{ delay: 5000 }}
                 >
-                    <SwiperSlide>
-                        {/* Wallpaper For Information */}
-                        <div className="md:h-128 py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(/image/wallpaper.png)" }}
-                        >
-                            <div className="container flex flex-col md:flex-row items-center justify-center md:justify-around gap-5 select-none">
-                                <div className="flex flex-col md:justify-centers items-center  text-center">
-                                    <h1 className="text-2xl md:text-5xl md:pl-4 text-white" style={{ textShadow: "0 0 10px #000" }}>COCO EAU DE PARFUM</h1>
-                                    <p className="text-xs font-sans mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
-                                        CHANEL a toujours confié au noir un rôle essentiel : mettre en valeur une femme
-                                    </p>
-                                    <Button variant="default" className="mt-5 w-44 bg-prime border-2 border-prime  text-third  ">
-                                        ACHETER
-                                    </Button>
-                                </div>
-                                <div className=" ">
-                                    <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/370087658_1076648240174958_48487877131900853_n.png?_nc_cat=104&ccb=1-7&_nc_sid=510075&_nc_eui2=AeHLbGn477Zo-tECgQyfMXCwLHXfZBQUaAUsdd9kFBRoBct3-rb67M-StzTG2xp-VH4EOPHv2xvaYsBJ1h9hCG7_&_nc_ohc=XLk9N66zFuYAX8iuxkD&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdSHigKSY5Wr1xqC7zyLN-aeZWOmtKk8OXmtqeRmaMjF1A&oe=65721E0B"
-                                        className="landingImageRadius p-5 h-52 md:h-80  object-cover shadow-md"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        {/* Wallpaper For Information */}
-                        <div className="md:h-128 py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(/image/wallpaper.png)" }}
-                        >
-                            <div className="container flex flex-col md:flex-row items-center justify-center md:justify-around gap-5">
-                                <div className="flex flex-col md:justify-centers items-center  text-center">
-                                    <h1 className="text-2xl md:text-5xl md:pl-4 text-white" style={{ textShadow: "0 0 10px #000" }}>COCO EAU DE PARFUM</h1>
-                                    <p className="text-xs font-sans mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
-                                        CHANEL a toujours confié au noir un rôle essentiel : mettre en valeur une femme
-                                    </p>
-                                    <Button variant="outline" className="mt-5 w-44  bg-transparent border-2 border-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-100 hover:text-gray-100 active:text-gray-100">
-                                        ACHETER
-                                    </Button>
-                                </div>
-                                <div className=" ">
-                                    <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/370087658_1076648240174958_48487877131900853_n.png?_nc_cat=104&ccb=1-7&_nc_sid=510075&_nc_eui2=AeHLbGn477Zo-tECgQyfMXCwLHXfZBQUaAUsdd9kFBRoBct3-rb67M-StzTG2xp-VH4EOPHv2xvaYsBJ1h9hCG7_&_nc_ohc=XLk9N66zFuYAX8iuxkD&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdSHigKSY5Wr1xqC7zyLN-aeZWOmtKk8OXmtqeRmaMjF1A&oe=65721E0B"
-                                        className="landingImageRadius p-5 h-52 md:h-80  object-cover shadow-md"
-                                    />
+                    {props?.pinned_products?.map((product, index) => (
+                        <SwiperSlide key={index}>
+                            {/* Wallpaper For Information */}
+                            <div className="md:h-128 py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(/image/wallpaper.png)" }}
+                            >
+                                <div className="container flex flex-col md:flex-row items-center justify-center md:justify-around gap-5 select-none">
+                                    <div className="flex flex-col md:justify-centers items-center  text-center">
+                                        <h1 className="text-2xl md:text-5xl md:pl-4 text-white" style={{ textShadow: "0 0 10px #000" }}>
+                                            {product.name}
+                                        </h1>
+                                        <p className="text-sm font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
+                                            {i18n.language === "fr" ? product.description : product.description_ar}
+                                        </p>
+                                        <Button variant="default" className="mt-5 w-44 bg-prime border-2 border-prime  text-third  ">
+                                            {t('product_page.view_product')}
+                                        </Button>
+                                    </div>
+                                    <div className=" ">
+                                        <img src={product.main_image} alt=""
+                                            className="landingImageRadius p-5 h-52 md:h-80  object-cover shadow-md"
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </SwiperSlide>
+                        </SwiperSlide>
+                    ))}
                 </Swiper>
             </div>
             <div className="w-full p-1 px-5 sm:px-1 h-32 flex md:hidden justify-center items-center bg-forth uppercase">
@@ -204,7 +189,7 @@ const Home = ({...props}) => {
                     </div>
                 </div>
             </div >
-            <LandingSuggest title="Pour vous" />
+            {/* <LandingSuggest title="Pour vous" /> */}
             <div className="w-full h-128 bg-black bg-contain bg-right bg-no-repeat text-gray-50 font-serif"
                 style={{ backgroundImage: "url(/image/about-us/french.png)" }}>
                 <div className="container flex flex-col items-start justify-center h-full">
