@@ -54,14 +54,15 @@ const SelectProductSheet = ({ openSheet, setOpenSheet, selectedProducts, setSele
 
     const searchProduct = (query: string) => {
         setSearchLoading(true)
-        router.get(route('order.create'), { q: query }, {
+        router.get(route(route().current() || ""), { q: query == "" ? undefined : query }, {
             preserveState: true,
             preserveScroll: true,
             only: ['products'],
             onSuccess: (page: any) => {
                 setProducts(page.props.products)
+                setSearchLoading(false)
             },
-            onFinish: () => {
+            onError: () => {
                 setSearchLoading(false)
             }
         })
@@ -94,6 +95,7 @@ const SelectProductSheet = ({ openSheet, setOpenSheet, selectedProducts, setSele
                                         onClick={() => {
                                             setOpenSheet(false)
                                             setSelectedProduct(checkBoxSelectedProduct)
+                                            router.get(route(route().current() || ""),{},{preserveState: true, preserveScroll: true})
                                         }}
                                     >
                                         {/* <span className="text-lg text-gray-600">
@@ -150,7 +152,6 @@ const SelectProductSheet = ({ openSheet, setOpenSheet, selectedProducts, setSele
 
                             </Table>
                         </div>
-
                     </SheetHeader>
                 </SheetContent>
             </Sheet>

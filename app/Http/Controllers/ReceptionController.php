@@ -26,10 +26,10 @@ class ReceptionController extends Controller
                         ->orWhere('phone', 'like', '%' . $q . '%');
                 })->orWhere('name', 'like', '%' . $q . '%');
             })
-            ->when(request('start'), fn($query) => $query->where('created_at', '>=', request('start')))
-            ->when(request('end'), fn($query) => $query->where('created_at', '<=', request('end')))
+            ->when(request('start'), fn ($query) => $query->where('created_at', '>=', request('start')))
+            ->when(request('end'), fn ($query) => $query->where('created_at', '<=', request('end')))
             ->orderBy('created_at', 'desc')
-            ->when(request('orderBy'), fn($query) => $query->orderBy(request('orderBy'), request('order') ?? 'desc'))
+            ->when(request('orderBy'), fn ($query) => $query->orderBy(request('orderBy'), request('order') ?? 'desc'))
             ->with(['user', 'product.categories', 'reservations'])
             ->paginate(10)
             ->withQueryString();
@@ -56,7 +56,6 @@ class ReceptionController extends Controller
         $createdReception->product->addStock($reception['quantity']);
 
         return redirect()->route('receptions');
-
     }
 
     /**
@@ -64,10 +63,13 @@ class ReceptionController extends Controller
      */
     public function create()
     {
-//        return Inertia::render('Dashboard/Receptions/receptionForm', [
-//            'products' => \App\Models\Product::query()->orderBy('quantity' , 'asc')->get(),
-//        ]);
-
+        //        return Inertia::render('Dashboard/Receptions/receptionForm', [
+        //            'products' => \App\Models\Product::query()->orderBy('quantity' , 'asc')->get(),
+        //        ]);
+        $q = request('q');
+        if (!$q) return Inertia::render('Dashboard/Receptions/receptionForm', [
+            'products' => []
+        ]);
         return Inertia::render('Dashboard/Receptions/receptionForm', [
             'products' => Product::query()
                 ->when(request('q'), function ($query, $q) {
@@ -75,7 +77,6 @@ class ReceptionController extends Controller
                 })
                 ->orderBy('quantity', 'asc')->get(),
         ]);
-
     }
 
     /**
@@ -137,7 +138,7 @@ class ReceptionController extends Controller
 
         if ($reception->rest == $reception->quantity) {
             $reception->delete();
-        }else{
+        } else {
             $reception->rest = 0;
             $reception->save();
         }
