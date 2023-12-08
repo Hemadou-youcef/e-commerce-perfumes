@@ -112,7 +112,7 @@ const OrderReceptionsSelector = ({ open, setOpen, receptions, setReceptions, res
     return (
         <>
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="max-w-[400px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[1000px] xl:max-w-[1200px]">
+                <DialogContent className=" sm:max-w-[600px] md:max-w-[700px] lg:max-w-[1000px] xl:max-w-[1200px]">
                     <DialogHeader>
                         <DialogTitle>Sélectionner la quantité En Stock</DialogTitle>
                         {/* <DialogDescription>
@@ -136,8 +136,8 @@ const OrderReceptionsSelector = ({ open, setOpen, receptions, setReceptions, res
                                 {/* <p className="text-sm font-bold text-gray-500">{quantityTotalSelected} {productSelected?.product?.unit}</p> */}
                             </div>
                         )}
-                        <div className="">
-                            <Table className="w-full">
+                        <div className="w-full overflow-x-auto">
+                            <Table className="min-w-[900px]">
                                 <TableHeader>
                                     <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
                                         <TableHead className="w-20">Reception</TableHead>
@@ -188,7 +188,7 @@ const OrderReceptionsSelector = ({ open, setOpen, receptions, setReceptions, res
                             </Table>
                         </div>
                     </div>
-                    <DialogFooter>
+                    <DialogFooter className="flex  gap-2">
                         <Button
                             variant="outline"
                             onClick={() => setOpen(false)}

@@ -30,6 +30,7 @@ const Product = ({ product }) => {
         if (product?.isProductBookmarked) {
             router.delete(route("bookmark.destroy", product?.id), {
                 preserveScroll: true,
+                preserveState: false,
                 onSuccess: () => {
                     toast({
                         title: "Produit supprimé des signets",
@@ -52,6 +53,7 @@ const Product = ({ product }) => {
                 product_id: product.id
             }, {
                 preserveScroll: true,
+                preserveState: false,
                 onSuccess: () => {
                     toast({
                         title: "Produit ajouté aux signets",

@@ -25,7 +25,9 @@ export function RecentSales({ orders }) {
             <AvatarFallback>OM</AvatarFallback>
           </Avatar>
           <div className="ml-4 space-y-1">
-            <p className="text-sm font-medium leading-none">Olivia Martin</p>
+            <p className="text-sm font-medium leading-none">
+              {order?.user?.name}
+            </p>
             <p className="text-sm text-muted-foreground">
               {formatDate(order.created_at)}
             </p>

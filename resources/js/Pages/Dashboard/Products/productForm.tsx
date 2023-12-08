@@ -48,6 +48,7 @@ import { AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { FaCheck, FaPlus, FaSave } from "react-icons/fa";
 import { TiPlus } from "react-icons/ti";
 import { LuCrown } from "react-icons/lu";
+import { useToast } from "@/shadcn/ui/use-toast";
 
 // Types
 type prices = {
@@ -116,6 +117,7 @@ const ProductForm = ({ ...props }) => {
     const [checkBoxSelectedCategory, setCheckBoxSelectedCategory] = useState<Category | null>(null)
     const [search, setSearch] = useState<string>("")
 
+    const { toast } = useToast();
     useEffect(() => {
         imagesToDataForm();
     }, [imagesUploaded, data.main_image, data.main_image_id]);
@@ -180,7 +182,24 @@ const ProductForm = ({ ...props }) => {
                 }
                 return dataToSubmit;
             });
-            post(route('product.update', props?.product?.id));
+            post(route('product.update', props?.product?.id), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast({
+                        title: "Produit modifié avec succès",
+                        description: "Vous pouvez maintenant consulter votre liste de produits",
+                        duration: 5000,
+                    })
+                },
+                onError: () => {
+                    toast({
+                        variant: "destructive",
+                        title: "Erreur",
+                        description: "Une erreur s'est produite, veuillez réessayer",
+                        duration: 5000,
+                    })
+                }
+            });
         } else {
             transform((data: FormData) => {
                 const { main_image_id, other_images, removed_images, ...rest } = data
@@ -191,7 +210,20 @@ const ProductForm = ({ ...props }) => {
                 onSuccess: () => {
                     reset();
                     setImagesUploaded([new File([""], "image1")]);
+                    toast({
+                        title: "Produit ajouté avec succès",
+                        description: "Vous pouvez maintenant consulter votre liste de produits",
+                        duration: 5000,
+                    })
                 },
+                onError: () => {
+                    toast({
+                        variant: "destructive",
+                        title: "Erreur",
+                        description: "Une erreur s'est produite, veuillez réessayer",
+                        duration: 5000,
+                    })
+                }
             });
         }
     };
@@ -321,6 +353,7 @@ const ProductForm = ({ ...props }) => {
                                         onClick={() => setOpenSheet(true)}
                                     >
                                         <Button
+                                            type="button"
                                             variant="outline"
                                             className="h-8 w-8 p-1 rounded-full border-2 border-gray-600 gap-2"
 
@@ -338,6 +371,7 @@ const ProductForm = ({ ...props }) => {
                                         {data?.category_ids?.map((category_id, index) => (
                                             <div key={index} className="flex flex-row gap-2 items-center">
                                                 <Button
+                                                    type="button"
                                                     variant="outline"
                                                     className="h-8 w-8 p-1 rounded-full border-2 border-gray-600 gap-2"
                                                     onClick={() => {
@@ -499,15 +533,22 @@ const ProductForm = ({ ...props }) => {
                                                                 variant="ghost"
                                                                 className="p-2 text-red-600 border-0"
                                                                 onClick={() => {
-                                                                    setData(data => ({
-                                                                        ...data,
-                                                                        prices: data.prices.map((price, i) => {
-                                                                            if (i === index) {
-                                                                                return { ...price, active: false }
-                                                                            }
-                                                                            return price
-                                                                        })
-                                                                    }));
+                                                                    if (editMode) {
+                                                                        setData(data => ({
+                                                                            ...data,
+                                                                            prices: data.prices.map((price, i) => {
+                                                                                if (i === index) {
+                                                                                    return { ...price, active: false }
+                                                                                }
+                                                                                return price
+                                                                            })
+                                                                        }));
+                                                                    } else {
+                                                                        setData(data => ({
+                                                                            ...data,
+                                                                            prices: data.prices.filter((price, i) => i !== index)
+                                                                        }));
+                                                                    }
                                                                 }}
                                                             >
                                                                 <MdDeleteOutline className="w-6 h-6" />
@@ -588,6 +629,7 @@ const ProductForm = ({ ...props }) => {
                                         className="md:w-96 h-12 rounded-3xl border-2 focus-visible:ring-transparent"
                                     />
                                     <Button
+                                        type="button"
                                         variant="outline"
                                         className="h-11 w-11 p-3 rounded-full border-2 border-gray-600 gap-2"
                                         onClick={() => {

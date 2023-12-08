@@ -10,7 +10,8 @@ import Pagination from "@/components/tables/pagination";
 
 // Icons
 import { IoMdAdd } from "react-icons/io";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AiOutlineLoading3Quarters, AiOutlineSearch } from "react-icons/ai";
+import { MdFilterAlt } from "react-icons/md";
 
 
 
@@ -37,7 +38,7 @@ const Products = ({ ...props }) => {
         }, {
             preserveScroll: true,
             preserveState: true,
-            onSuccess: (page : any) => {
+            onSuccess: (page: any) => {
                 setData(page.props?.products?.data || []);
             },
             onFinish: () => {
@@ -55,7 +56,7 @@ const Products = ({ ...props }) => {
         }, {
             preserveScroll: true,
             preserveState: true,
-            onSuccess: (page : any) => {
+            onSuccess: (page: any) => {
                 setData(page.props?.products?.data || []);
             },
             onFinish: () => {
@@ -91,15 +92,19 @@ const Products = ({ ...props }) => {
                             autoFocus
                         />
                         <Button
-                            className="flex items-center space-x-2 rounded-md w-28 focus-visible:ring-transparent"
+                            className="flex items-center rounded-md  focus-visible:ring-transparent"
                             onClick={handleSearch}
                             disabled={searchLoading}
                         >
-                            {searchLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : "Search"}
+                            {searchLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <>
+                                <span className="ml-2 hidden md:block">Search</span>
+                                <AiOutlineSearch className="md:hidden h-5 w-5" />
+                            </>}
                         </Button>
                     </div>
                     <Button variant="outline" className="flex items-center space-x-2 rounded-md" onClick={() => setShowFilters(!showFilters)}>
-                        Filter
+                        <MdFilterAlt className="h-5 w-5" />
+                        <span className="ml-2 hidden md:block">Filter</span>
                     </Button>
 
                 </div>
@@ -145,7 +150,7 @@ const Products = ({ ...props }) => {
                                     disabled={searchLoading}
                                 >
                                     {loading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : "Appliquer les filtres"}
-                                    
+
                                 </Button>
                             </div>
                         </AccordionContent>

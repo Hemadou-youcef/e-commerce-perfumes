@@ -6,7 +6,7 @@ import { Link } from "@inertiajs/react";
 import { RiArrowRightSLine } from "react-icons/ri";
 
 
-const LandingSuggest = ({ title }: { title?: string }) => {
+const LandingSuggest = ({ title, products }) => {
     return (
         <>
             <div className="container mx-auto px-5 pt-2 py-0 bg-white ">
@@ -22,7 +22,7 @@ const LandingSuggest = ({ title }: { title?: string }) => {
                     {/* <div className="w-24 h-0.5 rounded-full mt-2 bg-gray-600"></div> */}
                 </div>
                 <div className=" w-full flex justify-center">
-                    <Products />
+                    
                 </div>
 
             </div>

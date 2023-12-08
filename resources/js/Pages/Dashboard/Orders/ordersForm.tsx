@@ -162,7 +162,7 @@ const OrdersForm = ({ ...props }) => {
             return {
                 product_id: product?.real_id,
                 quantity: product?.price_quantity?.toString(),
-                product_price_id: product?.product_prices[product?.selected_price]?.id,
+                product_price_id: product?.active_product_prices[product?.selected_price]?.id,
                 reservations: reservations.filter((reservation) => reservation?.order_product_id == product?.id).map((reservation) => {
                     return {
                         reception_id: reservation?.reception_id?.toString(),
@@ -176,8 +176,8 @@ const OrdersForm = ({ ...props }) => {
     const fillTotalQuantity = () => {
         const updatedSelectedProducts = [...selectedProducts];
         updatedSelectedProducts.forEach((product, index) => {
-            console.log(product?.product_prices[product?.selected_price]?.quantity * product?.price_quantity)
-            updatedSelectedProducts[index].total_quantity = product?.product_prices[product?.selected_price]?.quantity * product?.price_quantity;
+            console.log(product?.active_product_prices[product?.selected_price]?.quantity * product?.price_quantity)
+            updatedSelectedProducts[index].total_quantity = product?.active_product_prices[product?.selected_price]?.quantity * product?.price_quantity;
         })
         setSelectedProducts(updatedSelectedProducts);
     }
@@ -377,7 +377,7 @@ const OrdersForm = ({ ...props }) => {
                                                     {product.name}
                                                 </h2>
                                                 <p className="text-sm text-gray-600">
-                                                    {product?.product_prices[product?.selected_price]?.quantity * product?.price_quantity} {product?.product_prices[product?.selected_price]?.unit} / {product.quantity} {product.unit}
+                                                    {product?.active_product_prices[product?.selected_price]?.quantity * product?.price_quantity} {product?.active_product_prices[product?.selected_price]?.unit} / {product.quantity} {product.unit}
                                                 </p>
                                             </div>
                                             <div className="flex flex-row justify-between items-center gap-2">
@@ -397,7 +397,7 @@ const OrdersForm = ({ ...props }) => {
                                         </div>
                                         {/* Price List */}
                                         <div className="flex flex-row gap-2 ">
-                                            {product?.product_prices.sort((a: any, b: any) => a.quantity - b.quantity).map((price: any, price_index: number) => (
+                                            {product?.active_product_prices.sort((a: any, b: any) => a.quantity - b.quantity).map((price: any, price_index: number) => (
                                                 <div
                                                     key={price_index}
                                                     className={`min-w-[150px] flex flex-col gap-1 border-2 py-1 px-5 text-left cursor-pointer ${product?.selected_price == price_index ? 'border-primary' : 'border-gray-300'}`}
@@ -602,8 +602,7 @@ const OrdersForm = ({ ...props }) => {
                     setOpenSheet={setOpenSheet}
                     setSelectedProduct={addProduct}
                 />
-            )
-            }
+            )}
             {openReceptionSheet && (<OrderReceptionsSelector
                 open={openReceptionSheet}
                 setOpen={setOpenReceptionSheet}
@@ -612,8 +611,8 @@ const OrdersForm = ({ ...props }) => {
                 setReceptions={setReceptions}
                 reservations={reservations}
                 setReservations={setReservations}
-            />)
-            }
+            />
+            )}
         </>
     );
 }
