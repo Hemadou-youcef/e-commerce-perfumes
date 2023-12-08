@@ -23,7 +23,7 @@ const Products = ({ ...props }) => {
     const [categories, setCategories] = useState<string | undefined>(props?.filters?.category || undefined);
     const [loading, setLoading] = useState(false);
     const firstUpdate = useRef(true);
-    const { t,i18n } = useTranslation()
+    const { t, i18n } = useTranslation()
 
     const alreadyUsedCategories = [
         "homme",
@@ -32,13 +32,19 @@ const Products = ({ ...props }) => {
     ]
 
     useLayoutEffect(() => {
+        setData(props?.products?.data || []);
+        setCategoriesList(props?.categories || []);
+        setSearch(props?.filters?.q || undefined);
+        setCategories(props?.filters?.category || undefined);
+    }, [props]);
+
+    useLayoutEffect(() => {
         if (firstUpdate.current) {
-          firstUpdate.current = false;
-          return;
+            firstUpdate.current = false;
+            return;
         }
         handleFilter();
-        }
-    ,[categories, search, minMaxPrice]);  
+    }, [categories, search, minMaxPrice]);
 
 
 
