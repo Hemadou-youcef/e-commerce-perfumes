@@ -24,7 +24,7 @@ class HomeController extends Controller
 
 
             ]),
-            'for_you_products' => Product::inRandomOrder()->take(10)->get()->map(function ($product) {
+            'for_you_products' => Product::activeProducts()->inRandomOrder()->take(10)->get()->map(function ($product) {
                 return [
                     'id' => $product->id,
                     'name' => $product->name,

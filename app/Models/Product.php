@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -100,6 +101,11 @@ class Product extends Model
         return Product::query()->where('status', 'pinned')->get();
     }
 
+    public static function activeProducts(): Builder
+    {
+        return Product::query()->where('status', '!=' , 'archived');
+    }
+
 
 
 
@@ -118,6 +124,7 @@ class Product extends Model
             $query->whereIn('category_id', $this->categories()->pluck('categories.id')); // Use table alias 'categories.id' for 'category_id'
         })
             ->where('products.id', '!=', $this->id) // Specify 'products.id' to avoid ambiguity
+                ->with('mainImage')
             ->inRandomOrder()
             ->limit(5)
             ->get();

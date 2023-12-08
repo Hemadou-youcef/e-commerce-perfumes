@@ -17,8 +17,7 @@ class ClientProductController extends Controller
     public function index()
     {
         return Inertia::render('ClientSide/Products/products', [
-            'products' => Product::query()
-                ->where('status', '!=', 'archived')
+            'products' => Product::activeProducts()
                 ->when(request('q'), fn($query, $search) => $query
                     ->where('name', 'LIKE', '%' . $search . '%')
                     ->orWhere('description', 'LIKE', '%' . $search . '%')
