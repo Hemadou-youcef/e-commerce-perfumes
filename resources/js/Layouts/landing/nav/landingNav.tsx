@@ -16,7 +16,7 @@ import {
 
 
 // Icons
-import { AiOutlineHome, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineHome, AiOutlineLoading3Quarters, AiOutlineSearch } from "react-icons/ai";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { TbBookmark, TbPerfume } from "react-icons/tb";
@@ -32,6 +32,8 @@ import { useTranslation } from "react-i18next";
 const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
 
     const searchInput = useRef<HTMLInputElement>(null);
+    const [search, setSearch] = useState("");
+    const [searchLoading, setSearchLoading] = useState(false);
     const { t } = useTranslation()
     // console.log(props?.auth?.user)
 
@@ -44,9 +46,20 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
     const isEmployee = () => {
         return props?.auth?.user?.role == 2 || props?.auth?.user?.role == 3
     }
-
     const logout = () => {
         router.post(route('logout'))
+    }
+
+    const handleSearch = (search: string) => {
+        setSearchLoading(true);
+        router.get("/products?q=" + search, {}, {
+            preserveState: true,
+            preserveScroll: true,
+            onFinish: () => {
+                setSearchLoading(false);
+                setNavbarOpen(false);
+            }
+        })
     }
     return (
         <>
@@ -74,10 +87,17 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                 <div className="flex items-center gap-3 bg-white rounded-full mb-5 mx-5 px-3 py-0 overflow-hidden">
                     <Input
                         ref={searchInput}
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                handleSearch(search)
+                            }
+                        }}
                         placeholder="Recherche..."
                         className="h-10 border-0 focus-visible:ring-transparent bg-white"
                     />
-                    <IoMdSearch className="w-6 h-6 text-forth" />
+                    {searchLoading ? <AiOutlineLoading3Quarters className="w-6 h-6 text-forth animate-spin" /> : <IoMdSearch className="w-6 h-6 text-forth" />}
                 </div>
 
                 <div className="flex flex-col items-center text-white text-lg font-medium uppercase gap-3 mx-5">
@@ -152,10 +172,17 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                 <div className="items-center gap-5 flex font-sans rtl:font-arabic">
                     <div className="flex items-center gap-3 bg-white rounded-full px-3 py-0 overflow-hidden">
                         <Input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    handleSearch(search)
+                                }
+                            }}
                             placeholder="Recherche..."
                             className="h-12 border-0 focus-visible:ring-transparent bg-white"
                         />
-                        <IoMdSearch className="w-8 h-8 text-forth" />
+                        {searchLoading ? <AiOutlineLoading3Quarters className="w-8 h-8 text-forth animate-spin" /> : <IoMdSearch className="w-8 h-8 text-forth" />}
                     </div>
 
                     {/* IF LOGGED IN */}

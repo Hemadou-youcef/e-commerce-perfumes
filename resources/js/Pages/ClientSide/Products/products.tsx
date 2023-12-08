@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 // Component
 import LandingMainLayout from "@/Layouts/landing/mainLayout";
@@ -6,10 +6,6 @@ import Product from "@/components/Products/Product/product";
 import { Checkbox } from "@/shadcn/ui/checkbox";
 import { Separator } from "@/shadcn/ui/separator";
 import { Slider } from "@/shadcn/ui/slider";
-import { BsSnow2, BsSunFill } from "react-icons/bs";
-import { FaCanadianMapleLeaf, FaLeaf } from "react-icons/fa";
-import { GiNightSleep } from "react-icons/gi";
-import { WiDayHaze } from "react-icons/wi";
 import Pagination from "@/components/tables/pagination";
 import { Label } from "@/shadcn/ui/label";
 import { router, usePage } from "@inertiajs/react";
@@ -26,7 +22,7 @@ const Products = ({ ...props }) => {
     const [search, setSearch] = useState<string | undefined>(props?.filters?.q || undefined);
     const [categories, setCategories] = useState<string | undefined>(props?.filters?.category || undefined);
     const [loading, setLoading] = useState(false);
-
+    const firstUpdate = useRef(true);
     const { t,i18n } = useTranslation()
 
     const alreadyUsedCategories = [
@@ -35,11 +31,15 @@ const Products = ({ ...props }) => {
         "unisexe",
     ]
 
-    useEffect(() => {
-        if (props?.filters?.category !== (categories || "") || props?.filters?.q !== (search || "") || props?.filters?.startPrice !== (minMaxPrice[0] || 0) || props?.filters?.endPrice !== (minMaxPrice[1] || 1000)) {
-            handleFilter();
+    useLayoutEffect(() => {
+        if (firstUpdate.current) {
+          firstUpdate.current = false;
+          return;
         }
-    }, [categories, search, minMaxPrice]);
+        handleFilter();
+        }
+    ,[categories, search, minMaxPrice]);  
+
 
 
     const handleFilter = () => {
