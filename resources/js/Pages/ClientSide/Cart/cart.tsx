@@ -308,12 +308,12 @@ const Cart = ({ ...props }) => {
                                         href={`/products/${item.product?.id}`}>
                                         <h2 className="text-xl text-blue-600 font-semibold mb-2">{item?.product?.name}</h2>
                                     </Link>
-                                    <p dir="ltr" className="text-gray-600 mb-2">
+                                    <p  className="flex gap-2 text-gray-600 mb-2">
                                         <span className="text-gray-600 mr-1">
                                             {item.quantity * item.product_price?.quantity} {item.product_price?.unit} =
                                         </span>
                                         <span className="text-gray-900 font-semibold">
-                                            {item.quantity * item.product_price?.price} DA
+                                            {item.quantity * item.product_price?.price} {t("global.da")}
                                         </span>
                                     </p>
 
@@ -346,7 +346,7 @@ const Cart = ({ ...props }) => {
                                         {t('cart_page.sub_total')}:
                                     </p>
                                     <p className="flex rtl:flex-row-reverse gap-2 text-base text-gray-900">
-                                    <span>{cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0)},00</span> <span>DA</span>
+                                    {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0)},00 {t("global.da")}
                                     </p>
                                 </div>
                                     <div className="flex items-center font-mono rtl:font-arabic justify-between">
@@ -355,20 +355,20 @@ const Cart = ({ ...props }) => {
                                         </p>
                                         <p className="text-base text-gray-900">
                                             {data.state_code != "" ?
-                                                yalidine[(parseInt(data.state_code, 10) || 1) - 1][data.shipping_method == "1" ? "2" : "1"] + ",00 DA" :
+                                                yalidine[(parseInt(data.state_code, 10) || 1) - 1][data.shipping_method == "1" ? "2" : "1"] + ",00" + t("global.da") :
                                                 "remplir l'entrée"
-                                            }
+                                            } 
                                         </p>
                                     </div>
                                     <div className="flex items-center font-bold font-mono rtl:font-arabic justify-between">
                                         <p className="text-lg">
                                             {t('cart_page.total')}:
                                         </p>
-                                        <p className="flex rtl:flex-row-reverse gap-2 text-base text-gray-900">
-                                            <span>{cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + (data.state_code != "" ?
+                                        <p className="text-base text-gray-900">
+                                            {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + (data.state_code != "" ?
                                                 yalidine[(parseInt(data.state_code, 10) || 1) - 1][data.shipping_method] :
                                                 0
-                                            )},00</span> <span>DA</span>
+                                            )},00 {t("global.da")}
                                         </p>
                                     </div>
                                 </>

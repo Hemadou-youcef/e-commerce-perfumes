@@ -101,7 +101,7 @@ const Product = ({ product }) => {
                         {product.name.length > 16 ? product.name.substring(0, 16) + "..." : product.name}
                     </p>
                     <p className="text-gray-600 text-center font-bold text-xs md:text-sm lg:text-base ">
-                        {currectPrice?.price} DA
+                        {currectPrice?.price} {t("global.da")}
                     </p>
                     {/* ADD REVIEW STARS */}
                     {/* <div className="flex items-center justify-center">

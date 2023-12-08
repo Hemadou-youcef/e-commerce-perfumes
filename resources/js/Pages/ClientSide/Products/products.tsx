@@ -36,10 +36,10 @@ const Products = ({ ...props }) => {
     ]
 
     useEffect(() => {
-        if (props?.filters?.category !== (categories || "") || props?.filters?.q !== (search || "")) {
+        if (props?.filters?.category !== (categories || "") || props?.filters?.q !== (search || "") || props?.filters?.startPrice !== (minMaxPrice[0] || 0) || props?.filters?.endPrice !== (minMaxPrice[1] || 1000)) {
             handleFilter();
         }
-    }, [categories, search])
+    }, [categories, search, minMaxPrice]);
 
 
     const handleFilter = () => {
@@ -47,6 +47,8 @@ const Products = ({ ...props }) => {
         router.get(route("client_products"), {
             q: search,
             category: categories,
+            startPrice: minMaxPrice[0],
+            endPrice: minMaxPrice[1],
         }, {
             preserveScroll: true,
             preserveState: true,
@@ -135,7 +137,7 @@ const Products = ({ ...props }) => {
                                 {t("products_page.price")}
                             </p>
                             <div className="flex justify-center font-semibold items-center gap-2 pl-2 mb-3">
-                                {minMaxPrice[0]} - {minMaxPrice[1]} DA/G
+                                {minMaxPrice[0]} - {minMaxPrice[1]} {t("global.da")}
                             </div>
                             <Slider
                                 defaultValue={[0, 1000]}

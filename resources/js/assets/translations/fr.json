@@ -1,5 +1,6 @@
 {
     "global":{
+        "da": "DA",
         "male":"Homme",
         "female":"Femme",
         "cancel":"Annuler",

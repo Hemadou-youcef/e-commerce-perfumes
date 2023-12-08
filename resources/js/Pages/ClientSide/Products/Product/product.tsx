@@ -214,7 +214,7 @@ const Product = ({ ...props }) => {
                                     {product?.name}
                                 </p>
                                 <p className="text-gray-900 text-center text-sm lg:tex">
-                                    {currectPrice?.price} DA
+                                    {currectPrice?.price} {t("global.da")}
                                 </p>
                             </div>
                             <hr className="w-full rounded-sm border-gray-400" />
@@ -254,7 +254,7 @@ const Product = ({ ...props }) => {
                                             {price.quantity} {price.unit}
                                         </p>
                                         <p className="text-gray-400 text-xs font-bold md:text-sm">
-                                            {price.price} DA
+                                            {price.price} {t("global.da")}
                                         </p>
                                     </div>
                                 ))}
@@ -290,8 +290,8 @@ const Product = ({ ...props }) => {
                                         {/* AJOUTER AU PANIER */}
                                     </p>
                                     {addingToCartLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
-                                        <div className="flex rtl:flex-row-reverse gap-1 text-xs text-gray-300 font-bold">
-                                            <span>{currectPrice?.price * qte}</span><span>DA</span>
+                                        <div className="flex gap-1 text-xs text-gray-300 font-bold">
+                                            {currectPrice?.price * qte} {t("global.da")}
                                         </div>
                                     )}
                                 </Button>
