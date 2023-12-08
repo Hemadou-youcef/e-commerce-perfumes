@@ -22,7 +22,6 @@ class ClientProductController extends Controller
                     ->where('name', 'LIKE', '%' . $search . '%')
                     ->orWhere('description', 'LIKE', '%' . $search . '%')
                     ->orWhere('description_ar', 'LIKE', '%' . $search . '%')
-                    ->orWhere('category', 'LIKE', '%' . $search . '%')
                 )
                 ->when(request('startPrice'), fn($query, $price) => $query
                     ->whereHas('activeProductPrices', fn($query) => $query->where('price', '>=', $price))
@@ -52,6 +51,12 @@ class ClientProductController extends Controller
                 'name' => $category->name,
                 'name_ar' => $category->name_ar,
             ]),
+            'filters' => [
+                'q' => request('q', ''),
+                'startPrice' => request('startPrice', ''),
+                'endPrice' => request('endPrice', ''),
+                'category' => request('category', ''),
+            ],
         ]);
     }
 

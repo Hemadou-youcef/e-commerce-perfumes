@@ -90,10 +90,46 @@
   font-family: inter;
   src: url(/font/inter.ttf);
 }
-.navElements{
+@font-face {
+  font-family: 'Icons Saaslify Template';
+  src: url('https://assets.website-files.com/614319338322d2f96eb4dd96/614319338322d20acab4de40_icons-saaslify-template.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Somarsans';
+  src: url('https://assets.website-files.com/614319338322d2f96eb4dd96/61df3584a1e80080467de4a7_SomarSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Somarsans';
+  src: url('https://assets.website-files.com/614319338322d2f96eb4dd96/61df3584cfaf945f56963136_SomarSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Somarsans';
+  src: url('https://assets.website-files.com/614319338322d2f96eb4dd96/61df35844e1ac4b24c7b07bb_SomarSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Somarsans';
+  src: url('https://assets.website-files.com/614319338322d2f96eb4dd96/61df359806da051a8c73e30c_SomarSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* .navElements{
   box-sizing: border-box;
   font-family:  'inter', sans-serif;
-}
+} */
 
 
 .landingImageRadius{

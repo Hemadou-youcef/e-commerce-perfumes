@@ -1,0 +1,74 @@
+{
+    "global":{
+        "male":"ذكر",
+        "female":"أنثى",
+        "cancel":"إلغاء",
+        "save":"حفظ",
+        "confirm":"تأكيد",
+        "edit":"تعديل"
+    },
+    "layout":{
+        "navbar":{
+            "home":"الصفحة الرئيسية",
+            "products":"المنتجاتنا",
+            "contact":"اتصل بنا",
+            "about":"من نحن",
+            "dashboard":"لوحة التحكم",
+            "login":"تسجيل الدخول",
+            "logout":"تسجيل الخروج",
+            "register":"تسجيل جديد",
+            "profile":"الملف الشخصي",
+            "settings":"الاعدادات",
+            "users":"المستخدمين",
+            "categories":"الاقسام",
+            "bookmarks":"المفضلة",
+            "cart":"السلة"
+        },
+        "pagination":{
+            "previous":"السابق",
+            "next":"التالي",
+            "total":"الاجمالي"
+        }
+    },
+    "main":{
+        
+    },
+    "products_page":{
+        "products":"المنتجات",
+        "categories":"الاقسام",
+        "perfumes":"العطور",
+        "price":"السعر",
+        "empty_products":"لا يوجد منتجات في هذا القسم!",
+        "search":"بحث",
+        "search_placeholder":"ابحث عن منتجاتك المفضلة"
+    },
+    "product_page":{
+        "add_to_cart":"اضف الى السلة",
+        "add_to_bookmarks":"اضف الى المفضلة",
+        "remove_from_bookmarks":"ازالة من المفضلة",
+        "product_price":"سعر المنتج"
+    },
+    "cart_page":{
+        "title": "السلتي",
+        "empty_cart": "السلة فارغة. ابدأ التسوق الآن!"
+    },
+    "bookmarks_page":{
+        "title": "المفضلة",
+        "empty_bookmarks": "المفضلة فارغة!"
+    },
+    "profile_page":{
+        "title": "الملف الشخصي",
+        "sub_title": "أظهر معلوماتك الشخصية",
+        "name": "الاسم",
+        "role": "منصبك",
+        "phone": "رقم الهاتف",
+        "address": "العنوان",
+        "gender": "الجنس",
+        "first_name": "الإسم",
+        "last_name": "لقب",
+        "new_password": "كلمة السر الجديدة",
+        "new_password_confirmation": "تأكيد كلمة السر",
+        "password": "كلمة السر",
+        "confirm_password": "تأكيد كلمة السر"
+    }
+}

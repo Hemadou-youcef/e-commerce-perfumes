@@ -48,9 +48,9 @@ class ProfileController extends Controller
 
 
         if (Auth::user()->isAdmin() || Auth::user()->isEmployee()){
-            return to_route('/dashboard/profile');
+            return to_route('dashboard_profile');
         }else{
-            return to_route('/profile');
+            return to_route('profile');
         }
 
 

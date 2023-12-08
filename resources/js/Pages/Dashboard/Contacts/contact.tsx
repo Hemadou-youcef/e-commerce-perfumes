@@ -125,10 +125,10 @@ const Contact = ({ ...props }) => {
                                 <AlertDialogContent>
                                     <AlertDialogHeader>
                                         <AlertDialogTitle>
-                                            Supprimer L'Utilisateur
+                                            Supprimer le Message
                                         </AlertDialogTitle>
                                         <AlertDialogDescription>
-                                            Êtes-vous sûr de vouloir supprimer cette Utilisateur ? Cette action est irréversible.
+                                            Êtes-vous sûr de vouloir supprimer ce message ? Cette action est irréversible.
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
@@ -183,7 +183,7 @@ const Contact = ({ ...props }) => {
                     <div className="flex flex-col justify-start items-center gap-2">
                         <h1 className="text-sm font-medium md:w-40 text-gray-800">Message :</h1>
                         <div className="w-full items-center gap-2">
-                            <p className="text-sm font-bold text-gray-500">
+                            <p className="text-sm font-bold text-gray-900">
                                 {message?.message}
                             </p>
                         </div>

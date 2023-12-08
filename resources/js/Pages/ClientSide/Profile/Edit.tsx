@@ -47,6 +47,7 @@ import {
 import { FormEventHandler, useEffect, useState } from "react";
 import { MdEdit, MdOutlineSystemSecurityUpdateGood, MdSecurityUpdateWarning } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
+import { useTranslation } from "react-i18next";
 
 
 // Types
@@ -62,7 +63,7 @@ interface FormData {
 }
 const ProfileEdit = ({ ...props }) => {
     console.log(props?.auth?.user);
-    const { data, setData, patch,transform, processing, errors, reset } = useForm<FormData>({
+    const { data, setData, patch, transform, processing, errors, reset } = useForm<FormData>({
         first_name: props?.auth?.user?.first_name,
         last_name: props?.auth?.user?.last_name,
         phone: props?.auth?.user?.phone,
@@ -74,6 +75,8 @@ const ProfileEdit = ({ ...props }) => {
     });
     const [editMode, setEditMode] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const { t,i18n } = useTranslation()
 
     useEffect(() => {
         setData(data => ({
@@ -134,7 +137,7 @@ const ProfileEdit = ({ ...props }) => {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         if (editMode && showConfirmPassword) {
-            transform((data : any) => {
+            transform((data: any) => {
                 let data_ = { ...data };
                 if (data_.new_password.length === 0) {
                     const { new_password, new_password_confirmation, ...rest } = data_;
@@ -157,9 +160,9 @@ const ProfileEdit = ({ ...props }) => {
 
     return (
         <>
-            <div className="container mx-auto px-5 py-5">
+            <div className="container mx-auto px-5 py-5 font-sans rtl:font-arabic">
                 <form onSubmit={submit} className="w-full">
-                    <div className=" border-2 rounded-md grid mx-auto p-0 my-5 bg-white gap-5">
+                    <div className=" border-2 rounded-md grid mx-auto p-0 bg-white gap-5">
                         <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 bg-gray-100">
                             <div className="flex flex-row justify-start items-center gap-4">
                                 <div className="flex justify-center items-center w-12 h-12 rounded-full  text-white text-2xl font-bold">
@@ -167,10 +170,12 @@ const ProfileEdit = ({ ...props }) => {
                                 </div>
                                 <div className="flex flex-col text-center md:text-left">
                                     <h2 className="text-xl text-gray-900 font-bold tracking-tight">
-                                        Mon profile
+                                        {t("profile_page.title")}
+                                        {/* Mon profile */}
                                     </h2>
                                     <p className="text-sm text-gray-600">
-                                        Modifier votre profile
+                                        {t("profile_page.sub_title")}
+                                        {/* Modifier votre profile */}
                                     </p>
                                 </div>
                             </div>
@@ -197,7 +202,10 @@ const ProfileEdit = ({ ...props }) => {
                         {editMode && <div className="grid gap-5 px-5 pb-5 pt-0">
                             <div className="grid gap-3 md:grid-cols-2">
                                 <div className="grid gap-3">
-                                    <Label htmlFor="name" className="text-base">Nom</Label>
+                                    <Label htmlFor="name" className="text-base">
+                                        {t("profile_page.first_name")}
+                                        {/* Nom */}
+                                    </Label>
                                     <Input
                                         id="name"
                                         type="text"
@@ -208,7 +216,10 @@ const ProfileEdit = ({ ...props }) => {
                                     {errors.first_name && <p className="text-xs text-red-500">{errors.first_name}</p>}
                                 </div>
                                 <div className="grid gap-3">
-                                    <Label htmlFor="name" className="text-base">Prénom</Label>
+                                    <Label htmlFor="name" className="text-base">
+                                        {t("profile_page.last_name")}
+                                        {/* Prénom */}
+                                    </Label>
                                     <Input
                                         id="name"
                                         type="text"
@@ -221,7 +232,10 @@ const ProfileEdit = ({ ...props }) => {
                             </div>
 
                             <div className="grid gap-3">
-                                <Label htmlFor="phone" className="text-base">Téléphone</Label>
+                                <Label htmlFor="phone" className="text-base">
+                                    {t("profile_page.phone")}
+                                    {/* Téléphone */}
+                                </Label>
                                 <Input
                                     id="phone"
                                     type="text"
@@ -233,7 +247,10 @@ const ProfileEdit = ({ ...props }) => {
                             </div>
 
                             <div className="grid gap-3">
-                                <Label htmlFor="address" className="text-base">Address</Label>
+                                <Label htmlFor="address" className="text-base">
+                                    {t("profile_page.address")}
+                                    {/* Address */}
+                                </Label>
                                 <Input
                                     id="address"
                                     type="text"
@@ -244,22 +261,31 @@ const ProfileEdit = ({ ...props }) => {
                                 {errors.address && <p className="text-xs text-red-500">{errors.address}</p>}
                             </div>
 
-                            <div className="grid gap-3 pt-3 px-5">
-                                <RadioGroup defaultValue={data.gender} className="flex justify-center md:justify-start gap-5"
+                            <div  className="grid gap-3 pt-3 px-5">
+                                <RadioGroup defaultValue={data.gender} className="flex justify-center md:justify-start rtl:md:justify-end gap-5"
                                     onValueChange={(v: 'male' | 'female') => setData('gender', v)}>
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="male" id="male" className="w-7 h-7 rounded-lg" />
-                                        <Label htmlFor="male" className="cursor-pointer text-lg">Male</Label>
+                                        <Label htmlFor="male" className="cursor-pointer text-lg">
+                                            {t("global.male")}
+                                            {/* Male */}
+                                        </Label>
                                     </div>
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="female" id="female" className="w-7 h-7 rounded-lg" />
-                                        <Label htmlFor="female" className="cursor-pointer text-lg">Female</Label>
+                                        <Label htmlFor="female" className="cursor-pointer text-lg">
+                                            {t("global.female")}
+                                            {/* Female */}
+                                        </Label>
                                     </div>
                                 </RadioGroup>
                             </div>
 
                             <div className="grid gap-3">
-                                <Label htmlFor="new_password" className="text-base">Nouveau mot de passe</Label>
+                                <Label htmlFor="new_password" className="text-base">
+                                    {t("profile_page.new_password")}
+                                    {/* Nouveau mot de passe */}
+                                </Label>
                                 <Input
                                     id="new_password"
                                     type="password"
@@ -271,7 +297,10 @@ const ProfileEdit = ({ ...props }) => {
                             </div>
 
                             <div className="grid gap-3">
-                                <Label htmlFor="new_password_confirmation" className="text-base">Confirmation du nouveau mot de passe</Label>
+                                <Label htmlFor="new_password_confirmation" className="text-base">
+                                    {t("profile_page.new_password_confirmation")}
+                                    {/* Confirmation du nouveau mot de passe */}
+                                </Label>
                                 <Input
                                     id="new_password_confirmation"
                                     type="password"
@@ -286,7 +315,10 @@ const ProfileEdit = ({ ...props }) => {
                         </div>}
                         {!editMode && <div className="grid gap-5 px-5 pb-5 pt-0">
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                                <h1 className="text-sm font-medium md:w-40 text-gray-800">Nom</h1>
+                                <h1 className="text-sm font-medium md:w-40 text-gray-800">
+                                    {t("profile_page.name")}
+                                    {/* Nom et prénom */}
+                                </h1>
                                 <div className="flex flex-row justify-start items-center gap-2">
                                     <p className="text-sm font-bold text-gray-500">
                                         {data?.first_name} {data?.last_name}
@@ -294,13 +326,19 @@ const ProfileEdit = ({ ...props }) => {
                                 </div>
                             </div>
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                                <h1 className="text-sm font-medium md:w-40 text-gray-800">Role</h1>
+                                <h1 className="text-sm font-medium md:w-40 text-gray-800">
+                                    {t("profile_page.role")}
+                                    {/* Rôle */}
+                                </h1>
                                 <div className="flex flex-row justify-start items-center gap-2">
                                     {role()}
                                 </div>
                             </div>
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                                <h1 className="text-sm font-medium md:w-40 text-gray-800">Téléphone</h1>
+                                <h1 className="text-sm font-medium md:w-40 text-gray-800">
+                                    {t("profile_page.phone")}
+                                    {/* Téléphone */}
+                                </h1>
                                 <div className="flex flex-row justify-start items-center gap-2">
                                     <p className="text-sm font-bold text-gray-500">
                                         {data?.phone}
@@ -308,7 +346,10 @@ const ProfileEdit = ({ ...props }) => {
                                 </div>
                             </div>
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                                <h1 className="text-sm font-medium md:w-40 text-gray-800">Address</h1>
+                                <h1 className="text-sm font-medium md:w-40 text-gray-800">
+                                    {t("profile_page.address")}
+                                    {/* Address */}
+                                </h1>
                                 <div className="flex flex-row justify-start items-center gap-2">
                                     <p className="text-sm font-bold text-gray-500">
                                         {data?.address}
@@ -316,7 +357,10 @@ const ProfileEdit = ({ ...props }) => {
                                 </div>
                             </div>
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                                <h1 className="text-sm font-medium md:w-40 text-gray-800">Genre</h1>
+                                <h1 className="text-sm font-medium md:w-40 text-gray-800">
+                                    {t("profile_page.gender")}
+                                    {/* Genre */}
+                                </h1>
                                 <div className="flex flex-row justify-start items-center gap-2">
                                     <p className="text-sm font-bold text-gray-500">
                                         {data?.gender}
@@ -332,9 +376,12 @@ const ProfileEdit = ({ ...props }) => {
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>
-                            <div className="flex flex-row justify-start items-center gap-2">
+                            <div className={`flex flex-row justify-start items-center gap-2 ${i18n.dir() === "rtl" ? "font-arabic" : "font-sans"}`}>
                                 <MdSecurityUpdateWarning className="text-xl text-gray-600" />
-                                <h1 className="text-lg font-medium text-gray-900">Confirmation du mot de passe</h1>
+                                <h1 className="text-lg font-medium text-gray-900">
+                                    {t("profile_page.confirm_password")}
+                                    {/* Confirmation du mot de passe */}
+                                </h1>
                             </div>
                         </DialogTitle>
                         <DialogDescription>
@@ -354,18 +401,19 @@ const ProfileEdit = ({ ...props }) => {
                                 {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
                             </div>
                         </DialogDescription>
-                        <DialogFooter>
+                        <DialogFooter className={i18n.dir() === "rtl" ? "font-arabic" : "font-sans"}>
                             <Button
                                 variant="outline"
                                 onClick={() => setShowConfirmPassword(false)}
                             >
-                                Annuler
+                                {t("global.cancel")}
+                                {/* Annuler */}
                             </Button>
                             <Button
                                 type="submit"
                                 onClick={(e) => submit(e)}
                             >
-                                {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : "Confirmer"}
+                                {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : t("global.confirm")}
                             </Button>
 
                         </DialogFooter>

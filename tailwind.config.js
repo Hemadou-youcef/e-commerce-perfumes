@@ -83,6 +83,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["inter", "sans-serif"],
+        arabic: ["Somarsans", "sans-serif"],
       },
     },
   },

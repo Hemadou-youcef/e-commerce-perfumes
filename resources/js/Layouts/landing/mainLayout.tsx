@@ -7,24 +7,28 @@ import { Link, usePage } from "@inertiajs/react";
 import { Toaster } from "@/shadcn/ui/toaster"
 import { useState } from "react";
 
+import { useTranslation } from "react-i18next";
+
 const LandingMainLayout = ({ children, ...props }) => {
     const pageProps = usePage().props
     const [navbarOpen, setNavbarOpen] = useState(false);
+    const { t, i18n } = useTranslation()
     // console.log(pageProps)
     return (
         <>
-            <div className="flex flex-col min-h-screen">
+            <div dir={i18n.dir()} className="flex flex-col min-h-screen font-sans rtl:font-arabic">
+                {/* NAVBAR */}
                 <div className="navElements bg-forth sticky top-0 border-b-2 border-gray-900 z-10 shadow-md">
                     <LandingNav props={pageProps} showNavbar={navbarOpen} setNavbarOpen={setNavbarOpen} />
                 </div>
                 {/* SECTIONS */}
-                <div className="w-full  border-b border-b-gray-500 bg-third">
+                <div className="w-full border-b border-b-gray-500 bg-third font-sans rtl:font-arabic">
                     <div className="container hidden md:flex items-center justify-start gap-8 h-10">
                         <Link
                             href="/products"
-                            className="text-sm font-medium transition-colors hover:text-gray-400"
+                            className="text-base font-medium transition-colors hover:text-gray-400 rtl:font-arabic"
                         >
-                            PRODUITS
+                            {t('layout.navbar.products')}
                         </Link>
                         {/* <NavigationMenu>
                         <NavigationMenuList>
@@ -44,15 +48,15 @@ const LandingMainLayout = ({ children, ...props }) => {
                     </NavigationMenu> */}
                         <Link
                             href="/contact"
-                            className="text-sm font-medium transition-colors hover:text-gray-400"
+                            className="text-base font-medium transition-colors hover:text-gray-400"
                         >
-                            CONTACT
+                            {t('layout.navbar.contact')}
                         </Link>
                         <Link
                             href="/about-us"
-                            className="text-sm font-medium transition-colors hover:text-gray-400"
+                            className="text-base font-medium transition-colors hover:text-gray-400"
                         >
-                            À PROPOS
+                            {t('layout.navbar.about')}
                         </Link>
                     </div>
                 </div>

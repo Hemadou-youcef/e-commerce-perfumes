@@ -1,0 +1,13 @@
+{
+    "layout":{
+        "navbar":{
+            "home":"Accueil",
+            "products":"Produits",
+            "contact":"Contact",
+            "about":"A propos"
+        }
+    },
+    "main":{
+
+    }
+}

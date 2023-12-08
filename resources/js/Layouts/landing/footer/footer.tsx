@@ -10,8 +10,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/shadcn/ui/select"
+import { useTranslation } from "react-i18next";
 
 const LandingFooter = () => {
+    const { t, i18n } = useTranslation()
     return (
         <>
             {/* FOOTER FOR PERFUME LANDING PAGE */}
@@ -40,24 +42,24 @@ const LandingFooter = () => {
                     <Separator className="w-full my-2" />
                     <div className="flex flex-col md:flex-row items-center md:justify-between w-full font-bold mb-2 gap-5">
 
-                        <div className="flex flex-col md:flex-row items-center gap-6 text-gray-100">
+                        <div className="flex flex-col md:flex-row items-center gap-6 text-gray-100 font-sans rtl:font-arabic">
                             <Link
                                 href="/products"
-                                className="text-xs font-bold transition-colors hover:text-gray-400"
+                                className="text-sm font-bold transition-colors hover:text-gray-400"
                             >
-                                PRODUITS
+                                {t('layout.navbar.products')}
                             </Link>
                             <Link
                                 href="/contact"
-                                className="text-xs font-bold transition-colors hover:text-gray-400"
+                                className="text-sm font-bold transition-colors hover:text-gray-400"
                             >
-                                CONTACT
+                                {t('layout.navbar.contact')}
                             </Link>
                             <Link
                                 href="/about-us"
-                                className="text-xs font-bold transition-colors hover:text-gray-400"
+                                className="text-sm font-bold transition-colors hover:text-gray-400"
                             >
-                                À PROPOS
+                                {t('layout.navbar.about')}
                             </Link>
                         </div>
                         <Select >

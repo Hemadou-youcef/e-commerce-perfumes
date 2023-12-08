@@ -21,6 +21,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import { RiBookmarkFill, RiBookmarkLine } from 'react-icons/ri';
+import { useTranslation } from 'react-i18next';
 
 
 const getMinPrice = (prices: any) => {
@@ -39,6 +40,8 @@ const Product = ({ ...props }) => {
     const [bookmarkLoading, setBookmarkLoading] = useState(false);
     const [showImageSlider, setShowImageSlider] = useState(false);
 
+    const { t, i18n } = useTranslation()
+    
     const { toast } = useToast()
 
     useEffect(() => {
@@ -125,7 +128,7 @@ const Product = ({ ...props }) => {
     return (
         <>
             <Head title="Perfurms Online" />
-            <div className="container mx-auto px-5 pt-2 py-0 bg-white mt-10">
+            <div className="container mx-auto px-5 pt-2 py-0 bg-white mt-10 font-sans rtl:font-arabic">
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-col md:flex-row justify-center items-start gap-6">
                         <div className="w-full md:w-auto">
@@ -191,14 +194,16 @@ const Product = ({ ...props }) => {
                             <hr className="w-full rounded-sm border-gray-400" />
                             <div className="flex justify-between w-full mt-2">
                                 <div className="text-gray-700 text-sm lg:tex">
-                                    {product?.description.split('\n').map((item: any, index: number) => (
+                                    {(i18n.language === "fr") ? product?.description : product?.description_ar
+                                    .split('\n').map((item: any, index: number) => (
                                         <p key={index}>{item}</p>
                                     ))}
                                 </div>
                             </div>
                             <div className='flex justify-between items-center w-full mt-6'>
                                 <p className="text-gray-900 text-xs font-bold md:text-sm lg:tex">
-                                    Ajouter aux Signets
+                                    {t("product_page.add_to_bookmarks")}
+                                    {/* Ajouter aux Signets */}
                                 </p>
                                 <Button
                                     variant="ghost"
@@ -209,8 +214,8 @@ const Product = ({ ...props }) => {
                                 </Button>
                             </div>
                             <Separator className="w-full mt-2" />
-                            <p className="w-full mt-2 text-gray-800 text-left text-xs font-bold md:text-sm lg:text-base">
-                                Produit Prix :
+                            <p className="w-full mt-2 text-gray-800 text-left rtl:text-right text-xs font-bold md:text-sm lg:text-base">
+                                {t("product_page.product_price")}:
                             </p>
                             <div className="w-full  grid grid-cols-3 my-2 gap-2">
                                 {product?.active_product_prices.sort((a: any, b: any) => a.quantity - b.quantity).map((price: any, index: number) => (
@@ -247,7 +252,8 @@ const Product = ({ ...props }) => {
                                     onClick={addToCart}
                                 >
                                     <p className="text-xs font-bold md:text-sm lg:tex">
-                                        AJOUTER AU PANIER
+                                        {t("product_page.add_to_cart")} 
+                                        {/* AJOUTER AU PANIER */}
                                     </p>
                                     {addingToCartLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
                                         <p className="text-xs text-gray-400 font-bold">

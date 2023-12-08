@@ -30,6 +30,7 @@ type FormData = {
 // Information
 import wilaya from "@/data/wilaya";
 import yalidine from "@/data/yalidine";
+import { useTranslation } from "react-i18next";
 
 const Cart = ({ ...props }) => {
     console.log(props);
@@ -46,6 +47,8 @@ const Cart = ({ ...props }) => {
     });
     const [checkedOut, setCheckedOut] = useState(false);
     const [checkoutLoading, setCheckoutLoading] = useState(false);
+
+    const { t } = useTranslation()
 
     useEffect(() => {
         setCartItems(props?.cartItems);
@@ -121,13 +124,14 @@ const Cart = ({ ...props }) => {
 
     return (
         <>
-            <div className="flex items-center justify-center gap-5 py-5 px-8 border-b border-gray-300">
+            <div className="flex items-center justify-center gap-2 py-5 px-8 border-b border-gray-300 font-sans rtl:font-arabic">
                 <IoBagHandleOutline className="h-8 w-8 text-gray-900" />
                 <h1 className="text-2xl font-bold text-gray-900 uppercase">
-                    Mon panier
+                    {t('cart_page.title')}
+                    {/* Mon panier */}
                 </h1>
             </div>
-            <div className={`container grid  mx-auto px-4 my-5 bg-white ${checkedOut ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
+            <div className={`container border-2 rounded-md mx-auto px-4 my-5 first-letter:font-sans rtl:font-arabic bg-white ${checkedOut ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
                 {checkedOut && <div>
                     <form onSubmit={submit} className="w-full p-5 flex flex-col gap-5">
                         <div className="grid gap-3">
@@ -258,7 +262,7 @@ const Cart = ({ ...props }) => {
 
                     </form>
                 </div>}
-                <div className="rounded-lg sticky">
+                <div className="rounded-lg sticky font-sans rtl:font-arabic">
                     <div className="px-8 w-full">
                         {cartItems.map((item, index) => (
                             <div key={index} className="flex items-center flex-col md:flex-row gap-5 border-b border-gray-300 py-4">
@@ -297,7 +301,10 @@ const Cart = ({ ...props }) => {
                         ))}
                     </div>
                     {cartItems.length === 0 && (
-                        <p className="text-gray-600 text-center my-8">Notre panier est vide. Commencez à magasiner maintenant !</p>
+                        <p className="text-gray-600 text-2xl text-center my-8">
+                            {t('cart_page.empty_cart')}
+                            {/* Notre panier est vide. Commencez à magasiner maintenant ! */}
+                        </p>
                     )}
 
                     {cartItems.length > 0 && (
@@ -317,7 +324,7 @@ const Cart = ({ ...props }) => {
                                         </p>
                                         <p className="text-base text-gray-900">
                                             {data.state_code != "" ?
-                                                yalidine[data.state_code - 1][data.shipping_method == "1" ? "2" : "1"] + ",00 DA" :
+                                                yalidine[(data?.state_code || 1) - 1][data.shipping_method == "1" ? "2" : "1"] + ",00 DA" :
                                                 "remplir l'entrée"
                                             }
                                         </p>

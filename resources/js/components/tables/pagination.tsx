@@ -10,9 +10,10 @@ import {
 import { Link, router } from "@inertiajs/react";
 import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const Pagination = ({ meta }) => {
-
+    const { t } = useTranslation()
 
     const visitPage = (page_url) => {
         router.visit(page_url)
@@ -20,9 +21,11 @@ const Pagination = ({ meta }) => {
     return (
         <div className="flex flex-row justify-between items-center gap-2 mb-5">
             <div className="flex flex-row justify-start items-center gap-2">
-                <p className="text-xs md:text-sm font-medium text-gray-600 uppercase">Total: {meta.total}</p>
+                <p className="text-sm md:text-base font-medium text-gray-600 uppercase">
+                    {t('layout.pagination.total')}: {meta.total}
+                </p>
             </div>
-            <div className="flex flex-row justify-end items-center gap-2">
+            <div dir="ltr" className="flex flex-row justify-end items-center gap-2">
                 <Link href={meta?.first_page_url} preserveScroll={false}>
                     <Button
                         variant="outline"

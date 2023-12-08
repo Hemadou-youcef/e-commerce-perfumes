@@ -26,11 +26,13 @@ import { IoMenu, IoPersonAddOutline } from "react-icons/io5";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { BsPersonAdd } from "react-icons/bs";
 import { is } from "date-fns/locale";
+import { useTranslation } from "react-i18next";
 
 
 const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
 
     const searchInput = useRef<HTMLInputElement>(null);
+    const { t } = useTranslation()
     // console.log(props?.auth?.user)
 
     const isLogged = () => {
@@ -48,7 +50,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
     }
     return (
         <>
-            <div className="flex md:hidden container w-full h-20  justify-between items-center py-3 px-5">
+            <div className="flex md:hidden container w-full h-20  justify-between items-center py-3 px-5 ">
                 <Link href="/">
                     <div className="flex items-center justify-start">
                         <img className="h-16 w-auto" src="/image/logo.jpg" alt="Logo" />
@@ -83,10 +85,16 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                         <p>Parfums</p>
                     </Link>
                     <Link href="/about-us">
-                        <p>A propos</p>
+                        <p>
+                            {t('layout.navbar.about')}
+                            {/* A propos */}
+                        </p>
                     </Link>
                     <Link href="/contact-us">
-                        <p>Contact</p>
+                        <p>
+                            {t('layout.navbar.contact')}
+                            {/* Contact */}
+                        </p>
                     </Link>
                 </div>
             </div>
@@ -141,7 +149,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                 </Link>
 
                 {/* LOGIN ACTIONS */}
-                <div className="items-center gap-5 flex">
+                <div className="items-center gap-5 flex font-sans rtl:font-arabic">
                     <div className="flex items-center gap-3 bg-white rounded-full px-3 py-0 overflow-hidden">
                         <Input
                             placeholder="Recherche..."
@@ -158,7 +166,10 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                                 className="flex flex-col items-center group gap-1"
                             >
                                 <MdOutlineDashboard className="w-7 h-7 text-white group-hover:text-gray-400" />
-                                <p className="text-xs font-bold group-hover:text-gray-400 uppercase">Tableau de bord</p>
+                                <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
+                                    {t('layout.navbar.dashboard')}
+                                    {/* Tableau de bord */}
+                                </p>
                             </Link>
                         ) : (
                             <div className="flex items-center gap-5 ">
@@ -167,21 +178,30 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                                     className="flex flex-col items-center group gap-1"
                                 >
                                     <HiOutlineShoppingBag className="w-7 h-7 text-white group-hover:text-gray-400" />
-                                    <p className="text-xs font-bold group-hover:text-gray-400 uppercase">panier</p>
+                                    <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
+                                        {t('layout.navbar.cart')}
+                                        {/* panier */}
+                                    </p>
                                 </Link>
                                 <Link
                                     href="/bookmarks"
                                     className="flex flex-col items-center group gap-1"
                                 >
                                     <TbBookmark className="w-7 h-7 text-white group-hover:text-gray-400" />
-                                    <p className="text-xs font-bold group-hover:text-gray-400 uppercase">signet</p>
+                                    <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
+                                        {t('layout.navbar.bookmarks')}
+                                        {/* signet */}
+                                    </p>
                                 </Link>
                                 <Link
                                     href="/profile"
                                     className="flex flex-col items-center group gap-1"
                                 >
                                     <CgProfile className="w-7 h-7 text-white group-hover:text-gray-400" />
-                                    <p className="text-xs font-bold group-hover:text-gray-400 uppercase">mon compte</p>
+                                    <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
+                                        {t('layout.navbar.profile')}
+                                        {/* mon compte */}
+                                    </p>
                                 </Link>
                             </div>
                         )}
@@ -192,7 +212,10 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                             className="flex flex-col items-center group gap-1"
                         >
                             <MdOutlineLogout className="w-7 h-7 text-white group-hover:text-gray-400" />
-                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">Déconnecter</p>
+                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
+                                {t('layout.navbar.logout')}
+                                {/* Déconnexion */}
+                            </p>
                         </Link>
 
                     </div>}
@@ -205,14 +228,20 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                             className="flex flex-col items-center group gap-1"
                         >
                             <IoPersonAddOutline className="w-7 h-7 text-white group-hover:text-gray-400" />
-                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">S'inscrire</p>
+                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
+                                {t('layout.navbar.register')}
+                                {/* S'inscrire */}
+                            </p>
                         </Link>
                         <Link
                             href="/login"
                             className="flex flex-col items-center group gap-1"
                         >
                             <MdOutlineLogout className="w-7 h-7 text-white group-hover:text-gray-400" />
-                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">Se connecter</p>
+                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
+                                {t('layout.navbar.login')}
+                                {/* Se connecter */}
+                            </p>
                         </Link>
 
                         {/* <Link
