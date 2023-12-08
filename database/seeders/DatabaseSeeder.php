@@ -4,10 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\CartItem;
-use App\Models\Image;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Reservation;
 use App\Models\User;
 use Database\Factories\ContactFactory;
 use Exception;
@@ -34,11 +33,11 @@ class DatabaseSeeder extends Seeder
             // start transaction
             DB::beginTransaction();
 
-            User::factory()->has(Product::factory()->hasImages(3)->hasProductPrices(1)->hasReceptions(1)->hasCategories(2)->count(20))->has(Order::factory()->hasOrderProducts(3)->count(2))->create();
-            User::factory()->count(20)->hasBookmarks(3)->create();
-//        Reservation::factory()->count(20)->create();
+            $this->call(CategorySeeder::class);
+
+            User::factory()->has(Product::factory()->hasImages(3)->hasProductPrices(1)->hasReceptions(1)->count(20))->create(['role' => fake()->randomElement([2, 3])]);
+            User::factory()->count(20)->hasBookmarks(3)->has(Order::factory()->hasOrderProducts(3)->count(2))->create(['role' => 1]);
             CartItem::factory()->count(20)->create();
-//            Image::factory()->count(20)->create();
             ContactFactory::new()->count(20)->create();
             DB::commit();
         } catch (Exception $e) {
@@ -51,6 +50,8 @@ class DatabaseSeeder extends Seeder
 
             $product->main_image_id = $product->images->first()->id;
             $product->save();
+
+            $product->categories()->attach(Category::all()->random(3));
         }
     }
 }

@@ -17,13 +17,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('home', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'hihihi' => 'hihihi'
-    ]);
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
@@ -94,6 +88,7 @@ Route::post('/orders/{order}/cancel' , [App\Http\Controllers\OrderController::cl
 Route::get('/bookmarks' , [App\Http\Controllers\BookmarkController::class, 'index'])->name('bookmarks');
 Route::post('/bookmarks' , [App\Http\Controllers\BookmarkController::class, 'store'])->name('bookmark.store');
 Route::delete('/bookmarks/{bookmark}' , [App\Http\Controllers\BookmarkController::class, 'destroy'])->name('bookmark.destroy');
+Route::delete('/bookmarks/product/{product}' , [App\Http\Controllers\BookmarkController::class, 'destroyByProductId'])->name('bookmark.destroy');
 
 
 // categories routes

@@ -30,6 +30,7 @@ class CartItemController extends Controller
                 'product' => function ($query) {
                     $query->select('id', 'name', 'description','description_ar', 'main_image_id');
                 },
+                'product.mainImage',
                 'product.categories',
                 'ProductPrice' => function ($query) {
                     $query->select('id', 'price', 'unit', 'quantity');
@@ -58,7 +59,7 @@ class CartItemController extends Controller
         $product = Product::query()->find($validated['product_id']);
         $productPrice = ProductPrice::query()->find($validated['product_price_id']);
         // check if price belongs to product and active
-        if ($productPrice->product_id != $product->id || !$productPrice->active) {
+        if ($productPrice->product_id != $product->id || !$productPrice->active || $product->isArchived()) {
             return redirect()->back()->withErrors(['cart' => 'something went wrong']);
         }
 

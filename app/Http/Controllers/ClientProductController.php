@@ -18,6 +18,7 @@ class ClientProductController extends Controller
     {
         return Inertia::render('ClientSide/Products/products', [
             'products' => Product::query()
+                ->where('status', '!=', 'archived')
                 ->when(request('q'), fn($query, $search) => $query
                     ->where('name', 'LIKE', '%' . $search . '%')
                     ->orWhere('description', 'LIKE', '%' . $search . '%')
@@ -29,8 +30,12 @@ class ClientProductController extends Controller
                 ->when(request('endPrice'), fn($query, $price) => $query
                     ->whereHas('activeProductPrices', fn($query) => $query->where('price', '<=', $price))
                 )
-                ->when(request('category'), fn($query, $category) => $query
-                    ->whereHas('categories', fn($query) => $query->where('name', $category))
+                ->when(request('category'), function ($query, $category) {
+                    // category is a string of comma separated names
+                    $categories = explode(',', $category);
+                    return $query->whereHas('categories', fn($query) => $query->whereIn('name', $categories));
+
+                    }
                 )
                 ->orderBy('created_at', 'desc')
                 ->paginate(12)
