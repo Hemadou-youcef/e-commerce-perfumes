@@ -32,11 +32,8 @@ const Products = ({ ...props }) => {
     ]
 
     useLayoutEffect(() => {
-        setData(props?.products?.data || []);
-        setCategoriesList(props?.categories || []);
         setSearch(props?.filters?.q || undefined);
-        setCategories(props?.filters?.category || undefined);
-    }, [props]);
+    }, [props?.filters?.q]);
 
     useLayoutEffect(() => {
         if (firstUpdate.current) {
