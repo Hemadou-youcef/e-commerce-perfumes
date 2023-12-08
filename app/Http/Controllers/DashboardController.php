@@ -87,7 +87,7 @@ class DashboardController extends Controller
             'pending' => $orders->where('status', 'pending')->count(),
             'confirmed' => $orders->where('status', 'confirmed')->count(),
             'delivered' => $orders->where('status', 'delivered')->count(),
-            'canceled' => $orders->where('status', 'canceled')->count(),
+            'cancelled' => $orders->where('status', 'cancelled')->count(),
             'total' => $orders->count(),
         ];
     }

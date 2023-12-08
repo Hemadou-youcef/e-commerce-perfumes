@@ -137,8 +137,8 @@ const Orders = ({ ...props }) => {
                                             LIVRÉ
                                         </Button>
                                         <Button variant="outline"
-                                            className={`flex h-8  items-center space-x-2 rounded-md bg-transparent border border-dashed text-gray-50 hover:bg-red-600 hover:text-gray-50 ${status === "canceled" ? "bg-red-600 text-gray-50" : ""}`}
-                                            onClick={() => setStatus("canceled")}
+                                            className={`flex h-8  items-center space-x-2 rounded-md bg-transparent border border-dashed text-gray-50 hover:bg-red-600 hover:text-gray-50 ${status === "cancelled" ? "bg-red-600 text-gray-50" : ""}`}
+                                            onClick={() => setStatus("cancelled")}
                                         >
                                             ANNULÉ
                                         </Button>

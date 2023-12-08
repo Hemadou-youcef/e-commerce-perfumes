@@ -213,7 +213,7 @@ const Client = ({ ...props }) => {
                         <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent  overflow-x-auto">
                             <TabsTrigger value="confirmed_orders" className="w-52  border-b rounded-none">Les commandes confirmées</TabsTrigger>
                             <TabsTrigger value="delivered_orders" className="w-52  border-b rounded-none">Les commandes livrées</TabsTrigger>
-                            <TabsTrigger value="canceled_orders" className="w-52  border-b rounded-none">Les commandes annulées</TabsTrigger>
+                            <TabsTrigger value="cancelled_orders" className="w-52  border-b rounded-none">Les commandes annulées</TabsTrigger>
                         </TabsList>
                         <TabsContent value="confirmed_orders" className="px-5">
                             <div className="w-full mb-5 border-2 ">
@@ -277,7 +277,7 @@ const Client = ({ ...props }) => {
                                 </Table>
                             </div>
                         </TabsContent>
-                        <TabsContent value="canceled_orders" className="px-5">
+                        <TabsContent value="cancelled_orders" className="px-5">
                             <div className="w-full mb-5 border-2 ">
                                 <Table className="min-w-[700px] w-full">
                                     <TableHeader>
@@ -289,14 +289,14 @@ const Client = ({ ...props }) => {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {(data?.canceled_orders || []).map((order, index) => (
+                                        {(data?.cancelled_orders || []).map((order, index) => (
                                             <TableRow key={index} >
                                                 <TableCell className="font-medium text-xs">{order.id}</TableCell>
                                                 <TableCell className="font-bold text-xs">{order.user_id}</TableCell>
                                                 <TableCell className="font-bold text-xs">{order.status}</TableCell>
                                             </TableRow>
                                         ))}
-                                        {(data?.canceled_orders || []).length === 0 && (
+                                        {(data?.cancelled_orders || []).length === 0 && (
                                             <TableRow>
                                                 <TableCell colSpan={4} className="text-center text-sm font-medium text-gray-500 uppercase">
                                                     Aucune donnée

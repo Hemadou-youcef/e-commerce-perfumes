@@ -31,7 +31,7 @@ class OrderController extends Controller
                             ->orWhere('phone', 'like', '%' . $q . '%');
                     });
                 })
-                ->when(request('status'), fn($query) => $query->where('status', request('status')))
+                ->when(request('status') && request('status') != 'all', fn($query) => $query->where('status', request('status')))
                 ->when(request('start'), fn($query) => $query->where('created_at', '>=', request('start')))
                 ->when(request('end'), fn($query) => $query->where('created_at', '<=', request('end')))
                 ->orderBy('created_at', 'desc')
