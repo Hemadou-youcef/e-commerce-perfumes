@@ -36,7 +36,7 @@ const Products = ({ ...props }) => {
     ]
 
     useEffect(() => {
-        if (props?.filters?.category !== categories && props?.filters?.q !== search) {
+        if (props?.filters?.category !== (categories || "") || props?.filters?.q !== (search || "")) {
             handleFilter();
         }
     }, [categories, search])
