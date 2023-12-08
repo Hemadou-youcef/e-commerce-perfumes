@@ -14,6 +14,13 @@ import { useTranslation } from "react-i18next";
 
 const LandingFooter = () => {
     const { t, i18n } = useTranslation()
+
+    const handleLanguageChange = (value) => {
+        if (value ) {
+            i18n.changeLanguage(value);
+            localStorage.setItem("language", value);
+        }
+    }
     return (
         <>
             {/* FOOTER FOR PERFUME LANDING PAGE */}
@@ -62,13 +69,17 @@ const LandingFooter = () => {
                                 {t('layout.navbar.about')}
                             </Link>
                         </div>
-                        <Select >
+                        <Select onValueChange={handleLanguageChange} value={localStorage.getItem('language') || 'ar'}>
                             <SelectTrigger className="w-32 h-7 text-forth">
-                                <SelectValue placeholder="عربية" />
+                                <SelectValue placeholder={t('language.' + localStorage.getItem('language'))} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="arabic">عربية</SelectItem>
-                                <SelectItem value="french">فرنسية</SelectItem>
+                                <SelectItem value="ar">
+                                    {t('language.ar')}
+                                </SelectItem>
+                                <SelectItem value="fr">
+                                    {t('language.fr')}
+                                </SelectItem>
                             </SelectContent>
                         </Select>
                     </div>

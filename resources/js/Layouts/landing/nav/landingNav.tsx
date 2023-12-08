@@ -244,19 +244,6 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                             </p>
                         </Link>
 
-                        {/* <Link
-                            href="/login"
-                            className=" bg-third px-3 py-3 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"
-                        >
-                            LOGIN
-                        </Link>
-                        <Link
-                            href="/register"
-                            className="bg-third px-3 py-3 text-xs rounded-sm font-bold transition-colors hover:text-gray-400"
-                        >
-                            REGISTER
-                        </Link> */}
-
                     </div>}
                     {/* <Select>
                         <SelectTrigger className="w-32 h-10">
@@ -268,41 +255,6 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                         </SelectContent>
                     </Select> */}
                 </div>
-                {/* <div className="hidden md:block">
-                    <div className="ml-10 flex items-baseline space-x-4">
-                        <Link
-                            href="/"
-                            className="text-sm font-medium transition-colors hover:text-primary"
-
-                        >
-                            Home
-                        </Link>
-                        <Link
-                            href="/about"
-                            className="text-sm font-medium transition-colors hover:text-primary"
-                        >
-                            About
-                        </Link>
-                        <Link
-                            href="/products"
-                            className="text-sm font-medium transition-colors hover:text-primary"
-                        >
-                            Products
-                        </Link>
-                        <Link
-                            href="/contact"
-                            className="text-sm font-medium transition-colors hover:text-primary"
-                        >
-                            Contact
-                        </Link>
-                        <Link
-                            href="/dashboard"
-                            className="text-sm font-medium transition-colors hover:text-primary"
-                        >
-                            login
-                        </Link>
-                    </div>
-                </div> */}
 
             </div>
         </>

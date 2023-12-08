@@ -24,7 +24,8 @@ import { BiSupport } from 'react-icons/bi';
 
 // export default function Welcome(Props: PageProps<{ laravelVersion: string, phpVersion: string }>) {
 
-const Home = () => {
+const Home = ({...props}) => {
+    console.log(props)
     const handleTest = () => {
         router.post('/test', {
             name: 'test'

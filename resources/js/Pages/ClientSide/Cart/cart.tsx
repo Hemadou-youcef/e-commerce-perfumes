@@ -135,35 +135,48 @@ const Cart = ({ ...props }) => {
                 {checkedOut && <div>
                     <form onSubmit={submit} className="w-full p-5 flex flex-col gap-5">
                         <div className="grid gap-3">
-                            <Label htmlFor="agency" className="text-base">Agence</Label>
+                            <Label htmlFor="agency" className="text-base">
+                                {t('cart_page.agency')}
+                                {/* Agence  */}
+                            </Label>
                             <Select>
                                 <SelectTrigger >
                                     <SelectValue placeholder="Yalidine" className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
-                                <SelectContent className="w-full border-2 focus-visible:ring-transparent">
+                                <SelectContent dir="rtl" className="w-full border-2 focus-visible:ring-transparent">
                                     <SelectItem value="yalidine">Yalidine</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
 
                         <div className="grid gap-3">
-                            <Label htmlFor="shipping_method" className="text-base">Mode de livraison</Label>
+                            <Label htmlFor="shipping_method" className="text-base">
+                                {t('cart_page.shipping_method')}
+                                {/* Méthode de livraison */}
+                            </Label>
                             <Select onValueChange={(value) => {
                                 setData(data => ({ ...data, shipping_method: value }))
                             }}>
                                 <SelectTrigger >
-                                    <SelectValue placeholder="Livraison à domicile" className="w-full h-12 border-2 focus-visible:ring-transparent" />
+                                    <SelectValue placeholder={t('cart_page.home_delivery')} className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
                                 <SelectContent className="w-full border-2 focus-visible:ring-transparent">
-                                    <SelectItem value="2">Livraison à domicile</SelectItem>
-                                    <SelectItem value="1">Livraison à l'agence</SelectItem>
+                                    <SelectItem value="2">
+                                        {t('cart_page.home_delivery')}
+                                    </SelectItem>
+                                    <SelectItem value="1">
+                                        {t('cart_page.agency_delivery')}
+                                    </SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
                             <div className="grid gap-3">
-                                <Label htmlFor="name" className="text-base">Nom</Label>
+                                <Label htmlFor="name" className="text-base">
+                                    {t('cart_page.first_name')}
+                                    {/* Nom */}
+                                </Label>
                                 <Input
                                     id="name"
                                     type="text"
@@ -175,7 +188,10 @@ const Cart = ({ ...props }) => {
                                 />
                             </div>
                             <div className="grid gap-3">
-                                <Label htmlFor="name" className="text-base">Prénom</Label>
+                                <Label htmlFor="name" className="text-base">
+                                    {t('cart_page.last_name')}
+                                    {/* Prénom */}
+                                </Label>
                                 <Input
                                     id="name"
                                     type="text"
@@ -189,7 +205,10 @@ const Cart = ({ ...props }) => {
                         </div>
 
                         <div className="grid gap-3">
-                            <Label htmlFor="phone" className="text-base">Téléphone</Label>
+                            <Label htmlFor="phone" className="text-base">
+                                {t('cart_page.phone')}
+                                {/* Numéro de téléphone */}
+                            </Label>
                             <Input
                                 id="phone"
                                 type="text"
@@ -202,7 +221,10 @@ const Cart = ({ ...props }) => {
                         </div>
 
                         <div className="grid gap-3">
-                            <Label htmlFor="address" className="text-base">Adresse de la rue</Label>
+                            <Label htmlFor="address" className="text-base">
+                                {t('cart_page.street_address')}
+                                {/* Adresse */}
+                            </Label>
                             <Input
                                 id="address"
                                 type="text"
@@ -214,7 +236,10 @@ const Cart = ({ ...props }) => {
                             />
                         </div>
                         <div className="grid gap-3">
-                            <Label htmlFor="state" className="text-base">Wilaya</Label>
+                            <Label htmlFor="state" className="text-base">
+                                {t('cart_page.state')}
+                                {/* Wilaya */}
+                            </Label>
                             <Select onValueChange={(value) => {
                                 setData(data => ({ ...data, state_code: value }))
                             }}>
@@ -235,7 +260,10 @@ const Cart = ({ ...props }) => {
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                             <div className="grid gap-3">
-                                <Label htmlFor="postal_code" className="text-base">Code postal</Label>
+                                <Label htmlFor="postal_code" className="text-base">
+                                    {t('cart_page.postal_code')}
+                                    {/* Code postal */}
+                                </Label>
                                 <Input
                                     id="postal_code"
                                     type="text"
@@ -247,7 +275,10 @@ const Cart = ({ ...props }) => {
                                 />
                             </div>
                             <div className="grid gap-3">
-                                <Label htmlFor="city" className="text-base">Ville</Label>
+                                <Label htmlFor="city" className="text-base">
+                                    {t('cart_page.city')}
+                                    {/* Ville */}
+                                </Label>
                                 <Input
                                     id="city"
                                     type="text"
@@ -277,7 +308,7 @@ const Cart = ({ ...props }) => {
                                         href={`/products/${item.product?.id}`}>
                                         <h2 className="text-xl text-blue-600 font-semibold mb-2">{item?.product?.name}</h2>
                                     </Link>
-                                    <p className="text-gray-600 mb-2">
+                                    <p dir="ltr" className="text-gray-600 mb-2">
                                         <span className="text-gray-600 mr-1">
                                             {item.quantity * item.product_price?.quantity} {item.product_price?.unit} =
                                         </span>
@@ -310,34 +341,34 @@ const Cart = ({ ...props }) => {
                     {cartItems.length > 0 && (
                         <div className="flex flex-col p-5 gap-3">
                             {checkedOut &&
-                                <><div className="flex items-center  font-mono justify-between">
+                                <><div className="flex items-center font-mono rtl:font-arabic justify-between">
                                     <p className="text-lg">
-                                        Sous-total:
+                                        {t('cart_page.sub_total')}:
                                     </p>
-                                    <p className="text-base text-gray-900">
-                                        {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0)},00 DA
+                                    <p className="flex rtl:flex-row-reverse gap-2 text-base text-gray-900">
+                                    <span>{cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0)},00</span> <span>DA</span>
                                     </p>
                                 </div>
-                                    <div className="flex items-center  font-mono justify-between">
+                                    <div className="flex items-center font-mono rtl:font-arabic justify-between">
                                         <p className="text-lg">
-                                            Livraison:
+                                            {t('cart_page.shipping')}:
                                         </p>
                                         <p className="text-base text-gray-900">
                                             {data.state_code != "" ?
-                                                yalidine[(data?.state_code || 1) - 1][data.shipping_method == "1" ? "2" : "1"] + ",00 DA" :
+                                                yalidine[(parseInt(data.state_code, 10) || 1) - 1][data.shipping_method == "1" ? "2" : "1"] + ",00 DA" :
                                                 "remplir l'entrée"
                                             }
                                         </p>
                                     </div>
-                                    <div className="flex items-center font-bold font-mono justify-between">
+                                    <div className="flex items-center font-bold font-mono rtl:font-arabic justify-between">
                                         <p className="text-lg">
-                                            Total:
+                                            {t('cart_page.total')}:
                                         </p>
-                                        <p className="text-base text-gray-900">
-                                            {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + (data.state_code != "" ?
-                                                yalidine[data.state_code - 1][data.shipping_method] :
+                                        <p className="flex rtl:flex-row-reverse gap-2 text-base text-gray-900">
+                                            <span>{cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + (data.state_code != "" ?
+                                                yalidine[(parseInt(data.state_code, 10) || 1) - 1][data.shipping_method] :
                                                 0
-                                            )},00 DA
+                                            )},00</span> <span>DA</span>
                                         </p>
                                     </div>
                                 </>
@@ -354,7 +385,8 @@ const Cart = ({ ...props }) => {
                                         {checkoutLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
                                             <div className="flex items-center justify-center gap-2">
                                                 <p className="text-sm text-gray-50 font-bold uppercase">
-                                                    Commander
+                                                    {t('cart_page.order_now')}
+                                                    {/* Passer à la caisse */}
                                                 </p>
                                                 {/* <MdSend className="h-5 w-5" /> */}
                                             </div>

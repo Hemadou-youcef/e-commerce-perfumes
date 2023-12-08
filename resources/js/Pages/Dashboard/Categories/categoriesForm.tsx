@@ -138,7 +138,7 @@ const CategoriesForm = ({ ...props }) => {
                                 (editMode && data.name.length == 0 && <p className="text-xs text-red-500">Le nom est obligatoire</p>)}
 
                             </div>
-                            <div className="grid gap-3">
+                            <div className="grid gap-3 font-arabic">
                                 <Label htmlFor="name_ar" className="text-base">Nom Arabe</Label>
                                 <Input
                                     id="name_ar"

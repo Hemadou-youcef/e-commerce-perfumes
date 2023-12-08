@@ -7,6 +7,11 @@
         "confirm":"تأكيد",
         "edit":"تعديل"
     },
+    "language":{
+        "ar":"العربية",
+        "fr":"الفرنسية",
+        "en":"الإنجليزية"
+    },
     "layout":{
         "navbar":{
             "home":"الصفحة الرئيسية",
@@ -16,7 +21,7 @@
             "dashboard":"لوحة التحكم",
             "login":"تسجيل الدخول",
             "logout":"تسجيل الخروج",
-            "register":"تسجيل جديد",
+            "register":"حساب جديد",
             "profile":"الملف الشخصي",
             "settings":"الاعدادات",
             "users":"المستخدمين",
@@ -46,11 +51,31 @@
         "add_to_cart":"اضف الى السلة",
         "add_to_bookmarks":"اضف الى المفضلة",
         "remove_from_bookmarks":"ازالة من المفضلة",
-        "product_price":"سعر المنتج"
+        "product_price":"سعر المنتج",
+        "view_product":"عرض المنتج",
+        "product_already_in_cart":"المنتج موجود في السلة"
     },
     "cart_page":{
         "title": "السلتي",
-        "empty_cart": "السلة فارغة. ابدأ التسوق الآن!"
+        "empty_cart": "السلة فارغة. ابدأ التسوق الآن!",
+        "agency": "الوكالة",
+        "product": "المنتج",
+        "shipping_method": "طريقة الشحن",
+        "home_delivery": "توصيل إلى المنزل",
+        "agency_delivery": "توصيل إلى الوكالة",
+        "state": "الولاية",
+        "street_address": "العنوان",
+        "city": "المدينة",
+        "postal_code": "الرمز البريدي",
+        "phone": "رقم الهاتف",
+        "wilaya": "الولاية",
+        "order_now": "اطلب الآن",
+        "total": "الاجمالي",
+        "sub_total": "المجموع الفرعي",
+        "shipping": "الشحن",
+        "fill_all_fields": "يرجى ملء جميع الحقول",
+        "first_name": "الإسم",
+        "last_name": "اللقب"
     },
     "bookmarks_page":{
         "title": "المفضلة",

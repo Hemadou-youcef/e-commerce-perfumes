@@ -272,7 +272,7 @@ const ProductForm = ({ ...props }) => {
                                 <Textarea
                                     id="description_ar"
                                     dir="rtl"
-                                    className="w-full h-12 border-2 focus-visible:ring-transparent"
+                                    className="w-full h-12 border-2 focus-visible:ring-transparent font-arabic"
                                     value={data.description_ar}
                                     onChange={(e) => setData("description_ar", e.target.value)}
                                 />

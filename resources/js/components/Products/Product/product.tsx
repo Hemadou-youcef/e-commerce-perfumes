@@ -4,6 +4,7 @@ import { useToast } from "@/shadcn/ui/use-toast";
 import { Link, router } from "@inertiajs/react";
 import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AiFillEye, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { BsBookmarkPlusFill } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa";
@@ -20,7 +21,9 @@ const Product = ({ product }) => {
     
     const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.active_product_prices));
     const [bookmarkLoading, setBookmarkLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { toast } = useToast()
+    const { t } = useTranslation()
 
     const handleBookmark = () => {
         setBookmarkLoading(true);
@@ -108,12 +111,12 @@ const Product = ({ product }) => {
                         <StarFilledIcon className="w-4 h-4 md:w-5 md:h-5 text-yellow-500" />
                         <StarIcon className="w-4 h-4 md:w-5 md:h-5 text-yellow-500" />
                     </div> */}
-                    <Link href="/product/5">
+                    <Link href={`/products/${product.id}`} onClick={() => setLoading(true)}>
                         <Button
                             variant="outline"
                             className="w-28 bg-transparent border-2 h-8 text-xs border-gray-900 hover:bg-gray-800 active:bg-gray-300 text-gray-900 hover:text-gray-100 active:text-gray-700"
                         >
-                            ACHETER
+                            {loading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : t('product_page.view_product')}
                         </Button>
                     </Link>
                 </div>

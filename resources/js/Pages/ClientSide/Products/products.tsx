@@ -21,20 +21,22 @@ import { Input } from "@/shadcn/ui/input";
 const Products = ({ ...props }) => {
     console.log(props)
     const [data, setData] = useState(props?.products?.data)
+    const [categoriesList, setCategoriesList] = useState(props?.categories || []);
     const [minMaxPrice, setMinMaxPrice] = useState<number[]>([0, 1000]);
     const [search, setSearch] = useState<string | undefined>(props?.filters?.q || undefined);
     const [categories, setCategories] = useState<string | undefined>(props?.filters?.category || undefined);
     const [loading, setLoading] = useState(false);
 
-    const { t } = useTranslation()
+    const { t,i18n } = useTranslation()
 
-
-    // useEffect(() => {
-    //     setData(props?.products?.data)
-    // }, [pageProps])
+    const alreadyUsedCategories = [
+        "homme",
+        "femme",
+        "unisexe",
+    ]
 
     useEffect(() => {
-        if (props?.filters?.category !== categories || props?.filters?.q !== search) {
+        if (props?.filters?.category !== categories && props?.filters?.q !== search) {
             handleFilter();
         }
     }, [categories, search])
@@ -185,10 +187,25 @@ const Products = ({ ...props }) => {
                                 Étiquette
                             </p>
                             <div className="w-full flex flex-col justify-start overflow-y-auto max-h-96 py-2">
-                                <div className="flex justify-start font-semibold items-center gap-2 pl-2">
-                                    <Checkbox />
-                                    Agrumes
-                                </div>
+                                {categoriesList.filter((category) => !alreadyUsedCategories.includes(category.name.toLowerCase())).map((category, index) => (
+                                    <div key={index} className="flex justify-start font-semibold items-center gap-2 pl-2">
+                                        <Checkbox id={category.id.toString()}
+                                            onCheckedChange={(checked) => {
+                                                if (checked) {
+                                                    setCategories(category.id.toString());
+                                                } else {
+                                                    setCategories(undefined);
+                                                }
+                                            }}
+                                            checked={categories === category.id.toString() ? true : false} />
+                                        <Label
+                                            htmlFor={category.id.toString()}
+                                            className="text-sm md:text-lg cursor-pointer"
+                                        >
+                                            {i18n.language === "fr" ? category.name : category.name_ar}
+                                        </Label>
+                                    </div>
+                                ))}
 
                             </div>
                         </div>

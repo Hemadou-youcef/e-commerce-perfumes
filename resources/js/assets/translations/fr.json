@@ -1,13 +1,99 @@
 {
+    "global":{
+        "male":"Homme",
+        "female":"Femme",
+        "cancel":"Annuler",
+        "save":"Enregistrer",
+        "confirm":"Confirmer",
+        "edit":"Éditer"
+    },
+    "language":{
+        "en":"Anglais",
+        "fr":"Français",
+        "ar":"Arabe"
+    },
     "layout":{
         "navbar":{
             "home":"Accueil",
             "products":"Produits",
-            "contact":"Contact",
-            "about":"A propos"
+            "contact":"Contactez-nous",
+            "about":"À propos",
+            "dashboard":"Tableau de bord",
+            "login":"Connexion",
+            "logout":"Déconnexion",
+            "register":"S'inscrire",
+            "profile":"Profil",
+            "settings":"Paramètres",
+            "users":"Utilisateurs",
+            "categories":"Catégories",
+            "bookmarks":"Favoris",
+            "cart":"Panier"
+        },
+        "pagination":{
+            "previous":"Précédent",
+            "next":"Suivant",
+            "total":"Total"
         }
     },
     "main":{
-
+        
+    },
+    "products_page":{
+        "products":"Produits",
+        "categories":"Catégories",
+        "perfumes":"Parfums",
+        "price":"Prix",
+        "empty_products":"Aucun produit dans cette catégorie!",
+        "search":"Recherche",
+        "search_placeholder":"Recherchez vos produits préférés"
+    },
+    "product_page":{
+        "add_to_cart":"Ajouter au panier",
+        "add_to_bookmarks":"Ajouter aux favoris",
+        "remove_from_bookmarks":"Retirer des favoris",
+        "product_price":"Prix du produit",
+        "view_product":"Voir le produit",
+        "product_already_in_cart":"Le produit est déjà dans le panier"
+    },
+    "cart_page":{
+        "title": "Mon Panier",
+        "empty_cart": "Votre panier est vide. Commencez vos achats maintenant!",
+        "agency": "Agence",
+        "product": "Produit",
+        "shipping_method": "Méthode d'expédition",
+        "home_delivery": "Livraison à domicile",
+        "agency_delivery": "Livraison à l'agence",
+        "state": "État",
+        "street_address": "Adresse",
+        "city": "Ville",
+        "postal_code": "Code postal",
+        "phone": "Téléphone",
+        "wilaya": "Wilaya",
+        "order_now": "Commander maintenant",
+        "total": "Total",
+        "sub_total": "Sous-total",
+        "shipping": "Livraison",
+        "fill_all_fields": "Veuillez remplir tous les champs",
+        "first_name": "Prénom",
+        "last_name": "Nom"
+    },
+    "bookmarks_page":{
+        "title": "Favoris",
+        "empty_bookmarks": "Aucun favori pour le moment!"
+    },
+    "profile_page":{
+        "title": "Profil",
+        "sub_title": "Affichez vos informations personnelles",
+        "name": "Nom",
+        "role": "Rôle",
+        "phone": "Téléphone",
+        "address": "Adresse",
+        "gender": "Genre",
+        "first_name": "Prénom",
+        "last_name": "Nom de famille",
+        "new_password": "Nouveau mot de passe",
+        "new_password_confirmation": "Confirmez le nouveau mot de passe",
+        "password": "Mot de passe",
+        "confirm_password": "Confirmez le mot de passe"
     }
 }

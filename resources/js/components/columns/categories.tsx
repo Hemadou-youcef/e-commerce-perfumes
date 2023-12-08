@@ -22,11 +22,25 @@ export const columns: ColumnDef<CategorieInfo>[] = [
     {
         accessorKey: "name",
         header: "Nom",
+        cell: ({ row }: { row: any }) => {
+            return (
+                <div className="flex flex-row items-center gap-2 font-arabic">
+                    <span>{row?.original?.name}</span>
+                </div>
+            )
+        },
         maxSize: 15,
     },
     {
         accessorKey: "name_ar",
         header: "Nom Arabe",
+        cell: ({ row }: { row: any }) => {
+            return (
+                <div className="flex flex-row items-center gap-2 font-arabic">
+                    <span>{row?.original?.name_ar}</span>
+                </div>
+            )
+        },
         maxSize: 15,
     },
 ]

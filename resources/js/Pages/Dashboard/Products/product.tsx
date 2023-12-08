@@ -320,6 +320,9 @@ const Product = ({ ...props }) => {
                             {product?.categories.map((category: any, index) => (
                                 <p key={index} className="px-2 py-1 rounded-sm text-xs font-medium text-white uppercase bg-gray-600">{category.name}</p>
                             ))}
+                            {product?.categories.length === 0 && (
+                                <p className="text-sm font-bold text-gray-500">Aucune categorie</p>
+                            )}
                         </div>
                     </div>
                     <Separator className="mt-0 md:hidden" />
@@ -347,7 +350,7 @@ const Product = ({ ...props }) => {
                     <div className="flex flex-col  justify-center md:justify-start items-start gap-2">
                         <h1 className="text-sm font-medium md:w-128 text-gray-800">Description En arabe :</h1>
                         <div dir="rtl" className="w-full flex flex-row justify-start items-center gap-2">
-                            <div className="text-sm font-bold text-gray-500">{product?.description_ar.split('<br/>').map((value, index) => (<div key={index}><span>{value}</span><br /></div>))}</div>
+                            <div className="text-sm font-bold text-gray-500 font-arabic">{product?.description_ar.split('<br/>').map((value, index) => (<div key={index}><span>{value}</span><br /></div>))}</div>
                         </div>
                     </div>
                     {/* <Separator className="mt-0 md:hidden" />

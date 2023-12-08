@@ -25,6 +25,12 @@ const LandingMainLayout = ({ children, ...props }) => {
                 <div className="w-full border-b border-b-gray-500 bg-third font-sans rtl:font-arabic">
                     <div className="container hidden md:flex items-center justify-start gap-8 h-10">
                         <Link
+                            href="/"
+                            className="text-base font-medium transition-colors hover:text-gray-400"
+                        >
+                            {t('layout.navbar.home')}
+                        </Link>
+                        <Link
                             href="/products"
                             className="text-base font-medium transition-colors hover:text-gray-400 rtl:font-arabic"
                         >

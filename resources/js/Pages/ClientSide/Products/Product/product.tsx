@@ -41,8 +41,22 @@ const Product = ({ ...props }) => {
     const [showImageSlider, setShowImageSlider] = useState(false);
 
     const { t, i18n } = useTranslation()
-    
+
     const { toast } = useToast()
+
+    useEffect(() => {
+        const onChangeImage = (e: any) => {
+            if (!showImageSlider && e.key === 'Escape') {
+                setShowImageSlider(false)
+            }
+        }
+
+        window.addEventListener('keydown', onChangeImage);
+
+        return () => {
+            window.removeEventListener('keydown', onChangeImage);
+        }
+    }, []);
 
     useEffect(() => {
         setProduct(props?.product);
@@ -108,7 +122,7 @@ const Product = ({ ...props }) => {
                     title: "Produit ajouté au panier",
                     description: "Vous pouvez maintenant consulter votre panier",
                     duration: 5000,
-                    action: <Link href="/cart"><Button variant="outline" className="hover:bg-gray-50"><TbExternalLink className="w-5 h-5"/></Button></Link>
+                    action: <Link href="/cart"><Button variant="outline" className="hover:bg-gray-50"><TbExternalLink className="w-5 h-5" /></Button></Link>
                 })
             },
             onError: () => {
@@ -124,6 +138,18 @@ const Product = ({ ...props }) => {
             }
         });
     }
+
+    // onKeyDown={(e) => {
+    //     if (e.key === 'ArrowRight') {
+    //         let index = product?.images?.findIndex((item: any) => selectedImage === item.path);
+    //         setSelectedImage(product?.images[index + 1]?.path)
+    //     } else if (e.key === 'ArrowLeft') {
+    //         let index = product?.images?.findIndex((item: any) => selectedImage === item.path);
+    //         setSelectedImage(product?.images[index - 1]?.path)
+    //     } else if (e.key === 'Escape') {
+    //         setShowImageSlider(false)
+    //     }
+    // }}
 
     return (
         <>
@@ -195,9 +221,9 @@ const Product = ({ ...props }) => {
                             <div className="flex justify-between w-full mt-2">
                                 <div className="text-gray-700 text-sm lg:tex">
                                     {(i18n.language === "fr") ? product?.description : product?.description_ar
-                                    .split('\n').map((item: any, index: number) => (
-                                        <p key={index}>{item}</p>
-                                    ))}
+                                        .split('\n').map((item: any, index: number) => (
+                                            <p key={index}>{item}</p>
+                                        ))}
                                 </div>
                             </div>
                             <div className='flex justify-between items-center w-full mt-6'>
@@ -234,9 +260,13 @@ const Product = ({ ...props }) => {
                                 ))}
 
                             </div>
-                            <div className="flex  md:flex-col lg:flex-row justify-start items-center w-full gap-3 mt-3">
-                                <div className="w-52 flex justify-between gap-1 items-center border-2 overflow-hidden">
-                                    <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 select-none cursor-pointer" onClick={() => (qte > 1) ? setQte(qte - 1) : setQte(0)} />
+
+                            <div className="flex md:flex-col lg:flex-row justify-start items-center w-full gap-3 mt-3">
+                                <div dir="ltr" className="w-52 flex justify-between gap-1 items-center border-2 overflow-hidden">
+                                    <div className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1 select-none cursor-pointer"
+                                        onClick={() => (qte > 1) ? setQte(qte - 1) : setQte(0)} >
+                                        <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 select-none cursor-pointer" />
+                                    </div>
                                     <div className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1">
                                         <input
                                             value={qte}
@@ -244,7 +274,11 @@ const Product = ({ ...props }) => {
                                             className="outline-none w-10 h-10 text-center text-gray-700 font-bold text-xs md:text-sm lg:tex"
                                         />
                                     </div>
-                                    <AiOutlinePlus className="w-4 h-4 text-gray-600 mr-2 select-none cursor-pointer" onClick={() => setQte(qte + 1)} />
+                                    <div
+                                        className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1 select-none cursor-pointer"
+                                        onClick={() => setQte(qte + 1)} >
+                                        <AiOutlinePlus className="w-4 h-4 text-gray-600 " />
+                                    </div>
                                 </div>
                                 <Button
                                     variant="default"
@@ -252,13 +286,13 @@ const Product = ({ ...props }) => {
                                     onClick={addToCart}
                                 >
                                     <p className="text-xs font-bold md:text-sm lg:tex">
-                                        {t("product_page.add_to_cart")} 
+                                        {t("product_page.add_to_cart")}
                                         {/* AJOUTER AU PANIER */}
                                     </p>
                                     {addingToCartLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
-                                        <p className="text-xs text-gray-400 font-bold">
-                                            {currectPrice?.price * qte} DA
-                                        </p>
+                                        <div className="flex rtl:flex-row-reverse gap-1 text-xs text-gray-300 font-bold">
+                                            <span>{currectPrice?.price * qte}</span><span>DA</span>
+                                        </div>
                                     )}
                                 </Button>
                                 {/* <p className="text-gray-700 text-xs font-bold md:text-sm lg:tex">
@@ -268,7 +302,26 @@ const Product = ({ ...props }) => {
                                     100.00 DZD
                                 </p> */}
                             </div>
-
+                            {/* PRODUCT ALREADY IN CART */}
+                            {product?.isProductInCart && (
+                                <div className="flex justify-start items-center w-full">
+                                    <p className="text-gray-900 text-xs font-bold md:text-sm lg:tex">
+                                        {t("product_page.product_already_in_cart")}
+                                        {/* Produit déjà dans le panier */}
+                                    </p>
+                                    <Link
+                                        href="/cart"
+                                        className="flex justify-center items-center gap-2"
+                                    >
+                                        <Button
+                                            variant="ghost"
+                                            className="hover:bg-gray-50"
+                                        >
+                                            <TbExternalLink className="w-5 h-5 text-gray-900" />
+                                        </Button>
+                                    </Link>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -286,6 +339,7 @@ const Product = ({ ...props }) => {
                             slidesPerView={1}
                             initialSlide={product?.images?.findIndex((item: any) => selectedImage === item.path)}
                             navigation
+
                         >
                             {product?.images?.map((item: any, index: number) => (
                                 <SwiperSlide key={index} className="my-auto">
