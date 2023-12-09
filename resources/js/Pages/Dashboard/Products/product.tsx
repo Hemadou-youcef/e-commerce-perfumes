@@ -214,7 +214,7 @@ const Product = ({ ...props }) => {
                                 <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Archiver</p>
                             </Button>
                         )}
-                        {true && (
+                        {[3,4].includes(props?.auth?.user?.role) && (
                             <AlertDialog>
                                 <AlertDialogTrigger>
                                     <Button

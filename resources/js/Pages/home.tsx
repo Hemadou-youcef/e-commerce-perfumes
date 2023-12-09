@@ -52,7 +52,7 @@ const Home = ({ ...props }) => {
                     {props?.pinned_products?.map((product, index) => (
                         <SwiperSlide key={index}>
                             {/* Wallpaper For Information */}
-                            <div className="md:h-128 py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(/image/wallpaper.png)" }}
+                            <div className="md:h-128 py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(/image/wallpaper.avif)" }}
                             >
                                 <div className="container flex flex-col md:flex-row items-center justify-center md:justify-around gap-5 select-none">
                                     <div className="flex flex-col md:justify-centers items-center  text-center">
@@ -62,12 +62,12 @@ const Home = ({ ...props }) => {
                                         <p className="text-sm font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
                                             {i18n.language === "fr" ? product.description : product.description_ar}
                                         </p>
-                                        <Button variant="default" className="mt-5 w-44 bg-prime border-2 border-prime  text-third  ">
+                                        <Button variant="default" className="mt-5 w-44 text-gray-900 hover:text-third bg-prime border-2 border-prime font-sans rtl:font-arabic  ">
                                             {t('product_page.view_product')}
                                         </Button>
                                     </div>
                                     <div className=" ">
-                                        <img src={product.main_image} alt=""
+                                        <img src={product.main_image.path} alt=""
                                             className="landingImageRadius p-5 h-52 md:h-80  object-cover shadow-md"
                                         />
                                     </div>

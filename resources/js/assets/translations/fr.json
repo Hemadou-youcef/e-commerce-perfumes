@@ -76,7 +76,8 @@
         "shipping": "Livraison",
         "fill_all_fields": "Veuillez remplir tous les champs",
         "first_name": "Prénom",
-        "last_name": "Nom"
+        "last_name": "Nom",
+        "start_order": "Commencer la commande"
     },
     "bookmarks_page":{
         "title": "Favoris",

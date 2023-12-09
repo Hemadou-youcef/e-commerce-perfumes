@@ -31,6 +31,7 @@ type FormData = {
 import wilaya from "@/data/wilaya";
 import yalidine from "@/data/yalidine";
 import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 
 const Cart = ({ ...props }) => {
     console.log(props);
@@ -48,7 +49,7 @@ const Cart = ({ ...props }) => {
     const [checkedOut, setCheckedOut] = useState(false);
     const [checkoutLoading, setCheckoutLoading] = useState(false);
 
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
 
     useEffect(() => {
         setCartItems(props?.cartItems);
@@ -143,7 +144,7 @@ const Cart = ({ ...props }) => {
                                 <SelectTrigger >
                                     <SelectValue placeholder="Yalidine" className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
-                                <SelectContent dir="rtl" className="w-full border-2 focus-visible:ring-transparent">
+                                <SelectContent dir={i18n.dir()} className="w-full border-2 focus-visible:ring-transparent">
                                     <SelectItem value="yalidine">Yalidine</SelectItem>
                                 </SelectContent>
                             </Select>
@@ -157,10 +158,10 @@ const Cart = ({ ...props }) => {
                             <Select onValueChange={(value) => {
                                 setData(data => ({ ...data, shipping_method: value }))
                             }}>
-                                <SelectTrigger >
+                                <SelectTrigger dir={i18n.dir()}>
                                     <SelectValue placeholder={t('cart_page.home_delivery')} className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
-                                <SelectContent className="w-full border-2 focus-visible:ring-transparent">
+                                <SelectContent dir={i18n.dir()} className="w-full border-2 focus-visible:ring-transparent font-arabic">
                                     <SelectItem value="2">
                                         {t('cart_page.home_delivery')}
                                     </SelectItem>
@@ -243,16 +244,17 @@ const Cart = ({ ...props }) => {
                             <Select onValueChange={(value) => {
                                 setData(data => ({ ...data, state_code: value }))
                             }}>
-                                <SelectTrigger >
+                                <SelectTrigger dir={i18n.dir()}>
                                     <SelectValue placeholder="" className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
-                                <SelectContent className="w-full h-52 border-2 focus-visible:ring-transparent">
+                                <SelectContent dir={i18n.dir()} className="w-full h-52 border-2 focus-visible:ring-transparent">
                                     {wilaya.map((item, index): any => (
                                         <SelectItem
                                             key={index}
                                             value={item[0].toString()}
+                                            className="font-arabic"
                                         >
-                                            {item[0]} - {item[1]}
+                                            {item[0]} - {i18n.language == 'ar' ? item[2] : item[1]}
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
@@ -374,7 +376,7 @@ const Cart = ({ ...props }) => {
                                 </>
                             }
 
-                            <div className="flex justify-end">
+                            <div className="flex justify-start">
                                 {checkedOut ? (
                                     <Button
                                         type="submit"
@@ -386,21 +388,19 @@ const Cart = ({ ...props }) => {
                                             <div className="flex items-center justify-center gap-2">
                                                 <p className="text-sm text-gray-50 font-bold uppercase">
                                                     {t('cart_page.order_now')}
-                                                    {/* Passer à la caisse */}
                                                 </p>
-                                                {/* <MdSend className="h-5 w-5" /> */}
                                             </div>
                                         )}
 
                                     </Button>
                                 ) : (
                                     <Button
-                                        className="w-52 text-white px-4 py-2 bg-gray-900 rounded-md hover:bg-gray-800 active:bg-gray-700"
+                                        className="w-64 text-white px-4 py-2 bg-gray-900 rounded-md hover:bg-gray-800 active:bg-gray-700"
                                         onClick={() => setCheckedOut(true)}
                                     >
                                         <div className="flex items-center justify-center gap-2">
                                             <p className="text-sm text-gray-50 font-bold uppercase">
-                                                Passer à la caisse
+                                                {t('cart_page.start_order')}
                                             </p>
                                             {/* <MdSend className="h-5 w-5" /> */}
                                         </div>

@@ -169,10 +169,10 @@ const Client = ({ ...props }) => {
                                 <AlertDialogContent>
                                     <AlertDialogHeader>
                                         <AlertDialogTitle>
-                                            Supprimer Message
+                                            Supprimer le Client
                                         </AlertDialogTitle>
                                         <AlertDialogDescription>
-                                            Êtes-vous sûr de vouloir supprimer cette Message ? Cette action est irréversible.
+                                            Êtes-vous sûr de vouloir supprimer ce Client ? Vous ne pourrez pas revenir en arrière.
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
@@ -188,7 +188,7 @@ const Client = ({ ...props }) => {
                                 </AlertDialogContent>
                             </AlertDialog>
                         )}
-                        {[3, 4].includes(props?.auth?.user?.role) && client?.role == 1 && (
+                        {[3, 4].includes(props?.auth?.user?.role) && client?.role == 0 && (
                             <Button
                                 variant="outline"
                                 className="group p-0 h-12 w-12 hover:w-32 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"

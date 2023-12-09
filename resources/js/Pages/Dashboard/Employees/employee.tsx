@@ -35,9 +35,11 @@ import { IoLocationSharp } from "react-icons/io5";
 import { LiaEdit } from "react-icons/lia";
 import { RiAdminFill } from "react-icons/ri";
 import { useToast } from "@/shadcn/ui/use-toast";
+import { TbExternalLink } from "react-icons/tb";
 
 // Types
 const Client = ({ ...props }) => {
+    console.log(props?.employee)
     const [data, setData] = useState(props?.employee)
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
 
@@ -75,6 +77,13 @@ const Client = ({ ...props }) => {
         )
     }
 
+    const canDeleteAndEdit = () => {
+        const rules = [
+            props?.auth?.user?.role == 4,
+            props?.auth?.user?.role == 3 && data?.role == 2,
+        ]
+        return rules.some((rule) => rule)
+    }
     const handleDeleteEmployee = () => {
         setDeleteLoading(true)
         router.delete(route('employee.destroy', data?.id), {
@@ -122,7 +131,7 @@ const Client = ({ ...props }) => {
                     </div>
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
-                        {true && (
+                        {canDeleteAndEdit() && (
                             <AlertDialog>
                                 <AlertDialogTrigger>
                                     <Button
@@ -156,15 +165,17 @@ const Client = ({ ...props }) => {
                                 </AlertDialogContent>
                             </AlertDialog>
                         )}
-                        <Link href={`/dashboard/employees/${data?.id}/edit`}>
-                            <Button
-                                variant="outline"
-                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
-                            >
-                                <LiaEdit className="text-2xl" />
-                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Modifier</p>
-                            </Button>
-                        </Link>
+                        {canDeleteAndEdit() && (
+                            <Link href={`/dashboard/employees/${data?.id}/edit`}>
+                                <Button
+                                    variant="outline"
+                                    className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                >
+                                    <LiaEdit className="text-2xl" />
+                                    <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Modifier</p>
+                                </Button>
+                            </Link>
+                        )}
                     </div>
                 </div>
 
@@ -211,9 +222,13 @@ const Client = ({ ...props }) => {
                 <div className="flex flex-col gap-2 mt-2">
                     <Tabs defaultValue="confirmed_orders" className="w-full">
                         <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent  overflow-x-auto">
-                            <TabsTrigger value="confirmed_orders" className="w-52  border-b rounded-none">Les commandes confirmées</TabsTrigger>
+                            {[3, 4].includes(data.role) && (
+                                <TabsTrigger value="confirmed_orders" className="w-52  border-b rounded-none">Les commandes confirmées</TabsTrigger>
+                            )}
                             <TabsTrigger value="delivered_orders" className="w-52  border-b rounded-none">Les commandes livrées</TabsTrigger>
-                            <TabsTrigger value="cancelled_orders" className="w-52  border-b rounded-none">Les commandes annulées</TabsTrigger>
+                            {[3, 4].includes(data.role) && (
+                                <TabsTrigger value="cancelled_orders" className="w-52  border-b rounded-none">Les commandes annulées</TabsTrigger>
+                            )}
                         </TabsList>
                         <TabsContent value="confirmed_orders" className="px-5">
                             <div className="w-full mb-5 border-2 ">
@@ -221,8 +236,8 @@ const Client = ({ ...props }) => {
                                     <TableHeader>
                                         <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
                                             <TableHead className="w-5">ID</TableHead>
-                                            <TableHead className="w-40">User</TableHead>
-                                            <TableHead className="w-60">quantité commandée</TableHead>
+                                            <TableHead className="w-16">Client</TableHead>
+                                            <TableHead className="w-32">La commande</TableHead>
                                             <TableHead>Status</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -230,7 +245,20 @@ const Client = ({ ...props }) => {
                                         {(data?.confirmed_orders || []).map((order, index) => (
                                             <TableRow key={index} >
                                                 <TableCell className="font-medium text-xs">{order.id}</TableCell>
-                                                <TableCell className="font-bold text-xs">{order.user_id}</TableCell>
+                                                <TableCell className="font-bold text-xs">
+                                                    <Link href={`/dashboard/client/${order.user_id}`}>
+                                                        <Button variant="outline" className="flex items-center border-gray-900 space-x-2 bg-transparent hover:bg-gray-200">
+                                                            <TbExternalLink className="text-lg" />
+                                                        </Button>
+                                                    </Link>
+                                                </TableCell>
+                                                <TableCell className="font-bold text-xs">
+                                                    <Link href={`/dashboard/orders/${order.id}`}>
+                                                        <Button variant="outline" className="flex items-center border-gray-900 space-x-2 bg-transparent hover:bg-gray-200">
+                                                            <TbExternalLink className="text-lg" />
+                                                        </Button>
+                                                    </Link>
+                                                </TableCell>
                                                 <TableCell className="font-bold text-xs">{order.status}</TableCell>
                                             </TableRow>
                                         ))}
@@ -252,8 +280,8 @@ const Client = ({ ...props }) => {
                                     <TableHeader>
                                         <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
                                             <TableHead className="w-5">ID</TableHead>
-                                            <TableHead className="w-40">User</TableHead>
-                                            <TableHead className="w-60">quantité commandée</TableHead>
+                                            <TableHead className="w-16">Client</TableHead>
+                                            <TableHead className="w-32">La commande</TableHead>
                                             <TableHead>Status</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -261,7 +289,20 @@ const Client = ({ ...props }) => {
                                         {(data?.delivered_orders || []).map((order, index) => (
                                             <TableRow key={index} >
                                                 <TableCell className="font-medium text-xs">{order.id}</TableCell>
-                                                <TableCell className="font-bold text-xs">{order.user_id}</TableCell>
+                                                <TableCell className="font-bold text-xs">
+                                                    <Link href={`/dashboard/client/${order.user_id}`}>
+                                                        <Button variant="outline" className="flex items-center border-gray-900 space-x-2 bg-transparent hover:bg-gray-200">
+                                                            <TbExternalLink className="text-lg" />
+                                                        </Button>
+                                                    </Link>
+                                                </TableCell>
+                                                <TableCell className="font-bold text-xs">
+                                                    <Link href={`/dashboard/orders/${order.id}`}>
+                                                        <Button variant="outline" className="flex items-center border-gray-900 space-x-2 bg-transparent hover:bg-gray-200">
+                                                            <TbExternalLink className="text-lg" />
+                                                        </Button>
+                                                    </Link>
+                                                </TableCell>
                                                 <TableCell className="font-bold text-xs">{order.status}</TableCell>
                                             </TableRow>
                                         ))}
@@ -283,8 +324,8 @@ const Client = ({ ...props }) => {
                                     <TableHeader>
                                         <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
                                             <TableHead className="w-5">ID</TableHead>
-                                            <TableHead className="w-40">User</TableHead>
-                                            <TableHead className="w-60">quantité commandée</TableHead>
+                                            <TableHead className="w-40">Client</TableHead>
+                                            <TableHead className="w-60">La commande</TableHead>
                                             <TableHead>Status</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -292,7 +333,20 @@ const Client = ({ ...props }) => {
                                         {(data?.cancelled_orders || []).map((order, index) => (
                                             <TableRow key={index} >
                                                 <TableCell className="font-medium text-xs">{order.id}</TableCell>
-                                                <TableCell className="font-bold text-xs">{order.user_id}</TableCell>
+                                                <TableCell className="font-bold text-xs">
+                                                    <Link href={`/dashboard/client/${order.user_id}`}>
+                                                        <Button variant="outline" className="flex items-center border-gray-900 space-x-2 bg-transparent hover:bg-gray-200">
+                                                            <TbExternalLink className="text-lg" />
+                                                        </Button>
+                                                    </Link>
+                                                </TableCell>
+                                                <TableCell className="font-bold text-xs">
+                                                    <Link href={`/dashboard/orders/${order.id}`}>
+                                                        <Button variant="outline" className="flex items-center border-gray-900 space-x-2 bg-transparent hover:bg-gray-200">
+                                                            <TbExternalLink className="text-lg" />
+                                                        </Button>
+                                                    </Link>
+                                                </TableCell>
                                                 <TableCell className="font-bold text-xs">{order.status}</TableCell>
                                             </TableRow>
                                         ))}

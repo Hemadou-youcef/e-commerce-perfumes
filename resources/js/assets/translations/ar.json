@@ -76,7 +76,8 @@
         "shipping": "الشحن",
         "fill_all_fields": "يرجى ملء جميع الحقول",
         "first_name": "الإسم",
-        "last_name": "اللقب"
+        "last_name": "اللقب",
+        "start_order": "ابدأ الطلب"
     },
     "bookmarks_page":{
         "title": "المفضلة",
