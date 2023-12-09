@@ -87,7 +87,7 @@ class BookmarkController extends Controller
 
     public function destroyByProductId($productId): RedirectResponse
     {
-        error_log($productId);
+
         $bookmark = Auth::user()->bookmarks()->where('product_id', $productId)->firstOrFail();
         $this->authorize('delete', $bookmark);
         $bookmark->delete();

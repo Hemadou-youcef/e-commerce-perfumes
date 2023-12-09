@@ -49,7 +49,10 @@ class Order extends Model
         return $this->belongsTo(Address::class);
     }
 
-
+    public function verifiedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'verified_by');
+    }
     public function confirmedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'confirmed_by');

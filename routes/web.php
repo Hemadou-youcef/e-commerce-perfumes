@@ -58,6 +58,8 @@ Route::patch('/dashboard/products/{product}/update_status' , [App\Http\Controlle
 
 // orders routes
 Route::get('/dashboard/orders' , [App\Http\Controllers\OrderController::class, 'index'])->name('orders');
+Route::get('/dashboard/orders/receipt' , [App\Http\Controllers\OrderController::class, 'custom_receipt'])->name('print_orders');
+Route::get('/dashboard/orders/receipt/{order}' , [App\Http\Controllers\OrderController::class, 'receipt'])->name('print_order');
 Route::get('/dashboard/orders/create' , [App\Http\Controllers\OrderController::class, 'create'])->name('order.create');
 Route::post('/dashboard/orders/create' , [App\Http\Controllers\OrderController::class, 'store'])->name('order.store');
 Route::get('/dashboard/orders/{order}' , [App\Http\Controllers\OrderController::class, 'show'])->name('order');

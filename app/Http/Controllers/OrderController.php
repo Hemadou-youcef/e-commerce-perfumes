@@ -10,9 +10,13 @@ use App\Models\Product;
 use App\Models\ProductPrice;
 use App\Models\Reception;
 use App\Models\Reservation;
+use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Inertia\Response;
+use function Termwind\render;
 
 class OrderController extends Controller
 {
@@ -72,6 +76,7 @@ class OrderController extends Controller
         ]);
 
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -98,7 +103,6 @@ class OrderController extends Controller
             if ($product_price == null) {
                 return back()->withErrors(['product_price_id' => 'product_price_id n\'existe pas']);
             }
-
 
 
             if (isset($product['reservations'])) {
@@ -208,18 +212,13 @@ class OrderController extends Controller
             $order->save();
 
             DB::commit();
-        }catch (Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => 'Une erreur est survenue']);
         }
 
 
         return to_route('orders')->with('success', 'Commande créée avec succès');
-
-
-
-
-
 
 
     }
@@ -367,17 +366,12 @@ class OrderController extends Controller
             $reservation->apply();
 
 
-
-
-
-
         }
 
         foreach ($order->orderProducts as $orderProduct) {
             $orderProduct->buying_price = $orderProduct->buyingPrice();
             $orderProduct->save();
         }
-
 
 
         $order->update([
@@ -387,11 +381,8 @@ class OrderController extends Controller
         ]);
 
 
-
-
         return back();
     }
-
 
 
     public function deliver(Order $order)
@@ -448,16 +439,65 @@ class OrderController extends Controller
     }
 
 
-    public function PdfReceipt(Order $order)
+    public function receipt(Order $order): Response
     {
-        return Inertia::render('Dashboard/Orders/PdfReceipt', ['order' => $order->load(
-            [
-                'user',
-                'confirmedBy',
-                'deliveredBy',
-                'orderProducts.product ',
-            ]
-        )]);
+
+
+        $order->load(['user', 'verifiedBy', 'confirmedBy', 'deliveredBy', 'orderProducts.product', 'orderProducts.reservations.reception']);
+
+        // Return the order details view with the order data
+        return Inertia::render('testPages/test', ['order' => $order]);
+
+    }
+
+    public function custom_receipt(): Response|RedirectResponse
+    {
+
+        $date = request('date') ? date('Y-m-d', strtotime(request('date'))) : null;
+        $startDate = request('startDate') ? date('Y-m-d', strtotime(request('startDate'))) : null;
+        $endDate = request('endDate') ? date('Y-m-d', strtotime(request('endDate'))) : null;
+
+        if ($date) {
+            // Query all orders created on the provided date
+            $order = Order::query()
+                ->where('status', 'delivered')
+                ->whereDate('created_at', $date)
+                ->with(['user', 'deliveredBy', 'orderProducts'])
+                ->get();
+            return Inertia::render('testPages/test', ['order' => $order]);
+
+        } else if ($startDate && $endDate) {
+            // Query all orders created between startDate and endDate, group them by day
+            $datesRange = [];
+            $currentDate = Carbon::parse($startDate);
+
+            // Create an array containing each date between startDate and endDate
+            while ($currentDate->lte(Carbon::parse($endDate))) {
+                $datesRange[] = $currentDate->toDateString();
+                $currentDate->addDay();
+            }
+
+            // Query to retrieve aggregated data for each date
+            $orders = Order::query()
+                ->select(
+                    DB::raw('DATE(created_at) as order_date'),
+                    DB::raw('COUNT(*) as total_orders'),
+                    DB::raw('SUM(total) as total_sum'),
+                    DB::raw('SUM(profit) as total_profit'),
+                    DB::raw('SUM((SELECT COUNT(*) FROM order_products WHERE order_products.order_id = orders.id)) as total_order_products')
+                )
+                ->whereIn(DB::raw('DATE(created_at)'), $datesRange)
+                ->where('status', 'delivered')
+                ->groupBy(DB::raw('DATE(created_at)'))
+                ->get();
+
+            return Inertia::render('testPages/test', ['days' => $orders]);
+
+        } else {
+            // If neither date nor startDate and endDate are provided, return an error
+            return to_route('orders')->withErrors(['error' => 'Veuillez fournir une date ou une période']);
+        }
+
 
     }
 }
