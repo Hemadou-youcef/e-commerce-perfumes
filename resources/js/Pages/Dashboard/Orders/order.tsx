@@ -46,6 +46,7 @@ import { Progress } from "@/shadcn/ui/progress";
 import { TbExternalLink } from "react-icons/tb";
 import { FaBuildingUser } from "react-icons/fa6";
 import OrderReceptionsSelector from "@/components/dashboard/order/orderReceptionsSelector";
+import { IoMdPrint } from "react-icons/io";
 
 
 // Types
@@ -294,6 +295,11 @@ const Order = ({ ...props }) => {
         )
     }
 
+    const handlePrint = () => {
+        const popUpFeatures = "menubar=no,toolbar=no,location=no,scrollbars=yes,status=no";
+        const printWindow = window.open(route('print_order', order?.id), 'Print', popUpFeatures);
+    }
+
     return (
         <>
             {/* TREE */}
@@ -380,6 +386,19 @@ const Order = ({ ...props }) => {
                                 >
                                     <span className="text-sm font-medium">Livré</span>
                                     {loadingAction ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineCheckCircle className="text-xl" />}
+                                </Button>
+                            )}
+
+                            {/* print */}
+                            {(order?.status == "confirmed" || order?.status == "delivered") && (
+                                <Button
+                                    variant="outline"
+                                    className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300"
+                                    onClick={() => handlePrint()}
+                                >
+                                    {/* onClick={() => router.get(route('print_order', order?.id),{returnRoute:true},{preserveState:true})} */}
+                                    <span className="text-sm font-medium">Imprimer</span>
+                                    <IoMdPrint className="text-xl" />
                                 </Button>
                             )}
 

@@ -443,10 +443,10 @@ class OrderController extends Controller
     {
 
 
-        $order->load(['user', 'verifiedBy', 'confirmedBy', 'deliveredBy', 'orderProducts.product', 'orderProducts.reservations.reception']);
+        $order->load(['user', 'verifiedBy', 'confirmedBy', 'deliveredBy', 'orderProducts.product', 'orderProducts.reservations.reception', 'orderProducts.product.activeProductPrices']);
 
         // Return the order details view with the order data
-        return Inertia::render('testPages/test', ['order' => $order]);
+        return Inertia::render('Dashboard/Orders/printOrder', ['order' => $order]);
 
     }
 

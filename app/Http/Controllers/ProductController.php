@@ -55,6 +55,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        $orders = $product->orders()->paginate(10);
+        $receiptions = $product->receptions()->paginate(10);
         return inertia::render('Dashboard/Products/product', [
             'product' => [
                 'id' => $product->id,
@@ -68,8 +70,8 @@ class ProductController extends Controller
                 'categories' => $product->categories,
                 'images' => $product->images,
                 'productPrices' => $product->productPrices,
-                'receptions' => $product->receptions,
-                'orders' => $product->orders,
+                'receptions' => $receiptions,
+                'orders' => $orders,
 
             ],
 

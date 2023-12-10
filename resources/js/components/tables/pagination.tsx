@@ -12,21 +12,27 @@ import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const Pagination = ({ meta }) => {
+const parsePageId = (path: string) => path.split("/")[2] || "admin"
+
+const Pagination = ({ meta, preservestate = false, preserveScroll = false }) => {
+    const pageId = parsePageId(window.location.pathname)
     const { t } = useTranslation()
 
     const visitPage = (page_url) => {
-        router.visit(page_url)
+        router.visit(page_url, {
+            preserveScroll: true,
+            preserveState: true,
+        });
     };
     return (
         <div className="flex flex-row justify-between items-center gap-2 mb-5">
             <div className="flex flex-row justify-start items-center gap-2">
                 <p className="text-sm md:text-base font-medium text-gray-600 uppercase">
-                    {t('layout.pagination.total')}: {meta.total}
+                    {pageId != "products" ?t('layout.pagination.total') : "total"}: {meta.total}
                 </p>
             </div>
             <div dir="ltr" className="flex flex-row justify-end items-center gap-2">
-                <Link href={meta?.first_page_url} preserveScroll={false}>
+                <Link href={meta?.first_page_url} preserveScroll={preserveScroll} preserveState={preservestate}>
                     <Button
                         variant="outline"
                         className="hidden h-8 w-8 md:h-10 md:w-10 p-0 lg:flex"
@@ -35,7 +41,7 @@ const Pagination = ({ meta }) => {
                         <DoubleArrowLeftIcon className="h-4 w-4" />
                     </Button>
                 </Link>
-                <Link href={meta?.prev_page_url} preserveScroll={false} >
+                <Link href={meta?.prev_page_url} preserveScroll={preserveScroll} preserveState={preservestate}>
                     <Button
                         variant="outline"
                         className="h-8 w-8 md:h-10 md:w-10 p-0"
@@ -87,7 +93,7 @@ const Pagination = ({ meta }) => {
                 </div>
             )} */}
                 <div className="flex items-center space-x-2">
-                    <Link href={meta?.next_page_url} preserveScroll={false}>
+                    <Link href={meta?.next_page_url} preserveScroll={preserveScroll} preserveState={preservestate}>
                         <Button
                             variant="outline"
                             className="h-8 w-8 md:h-10 md:w-10 p-0"
@@ -97,7 +103,7 @@ const Pagination = ({ meta }) => {
                             <ChevronRightIcon className="h-4 w-4" />
                         </Button>
                     </Link>
-                    <Link href={meta?.last_page_url} preserveScroll={false}>
+                    <Link href={meta?.last_page_url} preserveScroll={preserveScroll} preserveState={preservestate}>
                         <Button
                             variant="outline"
                             className="hidden h-8 w-8 md:h-10 md:w-10 p-0 lg:flex"

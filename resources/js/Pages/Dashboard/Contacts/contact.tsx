@@ -86,7 +86,7 @@ const Contact = ({ ...props }) => {
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Contacts</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />
-                <h2 className="text-sm md:text-lg text-gray-600 font-medium tracking-tight">
+                <h2 className="text-sm md:text-lg text-gray-600 font-medium tracking-tight font-arabic">
                     {message?.first_name} {message?.last_name}
                 </h2>
             </div>
@@ -94,7 +94,7 @@ const Contact = ({ ...props }) => {
                 <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 bg-gray-100">
                     <div className="flex flex-col text-center md:text-left">
                         <h2 className="text-xl text-gray-900 font-bold tracking-tight">{message?.subject}</h2>
-                        <p className="text-sm text-gray-600">{message?.first_name} {message?.last_name}</p>
+                        <p className="text-sm text-gray-600 font-arabic">{message?.first_name} {message?.last_name}</p>
                     </div>
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
@@ -183,7 +183,7 @@ const Contact = ({ ...props }) => {
                     <div className="flex flex-col justify-start items-center gap-2">
                         <h1 className="text-sm font-medium md:w-40 text-gray-800">Message :</h1>
                         <div className="w-full items-center gap-2">
-                            <p className="text-sm font-bold text-gray-900">
+                            <p className="text-sm font-bold text-gray-900  font-arabic">
                                 {message?.message}
                             </p>
                         </div>

@@ -19,9 +19,13 @@ export type ProductsInfo = {
     categories: number[];
     images?: string[];
     productPrices?: any[];
-    receptions?: any[];
+    receptions?: {
+        data: any[];
+    },
     reservations?: any[];
-    orders?: any[];
+    orders?: {
+        data: any[];
+    }
 }
 
 export const columns: ColumnDef<ProductsInfo>[] = [

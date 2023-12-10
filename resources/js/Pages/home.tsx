@@ -62,9 +62,11 @@ const Home = ({ ...props }) => {
                                         <p className="text-sm font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
                                             {i18n.language === "fr" ? product.description : product.description_ar}
                                         </p>
-                                        <Button variant="default" className="mt-5 w-44 text-gray-900 hover:text-third bg-prime border-2 border-prime font-sans rtl:font-arabic  ">
-                                            {t('product_page.view_product')}
-                                        </Button>
+                                        <Link href={`/products/${product.id}`}>
+                                            <Button variant="default" className="mt-5 w-44 text-gray-900 hover:text-third bg-prime border-2 border-prime font-sans rtl:font-arabic  ">
+                                                {t('product_page.view_product')}
+                                            </Button>
+                                        </Link>
                                     </div>
                                     <div className=" ">
                                         <img src={product.main_image.path} alt=""
@@ -96,7 +98,7 @@ const Home = ({ ...props }) => {
                     }
                 >
                     <SwiperSlide>
-                        <div className='flex items-center space-x-2'>
+                        <div className='flex items-center px-2 gap-2'>
                             <div className=' bg-white rounded-full p-2'>
                                 <GiReceiveMoney className="w-7 h-7 text-gray-900" />
                             </div>
@@ -107,7 +109,7 @@ const Home = ({ ...props }) => {
                         <Separator orientation="vertical" />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <div className='flex items-center space-x-2'>
+                        <div className='flex items-center px-2 gap-2'>
                             <div className=' bg-white rounded-full p-2'>
                                 <TbTruckDelivery className="w-7 h-7 text-gray-900" />
                             </div>
@@ -119,7 +121,7 @@ const Home = ({ ...props }) => {
                         <Separator orientation="vertical" />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <div className='flex items-center space-x-2'>
+                        <div className='flex items-center px-2 gap-2'>
                             <div className='bg-white rounded-full p-2'>
                                 <BiSupport className="w-7 h-7 text-gray-900" />
                             </div>
@@ -131,7 +133,7 @@ const Home = ({ ...props }) => {
                         <Separator orientation="vertical" />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <div className='flex items-center space-x-2'>
+                        <div className='flex items-center px-2 gap-2'>
                             <div className='bg-white rounded-full p-2'>
                                 {/* Add an icon related to your additional information */}
                                 <GiReturnArrow className="w-7 h-7 text-gray-900" />
@@ -147,41 +149,41 @@ const Home = ({ ...props }) => {
             </div>
             <div className='w-full p-1 h-32 hidden md:flex justify-center items-center bg-forth uppercase'>
                 <div className="container h-10 md:flex justify-center items-center space-x-4 text-sm">
-                    <div className='flex items-center space-x-2'>
-                        <div className=' bg-prime rounded-full p-2'>
+                    <div className='flex items-center px-2 gap-2'>
+                        <div className=' bg-third rounded-full p-2'>
                             <GiReceiveMoney className="w-7 h-7 text-gray-900" />
                         </div>
-                        <p className="text-prime text-xs font-medium font-sans">
+                        <p className="text-third text-xs font-medium font-sans">
                             Paiement <br />à la livraison
                         </p>
                     </div>
                     <Separator orientation="vertical" />
-                    <div className='flex items-center space-x-2'>
-                        <div className=' bg-prime rounded-full p-2'>
+                    <div className='flex items-center px-2 gap-2'>
+                        <div className=' bg-third rounded-full p-2'>
                             <TbTruckDelivery className="w-7 h-7 text-gray-900" />
                         </div>
-                        <p className="text-prime text-xs font-medium font-sans">
+                        <p className="text-third text-xs font-medium font-sans">
                             LIVRAISON <br />
                             58 WILAYAS
                         </p>
                     </div>
                     <Separator orientation="vertical" />
-                    <div className='flex items-center space-x-2'>
-                        <div className='bg-prime rounded-full p-2'>
+                    <div className='flex items-center px-2 gap-2'>
+                        <div className='bg-third rounded-full p-2'>
                             <BiSupport className="w-7 h-7 text-gray-900" />
                         </div>
-                        <p className="text-prime text-xs font-medium font-sans">
+                        <p className="text-third text-xs font-medium font-sans">
                             Service Client <br />
                             A L'ECOUTE
                         </p>
                     </div>
                     <Separator orientation="vertical" />
-                    <div className='flex items-center space-x-2'>
-                        <div className='bg-prime rounded-full p-2'>
+                    <div className='flex items-center px-2 gap-2'>
+                        <div className='bg-third rounded-full p-2'>
                             {/* Add an icon related to your additional information */}
                             <GiReturnArrow className="w-7 h-7 text-gray-900" />
                         </div>
-                        <p className="text-prime text-xs font-medium font-sans">
+                        <p className="text-third text-xs font-medium font-sans">
                             {/* Add your return policy information here */}
                             Politique de Retour <br />
                             Retours faciles sous 30 jours

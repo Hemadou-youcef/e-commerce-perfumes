@@ -47,12 +47,13 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
+        $products = $category->products()->paginate(10);
         return Inertia::render('Dashboard/Categories/category', [
             'category' => [
                 'id' => $category->id,
                 'name' => $category->name,
                 'name_ar' => $category->name_ar,
-                'products' => $category->products,
+                'products' => $products,
                 'created_at' => $category->created_at->format('Y-m-d'),
             ]
         ]);

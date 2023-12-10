@@ -1,0 +1,27 @@
+@media print {
+    #header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+
+    }
+
+    @page {
+        margin: 0;
+        size: A4;
+    }
+}
+
+table table{
+    border: solid #000 !important;
+    border-width: 1px 0 0 1px !important;
+}
+
+table table th,
+table table td {
+    border: solid #000 !important;
+    border-width: 0 1px 1px 0 !important;
+    padding: 5px 10px;
+}

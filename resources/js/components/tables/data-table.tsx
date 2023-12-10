@@ -37,7 +37,7 @@ export function DataTable<TData, TValue>({
     router.visit(`${baseUrl}${id}`)
   }
   return (
-    <div className="rounded-md border bg-white min-w-[900px]">
+    <div className="rounded-md border bg-white min-w-[900px] font-arabic">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

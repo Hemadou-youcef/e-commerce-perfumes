@@ -1,7 +1,7 @@
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
 
 import { Link, useForm } from "@inertiajs/react";
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler, useEffect, useMemo, useState } from "react";
 
 // Shadcn Components
 import {
@@ -106,6 +106,7 @@ const ProductForm = ({ ...props }) => {
     const [imagesUploaded, setImagesUploaded] = useState<File[]>([
         new File([""], "image1"),
     ]);
+
     const [currentPrice, setCurrentPrice] = useState<prices>({
         price: 0,
         unit: data?.unit,
@@ -572,7 +573,7 @@ const ProductForm = ({ ...props }) => {
                                                 }}
                                             />
                                         </div>
-                                        <div className="flex flex-col gap-2">
+                                        <div>
                                             {data.unit}
                                         </div>
                                         <div className="flex flex-col gap-2">
@@ -586,6 +587,9 @@ const ProductForm = ({ ...props }) => {
                                                 }}
                                             />
                                         </div>
+                                        <div>
+                                            DA{ }
+                                        </div>
                                         <div className="flex flex-col gap-2">
                                             <div className="flex flex-row gap-2">
                                                 <Button
@@ -596,6 +600,7 @@ const ProductForm = ({ ...props }) => {
                                                         setData("prices", [...data.prices, currentPrice]);
                                                         setCurrentPrice({ price: 0, unit: data?.unit, quantity: 0, active: true });
                                                     }}
+                                                    disabled={currentPrice.price.toString().length == 0 || currentPrice.quantity.toString().length == 0 || currentPrice.price.toString() == "NaN" || currentPrice.quantity.toString() == "NaN"}
                                                 >
                                                     <TiPlus className="w-5 h-5 text-gray-900" />
                                                 </Button>

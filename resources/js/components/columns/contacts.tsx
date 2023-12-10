@@ -4,7 +4,7 @@ import {
     CrossCircledIcon,
     StopwatchIcon,
 } from "@radix-ui/react-icons"
-import { CiDeliveryTruck } from "react-icons/ci"
+import { PiStarFourFill } from "react-icons/pi";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type ContactsInfo = {
@@ -25,6 +25,24 @@ export const columns: ColumnDef<ContactsInfo>[] = [
     {
         accessorKey: "id",
         header: "ID",
+        cell: ({ row }: { row: any }) => {
+            // CHECK IF THIS CREATED TODAY
+            const today = new Date();
+            const date = new Date(row?.original.created_at);
+            const isToday = date.getDate() == today.getDate() &&
+                date.getMonth() == today.getMonth() &&   
+                date.getFullYear() == today.getFullYear();   
+            return (
+                <div className="flex items-center font-medium">
+                    <span className="text-gray-500">{row?.original.id}</span>
+                    {isToday && (
+                        <div className="flex items-center ml-2">
+                            <PiStarFourFill className="w-4 h-4 text-purple-500" />
+                        </div>
+                    )}
+                </div>
+            )
+        },
         maxSize:10,
     },
     {

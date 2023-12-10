@@ -18,11 +18,22 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/shadcn/ui/alert-dialog"
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/shadcn/ui/table"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
 
 // Icons
 import { AiOutlineCalendar, AiOutlineDelete, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { LiaEdit } from "react-icons/lia";
 import { useToast } from "@/shadcn/ui/use-toast";
+import { FaChevronRight } from "react-icons/fa";
+import Pagination from "@/components/tables/pagination";
 
 // Types
 const Category = ({ ...props }) => {
@@ -71,8 +82,8 @@ const Category = ({ ...props }) => {
                     {data?.name}
                 </h2>
             </div>
-            <div className="md:mx-10 p-0 m-2 border rounded-none md:rounded-md overflow-hidden">
-                <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 bg-gray-100">
+            <div className="md:mx-10 p-0 m-2 border rounded-none md:rounded-md overflow-hidden bg-white">
+                <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 ">
                     <div className="flex flex-col text-center md:text-left">
                         <h2 className="text-xl text-gray-900 font-bold tracking-tight">
                             {data?.name}
@@ -83,7 +94,7 @@ const Category = ({ ...props }) => {
                     </div>
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
-                        {[3,4].includes(props?.auth?.user?.role) && (
+                        {[3, 4].includes(props?.auth?.user?.role) && (
                             <AlertDialog>
                                 <AlertDialogTrigger>
                                     <Button
@@ -141,6 +152,55 @@ const Category = ({ ...props }) => {
                             </p>
                         </div>
                     </div>
+                </div>
+                <Separator className="mt-0" />
+                <div className="flex flex-col gap-2 px-5 mt-2">
+                    <Tabs defaultValue="product_used_it" className="w-full">
+                        <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent">
+                            <TabsTrigger value="product_used_it" className="w-52 border-b rounded-none">Les Produits</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="product_used_it">
+                            <div className="w-full mb-5 border-2 ">
+                                <Table className="w-full">
+                                    <TableHeader>
+                                        <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
+                                            <TableHead className="w-52">Product</TableHead>
+                                            <TableHead className="w-52">Date</TableHead>
+                                            <TableHead className="w-64">QTE</TableHead>
+                                            <TableHead className="w-auto"></TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {(data?.products?.data || []).map((product, index) => (
+                                            <TableRow key={index} >
+                                                <TableCell className="font-bold text-xs">{product.name}</TableCell>
+                                                <TableCell className="font-medium text-xs">{formatDate(product.created_at)}</TableCell>
+                                                <TableCell className="font-medium text-xs">{product.quantity}</TableCell>
+                                                <TableCell className="font-medium flex justify-end text-xs">
+                                                    <Link href={`/dashboard/products/${product.id}`}>
+                                                        <Button variant="outline" className="flex items-center gap-2 border-2 border-gray-600 hover:border-gray-800">
+                                                            <p className="text-sm font-bold text-gray-600">Voir Plus</p>
+                                                            <FaChevronRight className="text-sm text-gray-600" />
+                                                        </Button>
+                                                    </Link>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                        {(data?.products?.data || []).length === 0 && (
+                                            <TableRow>
+                                                <TableCell colSpan={4} className="text-center text-sm font-medium text-gray-500 uppercase">
+                                                    Aucune donnée
+                                                </TableCell>
+                                            </TableRow>
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                            <div className="px-5">
+                                <Pagination meta={data?.products} preserveScroll={true} preservestate={true} />
+                            </div>
+                        </TabsContent>
+                    </Tabs>
                 </div>
             </div>
         </>

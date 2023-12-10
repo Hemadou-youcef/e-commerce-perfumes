@@ -237,19 +237,27 @@ const Reception = ({ ...props }) => {
                                 <Table className="w-full">
                                     <TableHeader>
                                         <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
-                                            <TableHead className="w-5">ID</TableHead>
                                             <TableHead className="w-40">Command</TableHead>
                                             <TableHead className="w-40">Consommation</TableHead>
                                             <TableHead >Date De Réservation</TableHead>
+                                            <TableHead className="w-5"></TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {(reception?.reservations || []).map((reservation, index) => (
                                             <TableRow key={index} >
-                                                <TableCell className="font-medium text-xs">{reservation.id}</TableCell>
-                                                <TableCell className="font-bold text-xs">Command #{reservation.order_product_id}</TableCell>
+                                                <TableCell className="font-bold text-xs">Command #{reservation.order_id}</TableCell>
                                                 <TableCell className="font-bold text-xs">{reservation.quantity} {reception?.product?.unit}</TableCell>
-                                                <TableCell className="font-bold text-xs">{reservation.created_at}</TableCell>
+                                                <TableCell className="font-bold text-xs">{formatDate(reservation.created_at)}</TableCell>
+                                                
+                                                <TableCell className="font-medium text-xs">
+                                                    <Link href={`/dashboard/orders/${reservation.order_id}`}>
+                                                        <Button variant="outline" className="flex items-center gap-2 border-2 border-gray-600 hover:border-gray-800">
+                                                            <p className="text-sm font-bold text-gray-600">Voir La Command</p>
+                                                            <FaChevronRight className="text-sm text-gray-600" />
+                                                        </Button>
+                                                    </Link>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                         {(reception?.reservations || []).length === 0 && (

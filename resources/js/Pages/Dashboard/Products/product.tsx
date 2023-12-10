@@ -48,6 +48,8 @@ import { Scrollbar, Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
+import { FaChevronRight } from "react-icons/fa";
+import Pagination from "@/components/tables/pagination";
 
 const Product = ({ ...props }) => {
     console.log(props?.product)
@@ -214,7 +216,7 @@ const Product = ({ ...props }) => {
                                 <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Archiver</p>
                             </Button>
                         )}
-                        {[3,4].includes(props?.auth?.user?.role) && (
+                        {[3, 4].includes(props?.auth?.user?.role) && (
                             <AlertDialog>
                                 <AlertDialogTrigger>
                                     <Button
@@ -263,43 +265,43 @@ const Product = ({ ...props }) => {
 
                 <Separator />
                 <div className="flex flex-col gap-4 py-5 px-5 ">
-                        <Swiper
-                            modules={[Scrollbar]}
-                            spaceBetween={5}
-                            scrollbar={{ draggable: true }}
-                            slidesPerView={1}
-                            breakpoints={{
-                                // when window width is >= 640px
-                                640: {
-                                    slidesPerView: 3,
-                                },
-                                // when window width is >= 768px
-                                768: {
-                                    slidesPerView: 3,
-                                },
-                                // when window width is >= 1200px
-                                1200: {
-                                    slidesPerView: 5,
-                                },
-                            }}
-                            className="w-full h-[250px]"
-                        >
-                            {(product?.images || []).map((image: any, index) => (
-                                    <SwiperSlide
-                                        key={index}
-                                        className="flex justify-center items-center cursor-pointer"
-                                    >
-                                        <div
-                                            className={`w-auto h-52 md:h-56 shrink-0 snap-center flex flex-col items-center justify-start bg-cover bg-center border shadow-md rounded-md`}
-                                            style={{
-                                                backgroundImage: `url(${image.path})`,
-                                            }}
-                                        >
-                                        </div>
-                                    </SwiperSlide>
-                                ))}
-                        </Swiper>
-                        {/* {(product?.images || []).map((image: any, index) => (
+                    <Swiper
+                        modules={[Scrollbar]}
+                        spaceBetween={5}
+                        scrollbar={{ draggable: true }}
+                        slidesPerView={1}
+                        breakpoints={{
+                            // when window width is >= 640px
+                            640: {
+                                slidesPerView: 3,
+                            },
+                            // when window width is >= 768px
+                            768: {
+                                slidesPerView: 3,
+                            },
+                            // when window width is >= 1200px
+                            1200: {
+                                slidesPerView: 5,
+                            },
+                        }}
+                        className="w-full h-[250px]"
+                    >
+                        {(product?.images || []).map((image: any, index) => (
+                            <SwiperSlide
+                                key={index}
+                                className="flex justify-center items-center cursor-pointer"
+                            >
+                                <div
+                                    className={`w-auto h-52 md:h-56 shrink-0 snap-center flex flex-col items-center justify-start bg-cover bg-center border shadow-md rounded-md`}
+                                    style={{
+                                        backgroundImage: `url(${image.path})`,
+                                    }}
+                                >
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                    {/* {(product?.images || []).map((image: any, index) => (
                             <div key={index} className="relative h-64 border shadow-md rounded-md">
                                 <img
                                     src={`${image.path}`}
@@ -425,23 +427,24 @@ const Product = ({ ...props }) => {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {(product?.receptions || []).map((reception, index) => (
+                                        {(product?.receptions?.data || []).map((reception, index) => (
                                             <TableRow key={index} >
                                                 <TableCell className="font-medium text-xs">{reception.id}</TableCell>
                                                 <TableCell className="font-bold text-xs">{reception.quantity} {product?.unit}</TableCell>
                                                 <TableCell className="font-bold text-xs">{reception.rest} G</TableCell>
                                                 <TableCell className="font-bold text-xs">{reception.user_id}</TableCell>
-                                                <TableCell className="font-bold text-xs">{reception.created_at}</TableCell>
+                                                <TableCell className="font-bold text-xs">{formatDate(reception.created_at)}</TableCell>
                                                 <TableCell className="font-bold text-xs">
                                                     <Link href={`/dashboard/receptions/${reception.id}`}>
-                                                        <Button variant="outline" className="flex items-center space-x-2 bg-transparent hover:bg-gray-200">
-                                                            <TbExternalLink className="text-lg" />
+                                                        <Button variant="outline" className="flex items-center gap-2 border-2 border-gray-600 hover:border-gray-800">
+                                                            <p className="text-sm font-bold text-gray-600">Voir Plus</p>
+                                                            <FaChevronRight className="text-sm text-gray-600" />
                                                         </Button>
                                                     </Link>
                                                 </TableCell>
                                             </TableRow>
                                         ))}
-                                        {(product?.receptions || []).length === 0 && (
+                                        {(product?.receptions?.data || []).length === 0 && (
                                             <TableRow>
                                                 <TableCell colSpan={4} className="text-center text-sm font-medium text-gray-500 uppercase">
                                                     Aucune donnée
@@ -450,6 +453,9 @@ const Product = ({ ...props }) => {
                                         )}
                                     </TableBody>
                                 </Table>
+                            </div>
+                            <div className="px-5">
+                                <Pagination meta={product?.receptions } preserveScroll={true} preservestate={true} />
                             </div>
                         </TabsContent>
                         <TabsContent value="orders" className="px-5">
@@ -461,18 +467,27 @@ const Product = ({ ...props }) => {
                                             <TableHead className="w-40">User</TableHead>
                                             <TableHead className="w-60">quantité commandée</TableHead>
                                             <TableHead>Status</TableHead>
+                                            <TableHead className="w-5"></TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {(product?.orders || []).map((order, index) => (
+                                        {(product?.orders?.data || []).map((order, index) => (
                                             <TableRow key={index} >
                                                 <TableCell className="font-medium text-xs">{order.id}</TableCell>
                                                 <TableCell className="font-bold text-xs">{order.user_id}</TableCell>
                                                 <TableCell className="font-bold text-xs">{order.total} {product?.unit}</TableCell>
                                                 <TableCell className="font-bold text-xs">{order.status}</TableCell>
+                                                <TableCell className="font-bold text-xs">
+                                                    <Link href={`/dashboard/orders/${order.id}`}>
+                                                        <Button variant="outline" className="flex items-center gap-2 border-2 border-gray-600 hover:border-gray-800">
+                                                            <p className="text-sm font-bold text-gray-600">Voir Plus</p>
+                                                            <FaChevronRight className="text-sm text-gray-600" />
+                                                        </Button>
+                                                    </Link>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
-                                        {(product?.orders || []).length === 0 && (
+                                        {(product?.orders?.data || []).length === 0 && (
                                             <TableRow>
                                                 <TableCell colSpan={4} className="text-center text-sm font-medium text-gray-500 uppercase">
                                                     Aucune donnée
@@ -482,6 +497,9 @@ const Product = ({ ...props }) => {
                                     </TableBody>
 
                                 </Table>
+                            </div>
+                            <div className="px-5">
+                                <Pagination meta={product?.orders} preserveScroll={true} preservestate={true}  />
                             </div>
                         </TabsContent>
                     </Tabs>

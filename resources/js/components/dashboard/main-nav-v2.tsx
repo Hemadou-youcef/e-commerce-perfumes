@@ -34,7 +34,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
   return (
     <>
 
-      <div className={`flex flex-row fixed h-screen  bg-white border-b shadow-md z-10 ${showNav ? "w-[50px] md:w-[270px]" : "w-[50px]"} transition-all duration-300`}>
+      <div className={`flex flex-row fixed h-screen bg-white border-b shadow-md z-10 ${showNav ? "w-[50px] md:w-[270px]" : "w-[50px]"} transition-all duration-300`}>
         {showNav && <div className="md:hidden fixed w-screen h-screen bg-black bg-opacity-50 z-0" onClick={() => setNav(false)}></div>}
         <div className="flex flex-col h-full w-[50px] items-center  bg-forth z-20
         ">
@@ -57,7 +57,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
 
           {auth?.user?.role === 3 && (<Link
             href={"/dashboard/contacts"}
-            className={`w-full h-14 flex justify-center items-center group transition-all cursor-pointer bg-purple-600 text-white`}
+            className={`w-full h-14 flex justify-center items-center group transition-all cursor-pointer text-white ${pageId === "contacts" ? "bg-purple-800 " : "bg-purple-600"}`}
           >
             <MdMailOutline className="w-5 h-5  group-hover:w-6 group-hover:h-6 transition-all" />
           </Link>
