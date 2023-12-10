@@ -35,10 +35,11 @@ class DatabaseSeeder extends Seeder
 
             $this->call(CategorySeeder::class);
 
-            User::factory()->has(Product::factory()->hasImages(3)->hasProductPrices(1)->hasReceptions(1)->count(3))->count(10)->create(['role' => fake()->randomElement([2, 3])]);
-            User::factory()->count(20)->hasBookmarks(3)->has(Order::factory()->hasOrderProducts(3)->count(2))->create(['role' => 1]);
-            CartItem::factory()->count(20)->create();
-            ContactFactory::new()->count(20)->create();
+            User::factory()->has(Product::factory()->hasImages(3)->hasProductPrices(1)->hasReceptions(1)->count(3))->count(20)->create(['role' => 2]);
+//            User::factory()->has(Product::factory()->hasImages(3)->hasProductPrices(1)->hasReceptions(1)->count(3))->count(10)->create(['role' => fake()->randomElement([2, 3])]);
+//            User::factory()->count(20)->hasBookmarks(3)->has(Order::factory()->hasOrderProducts(3)->count(2))->create(['role' => 1]);
+//            CartItem::factory()->count(20)->create();
+//            ContactFactory::new()->count(20)->create();
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

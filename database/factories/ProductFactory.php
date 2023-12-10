@@ -21,7 +21,7 @@ class ProductFactory extends Factory
     {
 //       $main_image_id = Image::inRandomOrder()->first()->id;
         return [
-            'name' => $this->faker->sentence,
+            'name' => $this->faker->sentence.substr( 0, 5),
             'description' => $this->faker->paragraph,
             'description_ar' => 'وصف باللغة العربية',
             'main_image_id' => null,

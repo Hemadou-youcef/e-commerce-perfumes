@@ -359,7 +359,7 @@ const Cart = ({ ...props }) => {
                                             {data.state_code != "" ?
                                                 yalidine[(parseInt(data.state_code) || 1) - 1][data.shipping_method == "1" ? "2" : "1"] + ",00" + t("global.da") :
                                                 "remplir l'entrée"
-                                            } 
+                                            }
                                         </p>
                                     </div>
                                     <div className="flex items-center font-bold font-mono rtl:font-arabic justify-between">
