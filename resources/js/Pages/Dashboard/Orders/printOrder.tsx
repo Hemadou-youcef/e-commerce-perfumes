@@ -127,7 +127,7 @@ const PrintOrder = ({ order }) => {
                     </table>
                 )}
                 {/* signature of the sended */}
-                <div className="mt-10 w-full flex justify-between items-center font-bold">
+                <div className="mt-10 mx-auto w-11/12 flex justify-between items-center font-bold">
                     <span>Signature expéditeur</span>
 
                     <span>Signature destinataire</span>

@@ -22,7 +22,9 @@ const LandingSuggest = ({ title, products }) => {
                     {/* <div className="w-24 h-0.5 rounded-full mt-2 bg-gray-600"></div> */}
                 </div>
                 <div className=" w-full flex justify-center">
-                    
+                {products.map((product, index) => (
+                        <Product key={index} product={product} />
+                    ))}
                 </div>
 
             </div>

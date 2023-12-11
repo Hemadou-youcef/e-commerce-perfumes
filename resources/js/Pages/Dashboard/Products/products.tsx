@@ -28,7 +28,7 @@ const Products = ({ ...props }) => {
     const [search, setSearch] = useState(props?.filters?.search || "");
     const [searchLoading, setSearchLoading] = useState(false);
     const [loading, setLoading] = useState(false);
-
+    
 
     const handleSearch = () => {
         setSearchLoading(true);

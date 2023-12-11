@@ -35,6 +35,9 @@ const Products = ({ ...props }) => {
         "unisexe",
     ]
 
+    // CHECK IF THERE IS CHANGE IN DATA
+    
+
     // MAKE A DELAYED SEARCH
     useLayoutEffect(() => {
         const getData = setTimeout(() => {
@@ -43,6 +46,7 @@ const Products = ({ ...props }) => {
         return () => clearTimeout(getData);
     }, [search]);
 
+    // HANDLE FILTERS
     useLayoutEffect(() => {
         if (firstUpdate.current) {
             firstUpdate.current = false;
