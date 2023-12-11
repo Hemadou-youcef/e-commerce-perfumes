@@ -464,7 +464,7 @@ class OrderController extends Controller
                 ->whereDate('created_at', $date)
                 ->with(['user', 'deliveredBy', 'orderProducts'])
                 ->get();
-            return Inertia::render('testPages/test', ['order' => $order]);
+            return Inertia::render('Dashboard/Orders/receipt', ['order' => $order]);
 
         } else if ($startDate && $endDate) {
             // Query all orders created between startDate and endDate, group them by day
@@ -491,7 +491,7 @@ class OrderController extends Controller
                 ->groupBy(DB::raw('DATE(created_at)'))
                 ->get();
 
-            return Inertia::render('testPages/test', ['days' => $orders]);
+            return Inertia::render('Dashboard/Orders/receipt', ['days' => $orders]);
 
         } else {
             // If neither date nor startDate and endDate are provided, return an error

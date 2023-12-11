@@ -92,7 +92,7 @@ const DashboardPage = ({ ...props }) => {
                         Tableau de bord
                     </h2>
                     <div className="flex items-center space-x-2">
-                        <CalendarDateRangePicker setDateRange={setDate} />
+                        <CalendarDateRangePicker setDateRange={setDate} dateRange={date} />
                         <Button onClick={getData} className="w-24 flex items-center justify-center">
                             {loadingData ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <p className="text-white">Filtrer</p>}
                         </Button>

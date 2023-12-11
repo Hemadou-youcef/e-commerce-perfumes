@@ -296,7 +296,7 @@ const Order = ({ ...props }) => {
     }
 
     const handlePrint = () => {
-        const popUpFeatures = "menubar=no,toolbar=no,location=no,scrollbars=yes,status=no";
+        const popUpFeatures = 'width=' + screen.width + ',height=' + screen.height +",menubar=no,toolbar=no,location=no,scrollbars=yes,status=no";
         const printWindow = window.open(route('print_order', order?.id), 'Print', popUpFeatures);
     }
 

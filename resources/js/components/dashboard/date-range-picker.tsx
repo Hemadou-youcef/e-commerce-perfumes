@@ -12,11 +12,8 @@ import {
   PopoverTrigger,
 } from "@/shadcn/ui/popover"
 
-export function CalendarDateRangePicker({ className, setDateRange }: { className?: string, setDateRange?: any }) {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: addDays(new Date(), -7),
-    to: new Date(),
-  })
+export function CalendarDateRangePicker({ className, dateRange, setDateRange }: { className?: string, dateRange: DateRange, setDateRange: any }) {
+  const [date, setDate] = React.useState<DateRange | undefined>(dateRange)
 
   React.useEffect(() => {
     setDateRange(date)

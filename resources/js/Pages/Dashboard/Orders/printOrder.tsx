@@ -15,8 +15,18 @@ const PrintOrder = ({ order }) => {
     }
 
     useEffect(() => {
-        window.print();
+        // Function to print the page when it has fully loaded
+        const printPage = () => {
+            window.print();
+        };
 
+        // Add event listener for the 'load' event
+        window.addEventListener('load', printPage);
+
+        // Remove the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('load', printPage);
+        };
     }, []);
 
     const getProductPrice = (product) => {

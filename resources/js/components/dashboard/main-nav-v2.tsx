@@ -33,7 +33,6 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
   const [collapsedStateList, setCollapsedStateList] = useState([true, true, true])
   return (
     <>
-
       <div className={`flex flex-row fixed h-screen bg-white border-b shadow-md z-10 ${showNav ? "w-[50px] md:w-[270px]" : "w-[50px]"} transition-all duration-300`}>
         {showNav && <div className="md:hidden fixed w-screen h-screen bg-black bg-opacity-50 z-0" onClick={() => setNav(false)}></div>}
         <div className="flex flex-col h-full w-[50px] items-center  bg-forth z-20
@@ -98,6 +97,14 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                 >
                   <FaList className="w-5 h-5 text-green-800 group-hover:text-green-600" />
                   <p className="text-xs text-gray-800 ">LES COMMANDES</p>
+                </Link>
+                <Link
+                  href="/dashboard/orders/receipt"
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  hover:bg-gray-200 ${pageId === "receipt" ? "bg-gray-200" : ""}`}
+                  onClick={() => (width <= 768) ? setNav(false) : null}
+                >
+                  <FaList className="w-5 h-5 text-green-800 group-hover:text-green-600" />
+                  <p className="text-xs text-gray-800 ">LES REÇUS</p>
                 </Link>
               </CollapsibleContent>
             </Collapsible>
