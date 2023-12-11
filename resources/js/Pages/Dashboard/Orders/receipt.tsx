@@ -70,7 +70,7 @@ const PrintOrder = ({ ...props }) => {
                     REÇU
                 </h1>
                 {data && (
-                    <table className="w-full">
+                    <table className="w-11/12 mx-auto  ">
                         <thead>
                             <div id="header" className="mt-2">
 
@@ -89,7 +89,7 @@ const PrintOrder = ({ ...props }) => {
                         <tbody>
                             <div className="">
                                 {props?.order && (
-                                    <table className="mt-5 mx-auto w-11/12 text-sm font-mono border border-dashed border-gray-900">
+                                    <table className="mt-5 w-full text-sm font-mono border border-dashed border-gray-900">
                                         <thead>
                                             <tr className="border-b border-gray-900 border-dashed">
 
@@ -121,7 +121,7 @@ const PrintOrder = ({ ...props }) => {
                                     </table>
                                 )}
                                 {props?.days && (
-                                    <table className="mt-5  mx-auto w-11/12 text-sm font-mono border border-dashed border-gray-900">
+                                    <table className="mt-5 w-full text-sm font-mono border border-dashed border-gray-900">
                                         <thead>
                                             <tr className="border-b border-gray-900 border-dashed">
 

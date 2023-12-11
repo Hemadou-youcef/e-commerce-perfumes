@@ -68,7 +68,7 @@ const PrintOrder = ({ order }) => {
                     BON DE COMMANDE
                 </h1>
                 {order && (
-                    <table className="w-full ">
+                    <table className="mx-auto w-11/12">
                         <thead>
                             <div id="header" className="mt-2">
 
@@ -99,7 +99,7 @@ const PrintOrder = ({ order }) => {
                         {/* Order Products */}
                         <tbody>
                             <div className="">
-                                <table className="mt-5 mx-auto w-11/12 text-sm font-mono border border-dashed border-gray-900">
+                                <table className="mt-5 w-full text-sm font-mono border border-dashed border-gray-900">
                                     <thead>
                                         <tr className="border-b border-gray-900 border-dashed">
                                             <th className="pl-2 text-left">Produit</th>
