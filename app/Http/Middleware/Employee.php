@@ -17,7 +17,7 @@ class Employee
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (Auth::check() && !auth()->user()->role > 1) {
+        if (Auth::check() && ! (auth()->user()->role > 1)) {
             abort(403, 'You are not authorized to access this page.');
         }
         return $next($request);
