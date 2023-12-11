@@ -83,7 +83,7 @@ const Orders = ({ ...props }) => {
 
     const handleReceipt = () => {
         const popUpFeatures = 'width=' + screen.width + ',height=' + screen.height +",menubar=no,toolbar=no,location=no,scrollbars=yes,status=no";
-        setLoading(true);
+        // setLoading(true);
         let dateRange = {}
         if (receiptDateRange.from === receiptDateRange.to) {
             dateRange = {

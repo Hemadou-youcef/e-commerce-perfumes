@@ -98,14 +98,6 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                   <FaList className="w-5 h-5 text-green-800 group-hover:text-green-600" />
                   <p className="text-xs text-gray-800 ">LES COMMANDES</p>
                 </Link>
-                <Link
-                  href="/dashboard/orders/receipt"
-                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  hover:bg-gray-200 ${pageId === "receipt" ? "bg-gray-200" : ""}`}
-                  onClick={() => (width <= 768) ? setNav(false) : null}
-                >
-                  <FaList className="w-5 h-5 text-green-800 group-hover:text-green-600" />
-                  <p className="text-xs text-gray-800 ">LES REÇUS</p>
-                </Link>
               </CollapsibleContent>
             </Collapsible>
             <Collapsible className="w-full CollapsibleContent" open={collapsedStateList[1]} onOpenChange={(open) => setCollapsedStateList([collapsedStateList[0], open, collapsedStateList[2]])}>

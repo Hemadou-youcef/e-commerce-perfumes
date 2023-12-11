@@ -21,7 +21,6 @@ import { useEffect, useState } from "react"
 import { GiSellCard } from "react-icons/gi"
 import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker"
 import { Button } from "@/shadcn/ui/button"
-import Analyser from "@/components/dashboard/analytics/analyser"
 import { router } from "@inertiajs/react"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { CiDeliveryTruck } from "react-icons/ci"
@@ -99,12 +98,6 @@ const DashboardPage = ({ ...props }) => {
                     </div>
                 </div>
                 <Tabs defaultValue="overview" className="space-y-4">
-                    {/* <TabsList>
-                        <TabsTrigger value="overview">Overview</TabsTrigger>
-                        <TabsTrigger value="analytics" >
-                            Analytics
-                        </TabsTrigger>
-                    </TabsList> */}
                     <TabsContent value="overview" className="space-y-4">
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 ">
                             {roleName() == "admin" && <Card>
