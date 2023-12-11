@@ -93,6 +93,7 @@ const PrintOrder = ({ ...props }) => {
 
                                                 <th className="pl-2 text-left">Bon de commande N°</th>
                                                 <th className="pl-2 text-left">Client</th>
+                                                <th className="pl-2 text-left">Nombre de produits</th>
                                                 <th className="pl-2 text-left">Total</th>
                                                 <th className="pl-2 text-left">Benefice</th>
                                             </tr>
@@ -103,12 +104,14 @@ const PrintOrder = ({ ...props }) => {
                                                 <tr className="border-b border-gray-900 border-dashed" key={index}>
                                                     <td className="pl-2 text-left">{order.id}</td>
                                                     <td className="pl-2 text-left">{order.user.first_name} {order.user.last_name}</td>
+                                                    <td className="pl-2 text-left">{order.order_products.length}</td>
                                                     <td className="pl-2 text-left">{order.total} DA</td>
                                                     <td className="pl-2 text-left">{order.profit} DA</td>
                                                 </tr>
                                             ))}
                                             <tr className="border-b border-gray-900 border-dashed">
                                                 <td colSpan={2} className="pl-2 text-left">Total</td>
+                                                <td className="pl-2 text-left">{data.reduce((a, b) => a + b.order_products.length, 0)}</td>
                                                 <td className="pl-2 text-left">{data.reduce((a, b) => a + b.total, 0)} DA</td>
                                                 <td className="pl-2 text-left">{data.reduce((a, b) => a + b.profit, 0)} DA</td>
                                             </tr>
