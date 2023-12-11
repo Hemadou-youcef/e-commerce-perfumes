@@ -17,7 +17,9 @@ const PrintOrder = ({ order }) => {
     useEffect(() => {
         // Function to print the page when it has fully loaded
         const printPage = () => {
-            window.print();
+            setTimeout(() => {
+                window.print();
+            }, 2000);
         };
 
         // Add event listener for the 'load' event
@@ -97,7 +99,7 @@ const PrintOrder = ({ order }) => {
                         {/* Order Products */}
                         <tbody>
                             <div className="">
-                                <table className="mt-5 container font-mono border border-dashed border-gray-900">
+                                <table className="mt-5 mx-auto w-11/12 text-sm font-mono border border-dashed border-gray-900">
                                     <thead>
                                         <tr className="border-b border-gray-900 border-dashed">
                                             <th className="pl-2 text-left">Produit</th>

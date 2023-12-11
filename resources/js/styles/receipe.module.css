@@ -10,6 +10,7 @@
 
     @page {
         margin: 0;
+        padding: 100;
         size: A4;
     }
 }
@@ -23,5 +24,5 @@ table table th,
 table table td {
     border: solid #000 !important;
     border-width: 0 1px 1px 0 !important;
-    padding: 5px 10px;
+    padding: 2px 5px;
 }
