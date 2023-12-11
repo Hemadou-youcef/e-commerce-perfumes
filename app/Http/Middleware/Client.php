@@ -15,7 +15,7 @@ class Client
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && !auth()->user()->role < 2) {
+        if (auth()->check() && !(auth()->user()->role < 2)) {
             abort(403, 'You are not authorized to access this page.');
         }
         return $next($request);
