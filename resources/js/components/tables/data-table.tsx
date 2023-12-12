@@ -44,7 +44,7 @@ export function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} style={{ width: header.getSize() + "%" }}>
+                  <TableHead key={header.id} className="rtl:text-right font-bold" style={{ width: header.getSize() + "%" }}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -65,13 +65,13 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
                 className="cursor-pointer h-10 hover:bg-gray-100 transition-colors duration-200 ease-in-out"
-                
+
                 onClick={() => goToUrl(row)}
               >
 
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
               </TableRow>

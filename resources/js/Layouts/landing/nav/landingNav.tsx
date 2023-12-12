@@ -27,6 +27,8 @@ import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { BsPersonAdd } from "react-icons/bs";
 import { is } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
+import { FaLuggageCart } from "react-icons/fa";
+import { LiaLuggageCartSolid } from "react-icons/lia";
 
 
 const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
@@ -130,6 +132,9 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                     {isClient() && <Link href="/cart">
                         <HiOutlineShoppingBag className="w-6 h-6 text-primary" />
                     </Link>}
+                    {isClient() && <Link href="/orders">
+                        <LiaLuggageCartSolid className="w-7 h-7 text-primary" />
+                    </Link>}
                     <Button
                         variant="outline"
                         onClick={() => {
@@ -141,9 +146,11 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                     >
                         <AiOutlineSearch className="w-6 h-6 text-primary" />
                     </Button>
-
+                    {isClient() && <Link href="/bookmarks">
+                        <TbBookmark className="w-6 h-6 text-primary" />
+                    </Link>}
                     {isClient() && <Link href="/profile">
-                        <CgProfile className="w-6 h-6 text-primary" />
+                        <CgProfile className="w-5 h-5 text-primary" />
                     </Link>}
                     {isEmployee() && <Link href="/dashboard">
                         <MdOutlineDashboard className="w-6 h-6 text-primary" />
@@ -207,6 +214,16 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                         {t('layout.navbar.cart')}
                                         {/* panier */}
+                                    </p>
+                                </Link>
+                                <Link
+                                    href="/orders"
+                                    className="flex flex-col items-center group gap-1"
+                                >
+                                    <FaLuggageCart className="w-7 h-7 text-white group-hover:text-gray-400" />
+                                    <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
+                                        {t('layout.navbar.orders')}
+                                        {/* mes commandes */}
                                     </p>
                                 </Link>
                                 <Link

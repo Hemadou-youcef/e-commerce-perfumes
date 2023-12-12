@@ -23,14 +23,14 @@ const Bookmarks = ({ ...props }) => {
     return (
         <>
             <div className="flex items-center justify-center gap-5 py-5 px-8 border-b border-gray-300 font-sans rtl:font-arabic">
-                    <FaRegBookmark className="h-8 w-8 text-gray-900" />
-                    <h1 className="text-2xl font-bold text-gray-900 uppercase">
-                        {t('bookmarks_page.title')}
-                        {/* Mon Signets */}
-                    </h1>
-                </div>
+                <FaRegBookmark className="h-8 w-8 text-gray-900" />
+                <h1 className="text-2xl font-bold text-gray-900 uppercase">
+                    {t('bookmarks_page.title')}
+                    {/* Mon Signets */}
+                </h1>
+            </div>
             <div className="container border-2 mx-auto px-4 my-5 bg-white font-sans rtl:font-arabic">
-                
+
                 <div className="rounded-lg sticky">
 
                     <div className="px-8 w-full">

@@ -15,7 +15,7 @@ class ClientOrderController extends Controller
      */
     public function index()
     {
-        return Inertia::render('testPages/test', [
+        return Inertia::render('ClientSide/Orders/orders', [
             'orders' => Auth::user()->orders()
                 ->select('id', 'user_id', 'total', 'status', 'created_at')
                 ->with([

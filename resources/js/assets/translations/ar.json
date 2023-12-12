@@ -28,7 +28,8 @@
             "users":"المستخدمين",
             "categories":"الاقسام",
             "bookmarks":"المفضلة",
-            "cart":"السلة"
+            "cart":"السلة",
+            "orders":"الطلبات"
         },
         "pagination":{
             "previous":"السابق",
@@ -97,5 +98,19 @@
         "new_password_confirmation": "تأكيد كلمة السر",
         "password": "كلمة السر",
         "confirm_password": "تأكيد كلمة السر"
+    },
+    "orders_page":{
+        "title": "الطلبات",
+        "ID": "الرقم",
+        "date": "التاريخ",
+        "total_price": "السعر الكلي",
+        "status": "الحالة",
+        "pending": "قيد الانتظار",
+        "verified": "تم التحقق",
+        "confirmed": "مؤكد",
+        "delivered": "تم التوصيل",
+        "cancelled": "ملغى",
+        "products_number": "عدد المنتجات",
+        "product": "المنتج"
     }
 }

@@ -28,7 +28,8 @@
             "users":"Utilisateurs",
             "categories":"Catégories",
             "bookmarks":"Favoris",
-            "cart":"Panier"
+            "cart":"Panier",
+            "orders":"Commandes"
         },
         "pagination":{
             "previous":"Précédent",
@@ -97,5 +98,19 @@
         "new_password_confirmation": "Confirmez le nouveau mot de passe",
         "password": "Mot de passe",
         "confirm_password": "Confirmez le mot de passe"
+    },
+    "orders_page":{
+        "title": "Commandes",
+        "ID": "ID",
+        "date": "Date",
+        "total_price": "Prix total",
+        "status": "Statut",
+        "pending": "En attente",
+        "verified": "Vérifié",
+        "confirmed": "Confirmé",
+        "delivered": "Livré",
+        "cancelled": "Annulé",
+        "products_number": "Nombre de produits",
+        "product": "Produit"
     }
 }
