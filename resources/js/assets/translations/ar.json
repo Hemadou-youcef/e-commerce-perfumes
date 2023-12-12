@@ -47,7 +47,8 @@
         "price":"السعر",
         "empty_products":"لا يوجد منتجات في هذا القسم!",
         "search":"بحث",
-        "search_placeholder":"ابحث عن منتجاتك المفضلة"
+        "search_placeholder":"ابحث عن منتجاتك المفضلة",
+        "filter":"تصفية"
     },
     "product_page":{
         "add_to_cart":"اضف الى السلة",

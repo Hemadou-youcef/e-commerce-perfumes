@@ -47,7 +47,8 @@
         "price":"Prix",
         "empty_products":"Aucun produit dans cette catégorie!",
         "search":"Recherche",
-        "search_placeholder":"Recherchez vos produits préférés"
+        "search_placeholder":"Recherchez vos produits préférés",
+        "filter":"Filtre"   
     },
     "product_page":{
         "add_to_cart":"Ajouter au panier",
