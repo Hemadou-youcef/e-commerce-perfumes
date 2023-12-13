@@ -61,9 +61,9 @@ class ClientOrderController extends Controller
         if ($order->user_id != Auth::id()) {
             abort(404);
         }
+
         return Inertia::render('ClientSide/Orders/Order/order' , [
-            'order' => $order->query()
-                ->select( 'id', 'user_id', 'total', 'status', 'created_at')->first()
+            'order' => $order
                 ->load([
                 'orderProducts' => function ($query) {
                     $query->select('id', 'order_id', 'product_id', 'quantity', 'price','product_price_id');
@@ -75,8 +75,11 @@ class ClientOrderController extends Controller
                 'orderProducts.productPrice' => function ($query) {
                     $query->select('id', 'price', 'unit', 'quantity');
                 },
+                'address' => function ($query) {
+                    $query->select('id', 'address','city','phone','shipping_fees');
+                },
 
-            ])
+            ])->makeHidden(['profit', 'verified_by', 'confirmed_by', 'delivered_by', 'cancelled_by'])
         ]);
     }
 

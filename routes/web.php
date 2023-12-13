@@ -195,6 +195,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/orders/{order}', [App\Http\Controllers\ClientOrderController::class, 'show'])->name('client_order');
         Route::post('/orders/{order}/cancel', [App\Http\Controllers\OrderController::class, 'cancel'])->name('client_cancel_order');
 
+        // client profile routes
+        Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile');
+        Route::patch('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+
     });
 
 
