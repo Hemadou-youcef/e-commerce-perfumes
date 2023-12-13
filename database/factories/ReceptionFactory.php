@@ -18,6 +18,7 @@ class ReceptionFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
             'user_id' => User::inRandomOrder()->first()->id,
             'product_id' => Product::factory(),

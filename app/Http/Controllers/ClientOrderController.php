@@ -58,7 +58,26 @@ class ClientOrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        if ($order->user_id != Auth::id()) {
+            abort(404);
+        }
+        return Inertia::render('testPages/test' , [
+            'order' => $order->query()
+                ->select( 'id', 'user_id', 'total', 'status', 'created_at')->first()
+                ->load([
+                'orderProducts' => function ($query) {
+                    $query->select('id', 'order_id', 'product_id', 'quantity', 'price','product_price_id');
+                },
+                'orderProducts.product' => function ($query) {
+                    $query->select('id', 'name', 'description', 'description_ar', 'main_image_id' );
+                },
+                'orderProducts.product.mainImage',
+                'orderProducts.productPrice' => function ($query) {
+                    $query->select('id', 'price', 'unit', 'quantity');
+                },
+
+            ])
+        ]);
     }
 
     /**

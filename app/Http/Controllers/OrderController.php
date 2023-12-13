@@ -368,7 +368,7 @@ class OrderController extends Controller
 
         }
 
-        foreach ($order->orderProducts as $orderProduct) {
+        foreach ($order->orderProducts as  $orderProduct ) {
             $orderProduct->buying_price = $orderProduct->buyingPrice();
             $orderProduct->save();
         }
