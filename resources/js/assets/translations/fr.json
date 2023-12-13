@@ -13,6 +13,14 @@
         "fr":"Français",
         "ar":"Arabe"
     },
+    "units":{
+        "g":"G",
+        "ml":"ML",
+        "kg":"kg",
+        "l":"L",
+        "piece":"Pièce",
+        "bottle":"Bouteille"
+    },
     "layout":{
         "navbar":{
             "home":"Accueil",
@@ -113,5 +121,16 @@
         "cancelled": "Annulé",
         "products_number": "Nombre de produits",
         "product": "Produit"
+    },
+    "order_page":{
+        "order": "Commande",
+        "order_date": "Date de commande",
+        "total_price": "Prix total",
+        "ID": "ID",
+        "product" : "Produit",
+        "quantity": "Quantité",
+        "price": "Prix",
+        "total_products": "Total des produits",
+        "cancel_order": "Annuler la commande"
     }
 }

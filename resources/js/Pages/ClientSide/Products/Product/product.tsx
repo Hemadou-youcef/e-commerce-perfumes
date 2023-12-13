@@ -69,16 +69,16 @@ const Product = ({ ...props }) => {
                 preserveScroll: true,
                 onSuccess: () => {
                     toast({
-                        title: "Produit supprimé des signets",
-                        description: "Vous pouvez maintenant consulter votre liste de signets",
+                        title: t("product_page.product_removed_from_bookmarks"),
+                        description: t("product_page.you_can_now_see_your_bookmarks"),
                         duration: 5000,
                     })
                 },
                 onError: () => {
                     toast({
                         variant: "destructive",
-                        title: "Erreur",
-                        description: "Une erreur s'est produite, veuillez réessayer",
+                        title: t("global.error"),
+                        description: t("global.error_occured"),
                         duration: 5000,
                     })
                 },
@@ -91,16 +91,16 @@ const Product = ({ ...props }) => {
                 preserveScroll: true,
                 onSuccess: () => {
                     toast({
-                        title: "Produit ajouté aux signets",
-                        description: "Vous pouvez maintenant consulter votre liste de signets",
+                        title: t("product_page.product_added_to_bookmarks"),
+                        description: t("product_page.you_can_now_see_your_bookmarks"),
                         duration: 5000,
                     })
                 },
                 onError: () => {
                     toast({
                         variant: "destructive",
-                        title: "Erreur",
-                        description: "Une erreur s'est produite, veuillez réessayer",
+                        title: t("global.error"),
+                        description: t("global.error_occured"),
                         duration: 5000,
                     })
                 },
@@ -119,8 +119,8 @@ const Product = ({ ...props }) => {
             preserveScroll: true,
             onSuccess: () => {
                 toast({
-                    title: "Produit ajouté au panier",
-                    description: "Vous pouvez maintenant consulter votre panier",
+                    title: t("product_page.product_added_to_cart"),
+                    description: t("product_page.you_can_now_see_your_cart"),
                     duration: 5000,
                     action: <Link href="/cart"><Button variant="outline" className="hover:bg-gray-50"><TbExternalLink className="w-5 h-5" /></Button></Link>
                 })
@@ -128,8 +128,8 @@ const Product = ({ ...props }) => {
             onError: () => {
                 toast({
                     variant: "destructive",
-                    title: "Erreur",
-                    description: "Une erreur s'est produite, veuillez réessayer",
+                    title: t("global.error"),
+                    description: t("global.error_occured"),
                     duration: 5000,
                 })
             }
@@ -333,7 +333,7 @@ const Product = ({ ...props }) => {
                     </div>
 
                 </div>
-                <LandingSuggest title="You May Also Like" products={props?.product?.suggestedProducts} />
+                {/* <LandingSuggest title="You May Also Like" products={props?.product?.suggestedProducts} /> */}
             </div>
             {showImageSlider && (
                 <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">

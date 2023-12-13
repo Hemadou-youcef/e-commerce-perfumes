@@ -23,10 +23,10 @@ type OrdersInfo = {
 }
 
 const Orders = ({ ...props }) => {
-
+    console.log(props)
     const [data, setData] = useState(props?.orders?.data)
     const { t, i18n } = useTranslation()
-    console.log(t("ID"))
+
     const formatDate = (date) => {
         const d = new Date(date);
         return d.toLocaleDateString(i18n.language, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });

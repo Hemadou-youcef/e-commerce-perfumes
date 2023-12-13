@@ -61,7 +61,7 @@ class ClientOrderController extends Controller
         if ($order->user_id != Auth::id()) {
             abort(404);
         }
-        return Inertia::render('testPages/test' , [
+        return Inertia::render('ClientSide/Orders/Order/order' , [
             'order' => $order->query()
                 ->select( 'id', 'user_id', 'total', 'status', 'created_at')->first()
                 ->load([

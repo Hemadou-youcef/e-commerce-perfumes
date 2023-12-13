@@ -33,16 +33,16 @@ const Product = ({ product }) => {
                 preserveState: false,
                 onSuccess: () => {
                     toast({
-                        title: "Produit supprimé des signets",
-                        description: "Vous pouvez maintenant consulter votre liste de signets",
+                        title: t("product_page.bookmark_removed"),
+                        description: t("product_page.bookmark_removed_description"),
                         duration: 5000,
                     })
                 },
                 onError: () => {
                     toast({
                         variant: "destructive",
-                        title: "Erreur",
-                        description: "Une erreur s'est produite, veuillez réessayer",
+                        title: t("global.error"),
+                        description: t("global.error_description"),
                         duration: 5000,
                     })
                 },
@@ -56,16 +56,16 @@ const Product = ({ product }) => {
                 preserveState: false,
                 onSuccess: () => {
                     toast({
-                        title: "Produit ajouté aux signets",
-                        description: "Vous pouvez maintenant consulter votre liste de signets",
+                        title: t("product_page.bookmark_added"),
+                        description: t("product_page.bookmark_added_description"),
                         duration: 5000,
                     })
                 },
                 onError: () => {
                     toast({
                         variant: "destructive",
-                        title: "Erreur",
-                        description: "Une erreur s'est produite, veuillez réessayer",
+                        title: t("global.error"),
+                        description: t("global.error_description"),
                         duration: 5000,
                     })
                 },

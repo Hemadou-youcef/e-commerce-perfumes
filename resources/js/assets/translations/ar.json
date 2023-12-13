@@ -6,12 +6,24 @@
         "cancel":"إلغاء",
         "save":"حفظ",
         "confirm":"تأكيد",
-        "edit":"تعديل"
+        "edit":"تعديل",
+        "success":"تم بنجاح",
+        "error":"حدث خطأ",
+        "error_occured":"حدث خطأ ما",
+        "error_description":"حدث خطأ ما. يرجى المحاولة مرة أخرى"
     },
     "language":{
         "ar":"العربية",
         "fr":"الفرنسية",
         "en":"الإنجليزية"
+    },
+    "units":{
+        "g":"غرام",
+        "ml":"مليلتر",
+        "kg":"كيلوغرام",
+        "l":"لتر",
+        "piece":"قطعة",
+        "bottle":"زجاجة"
     },
     "layout":{
         "navbar":{
@@ -56,7 +68,15 @@
         "remove_from_bookmarks":"ازالة من المفضلة",
         "product_price":"سعر المنتج",
         "view_product":"عرض المنتج",
-        "product_already_in_cart":"المنتج موجود في السلة"
+        "product_already_in_cart":"المنتج موجود في السلة",
+        "product_removed_from_bookmarks":"تمت إزالة المنتج من المفضلة",
+        "you_can_now_see_your_bookmarks":"يمكنك الآن رؤية المفضلة الخاصة بك",
+        "product_added_to_bookmarks":"تمت إضافة المنتج إلى المفضلة",
+        "product_added_to_cart":"تمت إضافة المنتج إلى السلة",
+        "you_can_now_see_your_cart":"يمكنك الآن رؤية السلة الخاصة بك",
+        "bookmark_removed":"تمت إزالة المنتج من المفضلة",
+        "bookmark_added":"تمت إضافة المنتج إلى المفضلة"
+
     },
     "cart_page":{
         "title": "السلتي",
@@ -113,5 +133,20 @@
         "cancelled": "ملغى",
         "products_number": "عدد المنتجات",
         "product": "المنتج"
+    },
+    "order_page":{
+        "order": "الطلب",
+        "order_date": "تاريخ الطلب",
+        "total_price": "السعر الكلي",
+        "ID": "الرقم",
+        "product" : "المنتج",
+        "quantity": "الكمية",
+        "price": "السعر",
+        "total_products": "مجموع المنتجات",
+        "cancel_order": "إلغاء الطلب",
+        "cancel_order_message": "هل أنت متأكد من إلغاء الطلب؟",
+        "order_cancelled": "تم إلغاء الطلب بنجاح!",
+        "order_cancelled_error": "حدث خطأ أثناء إلغاء الطلب!",
+        "return_to_orders": "العودة إلى الطلبات"
     }
 }
