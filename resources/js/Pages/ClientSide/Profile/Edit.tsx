@@ -76,7 +76,7 @@ const ProfileEdit = ({ ...props }) => {
     const [editMode, setEditMode] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const { t,i18n } = useTranslation()
+    const { t, i18n } = useTranslation()
 
     useEffect(() => {
         setData(data => ({
@@ -160,6 +160,12 @@ const ProfileEdit = ({ ...props }) => {
 
     return (
         <>
+            <div className="flex items-center justify-center gap-5 py-5 px-8 border-b border-gray-300">
+                <CgProfile className="h-12 w-12 text-gray-900" />
+                <h1 className="text-2xl font-bold text-gray-900 uppercase">
+                {t("profile_page.title")}
+                </h1>
+            </div>
             <div className="container mx-auto px-5 py-5 font-sans rtl:font-arabic">
                 <form onSubmit={submit} className="w-full">
                     <div className=" border-2 rounded-md grid mx-auto p-0 bg-white gap-5">
@@ -261,7 +267,7 @@ const ProfileEdit = ({ ...props }) => {
                                 {errors.address && <p className="text-xs text-red-500">{errors.address}</p>}
                             </div>
 
-                            <div  className="grid gap-3 pt-3 px-5">
+                            <div className="grid gap-3 pt-3 px-5">
                                 <RadioGroup defaultValue={data.gender} className="flex justify-center md:justify-start rtl:md:justify-end gap-5"
                                     onValueChange={(v: 'male' | 'female') => setData('gender', v)}>
                                     <div className="flex items-center space-x-2">

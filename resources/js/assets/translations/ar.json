@@ -75,7 +75,9 @@
         "product_added_to_cart":"تمت إضافة المنتج إلى السلة",
         "you_can_now_see_your_cart":"يمكنك الآن رؤية السلة الخاصة بك",
         "bookmark_removed":"تمت إزالة المنتج من المفضلة",
-        "bookmark_added":"تمت إضافة المنتج إلى المفضلة"
+        "bookmark_added":"تمت إضافة المنتج إلى المفضلة",
+        "bookmark_added_description":"تمت إضافة المنتج إلى المفضلة. يمكنك الآن رؤية المفضلة الخاصة بك",
+        "bookmark_removed_description":"تمت إزالة المنتج من المفضلة, يمكنك الآن رؤية المفضلة الخاصة بك"
 
     },
     "cart_page":{
@@ -148,5 +150,16 @@
         "order_cancelled": "تم إلغاء الطلب بنجاح!",
         "order_cancelled_error": "حدث خطأ أثناء إلغاء الطلب!",
         "return_to_orders": "العودة إلى الطلبات"
+    },
+    "contact_page":{
+        "title": "اتصل بنا",
+        "sub_title": "أرسل لنا رسالة",
+        "first_name": "الإسم",
+        "last_name": "اللقب",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "subject": "الموضوع",
+        "message": "الرسالة",
+        "send": "إرسال"
     }
 }

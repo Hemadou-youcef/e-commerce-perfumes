@@ -32,6 +32,7 @@ import wilaya from "@/data/wilaya";
 import yalidine from "@/data/yalidine";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
+import CartProduct from "@/components/Products/cart/product";
 
 const Cart = ({ ...props }) => {
     console.log(props);
@@ -298,39 +299,7 @@ const Cart = ({ ...props }) => {
                 <div className="rounded-lg sticky font-sans rtl:font-arabic">
                     <div className="px-8 w-full">
                         {cartItems.map((item, index) => (
-                            <div key={index} className="flex items-center flex-col md:flex-row gap-5 border-b border-gray-300 py-4">
-                                <img
-                                    alt=""
-                                    src={item?.product?.main_image?.path}
-                                    className="h-24 w-24 object-cover mr-4 border-2 border-gray-700 rounded-md bg-gray-300"
-                                />
-
-                                <div className="flex md:flex-1 flex-col items-center md:items-start justify-center">
-                                    <Link
-                                        href={`/products/${item.product?.id}`}>
-                                        <h2 className="text-xl text-blue-600 font-semibold mb-2">{item?.product?.name}</h2>
-                                    </Link>
-                                    <p  className="flex gap-2 text-gray-600 mb-2">
-                                        <span className="text-gray-600 mr-1">
-                                            {item.quantity * item.product_price?.quantity} {item.product_price?.unit} =
-                                        </span>
-                                        <span className="text-gray-900 font-semibold">
-                                            {item.quantity * item.product_price?.price} {t("global.da")}
-                                        </span>
-                                    </p>
-
-                                </div>
-                                <div>
-                                    <Button
-                                        variant="outline"
-                                        className="text-sm text-gray-500 hover:text-gray-700 border-0 hover:bg-transparent"
-                                        onClick={() => handleDeleteCartItem(item.id)}
-                                    >
-                                        <MdDeleteOutline className="h-8 w-8" />
-                                    </Button>
-                                </div>
-
-                            </div>
+                            <CartProduct key={index} product={item} />
                         ))}
                     </div>
                     {cartItems.length === 0 && (

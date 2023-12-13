@@ -16,7 +16,7 @@ const LandingMainLayout = ({ children, ...props }) => {
     // console.log(pageProps)
     return (
         <>
-            <div dir={i18n.dir()} className="flex flex-col min-h-screen font-sans rtl:font-arabic">
+            <div dir={i18n.dir()} className="flex flex-col min-h-[calc(100dvh)] font-sans rtl:font-arabic">
                 {/* NAVBAR */}
                 <div className="navElements bg-forth sticky top-0 border-b-2 border-gray-900 z-10 shadow-md">
                     <LandingNav props={pageProps} showNavbar={navbarOpen} setNavbarOpen={setNavbarOpen} />

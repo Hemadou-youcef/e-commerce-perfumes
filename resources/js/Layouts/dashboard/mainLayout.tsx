@@ -17,7 +17,7 @@ const DashboardMainLayout = ({ children }: { children: React.ReactNode }) => {
     const [showNav, setShowNav] = useState(true);
     return (
         <>
-            <div className="flex h-screen">
+            <div className="flex h-[calc(100dvh)]">
                 <MainNav auth={pageProps?.auth} showNav={showNav} setNav={(value) => setShowNav(value)} />
                 <div className={`overflow-y-auto bg-gray-50 pb-5  min-h- w-full z-0 ${showNav ? "ml-[50px] md:ml-[270px]" : "ml-[50px]"} transition-all duration-300`}
                 >
