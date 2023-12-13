@@ -76,7 +76,7 @@ class ClientOrderController extends Controller
                     $query->select('id', 'price', 'unit', 'quantity');
                 },
                 'address' => function ($query) {
-                    $query->select('id', 'address','city','phone','shipping_fees');
+                    $query->select('id', 'street_address','city','phone','shipping_fees');
                 },
 
             ])->makeHidden(['profit', 'verified_by', 'confirmed_by', 'delivered_by', 'cancelled_by'])
