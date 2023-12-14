@@ -19,6 +19,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->word,
             'name_ar' => $this->faker->word,
+            'type' => $this->faker->numberBetween(1, 2),
             'created_at' => now(),
             'updated_at' => now(),
         ];

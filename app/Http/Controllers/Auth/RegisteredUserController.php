@@ -21,6 +21,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
+        // regenerating session id to prevent session fixation
+        session()->regenerate();
         return Inertia::render('Auth/Register');
     }
 

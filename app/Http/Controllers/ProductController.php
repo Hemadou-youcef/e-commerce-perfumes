@@ -51,6 +51,83 @@ class ProductController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): Response
+    {
+        return inertia::render('Dashboard/Products/productForm',[
+            'categories' => \App\Models\Category::query()->when(request('categoryType'), fn($query, $type) => $query->where('type', $type))->get(),
+        ]);
+    }
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreProductRequest $request): RedirectResponse
+    {
+        $validatedData = $request->validated();
+
+
+        $product = new Product([
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'description_ar' => $validatedData['description_ar'],
+            'status' => $validatedData['status'],
+            'unit' => $validatedData['unit'],
+            'type' => $validatedData['type'],
+            'user_id' => Auth::user()->id,
+        ]);
+
+        $product->save();
+        if ($request->has('category_ids')) {
+            $categories = $validatedData['category_ids'];// expect array of category ids
+            $product->categories()->attach($categories);
+        }
+
+        // Create product prices
+        $prices = $validatedData['prices'];
+
+        foreach ($prices as $price) {
+            $product->productPrices()->create([
+                'price' => $price['price'],
+                'unit' => $price['unit'],
+                'quantity' => $price['quantity'],
+                'active' => $price['active'],
+            ]);
+        }
+
+
+        try {
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $imagePath = '/storage/' .$image->store('images', 'public');
+                    $product->images()->create(['path' =>  $imagePath]);
+                }
+            }
+        } catch (Exception $e) {
+            // Handle exception
+            return back()->withErrors(['images' => 'internal server error. could not upload images']);
+        }
+
+        try {
+            if ($request->hasFile('main_image')) {
+                $mainImagePath = $request->file('main_image')->store('images', 'public');
+                $main_image = $product->images()->create(['path' => '/storage/' . $mainImagePath]);
+                //
+                $product->main_image_id = $main_image->id; // Set main image
+
+            }
+        } catch (Exception $e) {
+            // Handle exception
+            return back()->withErrors(['main_image' => 'internal server error. could not upload image']);
+        }
+
+        $product->save();
+
+        return redirect()->route('product', $product->id);
+    }
+
+
+    /**
      * Display the specified resource.
      */
     public function show(Product $product)
@@ -173,81 +250,8 @@ class ProductController extends Controller
         return redirect()->route('product', $product->id);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreProductRequest $request)
-    {
-        $validatedData = $request->validated();
 
 
-        $product = new Product([
-            'name' => $validatedData['name'],
-            'description' => $validatedData['description'],
-            'description_ar' => $validatedData['description_ar'],
-            'status' => $validatedData['status'],
-            'unit' => $validatedData['unit'],
-            'user_id' => Auth::user()->id,
-        ]);
-
-        $product->save();
-        if ($request->has('category_ids')) {
-            $categories = $validatedData['category_ids'];// expect array of category ids
-            $product->categories()->attach($categories);
-        }
-
-        // Create product prices
-        $prices = $validatedData['prices'];
-
-        foreach ($prices as $price) {
-            $product->productPrices()->create([
-                'price' => $price['price'],
-                'unit' => $price['unit'],
-                'quantity' => $price['quantity'],
-                'active' => $price['active'],
-            ]);
-        }
-
-
-        try {
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    $imagePath = '/storage/' .$image->store('images', 'public');
-                    $product->images()->create(['path' =>  $imagePath]);
-                }
-            }
-        } catch (Exception $e) {
-            // Handle exception
-            return back()->withErrors(['images' => 'internal server error. could not upload images']);
-        }
-
-        try {
-            if ($request->hasFile('main_image')) {
-                $mainImagePath = $request->file('main_image')->store('images', 'public');
-                $main_image = $product->images()->create(['path' => '/storage/' . $mainImagePath]);
-                //
-                $product->main_image_id = $main_image->id; // Set main image
-
-            }
-        } catch (Exception $e) {
-            // Handle exception
-            return back()->withErrors(['main_image' => 'internal server error. could not upload image']);
-        }
-
-        $product->save();
-
-        return redirect()->route('product', $product->id);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): Response
-    {
-        return inertia::render('Dashboard/Products/productForm',[
-            'categories' => \App\Models\Category::all(),
-        ]);
-    }
 
     /**
      * Remove the specified resource from storage.

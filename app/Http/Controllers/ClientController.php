@@ -80,13 +80,7 @@ class ClientController extends Controller
     {
         if ($user->isClient() || $user->isGuest()) {
             return Inertia::render('Dashboard/Clients/client', [
-                'client' => array_merge(
-                    $user->toArray(), // Convert User model properties to an array
-                    [
-                        'orders' => $user->orders,
-                        'bookmarks' => $user->bookmarks,
-                    ]
-                ),
+                'client' => $user->load(['bookmarks' , 'cartItems' , 'orders.address'])
             ]);
         }else{
             return back();

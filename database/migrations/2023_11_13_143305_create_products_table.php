@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('main_image_id')->nullable();
             $table->bigInteger('quantity')->default(0);
             $table->string('unit')->nullable();
-            $table->string('type')->nullable();
+            $table->integer('type')->nullable();
             $table->string('status')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

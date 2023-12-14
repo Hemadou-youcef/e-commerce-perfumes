@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('name_ar')->nullable();
+            $table->integer('type')->nullable();
             $table->timestamps();
         });
     }

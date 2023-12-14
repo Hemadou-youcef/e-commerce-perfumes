@@ -31,6 +31,7 @@ class StoreProductRequest extends FormRequest
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:8192',
             'category_ids.*' => 'nullable|exists:categories,id',
             'unit' => 'required|string|max:255',
+            'type' => 'required|integer|in:1,2',
             'prices' => [
                 'required',
                 'array',

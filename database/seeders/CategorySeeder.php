@@ -23,12 +23,15 @@ class CategorySeeder extends Seeder
             Category::create([
                 'name' => $types_parfums[$i],
                 'name_ar' => $types_parfums_ar[$i],
+                'type' => 1,
             ]);
         }
         for ($i = 0; $i < count($types_sex); $i++) {
             Category::create([
                 'name' => $types_sex[$i],
                 'name_ar' => $types_sex_ar[$i],
+                'type' => 1,
+
             ]);
         }
 
@@ -36,6 +39,20 @@ class CategorySeeder extends Seeder
             Category::create([
                 'name' => $day_seasons[$i],
                 'name_ar' => $day_seasons_ar[$i],
+                'type' => 1,
+
+            ]);
+        }
+
+        // generate categories for perfumes accessories
+        $types_accessories = ['bottle', 'spray', 'box', 'bag', 'gift', 'other'];
+        $types_accessories_ar = ['زجاجة', 'رشاش', 'صندوق', 'حقيبة', 'هدية', 'أخرى'];
+        for ($i = 0; $i < count($types_accessories); $i++) {
+            Category::create([
+                'name' => $types_accessories[$i],
+                'name_ar' => $types_accessories_ar[$i],
+                'type' => 2,
+
             ]);
         }
     }

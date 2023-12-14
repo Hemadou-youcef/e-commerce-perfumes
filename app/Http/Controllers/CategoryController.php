@@ -19,6 +19,9 @@ class CategoryController extends Controller
                 ->when(request('q'), function ($query) {
                     $query->where('name', 'LIKE', '%' . request('q') . '%');
                 })
+                ->when(request('type'), function ($query) {
+                    $query->where('type', request('type'));
+                })
                 ->orderBy('created_at', 'desc')
                 ->paginate(10)
                 ->withQueryString()
@@ -53,6 +56,7 @@ class CategoryController extends Controller
                 'id' => $category->id,
                 'name' => $category->name,
                 'name_ar' => $category->name_ar,
+                'type' => $category->type,
                 'products' => $products,
                 'created_at' => $category->created_at->format('Y-m-d'),
             ]
@@ -68,6 +72,7 @@ class CategoryController extends Controller
             'category' => [
                 'id' => $category->id,
                 'name' => $category->name,
+                'type' => $category->type,
                 'name_ar' => $category->name_ar,
             ]
         ]);

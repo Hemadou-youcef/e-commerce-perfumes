@@ -30,6 +30,7 @@ class Product extends Model
         'category',
         'user_id',
         'unit',
+        'type'
     ];
 
     public function user(): BelongsTo
@@ -144,5 +145,27 @@ class Product extends Model
             return Auth::user()->cartItems()->where('user_id', Auth::user()->id)->exists();
         }
         return false;
+    }
+
+
+    public static function perfumes(): Builder
+    {
+        return Product::activeProducts()->where('type', 1);
+    }
+
+    public static function accessories(): Builder
+    {
+        return Product::activeProducts()->where('type', 2);
+    }
+
+
+    public function isPerfume(): bool
+    {
+        return $this->type === 1;
+    }
+
+    public function isAccessory(): bool
+    {
+        return $this->type === 2;
     }
 }
