@@ -16,12 +16,13 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->integer('total')->nullable();
             $table->string('status')->default('pending');
-            $table->string('shipping_provider')->default('Yalidine');
+;
             $table->foreignId('address_id')->nullable()->constrained();
             $table->integer('profit')->nullable();
 
 
-
+            $table->unsignedBigInteger('shipping_agency_id')->nullable();
+            $table->foreign('shipping_agency_id')->references('id')->on('shipping_agencies');
             $table->unsignedBigInteger('verified_by')->nullable();
             $table->foreign('verified_by')->references('id')->on('users');
             $table->unsignedBigInteger('confirmed_by')->nullable();

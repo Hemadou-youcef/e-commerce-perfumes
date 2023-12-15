@@ -12,6 +12,7 @@ use App\Models\OrderProduct;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductPrice;
+use App\Models\ShippingAgency;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -25,6 +26,7 @@ class CartItemController extends Controller
     public function index()
     {
         $client = Auth::user();
+        $tarifs = new YalidineTarifications();
         return Inertia::render('ClientSide/Cart/cart', [
             'cartItems' => $client->cartItems()->with([
                 'product' => function ($query) {
@@ -35,8 +37,10 @@ class CartItemController extends Controller
                 'ProductPrice' => function ($query) {
                     $query->select('id', 'price', 'unit', 'quantity');
                 }
+                ,
             ])->get()
             ,
+            'shippingAgencies' => ShippingAgency::all()->load('shippingFees'),
 
         ]);
     }
@@ -111,6 +115,10 @@ class CartItemController extends Controller
             return redirect()->back()->withErrors(['cart' => 'cart is empty']);
         }
 
+        $order_shipping_agency = request()->validate([
+            'shipping_agency_id' => 'required|integer|exists:shipping_agencies,id',
+        ]);
+
         // validate order address
         $address = request()->validate([
             'first_name' => 'required|string|max:255',
@@ -118,9 +126,9 @@ class CartItemController extends Controller
             'phone' => 'required|string|max:15',
             'street_address' => 'nullable|string|max:255',
             'city' => 'required|string|max:255',
-            'state_code' => 'required|integer|between:1,58',
             'postal_code' => 'nullable|string|max:255',
             'shipping_method' => 'required|integer|between:1,2',
+            'shipping_fee_id' => 'required|integer|exists:shipping_fees,id',
         ]);
         // Retrieve cart items for the authenticated user
         $cartItems = $user->cartItems()->get();
@@ -132,20 +140,13 @@ class CartItemController extends Controller
             // Create a new order for the user
             $order = Order::create([
                 'user_id' => $user->id,
+                'shipping_agency_id' => $order_shipping_agency['shipping_agency_id'],
             ]);
 
-            // get state name based on state code
-            $wilayaMapper = new WilayaMapper();
-            $address['state'] = $wilayaMapper->getProvinceName($address['state_code']);
-
-            // get shipping fees based on shipping address
-            $shippingFees = $this->getShippingFees($address['shipping_method'], $address['state_code']);
-            if ($shippingFees == null) {
-                return redirect()->back()->withErrors(['cart' => 'something went wrong']);
-            }
-            $address['shipping_fees'] = $shippingFees;
 
             $createdAddress = Address::create($address);
+            $createdAddress->shipping_price = $createdAddress->shippingPrice();
+            $createdAddress->save();
 
             // attach address to order
             $order->address()->associate($createdAddress);
@@ -182,16 +183,7 @@ class CartItemController extends Controller
         return redirect()->to('/orders');
     }
 
-    public function getShippingFees($shippingType, $stateCode): int
-    {
-        $yalidine = new YalidineTarifications();
-        $shippingType = (int)$shippingType;
-        $stateCode = (int)$stateCode;
-        if ($shippingType == 1) {
-            return $yalidine->getStopDeskDeliveryFee($stateCode);
-        } else {
-            return $yalidine->getHomeDeliveryFee($stateCode);
-        }
 
-    }
+
+
 }

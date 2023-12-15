@@ -21,7 +21,7 @@ class Order extends Model
         'profit',
         'status',
         'address_id',
-        'shipping_provider',
+        'shipping_agency_id',
         'verified_by',
         'confirmed_by',
         'delivered_by',
@@ -71,7 +71,7 @@ class Order extends Model
     public function totalPrice(): int
     {
         if ($this->address()->exists()) {
-            return $this->orderProducts->sum('price') + $this->address->shipping_fees;
+            return $this->orderProducts->sum('price') + $this->address->shipping_price;
         }
         return $this->orderProducts->sum('price');
     }
@@ -88,9 +88,14 @@ class Order extends Model
     public function profit(): int
     {
         if ($this->address){
-            return $this->totalPrice() - $this->buyingPrice() - $this->address->shipping_fees;
+            return $this->totalPrice() - $this->buyingPrice() - $this->address->shipping_price;
         }
         return $this->total - $this->buyingPrice();
+    }
+
+    public function shippingAgency(): BelongsTo
+    {
+        return $this->belongsTo(ShippingAgency::class);
     }
 
 

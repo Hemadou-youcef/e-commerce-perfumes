@@ -18,12 +18,11 @@ return new class extends Migration
             $table->string('phone');
             $table->string('street_address')->nullable();
             $table->string('city');
-            $table->string('state')->nullable();
-            $table->integer('state_code');
-            $table->integer('shipping_method');
-            $table->integer('shipping_fees')->nullable();
             $table->string('postal_code')->nullable();
-            $table->string('agency')->nullable();
+            $table->integer('shipping_price')->nullable();
+            $table->integer('shipping_method')->nullable();
+            $table->unsignedBigInteger('shipping_fee_id');
+            $table->foreign('shipping_fee_id')->references('id')->on('shipping_fees')->onDelete('cascade');
             $table->timestamps();
         });
     }

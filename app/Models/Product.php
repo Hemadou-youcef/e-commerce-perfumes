@@ -85,13 +85,13 @@ class Product extends Model
         return $this->hasMany(Bookmark::class);
     }
 
-    public function addStock($quantity)
+    public function addStock($quantity): void
     {
         $this->increment('quantity', $quantity);
     }
 
 
-    public function removeStock($quantity)
+    public function removeStock($quantity): void
     {
         $this->decrement('quantity', $quantity);
     }
@@ -121,11 +121,11 @@ class Product extends Model
     public function suggestedProducts()
     {
         // Get suggested products by selecting products from the same category
-        return Product::whereHas('categories', function ($query) {
+        return Product::query()->select('id' ,'name' , 'main_image_id'  )->whereHas('categories', function ($query) {
             $query->whereIn('category_id', $this->categories()->pluck('categories.id')); // Use table alias 'categories.id' for 'category_id'
         })
             ->where('products.id', '!=', $this->id) // Specify 'products.id' to avoid ambiguity
-                ->with('mainImage')
+                ->with(['mainImage' , 'activeProductPrices' ])
             ->inRandomOrder()
             ->limit(5)
             ->get();

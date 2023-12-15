@@ -198,7 +198,6 @@ class OrderController extends Controller
 
             }
 
-            $order->shipping_provider = "Magazin";
 
             // calculate total
             $order->total = $order->totalPrice();
