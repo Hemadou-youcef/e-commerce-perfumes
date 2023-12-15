@@ -129,6 +129,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/shipping_agencies/create', [App\Http\Controllers\ShippingAgencyController::class, 'create'])->name('shipping_agency.create');
         Route::post('/dashboard/shipping_agencies/create', [App\Http\Controllers\ShippingAgencyController::class, 'store'])->name('shipping_agency.store');
         Route::get('/dashboard/shipping_agencies/{shippingAgency}', [App\Http\Controllers\ShippingAgencyController::class, 'show'])->name('shipping_agency');
+        Route::patch('/dashboard/shipping_agencies/{shippingAgency}', [App\Http\Controllers\ShippingFeeController::class, 'update'])->name('shipping_agency.updateTarif');
 
     });
 
