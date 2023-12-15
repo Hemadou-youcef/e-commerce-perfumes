@@ -19,7 +19,7 @@ const ProductsSwiper = ({ products }) => {
                 spaceBetween={5}
                 slidesPerView={2}
                 pagination={{ clickable: true }}
-                className="h-[445px] md:h-[460px] lg:h-[470px]"
+                className="h-[300px] md:h-[460px] lg:h-[470px]"
                 breakpoints={{
                     // when window width is >= 640px
                     640: {

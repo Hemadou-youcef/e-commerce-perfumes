@@ -13,10 +13,10 @@ const LandingSuggest = ({ title, products }) => {
     const { t, i18n } = useTranslation()
     return (
         <>
-            <div className="mx-auto px-5 pt-2 py-0 bg-white ltr:font-sans rtl:font-arabic">
-                <div className="container">
+            <div className="mx-auto px-2 pt-2 py-0 bg-white ltr:font-sans rtl:font-arabic">
+                <div className="md:container">
                     <div className="flex items-center  justify-between pr-5 py-3">
-                        <p className="pb-1 inline text-gray-600 font-bold text-base md:text-3xl font-serif border-b-2 border-gray-600  ltr:font-sans rtl:font-arabic">
+                        <p className="pb-1 inline text-gray-600 font-bold text-sm md:text-3xl font-serif border-b-2 border-gray-600  ltr:font-sans rtl:font-arabic">
                             {title}
                         </p>
                         <Link href="#"

@@ -76,8 +76,8 @@ const Product = ({ product }) => {
     return (
         <>
             {/* Link href="/product/5"  */}
-            <div className="group w-full md:w-[248px] flex flex-col items-center justify-center border overflow-hidden shadow-md">
-                <div className="w-full h-72  relative bg-cover bg-center border-b"
+            <div className="group w-full md:w-[248px] flex flex-col items-center justify-center border overflow-hidden shadow-md rounded-md">
+                <div className="w-full h-36 md:h-72  relative bg-cover bg-center border-b"
                     style={{ backgroundImage: "url(" + (product.main_image?.path || product?.images?.filter((image: any) => product?.main_image_id === image.id)[0]?.path || "/image/no-image.jpg") + ")" }}
                 >
                     <Link href={`/products/${product.id}`} className="absolute inset-0 w-full h-full flex items-center justify-center">
@@ -99,10 +99,10 @@ const Product = ({ product }) => {
                     </div>
                 </div>
                 <div className="w-full flex flex-col items-center justify-center gap-3 py-3">
-                    <p className="px-2 text-black font-serif text-center text-xs md:text-base lg:text-lg uppercase">
+                    <p dir="ltr" className="px-2 text-black font-serif text-center text-[10px] md:text-base lg:text-lg uppercase">
                         {product.name.length > 16 ? product.name.substring(0, 16) + "..." : product.name}
                     </p>
-                    <p className="text-gray-600 text-center font-bold text-xs md:text-sm lg:text-base ">
+                    <p className="text-gray-600 text-center font-bold text-[10px] md:text-sm lg:text-base ">
                         {currectPrice?.price} {t("global.da")}
                     </p>
                     {/* ADD REVIEW STARS */}
@@ -116,7 +116,7 @@ const Product = ({ product }) => {
                     <Link href={`/products/${product.id}`} onClick={() => setLoading(true)}>
                         <Button
                             variant="outline"
-                            className="w-28 bg-transparent border-2 h-8 text-xs border-gray-900 hover:bg-gray-800 active:bg-gray-300 text-gray-900 hover:text-gray-100 active:text-gray-700"
+                            className="w-20 md:w-28 bg-transparent border-2 h-7 sm:h-8 text-[8px] border-gray-900 hover:bg-gray-800 active:bg-gray-300 text-gray-900 hover:text-gray-100 active:text-gray-700"
                         >
                             {loading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : t('product_page.view_product')}
                         </Button>
