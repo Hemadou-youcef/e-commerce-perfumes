@@ -107,7 +107,7 @@ const Contact = ({ ...props }) => {
                                 className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                             >
                                 <IoMdSend className="text-2xl" />
-                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Répondre</p>
+                                <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Répondre</p>
                             </Button>
                         </a>
                         {[3, 4].includes(props?.auth?.user?.role) && (
@@ -119,7 +119,7 @@ const Contact = ({ ...props }) => {
                                         disabled={deleteloading}
                                     >
                                         {deleteloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
-                                        <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Supprimer</p>
+                                        <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Supprimer</p>
                                     </Button>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>

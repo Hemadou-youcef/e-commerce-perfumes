@@ -163,7 +163,7 @@ const Client = ({ ...props }) => {
                                         disabled={deleteloading}
                                     >
                                         {deleteloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
-                                        <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Supprimer</p>
+                                        <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Supprimer</p>
                                     </Button>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
@@ -196,7 +196,7 @@ const Client = ({ ...props }) => {
                                 disabled={confirmeloading}
                             >
                                 {confirmeloading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineCheckCircle className="text-xl" />}
-                                <p className="group-hover:w-20 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Confirmer</p>
+                                <p className="hidden md:block group-hover:w-20 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Confirmer</p>
                             </Button>
                         )}
 

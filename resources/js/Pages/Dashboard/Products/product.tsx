@@ -232,7 +232,7 @@ const Product = ({ ...props }) => {
                                         onClick={() => handleUpdateStatus(1)}
                                     >
                                         {receptionLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <FaPlus className="text-xl" />}
-                                        <p className="group-hover:w-36 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Ajouter une reception</p>
+                                        <p className="hidden md:block group-hover:w-36 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Ajouter une reception</p>
                                     </Button>
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-[425px]">
@@ -298,7 +298,7 @@ const Product = ({ ...props }) => {
                                 onClick={() => handleUpdateStatus(1)}
                             >
                                 {statusLoading[0] && statusLoading[1] === 1 ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <TiPin className="text-2xl" />}
-                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Détacher</p>
+                                <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Détacher</p>
                             </Button>
                         )}
                         {product?.status !== "pinned" && (
@@ -309,7 +309,7 @@ const Product = ({ ...props }) => {
                                 onClick={() => handleUpdateStatus(2)}
                             >
                                 {statusLoading[0] && statusLoading[1] === 2 ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <TiPinOutline className="text-2xl" />}
-                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Épingler</p>
+                                <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Épingler</p>
                             </Button>
                         )}
                         {product?.status === "archived" && (
@@ -320,7 +320,7 @@ const Product = ({ ...props }) => {
                                 onClick={() => handleUpdateStatus(1)}
                             >
                                 {statusLoading[0] && statusLoading[1] === 1 ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <MdUnarchive className="text-2xl" />}
-                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Publier</p>
+                                <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Publier</p>
                             </Button>
                         )}
                         {product?.status !== "archived" && (
@@ -331,7 +331,7 @@ const Product = ({ ...props }) => {
                                 onClick={() => handleUpdateStatus(0)}
                             >
                                 {statusLoading[0] && statusLoading[1] === 0 ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <MdOutlineArchive className="text-2xl" />}
-                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Archiver</p>
+                                <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Archiver</p>
                             </Button>
                         )}
 
@@ -344,7 +344,7 @@ const Product = ({ ...props }) => {
                                         disabled={deleteLoading}
                                     >
                                         {deleteLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
-                                        <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Supprimer</p>
+                                        <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Supprimer</p>
                                     </Button>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
@@ -376,7 +376,7 @@ const Product = ({ ...props }) => {
                                 className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                             >
                                 <LiaEdit className="text-2xl" />
-                                <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Modifier</p>
+                                <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Modifier</p>
                             </Button>
                         </Link>
                     </div>

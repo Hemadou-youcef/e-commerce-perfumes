@@ -64,13 +64,13 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
     }
     return (
         <>
-            <div className="flex md:hidden container w-full h-20  justify-between items-center py-3 px-5 ">
+            <div className="flex md:hidden container w-full h-12 md:h-20   justify-between items-center py-3 px-2 ltr:pr-5 rtl:pl-5 ">
                 <Link href="/">
                     <div className="flex items-center justify-start">
-                        <img className="h-16 w-auto" src="/image/logo.jpg" alt="Logo" />
+                        <img className="h-9 md:h-16 w-auto" src="/image/logo.jpg" alt="Logo" />
                     </div>
                 </Link>
-                <IoMenu className="md:hidden w-8 h-8 text-white cursor-pointer" onClick={() => setNavbarOpen(!showNavbar)} />
+                <IoMenu className="md:hidden w-6 h-6 text-white cursor-pointer" onClick={() => setNavbarOpen(!showNavbar)} />
 
 
             </div>

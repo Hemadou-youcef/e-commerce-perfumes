@@ -51,16 +51,16 @@ const Home = ({ ...props }) => {
                         autoplay={{ delay: 5000 }}
                     >
                         {props?.pinned_products?.map((product, index) => (
-                            <SwiperSlide key={index}>
+                            <SwiperSlide key={index} className="h-full">
                                 {/* Wallpaper For Information */}
-                                <div className="md:h-128 py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(/image/wallpaper.avif)" }}
+                                <div className="h-full py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(/image/wallpaper.avif)" }}
                                 >
                                     <div className="container flex flex-col md:flex-row items-center justify-center md:justify-around gap-5 select-none">
                                         <div className="flex flex-col md:justify-centers items-center  text-center">
-                                            <h1 className="text-2xl md:text-5xl md:pl-4 text-white" style={{ textShadow: "0 0 10px #000" }}>
+                                            <h1 className="text-xl md:text-5xl md:pl-4 text-white" style={{ textShadow: "0 0 10px #000" }}>
                                                 {product.name}
                                             </h1>
-                                            <p className="text-sm font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
+                                            <p className="text-xs md:text-sm font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
                                                 {i18n.language === "fr" ? product.description : product.description_ar}
                                             </p>
                                             <Link href={`/products/${product.id}`}>

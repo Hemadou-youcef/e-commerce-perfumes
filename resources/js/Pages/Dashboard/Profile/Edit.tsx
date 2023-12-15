@@ -139,7 +139,7 @@ const Profile = ({ ...props }) => {
         <>
             <div className="md:container md:mx-auto md:px-5 md:py-5">
                 <form onSubmit={submit} className="w-full">
-                    <div className=" border-2 rounded-md grid mx-auto p-0 my-5 bg-white gap-5">
+                    <div className=" border-2 rounded-md grid mx-auto p-0 md:my-5 bg-white gap-5">
                         <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 bg-gray-100">
                             <div className="flex flex-row justify-start items-center gap-4">
                                 <div className="flex justify-center items-center w-12 h-12 rounded-full  text-white text-2xl font-bold">

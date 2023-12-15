@@ -162,11 +162,11 @@ const Products = ({ ...props }) => {
                         <span>)</span>
                     </div>
                     {data.length === 0 ? (
-                        <div className="flex flex-col justify-center">
+                        <div className="flex flex-col justify-center mb-5">
                             <img
                                 src="/image/empty.png"
                                 alt="empty"
-                                className="w-52 mx-auto"
+                                className="w-32 md:w-52 mx-auto"
                             />
                             <p className="text-gray-800 font-semibold text-sm md:text-lg text-center">
                                 {t("products_page.empty")}
