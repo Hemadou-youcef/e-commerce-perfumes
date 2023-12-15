@@ -16,9 +16,6 @@ import { Input } from "@/shadcn/ui/input";
 import {
     Sheet,
     SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
     SheetTrigger,
 } from "@/shadcn/ui/sheet"
 
@@ -51,6 +48,7 @@ const Products = ({ ...props }) => {
         "homme",
         "femme",
         "unisexe",
+        "bouteille"
     ]
 
     // CHECK IF THERE IS CHANGE IN DATA

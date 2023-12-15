@@ -333,7 +333,8 @@ const Product = ({ ...props }) => {
                     </div>
 
                 </div>
-                {/* <LandingSuggest title="You May Also Like" products={props?.product?.suggestedProducts} /> */}
+                <LandingSuggest title={t("product_page.you_may_also_like")}
+                products={props?.product?.suggestedProducts} />
             </div>
             {showImageSlider && (
                 <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">

@@ -29,31 +29,27 @@ const Home = ({ ...props }) => {
     console.log(props)
 
     const { t, i18n } = useTranslation()
-    const handleTest = () => {
-        router.post('/test', {
-            name: 'test'
-        }, {
-            onSuccess: () => {
-                console.log('success');
-            }
-        })
-    }
     return (
-        <>
+        <div
+            className="w-full h-full bg-cover bg-fixed bg-center bg-no-repeat text-gray-50 font-serif"
+            style={{ backgroundImage: "url(/image/main-wallpaper.png)" }}
+        >
             <Head title="Perfurms Online" />
-            <div className="w-full md:h-128" >
+            <div className="w-full md:h-128 text-gray-50 font-serif"
+            >
                 {props?.pinned_products?.length != 0 && (
                     <Swiper
                         modules={[Pagination, Autoplay]}
                         spaceBetween={0}
                         slidesPerView={1}
                         pagination={{ clickable: true }}
-                        autoplay={{ delay: 5000 }}
+                        autoplay={{ delay: 50000 }}
+                        className="h-full"
                     >
                         {props?.pinned_products?.map((product, index) => (
                             <SwiperSlide key={index} className="h-full">
                                 {/* Wallpaper For Information */}
-                                <div className="h-full py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(/image/wallpaper.avif)" }}
+                                <div className="h-128 py-10 bg-cover bg-fixed bg-center text-gray-50 font-serif"
                                 >
                                     <div className="container flex flex-col md:flex-row items-center justify-center md:justify-around gap-5 select-none">
                                         <div className="flex flex-col md:justify-centers items-center  text-center">
@@ -193,7 +189,8 @@ const Home = ({ ...props }) => {
                     </div>
                 </div>
             </div >
-            {/* <LandingSuggest title="Pour vous" /> */}
+            <LandingSuggest title={t('layout.navbar.for_you')}
+                products={props?.for_you_products} />
             <div className="w-full h-128 bg-black bg-contain bg-right bg-no-repeat text-gray-50 font-serif"
                 style={{ backgroundImage: "url(/image/about-us/french.png)" }}>
                 <div className="container flex flex-col items-start justify-center h-full">
@@ -212,7 +209,7 @@ const Home = ({ ...props }) => {
                 </div>
             </div>
 
-        </>
+        </div>
     );
 }
 

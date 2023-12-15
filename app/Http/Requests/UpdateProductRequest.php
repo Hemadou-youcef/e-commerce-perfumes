@@ -27,6 +27,7 @@ class UpdateProductRequest extends FormRequest
             'description_ar' => 'sometimes|required|string',
             'status' => 'nullable|string',
             'image' => 'sometimes|required|image|mimes:jpeg,png,jpg|max:8192',
+            'type' => 'sometimes|required|integer|in:1,2',
             'category_ids.*' => 'sometimes|exists:categories,id',
             'prices' => [
                 'sometimes',

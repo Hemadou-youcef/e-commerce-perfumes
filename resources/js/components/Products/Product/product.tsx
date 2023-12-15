@@ -78,7 +78,7 @@ const Product = ({ product }) => {
             {/* Link href="/product/5"  */}
             <div className="group w-full md:w-[248px] flex flex-col items-center justify-center border overflow-hidden shadow-md">
                 <div className="w-full h-72  relative bg-cover bg-center border-b"
-                    style={{ backgroundImage: "url(" + product?.images.filter((image: any) => product?.main_image_id === image.id)[0]?.path + ")" }}
+                    style={{ backgroundImage: "url(" + (product.main_image?.path || product?.images?.filter((image: any) => product?.main_image_id === image.id)[0]?.path || "/image/no-image.jpg") + ")" }}
                 >
                     <Link href={`/products/${product.id}`} className="absolute inset-0 w-full h-full flex items-center justify-center">
                     </Link>

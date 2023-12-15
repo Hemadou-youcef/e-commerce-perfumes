@@ -179,6 +179,7 @@ class ProductController extends Controller
         $product->description = $validatedData['description'];
         $product->description_ar = $validatedData['description_ar'];
         $product->status = $validatedData['status'];
+        $product->type = $validatedData['type'];
 
         if ($request->has('category_ids')) {
             $categories = $validatedData['category_ids'];

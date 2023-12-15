@@ -32,7 +32,7 @@ class HomeController extends Controller
                     'description_ar' => $product->description_ar,
                     'main_image_id' => $product->main_image_id,
                     'categories' => $product->categories,
-                    'product_prices' => $product->activeProductPrices,
+                    'active_product_prices' => $product->activeProductPrices,
                     'main_image' => $product->mainImage,
                     ];
             }),

@@ -11,7 +11,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
-const Products = () => {
+const ProductsSwiper = ({ products }) => {
     return (
         <>
             <Swiper
@@ -35,13 +35,11 @@ const Products = () => {
                     },
                 }}
             >
-                {/* {[0, 1, 2, 3, 4, 5, 6].map((item: number, index: number) => (
+                {products?.map((product, index) => (
                     <SwiperSlide key={index}>
-                        <div className=" flex flex-col items-center justify-center p-2">
-                            <Product 
-                        </div>
+                        <Product product={product} />
                     </SwiperSlide>
-                ))} */}
+                ))}
             </Swiper >
 
 
@@ -49,4 +47,4 @@ const Products = () => {
     );
 }
 
-export default Products;
+export default ProductsSwiper;

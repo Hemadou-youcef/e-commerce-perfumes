@@ -28,7 +28,7 @@ const LandingFooter = () => {
                 <div className="container mx-auto flex flex-wrap items-end justify-between my-5">
                     <Link href="/">
                         <div className="flex items-center justify-between">
-                            <img className="h-20 w-auto" src="/image/logo.jpg" alt="Workflow" />
+                            <img className="h-10 md:h-20 w-auto" src="/image/logo.jpg" alt="Workflow" />
 
                         </div>
                     </Link>

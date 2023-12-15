@@ -6,11 +6,13 @@
         "cancel":"إلغاء",
         "save":"حفظ",
         "confirm":"تأكيد",
+        "apply":"تطبيق",
         "edit":"تعديل",
         "success":"تم بنجاح",
         "error":"حدث خطأ",
         "error_occured":"حدث خطأ ما",
-        "error_description":"حدث خطأ ما. يرجى المحاولة مرة أخرى"
+        "error_description":"حدث خطأ ما. يرجى المحاولة مرة أخرى",
+        "top_limit":"الحد الأعلى"
     },
     "language":{
         "ar":"العربية",
@@ -24,6 +26,16 @@
         "l":"لتر",
         "piece":"قطعة",
         "bottle":"زجاجة"
+    },
+    "categories":{
+        "bottle":"الزجاجات",
+        "male": "لذكور",
+        "female": "لإناث",
+        "unisex": "للجنسين",
+        "winter": "لشتاء",
+        "summer": "لصيف",
+        "autumn": "للخريف",
+        "spring": "لربيع"
     },
     "layout":{
         "navbar":{
@@ -41,7 +53,11 @@
             "categories":"الاقسام",
             "bookmarks":"المفضلة",
             "cart":"السلة",
-            "orders":"الطلبات"
+            "orders":"الطلبات",
+            "perfumes":"العطور",
+            "accessories":"الاكسسوارات",
+            "see_all":"عرض الكل",
+            "for_you":"من أجلك"
         },
         "pagination":{
             "previous":"السابق",
@@ -56,12 +72,17 @@
         "products":"المنتجات",
         "categories":"الاقسام",
         "perfumes":"العطور",
+        "accessories":"الاكسسوارات",
         "price":"السعر",
         "empty_products":"لا يوجد منتجات في هذا القسم!",
         "search":"بحث",
         "search_placeholder":"ابحث عن منتجاتك المفضلة",
         "filter":"تصفية",
-        "empty": "لا يوجد منتجات في هذا القسم!"
+        "empty": "لا يوجد منتجات في هذا القسم!",
+        "seasons": "الفصول",
+        "labels": "الملصقات",
+        "max_price": "السعر الأقصى",
+        "min_price": "السعر الأدنى"
     },
     "product_page":{
         "add_to_cart":"اضف الى السلة",
@@ -78,8 +99,8 @@
         "bookmark_removed":"تمت إزالة المنتج من المفضلة",
         "bookmark_added":"تمت إضافة المنتج إلى المفضلة",
         "bookmark_added_description":"تمت إضافة المنتج إلى المفضلة. يمكنك الآن رؤية المفضلة الخاصة بك",
-        "bookmark_removed_description":"تمت إزالة المنتج من المفضلة, يمكنك الآن رؤية المفضلة الخاصة بك"
-
+        "bookmark_removed_description":"تمت إزالة المنتج من المفضلة, يمكنك الآن رؤية المفضلة الخاصة بك",
+        "you_may_also_like":"قد تعجبك أيضا"
     },
     "cart_page":{
         "title": "السلتي",
@@ -161,6 +182,11 @@
         "phone": "رقم الهاتف",
         "subject": "الموضوع",
         "message": "الرسالة",
-        "send": "إرسال"
+        "send": "إرسال",
+        "success": "تم إرسال الرسالة بنجاح!",
+        "success_description": "تم إرسال الرسالة بنجاح. سنقوم بالرد عليك في أقرب وقت ممكن",
+        "error": "حدث خطأ أثناء إرسال الرسالة!",
+        "error_description": "حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى"
+        
     }
 }

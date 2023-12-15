@@ -36,7 +36,21 @@ const Contact = ({ ...props }) => {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route('contact.store'));
+        post(route('contact.store'),{
+            onSuccess: () => {
+                toast({
+                    title: t("contact_page.success"),
+                    description: t("contact_page.success_description"),
+                })
+            },
+            onError: () => {
+                toast({
+                    variant: "destructive",
+                    title: t("global.error"),
+                    description: t("global.error_description"),
+                })
+            },
+        });
     };
 
 
@@ -50,14 +64,10 @@ const Contact = ({ ...props }) => {
                     {t('contact_page.title')}
                 </h1>
             </div>
-            <div className="container border-2 mx-auto my-5 bg-white font-sans rtl:font-arabic rounded-lg">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-center">
+            <div className="w-full md:w-[500px] border-2 mx-auto my-5 bg-white font-sans rtl:font-arabic rounded-lg">
+                <div className="grid grid-cols-1  gap-5 items-center">
                     <div className="w-full h-full flex flex-col justify-center bg-blue- overflow-hidden">
-                        <img
-                            src="/image/contact-us.jpg"
-                            alt=""
-                            className="object-cover w-full h-96"
-                        />
+                        
                     </div>
                     <div className="px-8 w-full py-5 ltr:font-sans rtl:font-arabic">
                         <form
@@ -162,13 +172,13 @@ const Contact = ({ ...props }) => {
                                     <p className="text-red-500 text-sm">{errors.message}</p>
                                 )}
                             </div>
-                            <div className="flex justify-end">
+                            <div className="flex justify-center">
                                 <Button
                                     type="submit"
                                     className="bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
                                     disabled={processing}
                                 >
-                                    Envoyer
+                                    {t('contact_page.send')}
                                 </Button>
                             </div>
                         </form>

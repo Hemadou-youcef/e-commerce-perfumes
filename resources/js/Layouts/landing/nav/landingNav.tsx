@@ -64,15 +64,13 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
     }
     return (
         <>
-            <div className="flex md:hidden container w-full h-12 md:h-20   justify-between items-center py-3 px-2 ltr:pr-5 rtl:pl-5 ">
+            <div className="flex md:hidden container w-full h-12 md:h-16 justify-between items-center py-3 px-2 ltr:pr-5 rtl:pl-5 ">
                 <Link href="/">
                     <div className="flex items-center justify-start">
-                        <img className="h-9 md:h-16 w-auto" src="/image/logo.jpg" alt="Logo" />
+                        <img className="h-9 md:h-12 w-auto" src="/image/logo.jpg" alt="Logo" />
                     </div>
                 </Link>
                 <IoMenu className="md:hidden w-6 h-6 text-white cursor-pointer" onClick={() => setNavbarOpen(!showNavbar)} />
-
-
             </div>
             {/* OVERLAY */}
             <div
@@ -166,11 +164,11 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                     </Link>}
                 </div>
             </div>
-            <div className="container w-full h-20 hidden md:flex  justify-between items-center py-3 pl-3 pr-2 md:px-5 ">
+            <div className="container w-full h-16 hidden md:flex justify-between items-center py-3 pl-3 pr-2 md:px-5 ">
                 {/* LOGO */}
                 <Link href="/">
                     <div className="flex items-center justify-start">
-                        <img className="h-16 w-auto" src="/image/logo.jpg" alt="Logo" />
+                        <img className="h-12 w-auto" src="/image/logo.jpg" alt="Logo" />
                     </div>
                 </Link>
 
@@ -186,7 +184,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                                 }
                             }}
                             placeholder="Recherche..."
-                            className="h-12 border-0 focus-visible:ring-transparent bg-white"
+                            className="h-10 border-0 focus-visible:ring-transparent bg-white"
                         />
                         {searchLoading ? <AiOutlineLoading3Quarters className="w-8 h-8 text-forth animate-spin" /> : <IoMdSearch className="w-8 h-8 text-forth" />}
                     </div>
@@ -198,7 +196,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                                 href="/dashboard"
                                 className="flex flex-col items-center group gap-1"
                             >
-                                <MdOutlineDashboard className="w-7 h-7 text-white group-hover:text-gray-400" />
+                                <MdOutlineDashboard className="w-5 h-5 text-white group-hover:text-gray-400" />
                                 <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                     {t('layout.navbar.dashboard')}
                                     {/* Tableau de bord */}
@@ -210,7 +208,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                                     href="/cart"
                                     className="flex flex-col items-center group gap-1"
                                 >
-                                    <HiOutlineShoppingBag className="w-7 h-7 text-white group-hover:text-gray-400" />
+                                    <HiOutlineShoppingBag className="w-5 h-5 text-white group-hover:text-gray-400" />
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                         {t('layout.navbar.cart')}
                                         {/* panier */}
@@ -220,7 +218,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                                     href="/orders"
                                     className="flex flex-col items-center group gap-1"
                                 >
-                                    <FaLuggageCart className="w-7 h-7 text-white group-hover:text-gray-400" />
+                                    <FaLuggageCart className="w-5 h-5 text-white group-hover:text-gray-400" />
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                         {t('layout.navbar.orders')}
                                         {/* mes commandes */}
@@ -230,7 +228,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                                     href="/bookmarks"
                                     className="flex flex-col items-center group gap-1"
                                 >
-                                    <TbBookmark className="w-7 h-7 text-white group-hover:text-gray-400" />
+                                    <TbBookmark className="w-5 h-5 text-white group-hover:text-gray-400" />
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                         {t('layout.navbar.bookmarks')}
                                         {/* signet */}
@@ -240,7 +238,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                                     href="/profile"
                                     className="flex flex-col items-center group gap-1"
                                 >
-                                    <CgProfile className="w-7 h-7 text-white group-hover:text-gray-400" />
+                                    <CgProfile className="w-5 h-5 text-white group-hover:text-gray-400" />
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                         {t('layout.navbar.profile')}
                                         {/* mon compte */}
@@ -254,7 +252,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                             method="post"
                             className="flex flex-col items-center group gap-1"
                         >
-                            <MdOutlineLogout className="w-7 h-7 text-white group-hover:text-gray-400" />
+                            <MdOutlineLogout className="w-5 h-5 text-white group-hover:text-gray-400" />
                             <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                 {t('layout.navbar.logout')}
                                 {/* Déconnexion */}
@@ -270,7 +268,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                             href="/register"
                             className="flex flex-col items-center group gap-1"
                         >
-                            <IoPersonAddOutline className="w-7 h-7 text-white group-hover:text-gray-400" />
+                            <IoPersonAddOutline className="w-5 h-5 text-white group-hover:text-gray-400" />
                             <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                 {t('layout.navbar.register')}
                                 {/* S'inscrire */}
@@ -280,7 +278,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                             href="/login"
                             className="flex flex-col items-center group gap-1"
                         >
-                            <MdOutlineLogout className="w-7 h-7 text-white group-hover:text-gray-400" />
+                            <MdOutlineLogout className="w-5 h-5 text-white group-hover:text-gray-400" />
                             <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                 {t('layout.navbar.login')}
                                 {/* Se connecter */}

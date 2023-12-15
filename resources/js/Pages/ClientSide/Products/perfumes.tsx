@@ -59,7 +59,7 @@ const Perfumes = ({ ...props }) => {
 
     const handleFilter = () => {
         setLoading(true);
-        router.get(route("client_products"), {
+        router.get(route("client_perfumes"), {
             q: delayedSearch,
             category: categories?.join(","),
             startPrice: minMaxPrice[0],
@@ -79,6 +79,16 @@ const Perfumes = ({ ...props }) => {
 
     return (
         <>
+            <div 
+                style={{
+                    backgroundImage: "url('/image/perfumes-page.jpg')"
+                }}
+                className="w-full bg-cover bg-center bg-fixed h-32 md:h-52 flex justify-center items-center"
+                >
+                <span className="text-white text-3xl md:text-5xl font-bold font-sans rtl:font-arabic" style={{ textShadow: "0 0 10px #000" }}>
+                {t('layout.navbar.perfumes')}
+                </span>
+            </div>  
             <div className="container grid grid-cols-1 md:grid-cols-12 gap-5 mx-auto px-5 pt-2 py-0 bg-white mt-10">
                 {/* FILTER SECTION */}
                 <div className="md:col-span-3 lg:col-span-2 py-5">

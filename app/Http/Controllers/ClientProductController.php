@@ -68,7 +68,7 @@ class ClientProductController extends Controller
 
     public function perfumes(): Response
     {
-        return Inertia::render('testPages/test', [
+        return Inertia::render('ClientSide/Products/perfumes', [
             'products' => Product::perfumes()
                 ->when(request('q'), fn($query, $search) => $query
                     ->where('name', 'LIKE', '%' . $search . '%')
@@ -119,7 +119,7 @@ class ClientProductController extends Controller
 
     public function accessories(): Response
     {
-        return Inertia::render('testPages/test', [
+        return Inertia::render('ClientSide/Products/accessories', [
             'products' => Product::accessories()
                 ->when(request('q'), fn($query, $search) => $query
                     ->where('name', 'LIKE', '%' . $search . '%')

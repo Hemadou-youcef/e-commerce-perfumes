@@ -36,6 +36,19 @@ const LandingMainLayout = ({ children, ...props }) => {
                         >
                             {t('layout.navbar.products')}
                         </Link>
+                        <Link
+                            href="/products/perfumes"
+                            className="text-base font-medium transition-colors hover:text-gray-400"
+                        >
+                            {t('layout.navbar.perfumes')}
+                        </Link>
+                        <Link
+                            href="/products/accessories"
+                            className="text-base font-medium transition-colors hover:text-gray-400"
+                        >
+                            {t('layout.navbar.accessories')}
+                        </Link>
+
                         {/* <NavigationMenu>
                         <NavigationMenuList>
                             <NavigationMenuItem>
