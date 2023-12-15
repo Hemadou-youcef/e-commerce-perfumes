@@ -30,11 +30,11 @@ export const columns: ColumnDef<OrdersInfo>[] = [
         cell: ({ row }) => {
             return (
                 <div className="flex flex-row justify-start items-center gap-2">
-                    <p className="text-sm font-medium text-blue-600 uppercase">{row?.original?.user?.first_name} {row?.original?.user?.last_name}</p>
+                    <p className="text-xs md:text-sm font-medium text-blue-600 uppercase">{row?.original?.user?.first_name} {row?.original?.user?.last_name}</p>
                 </div>
             )
         },
-        maxSize: 10,
+        maxSize: 20,
     },
     {
         accessorKey: "number",
@@ -54,11 +54,13 @@ export const columns: ColumnDef<OrdersInfo>[] = [
         cell: ({ row }) => {
             return (
                 <div className="flex flex-row justify-start items-center gap-2">
-                    <p className="text-sm font-medium text-gray-600 uppercase">{row?.original?.user?.address}</p>
+                    <p className="text-sm font-medium text-gray-600 uppercase">
+                        {row?.original?.user?.address?.length > 30 ? row?.original?.user?.address?.substring(0, 30) + "..." : row?.original?.user?.address}
+                    </p>
                 </div>
             )
         },
-        maxSize: 40,
+        maxSize: 20,
     },
     {
         accessorKey: "status",

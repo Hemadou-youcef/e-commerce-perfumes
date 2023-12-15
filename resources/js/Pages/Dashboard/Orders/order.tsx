@@ -465,7 +465,7 @@ const Order = ({ ...props }) => {
                     <Separator className="mt-0" />
                     <div className="flex flex-col gap-2 px-5 my-2">
                         <Tabs defaultValue="infos" className="w-full">
-                            <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent overflow-x-auto">
+                            <TabsList className="flex h-auto flex-col md:flex-row justify-start items-center gap-2 bg-transparent overflow-x-auto">
                                 <TabsTrigger value="infos" className="w-52 border-b rounded-none">Informations Supplémentaires</TabsTrigger>
                                 <TabsTrigger value="articles" className="w-52 border-b rounded-none">Articles</TabsTrigger>
                                 {(order?.status != "cancelled" && order?.status != "pending") && (

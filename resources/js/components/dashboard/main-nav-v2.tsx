@@ -61,12 +61,13 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
             <MdMailOutline className="w-5 h-5  group-hover:w-6 group-hover:h-6 transition-all" />
           </Link>
           )}
-
           <Link
             href="/dashboard/profile"
-            className="flex flex-col items-center justify-center mb-3 mt-auto p-2 rounded-md border-white  hover:bg-white hover:bg-opacity-10 transition-colors cursor-pointer">
+            className={`w-full h-14 flex justify-center items-center group transition-all cursor-pointer text-white  ${pageId === "contacts" ? "bg-gray-900 " : "bg-gray-950"}`}>
             <FaRegUser className="w-5 h-5 text-white" />
           </Link>
+
+
         </div>
         <Tabs
           value={currentTab}

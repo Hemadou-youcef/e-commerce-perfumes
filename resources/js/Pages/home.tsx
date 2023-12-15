@@ -42,42 +42,44 @@ const Home = ({ ...props }) => {
         <>
             <Head title="Perfurms Online" />
             <div className="w-full md:h-128" >
-                <Swiper
-                    modules={[Pagination, Autoplay]}
-                    spaceBetween={0}
-                    slidesPerView={1}
-                    pagination={{ clickable: true }}
-                    autoplay={{ delay: 5000 }}
-                >
-                    {props?.pinned_products?.map((product, index) => (
-                        <SwiperSlide key={index}>
-                            {/* Wallpaper For Information */}
-                            <div className="md:h-128 py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(/image/wallpaper.avif)" }}
-                            >
-                                <div className="container flex flex-col md:flex-row items-center justify-center md:justify-around gap-5 select-none">
-                                    <div className="flex flex-col md:justify-centers items-center  text-center">
-                                        <h1 className="text-2xl md:text-5xl md:pl-4 text-white" style={{ textShadow: "0 0 10px #000" }}>
-                                            {product.name}
-                                        </h1>
-                                        <p className="text-sm font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
-                                            {i18n.language === "fr" ? product.description : product.description_ar}
-                                        </p>
-                                        <Link href={`/products/${product.id}`}>
-                                            <Button variant="default" className="mt-5 w-44 text-gray-900 hover:text-third bg-prime border-2 border-prime font-sans rtl:font-arabic  ">
-                                                {t('product_page.view_product')}
-                                            </Button>
-                                        </Link>
-                                    </div>
-                                    <div className=" ">
-                                        <img src={product.main_image.path} alt=""
-                                            className="landingImageRadius p-5 h-52 md:h-80  object-cover shadow-md"
-                                        />
+                {props?.pinned_products?.length != 0 && (
+                    <Swiper
+                        modules={[Pagination, Autoplay]}
+                        spaceBetween={0}
+                        slidesPerView={1}
+                        pagination={{ clickable: true }}
+                        autoplay={{ delay: 5000 }}
+                    >
+                        {props?.pinned_products?.map((product, index) => (
+                            <SwiperSlide key={index}>
+                                {/* Wallpaper For Information */}
+                                <div className="md:h-128 py-10 bg-cover bg-center text-gray-50 font-serif" style={{ backgroundImage: "url(/image/wallpaper.avif)" }}
+                                >
+                                    <div className="container flex flex-col md:flex-row items-center justify-center md:justify-around gap-5 select-none">
+                                        <div className="flex flex-col md:justify-centers items-center  text-center">
+                                            <h1 className="text-2xl md:text-5xl md:pl-4 text-white" style={{ textShadow: "0 0 10px #000" }}>
+                                                {product.name}
+                                            </h1>
+                                            <p className="text-sm font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
+                                                {i18n.language === "fr" ? product.description : product.description_ar}
+                                            </p>
+                                            <Link href={`/products/${product.id}`}>
+                                                <Button variant="default" className="mt-5 w-44 text-gray-900 hover:text-third bg-prime border-2 border-prime font-sans rtl:font-arabic  ">
+                                                    {t('product_page.view_product')}
+                                                </Button>
+                                            </Link>
+                                        </div>
+                                        <div className=" ">
+                                            <img src={product?.main_image?.path} alt=""
+                                                className="landingImageRadius p-5 h-52 md:h-80  object-cover shadow-md"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                )}
             </div>
             <div className="w-full p-1 px-5 sm:px-1 h-32 flex md:hidden justify-center items-center bg-forth uppercase">
                 <Swiper

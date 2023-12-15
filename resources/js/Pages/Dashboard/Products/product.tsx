@@ -27,6 +27,16 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/shadcn/ui/alert-dialog"
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/shadcn/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
 import { Button } from "@/shadcn/ui/button";
 import { Separator } from "@/shadcn/ui/separator";
@@ -48,14 +58,23 @@ import { Scrollbar, Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
-import { FaChevronRight } from "react-icons/fa";
+import { FaChevronRight, FaPlus } from "react-icons/fa";
 import Pagination from "@/components/tables/pagination";
+import { Label } from "@/shadcn/ui/label";
+import { Input } from "@/shadcn/ui/input";
 
 const Product = ({ ...props }) => {
     console.log(props?.product)
     const [product, setProduct] = useState<ProductsInfo | null>(props?.product)
     const [statusLoading, setStatusLoading] = useState<[boolean, number]>([false, -1])
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
+    const [receptionData, setReceptionData] = useState<any>({
+        name: "",
+        quantity: "",
+        price: 1,
+        product_id: "",
+    })
+    const [receptionLoading, setReceptionLoading] = useState<boolean>(false)
 
     const { toast } = useToast()
 
@@ -126,6 +145,37 @@ const Product = ({ ...props }) => {
         })
     }
 
+    const handleAddReception = () => {
+        const data = {
+            name: receptionData.name,
+            quantity: receptionData.quantity,
+            price: receptionData.price / receptionData.quantity,
+            product_id: product?.id,
+        }
+        setReceptionLoading(true)
+        router.post(route('reception.store'), data, {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast({
+                    title: 'Reception ajouté',
+                    description: 'Le reception a été ajouté avec succès',
+                    duration: 5000,
+                })
+            },
+            onError: () => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Erreur',
+                    description: 'Une erreur s\'est produite lors de l\'ajout du reception',
+                    duration: 5000,
+                })
+            },
+            onFinish: () => {
+                setReceptionLoading(false)
+            },
+        })
+    }
+
     const handleDeleteProduct = () => {
         setDeleteLoading(true)
         router.delete(route('product.destroy', product?.id), {
@@ -171,7 +221,75 @@ const Product = ({ ...props }) => {
                         </div>
                     </div>
                     {/* ACTIONS */}
-                    <div className="flex justify-end gap-2">
+                    <div className="flex flex-wrap sm:flex-nowrap justify-center md:justify-end gap-2">
+                        {true && (
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        className="group p-0 h-12 w-12 hover:w-52 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                        disabled={statusLoading[0] && statusLoading[1] === 1}
+                                        onClick={() => handleUpdateStatus(1)}
+                                    >
+                                        {receptionLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <FaPlus className="text-xl" />}
+                                        <p className="group-hover:w-36 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Ajouter une reception</p>
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                        <DialogTitle>Ajouter un reception</DialogTitle>
+                                        <DialogDescription>
+                                            Ajouter un reception pour le product {product?.name}
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <div className="grid gap-4 py-4">
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="name">Nom</Label>
+                                            <Input
+                                                type="text"
+                                                name="name"
+                                                id="name"
+                                                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                                                value={receptionData.name}
+                                                onChange={(e) => setReceptionData({ ...receptionData, name: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="quantity">Quantité</Label>
+                                            <Input
+                                                type="number"
+                                                name="quantity"
+                                                id="quantity"
+                                                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                                                value={receptionData.quantity}
+                                                onChange={(e) => setReceptionData({ ...receptionData, quantity: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="price">Prix</Label>
+                                            <Input
+                                                type="number"
+                                                name="price"
+                                                id="price"
+                                                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                                                value={receptionData.price}
+                                                onChange={(e) => setReceptionData({ ...receptionData, price: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+                                    <DialogFooter>
+                                        <DialogClose asChild>
+                                            <Button className="mr-2" variant="outline">
+                                                Annuler
+                                            </Button>
+                                        </DialogClose>
+                                        <Button type="submit" onClick={() => handleAddReception()}>
+                                            {receptionLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : "Ajouter"}
+                                        </Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                        )}
                         {product?.status === "pinned" && (
                             <Button
                                 variant="outline"
@@ -216,6 +334,7 @@ const Product = ({ ...props }) => {
                                 <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Archiver</p>
                             </Button>
                         )}
+
                         {[3, 4].includes(props?.auth?.user?.role) && (
                             <AlertDialog>
                                 <AlertDialogTrigger>
@@ -366,7 +485,7 @@ const Product = ({ ...props }) => {
                 <Separator className="mt-0" />
                 <div className="flex flex-col gap-2 mt-2">
                     <Tabs defaultValue="prices" className="w-full">
-                        <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent  overflow-x-auto">
+                        <TabsList className="flex h-auto flex-col md:flex-row justify-start items-center gap-2 bg-transparent  overflow-x-auto">
                             <TabsTrigger value="prices" className="w-52 border-b rounded-none">Les prix</TabsTrigger>
                             <TabsTrigger value="reception" className="w-52  border-b rounded-none">Les reception</TabsTrigger>
                             <TabsTrigger value="orders" className="w-52  border-b rounded-none">Les commandes</TabsTrigger>
@@ -455,7 +574,7 @@ const Product = ({ ...props }) => {
                                 </Table>
                             </div>
                             <div className="px-5">
-                                <Pagination meta={product?.receptions } preserveScroll={true} preservestate={true} />
+                                <Pagination meta={product?.receptions} preserveScroll={true} preservestate={true} />
                             </div>
                         </TabsContent>
                         <TabsContent value="orders" className="px-5">
@@ -499,7 +618,7 @@ const Product = ({ ...props }) => {
                                 </Table>
                             </div>
                             <div className="px-5">
-                                <Pagination meta={product?.orders} preserveScroll={true} preservestate={true}  />
+                                <Pagination meta={product?.orders} preserveScroll={true} preservestate={true} />
                             </div>
                         </TabsContent>
                     </Tabs>

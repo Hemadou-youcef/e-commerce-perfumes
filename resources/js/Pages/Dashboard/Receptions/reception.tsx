@@ -200,7 +200,7 @@ const Reception = ({ ...props }) => {
                 <Separator className="mt-0" />
                 <div className="flex flex-col gap-2 px-5 mt-2">
                     <Tabs defaultValue="product_information" className="w-full">
-                        <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent">
+                        <TabsList className="flex h-auto flex-col md:flex-row justify-start items-center gap-2 bg-transparent">
                             <TabsTrigger value="product_information" className="w-52 border-b rounded-none">Information Du Produit</TabsTrigger>
                             <TabsTrigger value="reservation" className="w-52  border-b rounded-none">Les Réservation</TabsTrigger>
                         </TabsList>

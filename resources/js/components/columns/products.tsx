@@ -32,11 +32,25 @@ export const columns: ColumnDef<ProductsInfo>[] = [
     {
         accessorKey: "id",
         header: "ID",
+        cell: ({ row }) => {
+            return (
+                <span className="flex flex-row items-center gap-2 font-arabic text-xs md:text-base">
+                    {row?.original?.id}
+                </span>
+            )
+        },
         maxSize: 5,
     },
     {
         accessorKey: "name",
         header: "Nom du produit",
+        cell: ({ row }) => {
+            return (
+                <span className="flex flex-row items-center gap-2 font-arabic text-xs md:text-base">
+                    {row?.original?.name}
+                </span>
+            )
+        },
         maxSize: 60,
     },
     {

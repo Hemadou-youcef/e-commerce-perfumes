@@ -137,7 +137,7 @@ const Profile = ({ ...props }) => {
 
     return (
         <>
-            <div className="container mx-auto px-5 py-5">
+            <div className="md:container md:mx-auto md:px-5 md:py-5">
                 <form onSubmit={submit} className="w-full">
                     <div className=" border-2 rounded-md grid mx-auto p-0 my-5 bg-white gap-5">
                         <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 bg-gray-100">
@@ -145,7 +145,7 @@ const Profile = ({ ...props }) => {
                                 <div className="flex justify-center items-center w-12 h-12 rounded-full  text-white text-2xl font-bold">
                                     <CgProfile className="h-12 w-12 text-gray-900" />
                                 </div>
-                                <div className="flex flex-col text-center md:text-left">
+                                <div className="hidden md:flex flex-col text-center md:text-left">
                                     <h2 className="text-xl text-gray-900 font-bold tracking-tight">
                                         Mon profile
                                     </h2>

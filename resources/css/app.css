@@ -85,6 +85,27 @@
 .swiper-button-next {
   color: white !important;
 }
+
+/* p, h1, h2, h3, h4, h5, h6, a, li, span, div, button, input, textarea, label, select, option, form, fieldset, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+  font-size: 10px;
+}
+
+@media screen and (min-width: 640px) {
+  p, h1, h2, h3, h4, h5, h6, a, li, span, div, button, input, textarea, label, select, option, form, fieldset, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    font-size: 12px;
+  }
+}
+@media screen and (min-width: 768px) {
+  p, h1, h2, h3, h4, h5, h6, a, li, span, div, button, input, textarea, label, select, option, form, fieldset, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    font-size: 14px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  p, h1, h2, h3, h4, h5, h6, a, li, span, div, button, input, textarea, label, select, option, form, fieldset, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    font-size: 16px;s
+  }
+} */
+
 /* /* add font */
 @font-face {
   font-family: inter;

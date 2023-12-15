@@ -75,6 +75,7 @@ interface FormData {
     description_ar: string;
     unit: string;
     status: string;
+    type: number;
     category_ids?: number[];
     main_image?: File | null;
     main_image_id?: number | null;
@@ -93,6 +94,7 @@ const ProductForm = ({ ...props }) => {
         description_ar: props?.product?.description_ar || "",
         unit: props?.product?.unit?.toUpperCase() || "G",
         status: props?.product?.status || "published",
+        type: props?.product?.type || 1,
         category_ids: props?.product?.categories?.map((category) => category.id) || [],
         main_image: null,
         main_image_id: props?.product?.main_image_id || null,
@@ -343,6 +345,18 @@ const ProductForm = ({ ...props }) => {
                                         <SelectItem value="published">Publié</SelectItem>
                                         <SelectItem value="pinned">Épinglé</SelectItem>
                                         <SelectItem value="archived">Archivé</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="grid gap-3">
+                                <Label htmlFor="type" className="text-base">Type</Label>
+                                <Select onValueChange={(value) => setData("type", parseInt(value))} value={data.type.toString()}>
+                                    <SelectTrigger className="w-full h-12">
+                                        <SelectValue placeholder="Publié" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="1">Parfum</SelectItem>
+                                        <SelectItem value="2">Accessoire</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>

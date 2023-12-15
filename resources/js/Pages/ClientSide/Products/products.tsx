@@ -108,9 +108,9 @@ const Products = ({ ...props }) => {
                                 <IoMdOptions className="h-5 w-5" />
                                 <span className="ml-2">{t("products_page.filter")}</span>
                             </SheetTrigger>
-                            <SheetContent dir={i18n.dir()}  side={i18n.language === "fr" ? "left" : "right"}>
+                            <SheetContent dir={i18n.dir()} side={i18n.language === "fr" ? "left" : "right"}>
                                 <div className="h-[calc(100dvh)] bg-white rounded-tl-md rounded-tr-md overflow-y-auto flex flex-col items-start justify-start gap-5 font-sans rtl:font-arabic  ">
-                                
+
                                     <FiltersOptions
                                         categoriesList={categoriesList}
                                         categories={categories}
@@ -152,20 +152,34 @@ const Products = ({ ...props }) => {
                             onChange={(e) => {
                                 setSearch(e.target.value || undefined);
                             }}
-                            className="w-full h-12 px-2 rounded-md border border-gray-300  py-1 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+                            className="w-full h-8 sm:h-12 px-2 rounded-md border border-gray-300  py-1 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
                         />
                     </div>
+
                     <div className="text-gray-800 font-semibold text-sm md:text-lg flex items-center gap-1">
                         <span>{t("products_page.products")} (</span>
                         <span>{loading ? <AiOutlineLoading3Quarters className="h-3 w-3 animate-spin" /> : props?.products?.total}</span>
                         <span>)</span>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-5 justify-items-center">
-                        {data.map((product, index) => (
-                            <Product key={index} product={product} />
-                        ))}
+                    {data.length === 0 ? (
+                        <div className="flex flex-col justify-center">
+                            <img
+                                src="/image/empty.png"
+                                alt="empty"
+                                className="w-52 mx-auto"
+                            />
+                            <p className="text-gray-800 font-semibold text-sm md:text-lg text-center">
+                                {t("products_page.empty")}
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-5 justify-items-center">
+                            {data.map((product, index) => (
+                                <Product key={index} product={product} />
+                            ))}
 
-                    </div>
+                        </div>
+                    )}
                     <Pagination meta={props?.products} />
                 </div>
             </div>

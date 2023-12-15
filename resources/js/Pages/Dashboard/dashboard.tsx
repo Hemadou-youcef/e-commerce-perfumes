@@ -87,12 +87,12 @@ const DashboardPage = ({ ...props }) => {
             </div> */}
             <div className="flex-1 space-y-4 p-8 pt-6">
                 <div className="flex items-center flex-col md:flex-row justify-between space-y-2">
-                    <h2 className="text-3xl font-bold tracking-tight">
+                    <h2 className="text-base md:text-3xl font-bold tracking-tight">
                         Tableau de bord
                     </h2>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex flex-col md:flex-row gap-2 items-center w-full md:w-auto">
                         <CalendarDateRangePicker setDateRange={setDate} dateRange={date} />
-                        <Button onClick={getData} className="w-24 flex items-center justify-center">
+                        <Button onClick={getData} className="w-full md:w-24 flex items-center justify-center">
                             {loadingData ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <p className="text-white">Filtrer</p>}
                         </Button>
                     </div>

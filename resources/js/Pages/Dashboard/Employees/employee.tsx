@@ -221,7 +221,7 @@ const Client = ({ ...props }) => {
                 <Separator className="mt-0" />
                 <div className="flex flex-col gap-2 mt-2">
                     <Tabs defaultValue="confirmed_orders" className="w-full">
-                        <TabsList className="flex flex-row justify-start items-center gap-2 bg-transparent  overflow-x-auto">
+                        <TabsList className="flex h-auto flex-col md:flex-row justify-start items-center gap-2 bg-transparent  overflow-x-auto">
                             {[3, 4].includes(data.role) && (
                                 <TabsTrigger value="confirmed_orders" className="w-52  border-b rounded-none">Les commandes confirmées</TabsTrigger>
                             )}

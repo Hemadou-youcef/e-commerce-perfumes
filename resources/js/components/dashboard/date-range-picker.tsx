@@ -22,14 +22,14 @@ export function CalendarDateRangePicker({ className, dateRange, setDateRange }: 
 
 
   return (
-    <div className={cn("grid gap-2", className)}>
+    <div className={cn("w-full md:grid gap-2 md:gap-0", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
             id="date"
             variant={"outline"}
             className={cn(
-              "w-[260px] justify-start text-left font-normal",
+              "w-full  justify-start text-left font-normal",
               !date && "text-muted-foreground"
             )}
           >
