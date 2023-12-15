@@ -270,12 +270,12 @@ const Product = ({ ...props }) => {
                             </div>
 
                             <div className="flex md:flex-col lg:flex-row justify-start items-center w-full gap-3 mt-3">
-                                <div dir="ltr" className="w-52 flex justify-between gap-1 items-center border-2 overflow-hidden">
-                                    <div className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1 select-none cursor-pointer"
+                                <div dir="ltr" className="w-52 flex justify-between gap-1 items-center  overflow-hidden">
+                                    <div className="w-10 h-10 flex justify-center items-center text-gray-600 border-2 font-bold gap-1 select-none cursor-pointer"
                                         onClick={() => (qte > 1) ? setQte(qte - 1) : setQte(0)} >
-                                        <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 select-none cursor-pointer" />
+                                        <AiOutlineMinus className="w-4 h-4 text-gray-600 select-none cursor-pointer" />
                                     </div>
-                                    <div className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1">
+                                    <div className="w-10 h-10 flex justify-center border-2 items-center text-gray-600 font-bold gap-1">
                                         <input
                                             value={qte}
                                             onChange={(e) => (parseInt(e.target.value) > 0) ? setQte(parseInt(e.target.value)) : setQte(0)}
@@ -283,7 +283,7 @@ const Product = ({ ...props }) => {
                                         />
                                     </div>
                                     <div
-                                        className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1 select-none cursor-pointer"
+                                        className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold border-2 gap-1 select-none cursor-pointer"
                                         onClick={() => setQte(qte + 1)} >
                                         <AiOutlinePlus className="w-4 h-4 text-gray-600 " />
                                     </div>
@@ -330,7 +330,7 @@ const Product = ({ ...props }) => {
                 </div>
                 
             </div>
-            <LandingSuggest title={t("product_page.you_may_also_like")}
+            <LandingSuggest title={t("product_page.you_may_also_like")} url="/products"
                 products={props?.product?.suggestedProducts} />
             {showImageSlider && (
                 <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">

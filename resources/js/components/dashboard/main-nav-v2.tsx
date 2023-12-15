@@ -8,7 +8,7 @@ import useWindowDimensions from "@/components/hooks/useWindowDimensions";
 import { GiBuyCard } from "react-icons/gi"
 import { FaAngleLeft, FaList, FaRegUser, FaUserFriends } from "react-icons/fa"
 import { FiBox } from "react-icons/fi"
-import { FaAngleRight, FaBoxesStacked, FaSort, FaTruckRampBox, FaUserTie, FaUsers } from "react-icons/fa6";
+import { FaAngleRight, FaBoxesStacked, FaBuildingUser, FaSort, FaTruckRampBox, FaUserTie, FaUsers } from "react-icons/fa6";
 
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
@@ -100,6 +100,17 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                   <p className="text-xs text-gray-800 ">LES COMMANDES</p>
                 </Link>
               </CollapsibleContent>
+              <CollapsibleContent className="pl-4 w-full flex flex-col">
+                <Link
+                  href="/dashboard/shipping_agencies"
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  hover:bg-gray-200 ${pageId === "shipping_agencies" ? "bg-gray-200" : ""}`}
+                  onClick={() => (width <= 768) ? setNav(false) : null}
+                >
+                  <FaBuildingUser className="w-5 h-5 text-green-800 group-hover:text-green-600" />
+                  <p className="text-xs text-gray-800 ">LES AGENCES</p>
+                </Link>
+              </CollapsibleContent>
+              
             </Collapsible>
             <Collapsible className="w-full CollapsibleContent" open={collapsedStateList[1]} onOpenChange={(open) => setCollapsedStateList([collapsedStateList[0], open, collapsedStateList[2]])}>
               <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3   transition-all px-4">

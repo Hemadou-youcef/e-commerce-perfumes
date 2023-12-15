@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 
 
-const LandingSuggest = ({ title, products }) => {
+const LandingSuggest = ({ title, products, url }) => {
 
     const { t, i18n } = useTranslation()
     return (
@@ -19,7 +19,7 @@ const LandingSuggest = ({ title, products }) => {
                         <p className="pb-1 inline text-gray-600 font-bold text-sm md:text-3xl font-serif border-b-2 border-gray-600  ltr:font-sans rtl:font-arabic">
                             {title}
                         </p>
-                        <Link href="#"
+                        <Link href={url}
                             className="inline text-xs md:text-base font-bold text-gray-600 hover:text-gray-400 transition-colors">
                             {t('layout.navbar.see_all')}
                             {i18n.language === "fr" ? <RiArrowRightSLine className="inline text-xs md:text-sm font-bold text-gray-600 hover:text-gray-400 transition-colors" /> : <RiArrowLeftSLine className="inline text-xs md:text-sm font-bold text-gray-600 hover:text-gray-400 transition-colors" />}

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -123,6 +124,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/dashboard/orders/{order}/cancel', [App\Http\Controllers\OrderController::class, 'cancel'])->name('cancel_order');
         Route::post('/dashboard/orders/{order}/deliver', [App\Http\Controllers\OrderController::class, 'deliver'])->name('deliver_order');
 
+        // shipping agencies routes
+        Route::get('/dashboard/shipping_agencies', [App\Http\Controllers\ShippingAgencyController::class, 'index'])->name('shipping-agencies.index');
+        Route::get('/dashboard/shipping_agencies/create', [App\Http\Controllers\ShippingAgencyController::class, 'create'])->name('shipping_agency.create');
+        Route::post('/dashboard/shipping_agencies/create', [App\Http\Controllers\ShippingAgencyController::class, 'store'])->name('shipping_agency.store');
+        Route::get('/dashboard/shipping_agencies/{shippingAgency}', [App\Http\Controllers\ShippingAgencyController::class, 'show'])->name('shipping_agency');
 
     });
 

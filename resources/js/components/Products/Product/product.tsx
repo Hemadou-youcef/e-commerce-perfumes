@@ -85,13 +85,13 @@ const Product = ({ product }) => {
                     <div className="hidden absolute right-1 top-1 group-hover:flex flex-col gap-2 group-hover:transition-all group-hover:delay-150 group-hover:duration-300">
                         <Button
                             variant="ghost"
-                            className="flex items-center justify-center gap-2 p-2 w-10 h-10 bg-gray-50 rounded-full shadow-md border"
+                            className="flex items-center justify-center gap-2 p-2 w-6 h-6 md:w-10 md:h-10 bg-gray-50 rounded-full shadow-md border"
                             onClick={handleBookmark}
                             disabled={bookmarkLoading}
 
                         >
 
-                            {bookmarkLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : product?.isProductBookmarked ? <RiBookmarkFill className="w-4 h-4 text-gray-900" /> : <RiBookmarkLine className="w-4 h-4 text-gray-900" />}
+                            {bookmarkLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : product?.isProductBookmarked ? <RiBookmarkFill className="w-3 h-3 md:w-4 md:h-4 text-gray-900" /> : <RiBookmarkLine className="w-3 h-3 md:w-4 md:h-4 text-gray-900" />}
                         </Button>
                         {/* <div className="flex items-center justify-center gap-2 p-2 bg-gray-100 bg-opacity-50 rounded-full shadow-md border">
                             <AiFillEye className="w-6 h-6 text-gray-900" />
@@ -116,7 +116,7 @@ const Product = ({ product }) => {
                     <Link href={`/products/${product.id}`} onClick={() => setLoading(true)}>
                         <Button
                             variant="outline"
-                            className="w-20 md:w-28 bg-transparent border-2 h-7 sm:h-8 text-[8px] border-gray-900 hover:bg-gray-800 active:bg-gray-300 text-gray-900 hover:text-gray-100 active:text-gray-700"
+                            className="w-20 md:w-28 bg-transparent border-2 h-7 sm:h-8 text-[8px] sm:text-xs border-gray-900 hover:bg-gray-800 active:bg-gray-300 text-gray-900 hover:text-gray-100 active:text-gray-700"
                         >
                             {loading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : t('product_page.view_product')}
                         </Button>

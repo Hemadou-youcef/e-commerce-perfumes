@@ -32,7 +32,7 @@ const Home = ({ ...props }) => {
     return (
         <div
             className="w-full h-full bg-cover bg-fixed bg-center bg-no-repeat text-gray-50 font-serif"
-            style={{ backgroundImage: "url(/image/main-wallpaper.png)" }}
+            style={{ backgroundImage: "url(/image/main-wallpaper.jpg)" }}
         >
             <Head title="Perfurms Online" />
             <div className="w-full md:h-128 text-gray-50 font-serif"
@@ -43,7 +43,7 @@ const Home = ({ ...props }) => {
                         spaceBetween={0}
                         slidesPerView={1}
                         pagination={{ clickable: true }}
-                        autoplay={{ delay: 50000 }}
+                        autoplay={{ delay: 5000 }}
                         className="h-full"
                     >
                         {props?.pinned_products?.map((product, index) => (
@@ -79,8 +79,10 @@ const Home = ({ ...props }) => {
             </div>
             <div className="w-full p-1 px-5 sm:px-1 h-32 flex md:hidden justify-center items-center bg-forth uppercase">
                 <Swiper
+                    modules={[Autoplay]}
                     spaceBetween={0}
                     slidesPerView={1}
+                    autoplay={{ delay: 5000 }}
                     breakpoints={
                         {
                             320: {
@@ -130,19 +132,6 @@ const Home = ({ ...props }) => {
                         </div>
                         <Separator orientation="vertical" />
                     </SwiperSlide>
-                    <SwiperSlide>
-                        <div className='flex items-center px-2 gap-2'>
-                            <div className='bg-white rounded-full p-2'>
-                                {/* Add an icon related to your additional information */}
-                                <GiReturnArrow className="w-7 h-7 text-gray-900" />
-                            </div>
-                            <p className="text-gray-100 text-xs font-medium font-sans">
-                                {/* Add your return policy information here */}
-                                Politique de Retour <br />
-                                Retours faciles sous 30 jours
-                            </p>
-                        </div>
-                    </SwiperSlide >
                 </Swiper >
             </div>
             <div className='w-full p-1 h-32 hidden md:flex justify-center items-center bg-forth uppercase'>
@@ -189,8 +178,7 @@ const Home = ({ ...props }) => {
                     </div>
                 </div>
             </div >
-            <LandingSuggest title={t('layout.navbar.for_you')}
-                products={props?.for_you_products} />
+            <LandingSuggest title={t('layout.navbar.for_you')} url="/products" products={props?.for_you_products} />
             <div className="w-full h-128 bg-black bg-contain bg-right bg-no-repeat text-gray-50 font-serif"
                 style={{ backgroundImage: "url(/image/about-us/french.png)" }}>
                 <div className="container flex flex-col items-start justify-center h-full">

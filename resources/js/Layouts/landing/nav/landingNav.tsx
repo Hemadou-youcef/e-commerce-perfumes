@@ -76,8 +76,9 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
             <div
                 className={`fixed top-0 md:hidden left-0 w-full h-screen bg-black bg-opacity-50 z-10 ${showNavbar ? "block" : "hidden"}`}
                 onClick={() => setNavbarOpen(false)}
-            ></div>
-            <div className={`fixed w-full h-screen bg-forth z-10 flex md:hidden flex-col shadow-md ${showNavbar ? "top-0" : "top-full"} transition-all duration-500`}>
+            >
+            </div>
+            <div className={`flex md:hidden fixed w-full h-screen bg-forth z-10 flex-col shadow-md ${showNavbar ? "top-0" : "top-full"} transition-all duration-500`}>
 
                 {/* CLOSE BUTTON */}
                 <div className="flex justify-end p-5">
@@ -93,23 +94,38 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                                 handleSearch(search)
                             }
                         }}
-                        placeholder="Recherche..."
-                        className="h-10 border-0 focus-visible:ring-transparent bg-white"
+                        placeholder={t('layout.navbar.search') + "..."}
+                        className="h-10 border-0 focus-visible:ring-transparent bg-white ltr:font-sans rtl:font-arabic"
                     />
                     {searchLoading ? <AiOutlineLoading3Quarters className="w-6 h-6 text-forth animate-spin" /> : <IoMdSearch className="w-6 h-6 text-forth" />}
                 </div>
 
-                <div className="flex flex-col items-center text-white text-lg font-medium uppercase gap-3 mx-5">
-                    <Link href="/products/perfumes">
-                        <p>Parfums</p>
+                <div className="flex flex-col items-center text-white text-lg font-medium uppercase gap-3 mx-5 ltr:font-sans rtl:font-arabic">
+                    <Link href="/products" onClick={() => setNavbarOpen(false)}>
+                        <p>
+                            {t('layout.navbar.products')}
+                            {/* Produits */}
+                        </p>
                     </Link>
-                    <Link href="/about-us">
+                    <Link href="/products/perfumes" onClick={() => setNavbarOpen(false)}>
+                        <p>
+                            {t('layout.navbar.perfumes')}
+                            {/* Parfums */}
+                        </p>
+                    </Link>
+                    <Link href="/products/accessories" onClick={() => setNavbarOpen(false)}>
+                        <p>
+                            {t('layout.navbar.accessories')}
+                            {/* Accessoires */}
+                        </p>
+                    </Link>
+                    <Link href="/about-us" onClick={() => setNavbarOpen(false)}>
                         <p>
                             {t('layout.navbar.about')}
                             {/* A propos */}
                         </p>
                     </Link>
-                    <Link href="/contact-us">
+                    <Link href="/contact-us" onClick={() => setNavbarOpen(false)}>
                         <p>
                             {t('layout.navbar.contact')}
                             {/* Contact */}

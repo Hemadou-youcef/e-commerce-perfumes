@@ -57,7 +57,8 @@
             "perfumes":"العطور",
             "accessories":"الاكسسوارات",
             "see_all":"عرض الكل",
-            "for_you":"من أجلك"
+            "for_you":"من أجلك",
+            "search":"بحث"
         },
         "pagination":{
             "previous":"السابق",

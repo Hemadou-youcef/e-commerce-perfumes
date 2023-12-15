@@ -28,7 +28,7 @@ const Pagination = ({ meta, preservestate = false, preserveScroll = false }) => 
         <div className="flex flex-row justify-between items-center gap-2 mb-5">
             <div className="flex flex-row justify-start items-center gap-2">
                 <p className="text-sm md:text-base font-medium text-gray-600 uppercase">
-                    {pageId == "products" ? t('layout.pagination.total') : "total"}: {meta.total}
+                    {window.location.pathname.includes("dashboard") ? "total" : t('layout.pagination.total')}: {meta.total}
                 </p>
             </div>
             <div dir="ltr" className="flex flex-row justify-end items-center gap-2">

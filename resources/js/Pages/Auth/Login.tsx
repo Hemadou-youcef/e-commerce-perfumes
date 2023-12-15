@@ -75,6 +75,7 @@ const Login = () => {
                                     <Input id="username" type="username" placeholder={t('login_page.username')} className="w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('username', e.target.value)}
                                     />
+                                    {errors.username && <p className="text-xs text-red-500">{errors.username}</p>}
                                 </div>
 
                                 <div className="grid gap-2">
@@ -84,6 +85,7 @@ const Login = () => {
                                     <Input id="password" type="password" placeholder={t('login_page.password')}className="w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('password', e.target.value)}
                                     />
+                                    {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
                                 </div>
                                 <div className="block mt-2">
                                     <label className="flex items-center gap-2">

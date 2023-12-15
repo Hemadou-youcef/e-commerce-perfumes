@@ -22,7 +22,9 @@ type FormData = {
     street_address: string;
     city: string;
     state_code: string;
+    shipping_agency_id: string;
     shipping_method: string;
+    shipping_fee_id: string;
     postal_code: string;
 };
 
@@ -37,6 +39,7 @@ import CartProduct from "@/components/Products/cart/product";
 const Cart = ({ ...props }) => {
     console.log(props);
     const [cartItems, setCartItems] = useState(props?.cartItems);
+    const [shippingAgencies, setShippingAgencies] = useState(props?.shippingAgencies);
     const { data, setData, post, transform, processing, errors, reset } = useForm<FormData>({
         first_name: props?.auth?.user?.first_name || '',
         last_name: props?.auth?.user?.last_name || '',
@@ -44,9 +47,12 @@ const Cart = ({ ...props }) => {
         street_address: props?.auth?.user?.address || '',
         city: '',
         state_code: '',
-        shipping_method: '2',
+        shipping_agency_id: '',
+        shipping_method: '1',
+        shipping_fee_id: '',
         postal_code: '',
     });
+    const [currentFees, setCurrentFees] = useState(0);
     const [checkedOut, setCheckedOut] = useState(false);
     const [checkoutLoading, setCheckoutLoading] = useState(false);
 
@@ -55,6 +61,11 @@ const Cart = ({ ...props }) => {
     useEffect(() => {
         setCartItems(props?.cartItems);
     }, [props?.cartItems]);
+
+    useEffect(() => {
+        handleGetDeliveryFees()
+    },[data.shipping_method, data.state_code, data.shipping_agency_id])
+    
 
     const isAllRulesVerified = () => {
         const rules = [
@@ -86,18 +97,25 @@ const Cart = ({ ...props }) => {
         });
     };
 
-    const handleDeleteCartItem = (id: number) => {
-        router.delete(route('cart_item.destroy', id), {
-            onSuccess: () => {
-                console.log('success');
-            },
-            onError: () => {
-                console.log('error');
-            },
-            onFinish: () => {
-                setCheckoutLoading(false);
-            }
-        });
+    const handleGetSheepingAgency = () => {
+        return shippingAgencies.find((item) => item.id == data.shipping_agency_id);
+        
+    }
+
+    const handleGetWilaya = (currentSheppingAgency) => {
+        return currentSheppingAgency?.shipping_fees.find((item) => item.wilaya_code == data.state_code);
+    }
+
+    const handleGetFees = (currentWilaya) => {
+        return  data.shipping_method == "1" ? currentWilaya?.home_delivery_price : currentWilaya?.agency_delivery_price
+    }
+
+    const handleGetDeliveryFees = () => {
+        const currentSheppingAgency = handleGetSheepingAgency();
+        const currentWilaya = handleGetWilaya(currentSheppingAgency);
+        const currentFees = handleGetFees(currentWilaya);
+        setData(data => ({ ...data, shipping_fee_id: currentWilaya?.id }))
+        setCurrentFees(currentFees);
     }
 
     const submit = (e: any) => {
@@ -141,12 +159,22 @@ const Cart = ({ ...props }) => {
                                 {t('cart_page.agency')}
                                 {/* Agence  */}
                             </Label>
-                            <Select>
-                                <SelectTrigger >
-                                    <SelectValue placeholder="Yalidine" className="w-full h-12 border-2 focus-visible:ring-transparent" />
+                            <Select onValueChange={(value) => {
+                                setData(data => ({ ...data, shipping_agency_id: value }))
+                            }}>
+                                <SelectTrigger dir={i18n.dir()} >
+                                    <SelectValue placeholder="الوكالة" className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
                                 <SelectContent dir={i18n.dir()} className="w-full border-2 focus-visible:ring-transparent">
-                                    <SelectItem value="yalidine">Yalidine</SelectItem>
+                                    {shippingAgencies.map((item, index): any => (
+                                        <SelectItem
+                                            key={index}
+                                            value={item.id.toString()}
+                                            className="font-arabic"
+                                        >
+                                            {i18n.language == 'ar' ? item.name_ar : item.name}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -163,10 +191,10 @@ const Cart = ({ ...props }) => {
                                     <SelectValue placeholder={t('cart_page.home_delivery')} className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
                                 <SelectContent dir={i18n.dir()} className="w-full border-2 focus-visible:ring-transparent font-arabic">
-                                    <SelectItem value="2">
+                                    <SelectItem value="1">
                                         {t('cart_page.home_delivery')}
                                     </SelectItem>
-                                    <SelectItem value="1">
+                                    <SelectItem value="2">
                                         {t('cart_page.agency_delivery')}
                                     </SelectItem>
                                 </SelectContent>
@@ -317,7 +345,7 @@ const Cart = ({ ...props }) => {
                                         {t('cart_page.sub_total')}:
                                     </p>
                                     <p className="flex rtl:flex-row-reverse gap-2 text-base text-gray-900">
-                                    {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0)},00 {t("global.da")}
+                                        {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0)},00 {t("global.da")}
                                     </p>
                                 </div>
                                     <div className="flex items-center font-mono rtl:font-arabic justify-between">
@@ -326,20 +354,19 @@ const Cart = ({ ...props }) => {
                                         </p>
                                         <p className="text-base text-gray-900">
                                             {data.state_code != "" ?
-                                                yalidine[(parseInt(data.state_code) || 1) - 1][data.shipping_method == "1" ? "2" : "1"] + ",00" + t("global.da") :
+                                                (currentFees || 0 )+ ",00 " + t("global.da")
+                                                :
                                                 "remplir l'entrée"
                                             }
                                         </p>
                                     </div>
+                                    {/* yalidine[(parseInt(data.state_code) || 1) - 1][data.shipping_method == "1" ? "2" : "1"] */}
                                     <div className="flex items-center font-bold font-mono rtl:font-arabic justify-between">
                                         <p className="text-lg">
                                             {t('cart_page.total')}:
                                         </p>
                                         <p className="text-base text-gray-900">
-                                            {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + (data.state_code != "" ?
-                                                yalidine[(parseInt(data.state_code) || 1) - 1][data.shipping_method == "1" ? "2" : "1"] :
-                                                0
-                                            )},00 {t("global.da")}
+                                            {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + currentFees || 0},00 {t("global.da")}  
                                         </p>
                                     </div>
                                 </>

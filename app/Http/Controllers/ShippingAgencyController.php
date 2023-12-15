@@ -11,15 +11,29 @@ class ShippingAgencyController extends Controller
 {
     public function index(): Response
     {
-        return Inertia::render('AdminSide/ShippingAgency/index', [
-            'shippingAgencies' => ShippingAgency::all(),
+        return Inertia::render('Dashboard/ShippingAgency/agences', [
+            'shippingAgencies' => ShippingAgency::query()
+                ->when(request('search'), fn($query, $search) => $query
+                    ->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('name_ar', 'LIKE', '%' . $search . '%')
+                )
+                ->paginate(10)
+                ->through(fn($shippingAgency) => [
+                    'id' => $shippingAgency->id,
+                    'name' => $shippingAgency->name,
+                    'name_ar' => $shippingAgency->name_ar,
+                ])
+                ->withQueryString(),
+            'filters' => [
+                'search' => request('search', ''),
+            ],
         ]);
 
     }
 
     public function create(): Response
     {
-        return Inertia::render('AdminSide/ShippingAgency/create');
+        return Inertia::render('Dashboard/ShippingAgency/agenceForm');
     }
 
     public function store(Request $request)
@@ -40,7 +54,7 @@ class ShippingAgencyController extends Controller
 
     public function show(ShippingAgency $shippingAgency): Response
     {
-        return Inertia::render('AdminSide/ShippingAgency/show', [
+        return Inertia::render('Dashboard/ShippingAgency/agency', [
             'shippingAgency' => $shippingAgency->load('shippingFees'),
         ]);
     }

@@ -90,7 +90,7 @@ const Accessories = ({ ...props }) => {
                     {t('layout.navbar.accessories')}
                 </span>
             </div>
-            <div className="container grid grid-cols-1 md:grid-cols-12 gap-5 mx-auto px-5 pt-2 py-0 bg-white mt-10">
+            <div className="container grid grid-cols-1 md:grid-cols-12 md:gap-5 mx-auto px-5 pt-2 py-0 bg-white mt-10">
                 {/* FILTER SECTION */}
                 <div className="md:col-span-3 lg:col-span-2 py-0">
                     <div className="flex md:hidden flex-col items-start justify-start">
@@ -130,7 +130,7 @@ const Accessories = ({ ...props }) => {
                     </div>
                 </div>
                 {/* PRODUCTS SECTION */}
-                <div className="md:col-span-9 lg:col-span-10 p-5 flex flex-col gap-3 border-gray-300  rounded-sm font-sans rtl:font-arabic" >
+                <div className="md:col-span-9 lg:col-span-10 py-5 flex flex-col gap-3 border-gray-300  rounded-sm font-sans rtl:font-arabic" >
                     {/* SEARCH SECTION */}
                     <div className="flex flex-col md:flex-row justify-between items-center gap-5">
                         {/* <Label
@@ -155,7 +155,7 @@ const Accessories = ({ ...props }) => {
                         <span>{loading ? <AiOutlineLoading3Quarters className="h-3 w-3 animate-spin" /> : props?.products?.total}</span>
                         <span>)</span>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-5 justify-items-center">
+                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-5 justify-items-center">
                         {data.map((product, index) => (
                             <Product key={index} product={product} />
                         ))}
