@@ -208,9 +208,12 @@ class DashboardController extends Controller
     ): array {
 
 
+        if (!$startDate) {
+            $startDate = now()->subYear();
+        }
 
         if (!$endDate) {
-            $endDate = now();
+            $endDate = now()->endOfMonth();
         }
 
         switch ($period) {
@@ -226,7 +229,7 @@ class DashboardController extends Controller
                 $format = 'F Y';
                 $interval = '1 month';
                 if (!$startDate) {
-                    $startDate = now()->subYear();
+                    $startDate = now()->subMonths(12);  ;
                 }
                 break;
 
@@ -279,7 +282,7 @@ class DashboardController extends Controller
         }
 
         if (!$endDate) {
-            $endDate = now();
+            $endDate = now()->endOfMonth();
         }
 
         switch ($period) {
