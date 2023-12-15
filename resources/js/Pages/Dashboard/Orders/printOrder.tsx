@@ -8,6 +8,7 @@ import { FaAngleLeft } from "react-icons/fa";
 import { IoMdPrint } from "react-icons/io";
 
 const PrintOrder = ({ order }) => {
+    console.log(order)
 
     const formatDate = (date) => {
         const d = new Date(date);
@@ -117,6 +118,10 @@ const PrintOrder = ({ order }) => {
                                             </tr>
                                         ))}
                                         <tr>
+                                            <td colSpan={2} className="pl-2 text-left">Livraison ({order?.shipping_provider})</td>
+                                            <td className="pr-2 text-left">{order.total - order?.order_products?.reduce((acc, product) => acc + product.price, 0)} DA</td>
+                                        </tr>
+                                        <tr>
                                             <td colSpan={2} className="pl-2 text-left">Total</td>
                                             <td className="pr-2 text-left">{order.total} DA</td>
                                         </tr>
@@ -130,7 +135,7 @@ const PrintOrder = ({ order }) => {
                 <div className="mt-10 mx-auto w-11/12 flex justify-between items-center font-bold">
                     <span>Signature expéditeur</span>
 
-                    <span>Signature destinataire</span>
+                    {/* <span>Signature destinataire</span> */}
                 </div>
             </div>
         </>

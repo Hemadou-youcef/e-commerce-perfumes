@@ -113,7 +113,7 @@ class DashboardController extends Controller
             ->get()
             ->map(fn (Order $order) => [
                 'id' => $order->id,
-                'user' => $order->user->name,
+                'user' => $order->user,
                 'profit' => $order->profit,
                 'total' => $order->total,
                 'status' => $order->status,

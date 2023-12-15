@@ -47,6 +47,7 @@ import { TbExternalLink } from "react-icons/tb";
 import { FaBuildingUser } from "react-icons/fa6";
 import OrderReceptionsSelector from "@/components/dashboard/order/orderReceptionsSelector";
 import { IoMdPrint } from "react-icons/io";
+import { GiConfirmed } from "react-icons/gi";
 
 
 // Types
@@ -74,6 +75,7 @@ const Order = ({ ...props }) => {
     const [productSelected, setProductSelected] = useState<any>(null);
     const [receptions, setReceptions] = useState<receptionDataFrame[]>([]);
     const [reservations, setReservations] = useState<reservationDataFrame[]>([]);
+    const [currentTab, setCurrentTab] = useState<string>();
 
     // Order Boolean States
     const [loadingAction, setLoadingAction] = useState(false);
@@ -85,8 +87,29 @@ const Order = ({ ...props }) => {
     useEffect(() => {
         setOrder(props?.order);
         getAllReceptions();
+        setCurrentTabFromStatus();
 
     }, [props?.order])
+
+    const setCurrentTabFromStatus = () => {
+        switch (order?.status) {
+            case "pending":
+                setCurrentTab("infos");
+                break;
+            case "confirmed":
+                setCurrentTab("infos");
+                break;
+            case "verified":
+                setCurrentTab("stock");
+                break;
+            case "delivered":
+                setCurrentTab("benefices");
+                break;
+            case "cancelled":
+                setCurrentTab("infos");
+                break;
+        }
+    }
 
     const getAllReceptions = () => {
         const receptionsList: receptionDataFrame[] = [];
@@ -296,7 +319,7 @@ const Order = ({ ...props }) => {
     }
 
     const handlePrint = () => {
-        const popUpFeatures = 'width=' + screen.width + ',height=' + screen.height +",menubar=no,toolbar=no,location=no,scrollbars=yes,status=no";
+        const popUpFeatures = 'width=' + screen.width + ',height=' + screen.height + ",menubar=no,toolbar=no,location=no,scrollbars=yes,status=no";
         const printWindow = window.open(route('print_order', order?.id), 'Print', popUpFeatures);
     }
 
@@ -319,7 +342,7 @@ const Order = ({ ...props }) => {
                             {/* <p className="text-sm text-gray-600">Passé le 12/12/2020</p> */}
                         </div>
                         {/* ACTIONS */}
-                        <div className="flex flex-col md:flex-row items-center md:justify-end gap-2">
+                        {order?.user?.role > 0 ? (<div className="flex flex-col md:flex-row items-center md:justify-end gap-2">
                             {props?.auth?.user?.role === 3 && (order?.status != "delivered" && order?.status != "cancelled") && (
                                 <AlertDialog>
                                     <AlertDialogTrigger>
@@ -403,6 +426,19 @@ const Order = ({ ...props }) => {
                             )}
 
                         </div>
+                        ) : (
+                            <div className="flex flex-col md:flex-row items-center md:justify-end gap-2">
+                                <Link href={`/dashboard/clients/${order?.user?.id}`}>
+                                    <Button
+                                        variant="outline"
+                                        className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300"
+                                    >
+                                        <span className="text-sm font-medium">Confirmer la client</span>
+                                        <GiConfirmed className="text-xl" />
+                                    </Button>
+                                </Link>
+                            </div>
+                        )}
                     </div>
 
                     <Separator className="" />
@@ -437,8 +473,12 @@ const Order = ({ ...props }) => {
                         )}
                         <Separator className="mt-0 md:hidden" />
                         <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Client :</h1>
-                            <Link href={`/users/${order?.user?.id}`} className="flex flex-row justify-start items-center gap-2">
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">
+                                {[3, 4].includes(order?.user?.role) ? "Employé" : "Client"} :
+                            </h1>
+                            <Link
+                                href={[0, 1].includes(order?.user?.role) ? `/dashboard/clients/${order?.user?.id}` : `/dashboard/employees/${order?.user?.id}`}
+                                className="flex flex-row justify-start items-center gap-2">
                                 <CgProfile className="text-xl text-blue-800" />
                                 <p className="text-sm font-bold text-blue-600">
                                     {order?.user?.first_name} {order?.user?.last_name}
@@ -464,7 +504,7 @@ const Order = ({ ...props }) => {
                     </div>
                     <Separator className="mt-0" />
                     <div className="flex flex-col gap-2 px-5 my-2">
-                        <Tabs defaultValue="infos" className="w-full">
+                        <Tabs defaultValue="infos" className="w-full" value={currentTab} onValueChange={(value) => setCurrentTab(value)}>
                             <TabsList className="flex h-auto flex-col md:flex-row justify-start items-center gap-2 bg-transparent overflow-x-auto">
                                 <TabsTrigger value="infos" className="w-52 border-b rounded-none">Informations Supplémentaires</TabsTrigger>
                                 <TabsTrigger value="articles" className="w-52 border-b rounded-none">Articles</TabsTrigger>
@@ -557,7 +597,13 @@ const Order = ({ ...props }) => {
                                             {order?.order_products.map((product, index) => (
                                                 <TableRow key={index} className="hover:bg-gray-100">
                                                     <TableCell className="font-medium text-xs">{product?.product?.id}</TableCell>
-                                                    <TableCell className="font-medium text-xs">{product?.product?.name}</TableCell>
+                                                    <TableCell className="font-medium text-xs">
+                                                        <Link href={`/dashboard/products/${product?.product?.id}`}  className="text-blue-600 hover:text-blue-500">
+                                                            <span>
+                                                                {product?.product?.name}
+                                                            </span>
+                                                        </Link>
+                                                    </TableCell>
                                                     <TableCell className="font-bold text-xs">{product?.total_quantity} G</TableCell>
                                                     <TableCell className="font-bold text-xs">{product?.price} DA</TableCell>
                                                     <TableCell className="text-center text-sm">

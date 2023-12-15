@@ -21,18 +21,17 @@ export function RecentSales({ orders }) {
           className="flex items-center"
           >
           <Avatar className="h-9 w-9">
-            <AvatarImage src="/avatars/01.png" alt="Avatar" />
-            <AvatarFallback>OM</AvatarFallback>
+            <AvatarFallback>{order?.user?.first_name[0]}{order?.user?.last_name[0]}</AvatarFallback>
           </Avatar>
           <div className="ml-4 space-y-1">
             <p className="text-sm font-medium leading-none">
-              {order?.user?.name}
+              {order?.user?.first_name} {order?.user?.last_name}
             </p>
             <p className="text-sm text-muted-foreground">
               {formatDate(order.created_at)}
             </p>
           </div>
-          <div className="ml-auto font-medium">{order?.total} DA</div>
+          <div className="ml-auto font-medium">+{order?.total} DA</div>
         </Link>
       ))}
       {orders.length === 0 && (

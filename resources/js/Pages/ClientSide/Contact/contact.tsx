@@ -64,10 +64,14 @@ const Contact = ({ ...props }) => {
                     {t('contact_page.title')}
                 </h1>
             </div>
-            <div className="w-full md:w-[500px] border-2 mx-auto my-5 bg-white font-sans rtl:font-arabic rounded-lg">
-                <div className="grid grid-cols-1  gap-5 items-center">
-                    <div className="w-full h-full flex flex-col justify-center bg-blue- overflow-hidden">
-                        
+            <div className="w-full md:container md:px-0 border-2 my-5 bg-gray-50 font-sans rtl:font-arabic rounded-lg">
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+                    <div className="hidden w-full h-full md:flex flex-col justify-center overflow-hidden">
+                        <img 
+                            src="/image/contact-us.png"
+                            className="w-full h-full object-cover"
+                            alt="contact us"
+                        />
                     </div>
                     <div className="px-8 w-full py-5 ltr:font-sans rtl:font-arabic">
                         <form
@@ -85,6 +89,7 @@ const Contact = ({ ...props }) => {
                                         id="first_name"
                                         className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                                         value={data.first_name}
+                                        placeholder={t('contact_page.first_name')}
                                         onChange={(e) => setData("first_name", e.target.value)}
                                     />
                                     {errors.first_name && (
@@ -101,6 +106,7 @@ const Contact = ({ ...props }) => {
                                         id="last_name"
                                         className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                                         value={data.last_name}
+                                        placeholder={t('contact_page.last_name')}
                                         onChange={(e) => setData("last_name", e.target.value)}
                                     />
                                     {errors.last_name && (
@@ -118,6 +124,7 @@ const Contact = ({ ...props }) => {
                                     id="email"
                                     className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring blue-600 focus:border-transparent"
                                     value={data.email}
+                                    placeholder={t('contact_page.email')}
                                     onChange={(e) => setData("email", e.target.value)}
                                 />
                                 {errors.email && (
@@ -135,6 +142,7 @@ const Contact = ({ ...props }) => {
                                     id="phone"
                                     className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                                     value={data.phone}
+                                    placeholder={t('contact_page.phone')}
                                     onChange={(e) => setData("phone", e.target.value)}
                                 />
                                 {errors.phone && (
@@ -151,6 +159,7 @@ const Contact = ({ ...props }) => {
                                     id="subject"
                                     className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                                     value={data.subject}
+                                    placeholder={t('contact_page.subject')}
                                     onChange={(e) => setData("subject", e.target.value)}
                                 />
                                 {errors.subject && (
@@ -166,6 +175,7 @@ const Contact = ({ ...props }) => {
                                     id="message"
                                     className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                                     value={data.message}
+                                    placeholder={t('contact_page.message')}
                                     onChange={(e) => setData("message", e.target.value)}
                                 />
                                 {errors.message && (
