@@ -16,8 +16,9 @@ import { Label } from "@/shadcn/ui/label"
 
 import LandingMainLayout from "@/Layouts/landing/mainLayout"
 import { Checkbox } from "@/shadcn/ui/checkbox"
-import { AiOutlineArrowLeft, AiOutlineLoading3Quarters } from "react-icons/ai"
+import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineLoading3Quarters } from "react-icons/ai"
 import { ReloadIcon } from "@radix-ui/react-icons"
+import { useTranslation } from "react-i18next"
 
 interface formData {
     username: string;
@@ -32,6 +33,8 @@ const Login = () => {
         remember: false,
     });
 
+    const { t,i18n } = useTranslation();
+
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
@@ -44,19 +47,21 @@ const Login = () => {
             <Head title="Log in" />
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-            <div className="grid md:grid-cols-2">
+            <div className="grid md:grid-cols-2" dir={i18n.dir()}>
                 <div className="hidden md:block w-full h-screen bg-second">
 
                 </div>
-                <div className="w-full  h-screen overflow-auto">
+                <div className="w-full  h-screen overflow-auto ltr:font-sans rtl:font-arabic">
                     <Link href="/" className="flex flex-row items-center gap-2 p-5 group">
-                        <AiOutlineArrowLeft className="text-base text-gray-800 group-hover:text-second " />
-                        <p className="text-forth group-hover:text-second ">Accueil</p>
+                        {i18n.language === "fr" ? <AiOutlineArrowLeft className="text-base text-gray-800 group-hover:text-second " /> : <AiOutlineArrowRight className="text-base text-gray-800 group-hover:text-second " />}
+                        <p className="text-forth group-hover:text-second ">
+                            {t('layout.navbar.home')}
+                        </p>
                     </Link>
                     <div className="mt-10 mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[450px] md:w-[400px] relative">
                         <div className="flex flex-col space-y-2 text-center">
                             <h1 className="text-2xl font-semibold tracking-tight">
-                                Se connecter
+                                {t('login_page.title')}
                             </h1>
 
                         </div>
@@ -64,15 +69,19 @@ const Login = () => {
 
                             <div className="grid gap-4 p-5 pb-0">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="username">User name</Label>
-                                    <Input id="username" type="username" placeholder="User name" className="w-full h-9 focus-visible:ring-transparent"
+                                    <Label htmlFor="username">
+                                        {t('login_page.username')}
+                                    </Label>
+                                    <Input id="username" type="username" placeholder={t('login_page.username')} className="w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('username', e.target.value)}
                                     />
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor="password">Password</Label>
-                                    <Input id="password" type="password" placeholder="Password" className="w-full h-9 focus-visible:ring-transparent"
+                                    <Label htmlFor="password">
+                                        {t('login_page.password')}
+                                    </Label>
+                                    <Input id="password" type="password" placeholder={t('login_page.password')}className="w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('password', e.target.value)}
                                     />
                                 </div>
@@ -85,11 +94,13 @@ const Login = () => {
                                             checked={data.remember}
                                             onCheckedChange={(value: boolean) => setData('remember', value)}
                                         />
-                                        <Label htmlFor="remember" className="text-xs text-gray-600 cursor-pointer select-none">Remember me</Label>
+                                        <Label htmlFor="remember" className="text-xs text-gray-600 cursor-pointer select-none">
+                                            {t('login_page.remember_me')}
+                                        </Label>
                                     </label>
                                 </div>
                                 <Button className="w-full bg-forth hover:bg-prime-dark active:bg-second" onClick={() => post('/login')}>
-                                    {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <p className="text-white"> Se connecter</p>}
+                                    {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <p className="text-white">{t('login_page.login')}</p>}
                                 </Button>
                             </div>
 
@@ -101,14 +112,16 @@ const Login = () => {
                             <div className="relative flex justify-center text-xs uppercase">
                                 {/* IF HE WANT TO REGISTER */}
                                 <span className="bg-background px-2 text-muted-foreground">
-                                    Ou s'inscrire avec
+                                    {t('login_page.or_register_with')}
+                                    {/* Ou s'inscrire avec */}
                                 </span>
                             </div>
                         </div>
                         <div className="flex justify-center">
                             <Link href="/register" className="w-full px-10">
                                 <Button className="w-full bg-forth hover:bg-prime-dark active:bg-second">
-                                    S'inscrire
+                                    {t('login_page.register')}
+                                    {/* S'inscrire */}
                                 </Button>
                             </Link>
                         </div>

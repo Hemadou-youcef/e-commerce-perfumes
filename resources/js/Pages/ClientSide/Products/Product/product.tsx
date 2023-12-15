@@ -213,7 +213,7 @@ const Product = ({ ...props }) => {
                                 <p className="text-gray-900 text-center md:text-left text-sm lg:tex">
                                     {product?.name}
                                 </p>
-                                <p className="text-gray-900 text-center text-sm lg:tex">
+                                <p className="w-20 text-gray-900 text-center text-sm lg:tex">
                                     {currectPrice?.price} {t("global.da")}
                                 </p>
                             </div>
@@ -302,12 +302,6 @@ const Product = ({ ...props }) => {
                                         </div>
                                     )}
                                 </Button>
-                                {/* <p className="text-gray-700 text-xs font-bold md:text-sm lg:tex">
-                                    =
-                                </p>
-                                <p className="text-lg text-gray-400 font-bold">
-                                    100.00 DZD
-                                </p> */}
                             </div>
                             {/* PRODUCT ALREADY IN CART */}
                             {product?.isProductInCart && (
@@ -333,9 +327,10 @@ const Product = ({ ...props }) => {
                     </div>
 
                 </div>
-                <LandingSuggest title={t("product_page.you_may_also_like")}
-                products={props?.product?.suggestedProducts} />
+                
             </div>
+            <LandingSuggest title={t("product_page.you_may_also_like")}
+                products={props?.product?.suggestedProducts} />
             {showImageSlider && (
                 <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
                     {/* overlay */}

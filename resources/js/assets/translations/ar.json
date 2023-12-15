@@ -68,6 +68,30 @@
     "main":{
         
     },
+    "login_page":{
+        "title":"تسجيل الدخول",
+        "username":"اسم المستخدم",
+        "password":"كلمة السر",
+        "remember_me":"تذكرني",
+        "login":"تسجيل الدخول",
+        "or_register_with":"أو سجل بحساب جديد",
+        "register":"إنشاء حساب جديد"
+    },
+    "register_page":{
+        "title":"حساب جديد",
+        "first_name":"الإسم",
+        "last_name":"اللقب",
+        "phone":"رقم الهاتف",
+        "address":"العنوان",
+        "male":"ذكر",
+        "female":"أنثى",
+        "user_name":"اسم المستخدم",
+        "password":"كلمة السر",
+        "confirm_password":"تأكيد كلمة السر",
+        "register":"إنشاء حساب جديد",
+        "already_account":"لديك حساب بالفعل؟",
+        "login":"تسجيل الدخول"
+    },
     "products_page":{
         "products":"المنتجات",
         "categories":"الاقسام",

@@ -16,7 +16,7 @@ const LandingFooter = () => {
     const { t, i18n } = useTranslation()
 
     const handleLanguageChange = (value) => {
-        if (value ) {
+        if (value) {
             i18n.changeLanguage(value);
             localStorage.setItem("language", value);
         }
@@ -84,9 +84,15 @@ const LandingFooter = () => {
                         </Select>
                     </div>
                 </div>
-                <div className="border-t border-gray-700 mt-8 p-2 text-center">
-                    &copy; {new Date().getFullYear()} Perfume Store. All rights reserved.
-                </div>
+                {i18n.language === "fr" ? (
+                    <div className="text-xs md:text-base border-t border-gray-700 mt-8 p-2 text-center">
+                        &copy; {new Date().getFullYear()} RUMAH PARFUM. All rights reserved.
+                    </div>
+                ) : (
+                    <div className="text-xs md:text-base border-t border-gray-700 mt-8 p-2 text-center font-arabic">
+                        &copy; {new Date().getFullYear()} RUMAH PARFUM. جميع الحقوق محفوظة.
+                    </div>
+                )}
             </footer>
         </>
     );
