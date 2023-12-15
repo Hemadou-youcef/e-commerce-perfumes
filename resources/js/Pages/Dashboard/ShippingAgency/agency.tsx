@@ -1,5 +1,5 @@
 // React Components
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Inertia Components
 import { Link, router } from "@inertiajs/react";
@@ -68,9 +68,13 @@ const Agence = ({ ...props }) => {
         return d.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
 
+    useEffect(() => {
+        setagence(props?.shippingAgency)
+    }, [props?.shippingAgency])
+
     const handleEditTarif = () => {
         setEditLoading(true)
-        router.patch(route('shipping_agency.updateTarif', currentTarif?.id), {
+        router.patch(route('shipping_fee.update', currentTarif?.id), {
             ...currentTarif
         }, {
             preserveState: false,
