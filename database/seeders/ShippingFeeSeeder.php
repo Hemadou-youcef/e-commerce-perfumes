@@ -22,6 +22,8 @@ class ShippingFeeSeeder extends Seeder
                 'wilaya' => $names[0],
                 'wilaya_ar' => $names[1],
                 'wilaya_code' => $wilaya_code,
+                'home_delivery_price' => fake()->randomElement([800,1000,1200]),
+                'agency_delivery_price' => fake()->randomElement([400,500,700]),
 
             ]);
 

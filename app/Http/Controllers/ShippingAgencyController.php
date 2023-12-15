@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ShippingAgency;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -58,6 +59,19 @@ class ShippingAgencyController extends Controller
             'shippingAgency' => $shippingAgency->load('shippingFees'),
         ]);
     }
+
+    public function update(ShippingAgency $shippingAgency, Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'name_ar' => 'required|string',
+        ]);
+
+        $shippingAgency->update($validated);
+
+        return redirect()->route('shipping-agencies.index');
+    }
+
 
 
 }

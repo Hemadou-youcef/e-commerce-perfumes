@@ -39,7 +39,7 @@ class OrderController extends Controller
                 ->when(request('start'), fn($query) => $query->where('created_at', '>=', request('start')))
                 ->when(request('end'), fn($query) => $query->where('created_at', '<=', request('end')))
                 ->orderBy('created_at', 'desc')
-                ->with(['user'])
+                ->with(['user' ])
                 ->withCount('orderProducts')
                 ->paginate(10)
                 ->withQueryString(),
@@ -234,7 +234,10 @@ class OrderController extends Controller
             'orderProducts.product.receptions' => function ($query) {
                 $query->where('rest', '>', 0);
             },
-            'orderProducts.reservations'
+            'orderProducts.reservations',
+            'shippingAgency',
+            'address.shippingFee'
+
         ]);
 
         // Load orderProducts and calculate totalQuantity for each
