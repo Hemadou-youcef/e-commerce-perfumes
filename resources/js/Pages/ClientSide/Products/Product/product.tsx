@@ -25,7 +25,8 @@ import { useTranslation } from 'react-i18next';
 
 
 const getMinPrice = (prices: any) => {
-    let min = Math.min(...prices.map((price: any) => price.quantity));
+    if (!prices) return null;
+    let min = Math.min(...prices?.map((price: any) => price.quantity));
     return prices.find((price: any) => price.quantity === min);
 }
 

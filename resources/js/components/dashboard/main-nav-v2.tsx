@@ -139,40 +139,42 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                 </Link>
               </CollapsibleContent>
             </Collapsible>
-            {auth?.user?.role === 3 && (
-              <Collapsible
-                className="w-full"
-                open={collapsedStateList[2]}
-                onOpenChange={(open) => setCollapsedStateList([collapsedStateList[0], collapsedStateList[1], open])}
-              >
 
-                <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3 transition-all px-4">
-                  <div className="flex items-center gap-3">
-                    <FaUserFriends className="w-5 h-5 text-blue-800 group-hover:text-gray-900" />
-                    <p className=" text-sm text-gray-800 group-hover:text-gray-900">UTILISATEURS</p>
-                  </div>
-                  <FaAngleRight className={`h-4 w-4 text-red text-gray-800 ${collapsedStateList[2] ? "transform rotate-90" : ""} transition-all`} />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="pl-4 w-full flex flex-col">
-                  <Link
-                    href="/dashboard/employees"
-                    className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4 hover:bg-gray-200 ${pageId === "employees" ? "bg-gray-200" : ""}`}
-                    onClick={() => (width <= 768) ? setNav(false) : null}
-                  >
-                    <FaUserTie className="w-5 h-5 text-blue-800 group-hover:text-blue-600" />
-                    <p className="text-xs  text-gray-800 ">EMPLOYÉES</p>
-                  </Link>
-                  <Link
-                    href="/dashboard/clients"
-                    className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4 hover:bg-gray-200 ${pageId === "clients" ? "bg-gray-200" : ""}`}
-                    onClick={() => (width <= 768) ? setNav(false) : null}
-                  >
-                    <FaUsers className="w-5 h-5 text-blue-800 group-hover:text-blue-600" />
-                    <p className="text-xs  text-gray-800 ">CLIENTS</p>
-                  </Link>
-                </CollapsibleContent>
-              </Collapsible>
-            )}
+            <Collapsible
+              className="w-full"
+              open={collapsedStateList[2]}
+              onOpenChange={(open) => setCollapsedStateList([collapsedStateList[0], collapsedStateList[1], open])}
+            >
+
+              <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3 transition-all px-4">
+                <div className="flex items-center gap-3">
+                  <FaUserFriends className="w-5 h-5 text-blue-800 group-hover:text-gray-900" />
+                  <p className=" text-sm text-gray-800 group-hover:text-gray-900">UTILISATEURS</p>
+                </div>
+                <FaAngleRight className={`h-4 w-4 text-red text-gray-800 ${collapsedStateList[2] ? "transform rotate-90" : ""} transition-all`} />
+              </CollapsibleTrigger>
+              <CollapsibleContent className="pl-4 w-full flex flex-col">
+                {auth?.user?.role === 3 && (<Link
+                  href="/dashboard/employees"
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4 hover:bg-gray-200 ${pageId === "employees" ? "bg-gray-200" : ""}`}
+                  onClick={() => (width <= 768) ? setNav(false) : null}
+                >
+                  <FaUserTie className="w-5 h-5 text-blue-800 group-hover:text-blue-600" />
+                  <p className="text-xs  text-gray-800 ">EMPLOYÉES</p>
+                </Link>
+                )}
+                <Link
+                  href="/dashboard/clients"
+                  className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4 hover:bg-gray-200 ${pageId === "clients" ? "bg-gray-200" : ""}`}
+                  onClick={() => (width <= 768) ? setNav(false) : null}
+                >
+                  <FaUsers className="w-5 h-5 text-blue-800 group-hover:text-blue-600" />
+                  <p className="text-xs  text-gray-800 ">CLIENTS</p>
+                </Link>
+
+              </CollapsibleContent>
+            </Collapsible>
+
           </TabsContent>
         </Tabs>
       </div>
