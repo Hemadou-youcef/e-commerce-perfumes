@@ -22,7 +22,7 @@ const Accessories = ({ ...props }) => {
     const [data, setData] = useState(props?.products?.data)
     const [categoriesList, setCategoriesList] = useState(props?.categories || []);
 
-    const [minMaxPrice, setMinMaxPrice] = useState<number[]>([0, 10000]);
+    const [minMaxPrice, setMinMaxPrice] = useState<(number | undefined)[]>([undefined, undefined]);
     const [search, setSearch] = useState<string | undefined>(props?.filters?.q || undefined);
     const [delayedSearch, setDelayedSearch] = useState<string | undefined>(props?.filters?.q || undefined);
     const [categories, setCategories] = useState<string[]>(props?.filters?.category.split(","));
@@ -34,6 +34,10 @@ const Accessories = ({ ...props }) => {
 
     const alreadyUsedCategories = [
         "bouteille",
+        "hiver",
+        "ete",
+        "printemps",
+        "automne",
     ]
 
     // CHECK IF THERE IS CHANGE IN DATA

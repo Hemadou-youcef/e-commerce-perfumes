@@ -254,19 +254,6 @@ const Order = ({ ...props }) => {
 
     };
 
-    const createReservation = () => {
-        const data: reservationDataFrame[] = [];
-        receptions.forEach((reception) => {
-            if (reception?.quantity > 0) {
-                data.push({
-                    reception_id: reception?.reception_id,
-                    order_product_id: reception?.order_product_id,
-                    quantity: reception?.used_quantity,
-                })
-            }
-        })
-        setReservations(data);
-    }
     const needQuantityForConfirm = () => {
         let neededQuantity = false;
         order?.order_products.forEach((product_order) => {
@@ -452,16 +439,14 @@ const Order = ({ ...props }) => {
                         <Separator className="mt-0 md:hidden" />
                         <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                             <h1 className="text-sm font-medium md:w-40 text-gray-800">Agence :</h1>
-                            <div className="flex flex-row justify-start items-center gap-2">
-                                <FaBuildingUser className="text-xl text-gray-800" />
-                                <p className="text-sm font-bold text-gray-500">{order?.shipping_provider}</p>
-                            </div>
+                            <Link href={`/dashboard/shipping_agencies/1`} className="flex flex-row justify-start items-center gap-2">
+                                <div className="flex flex-row justify-start items-center gap-2">
+                                    <FaBuildingUser className="text-xl text-gray-800" />
+                                    <p className="text-sm font-bold text-gray-500">{order?.shipping_agency?.name}</p>
+                                </div>
+                            </Link>
                         </div>
-                        <Separator className="mt-0 md:hidden" />
-                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
-                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Prix Total :</h1>
-                            <p className="text-sm font-bold text-blue-500">{order?.total} DA</p>
-                        </div>
+
                         {order?.status == "delivered" && (
                             <>
                                 <Separator className="mt-0 md:hidden" />
@@ -471,6 +456,16 @@ const Order = ({ ...props }) => {
                                 </div>
                             </>
                         )}
+                        <Separator className="mt-0 md:hidden" />
+                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Livraison :</h1>
+                            <p className="text-sm font-bold text-gray-500">{order?.address?.shipping_price} DA ({order?.address?.shipping_method == "1" ? "Livraison à domicile" : "Livraison au point de vente"})</p>
+                        </div>
+                        <Separator className="mt-0 md:hidden" />
+                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Prix Total :</h1>
+                            <p className="text-sm font-bold text-blue-500">{order?.total} DA</p>
+                        </div>
                         <Separator className="mt-0 md:hidden" />
                         <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                             <h1 className="text-sm font-medium md:w-40 text-gray-800">
@@ -498,7 +493,7 @@ const Order = ({ ...props }) => {
                             <h1 className="text-sm font-medium md:w-40 text-gray-800">Address :</h1>
                             <div className="flex flex-row justify-start items-center gap-2">
                                 <IoLocationSharp className="text-lg text-gray-800" />
-                                <p className="text-sm font-bold text-gray-500">{order?.user?.address}</p>
+                                <p className="text-sm font-bold text-gray-500">{order?.address?.street_address}</p>
                             </div>
                         </div>
                     </div>
@@ -598,7 +593,7 @@ const Order = ({ ...props }) => {
                                                 <TableRow key={index} className="hover:bg-gray-100">
                                                     <TableCell className="font-medium text-xs">{product?.product?.id}</TableCell>
                                                     <TableCell className="font-medium text-xs">
-                                                        <Link href={`/dashboard/products/${product?.product?.id}`}  className="text-blue-600 hover:text-blue-500">
+                                                        <Link href={`/dashboard/products/${product?.product?.id}`} className="text-blue-600 hover:text-blue-500">
                                                             <span>
                                                                 {product?.product?.name}
                                                             </span>

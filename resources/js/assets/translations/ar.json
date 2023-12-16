@@ -58,7 +58,16 @@
             "accessories":"الاكسسوارات",
             "see_all":"عرض الكل",
             "for_you":"من أجلك",
-            "search":"بحث"
+            "search":"بحث",
+            "for_you_perfumes":"العطور قد تعجبك",
+            "for_you_accessories":"الاكسسوارات قد تعجبك",
+            "payment":"الدفع",
+            "on_delivery":"عند التوصيل",
+            "delivery":"التوصيل",
+            "58_wilayas":"58 ولاية",
+            "support":"خدمة العميل",
+            "listening":"في الإستماع",
+            "no_products":"فارغة"
         },
         "pagination":{
             "previous":"السابق",
@@ -196,7 +205,13 @@
         "cancel_order_message": "هل أنت متأكد من إلغاء الطلب؟",
         "order_cancelled": "تم إلغاء الطلب بنجاح!",
         "order_cancelled_error": "حدث خطأ أثناء إلغاء الطلب!",
-        "return_to_orders": "العودة إلى الطلبات"
+        "return_to_orders": "العودة إلى الطلبات",
+        "shipping_agency": "وكالة الشحن",
+        "shipping_method": "طريقة الشحن",
+        "shipping_address": "عنوان الشحن",
+        "shipping_price": "سعر الشحن",
+        "agency_delivery": "توصيل إلى الوكالة",
+        "home_delivery": "توصيل إلى المنزل"
     },
     "contact_page":{
         "title": "اتصل بنا",
@@ -205,13 +220,17 @@
         "last_name": "اللقب",
         "email": "البريد الإلكتروني",
         "phone": "رقم الهاتف",
-        "subject": "الموضوع",
+        "subject": "العنوان",
         "message": "الرسالة",
         "send": "إرسال",
         "success": "تم إرسال الرسالة بنجاح!",
         "success_description": "تم إرسال الرسالة بنجاح. سنقوم بالرد عليك في أقرب وقت ممكن",
         "error": "حدث خطأ أثناء إرسال الرسالة!",
         "error_description": "حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى"
-        
+    },
+    "about_us_page":{
+        "title": "من نحن",
+        "shop_location": "موقع المتجر",
+        "shop_1": "المتجر 1"
     }
 }

@@ -72,7 +72,7 @@ const LandingMainLayout = ({ children, ...props }) => {
                             {t('layout.navbar.contact')}
                         </Link>
                         <Link
-                            href="/about-us"
+                            href="/about"
                             className="text-base font-medium transition-colors hover:text-gray-400"
                         >
                             {t('layout.navbar.about')}

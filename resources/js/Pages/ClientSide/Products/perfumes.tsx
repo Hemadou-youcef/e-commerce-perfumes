@@ -22,7 +22,7 @@ const Perfumes = ({ ...props }) => {
     const [data, setData] = useState(props?.products?.data)
     const [categoriesList, setCategoriesList] = useState(props?.categories || []);
 
-    const [minMaxPrice, setMinMaxPrice] = useState<number[]>([0, 10000]);
+    const [minMaxPrice, setMinMaxPrice] = useState<(number | undefined)[]>([undefined, undefined]);
     const [search, setSearch] = useState<string | undefined>(props?.filters?.q || undefined);
     const [delayedSearch, setDelayedSearch] = useState<string | undefined>(props?.filters?.q || undefined);
     const [categories, setCategories] = useState<string[]>(props?.filters?.category.split(","));
@@ -36,6 +36,10 @@ const Perfumes = ({ ...props }) => {
         "homme",
         "femme",
         "unisexe",
+        "hiver",
+        "ete",
+        "printemps",
+        "automne",
     ]
 
     // CHECK IF THERE IS CHANGE IN DATA
@@ -135,12 +139,6 @@ const Perfumes = ({ ...props }) => {
                 <div className="md:col-span-9 lg:col-span-10 py-5 flex flex-col gap-3 border-gray-300  rounded-sm font-sans rtl:font-arabic" >
                     {/* SEARCH SECTION */}
                     <div className="flex flex-col md:flex-row justify-between items-center gap-5">
-                        {/* <Label
-                                htmlFor="search"
-                                className="text-sm md:text-lg cursor-pointer"
-                            >
-                                {t("products_page.search")}
-                            </Label> */}
                         <Input
                             id="search"
                             type="text"

@@ -6,8 +6,15 @@
         "cancel":"Annuler",
         "save":"Enregistrer",
         "confirm":"Confirmer",
-        "edit":"Éditer"
+        "apply":"Appliquer",
+        "edit":"Éditer",
+        "success":"Succès",
+        "error":"Erreur",
+        "error_occured":"Une erreur s'est produite",
+        "error_description":"Une erreur s'est produite. Veuillez réessayer",
+        "top_limit":"Limite supérieure"
     },
+    
     "language":{
         "en":"Anglais",
         "fr":"Français",
@@ -21,23 +28,47 @@
         "piece":"Pièce",
         "bottle":"Bouteille"
     },
+    "categories":{
+        "bottle":"Bouteilles",
+        "male": "Pour Hommes",
+        "female": "Pour Femmes",
+        "unisex": "Unisexe",
+        "winter": "Pour l'Hiver",
+        "summer": "Pour l'Été",
+        "autumn": "Pour l'Automne",
+        "spring": "Pour le Printemps"
+    },
     "layout":{
         "navbar":{
             "home":"Accueil",
-            "products":"Produits",
+            "products":"Nos Produits",
             "contact":"Contactez-nous",
             "about":"À propos",
             "dashboard":"Tableau de bord",
             "login":"Connexion",
             "logout":"Déconnexion",
-            "register":"S'inscrire",
+            "register":"Nouveau Compte",
             "profile":"Profil",
             "settings":"Paramètres",
             "users":"Utilisateurs",
             "categories":"Catégories",
             "bookmarks":"Favoris",
             "cart":"Panier",
-            "orders":"Commandes"
+            "orders":"Commandes",
+            "perfumes":"Parfums",
+            "accessories":"Accessoires",
+            "see_all":"Voir Tout",
+            "for_you":"Pour Vous",
+            "search":"Recherche",
+            "for_you_perfumes":"Parfums Pour Vous",
+            "for_you_accessories":"Accessoires Pour Vous",
+            "payment":"Paiement",
+            "on_delivery":"À la Livraison",
+            "delivery":"Livraison",
+            "58_wilayas":"58 Wilayas",
+            "support":"Support Client",
+            "listening":"À l'Écoute",
+            "no_product":"Aucun produit"
         },
         "pagination":{
             "previous":"Précédent",
@@ -48,24 +79,65 @@
     "main":{
         
     },
+    "login_page":{
+        "title":"Connexion",
+        "username":"Nom d'utilisateur",
+        "password":"Mot de passe",
+        "remember_me":"Se souvenir de moi",
+        "login":"Connexion",
+        "or_register_with":"Ou créez un nouveau compte",
+        "register":"Créer un nouveau compte"
+    },
+    "register_page":{
+        "title":"Nouveau Compte",
+        "first_name":"Prénom",
+        "last_name":"Nom de famille",
+        "phone":"Numéro de téléphone",
+        "address":"Adresse",
+        "male":"Homme",
+        "female":"Femme",
+        "user_name":"Nom d'utilisateur",
+        "password":"Mot de passe",
+        "confirm_password":"Confirmer le mot de passe",
+        "register":"Créer un nouveau compte",
+        "already_account":"Vous avez déjà un compte?",
+        "login":"Connexion"
+    },    
     "products_page":{
         "products":"Produits",
         "categories":"Catégories",
         "perfumes":"Parfums",
+        "accessories":"Accessoires",
         "price":"Prix",
         "empty_products":"Aucun produit dans cette catégorie!",
         "search":"Recherche",
         "search_placeholder":"Recherchez vos produits préférés",
-        "filter":"Filtre"   
+        "filter":"Filtrer",
+        "empty": "Aucun produit dans cette catégorie!",
+        "seasons": "Saisons",
+        "labels": "Étiquettes",
+        "max_price": "Prix maximum",
+        "min_price": "Prix minimum"
     },
+    
     "product_page":{
         "add_to_cart":"Ajouter au panier",
         "add_to_bookmarks":"Ajouter aux favoris",
         "remove_from_bookmarks":"Retirer des favoris",
         "product_price":"Prix du produit",
         "view_product":"Voir le produit",
-        "product_already_in_cart":"Le produit est déjà dans le panier"
-    },
+        "product_already_in_cart":"Le produit est déjà dans le panier",
+        "product_removed_from_bookmarks":"Le produit a été retiré des favoris",
+        "you_can_now_see_your_bookmarks":"Vous pouvez maintenant voir vos favoris",
+        "product_added_to_bookmarks":"Le produit a été ajouté aux favoris",
+        "product_added_to_cart":"Le produit a été ajouté au panier",
+        "you_can_now_see_your_cart":"Vous pouvez maintenant voir votre panier",
+        "bookmark_removed":"Le produit a été retiré des favoris",
+        "bookmark_added":"Le produit a été ajouté aux favoris",
+        "bookmark_added_description":"Le produit a été ajouté aux favoris. Vous pouvez maintenant voir vos favoris",
+        "bookmark_removed_description":"Le produit a été retiré des favoris. Vous pouvez maintenant voir vos favoris",
+        "you_may_also_like":"Vous aimerez peut-être aussi"
+    },    
     "cart_page":{
         "title": "Mon Panier",
         "empty_cart": "Votre panier est vide. Commencez vos achats maintenant!",
@@ -89,6 +161,7 @@
         "last_name": "Nom",
         "start_order": "Commencer la commande"
     },
+    
     "bookmarks_page":{
         "title": "Favoris",
         "empty_bookmarks": "Aucun favori pour le moment!"
@@ -124,13 +197,43 @@
     },
     "order_page":{
         "order": "Commande",
-        "order_date": "Date de commande",
+        "order_date": "Date de la commande",
         "total_price": "Prix total",
-        "ID": "ID",
+        "ID": "Identifiant",
         "product" : "Produit",
         "quantity": "Quantité",
         "price": "Prix",
         "total_products": "Total des produits",
-        "cancel_order": "Annuler la commande"
-    }
+        "cancel_order": "Annuler la commande",
+        "cancel_order_message": "Êtes-vous sûr de vouloir annuler la commande ?",
+        "order_cancelled": "La commande a été annulée avec succès !",
+        "order_cancelled_error": "Une erreur s'est produite lors de l'annulation de la commande !",
+        "return_to_orders": "Retour aux commandes",
+        "shipping_agency": "Agence de livraison",
+        "shipping_method": "Méthode d'expédition",
+        "shipping_address": "Adresse de livraison",
+        "shipping_price": "Frais de livraison",
+        "agency_delivery": "Livraison à l'agence",
+        "home_delivery": "Livraison à domicile"
+    },
+    "contact_page":{
+        "title": "Contactez-nous",
+        "sub_title": "Envoyez-nous un message",
+        "first_name": "Prénom",
+        "last_name": "Nom de famille",
+        "email": "Adresse e-mail",
+        "phone": "Numéro de téléphone",
+        "subject": "Sujet",
+        "message": "Message",
+        "send": "Envoyer",
+        "success": "Message envoyé avec succès!",
+        "success_description": "Le message a été envoyé avec succès. Nous vous répondrons dès que possible.",
+        "error": "Une erreur s'est produite lors de l'envoi du message !",
+        "error_description": "Une erreur s'est produite lors de l'envoi du message. Veuillez réessayer."
+    },
+    "about_us_page":{
+        "title": "À propos de nous",
+        "shop_location": "Emplacement du magasin",
+        "shop_1": "Magasin 1"
+    }        
 }

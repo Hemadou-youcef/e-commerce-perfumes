@@ -75,6 +75,7 @@ const Cart = ({ ...props }) => {
             data.street_address.length > 0,
             data.city.length > 0,
             data.state_code.length > 0,
+            data.shipping_agency_id.length > 0,
             data.shipping_method.length > 0,
             data.postal_code.length > 0,
         ];
@@ -107,7 +108,7 @@ const Cart = ({ ...props }) => {
     }
 
     const handleGetFees = (currentWilaya) => {
-        return  data.shipping_method == "1" ? currentWilaya?.home_delivery_price : currentWilaya?.agency_delivery_price
+        return  data.shipping_method == "1" ? currentWilaya?.home_delivery_price : currentWilaya?.agency_delivery_price 
     }
 
     const handleGetDeliveryFees = () => {

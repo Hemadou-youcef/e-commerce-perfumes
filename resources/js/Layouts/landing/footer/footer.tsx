@@ -1,5 +1,5 @@
 import { Separator } from "@/shadcn/ui/separator";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { BsInstagram } from "react-icons/bs";
 import { FiFacebook } from "react-icons/fi";
 
@@ -19,6 +19,7 @@ const LandingFooter = () => {
         if (value) {
             i18n.changeLanguage(value);
             localStorage.setItem("language", value);
+            router.reload();
         }
     }
     return (
@@ -55,6 +56,18 @@ const LandingFooter = () => {
                                 className="text-sm font-bold transition-colors hover:text-gray-400"
                             >
                                 {t('layout.navbar.products')}
+                            </Link>
+                            <Link
+                                href="/products/perfumes"
+                                className="text-sm font-bold transition-colors hover:text-gray-400"
+                            >
+                                {t('layout.navbar.perfumes')}
+                            </Link>
+                            <Link
+                                href="/products/accessories"
+                                className="text-sm font-bold transition-colors hover:text-gray-400"
+                            >
+                                {t('layout.navbar.accessories')}
                             </Link>
                             <Link
                                 href="/contact"

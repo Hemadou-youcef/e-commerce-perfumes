@@ -38,6 +38,10 @@ Route::get('/products/{product}', [App\Http\Controllers\ClientProductController:
 // client contact routes
 Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
+// client about routes
+Route::get('/about', function () {
+    return Inertia::render('ClientSide/AboutUs/aboutUs');
+})->name('about');
 
 
 

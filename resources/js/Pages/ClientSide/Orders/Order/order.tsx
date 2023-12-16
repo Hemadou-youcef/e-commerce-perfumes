@@ -83,7 +83,7 @@ const Order = ({ ...props }) => {
 
     const handleCancelOrder = () => {
         setDeleteLoading(true)
-        router.post(route('client_cancel_order', props?.order?.id),{}, {
+        router.post(route('client_cancel_order', props?.order?.id), {}, {
             preserveScroll: true,
             onSuccess: () => {
                 toast({
@@ -159,17 +159,32 @@ const Order = ({ ...props }) => {
                     {/* ORDER INFORMATION */}
                     {/* DATE DE ORDER */}
                     <div className="flex flex-row justify-start items-center gap-2 ">
-                        <p className="text-base font-medium text-gray-700">{t('order_page.order_date')}:</p>
+                        <p className="text-base font-bold text-gray-700">{t('order_page.order_date')}:</p>
                         <p className="text-base font-medium text-gray-700"> {formatDate(props?.order?.created_at)}</p>
+                    </div>
+                    {/* SHIPPING AGENCY */}
+                    <div className="flex flex-row justify-start items-center gap-2 ">
+                        <p className="text-base font-bold text-gray-700">{t('order_page.shipping_agency')}:</p>
+                        <p className="text-base font-medium text-gray-700"> {i18n.language === "fr" ? props?.order?.shipping_agency?.name : props?.order?.shipping_agency?.name_ar}</p>
+                    </div>
+                    {/* SHIPPING PRICE */}
+                    <div className="flex flex-row justify-start items-center gap-2 ">
+                        <p className="text-base font-bold text-gray-700">{t('order_page.shipping_price')}:</p>
+                        <p className="text-base font-medium text-gray-700"> {props?.order?.address?.shipping_price} {t("global.da")} ({props?.order?.address?.shipping_fee?.agency_delivery_price == props?.order?.address?.shipping_price ? t("order_page.agency_delivery") : t("order_page.home_delivery")})</p>
                     </div>
                     {/* TOTAL PRICE */}
                     <div className="flex flex-row justify-start items-center gap-2 ">
-                        <p className="text-base font-medium text-gray-700">{t('order_page.total_price')}:</p>
+                        <p className="text-base font-bold text-gray-700">{t('order_page.total_price')}:</p>
                         <p className="text-base font-medium text-gray-700"> {props?.order?.total} {t('global.da')}</p>
+                    </div>
+                    {/* ADDRESS */}
+                    <div className="flex flex-row justify-start items-center gap-2 ">
+                        <p className="text-base font-bold text-gray-700">{t('order_page.shipping_address')}:</p>
+                        <p className="text-base font-medium text-gray-700"> {props?.order?.address?.city} | {props?.order?.address?.street_address}</p>
                     </div>
                     {/* NUMBER OF PRODUCTS */}
                     <div className="flex flex-row justify-start items-center gap-2 ">
-                        <p className="text-base font-medium text-gray-700">{t('order_page.total_products')}:</p>
+                        <p className="text-base font-bold text-gray-700">{t('order_page.total_products')}:</p>
                         <p className="text-base font-medium text-gray-700"> {props?.order?.order_products.length}</p>
                     </div>
 
