@@ -15,6 +15,7 @@ class ShippingAgency extends Model
     protected $fillable = [
         'name',
         'name_ar',
+        'active'
     ];
 
 

@@ -17,17 +17,6 @@ import {
     TableRow,
 } from "@/shadcn/ui/table"
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/shadcn/ui/alert-dialog"
-import {
     Dialog,
     DialogClose,
     DialogContent,
@@ -50,12 +39,19 @@ import { useToast } from "@/shadcn/ui/use-toast";
 import { MdEdit } from "react-icons/md";
 import { Label } from "@/shadcn/ui/label";
 import { Input } from "@/shadcn/ui/input";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { FaPowerOff } from "react-icons/fa6";
 
 
 const Agence = ({ ...props }) => {
     console.log(props?.shippingAgency)
     const [agence, setagence] = useState(props?.shippingAgency)
-    const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
+    const [statusLoading, setStatusLoading] = useState<boolean>(false)
+    const [agenceInfo, setagenceInfo] = useState<any>({
+        name: agence?.name,
+        name_ar: agence?.name_ar,
+    })
+    const [editInfoLoading, setDeleteLoading] = useState<boolean>(false)
 
     const [currentTarif, setCurrentTarif] = useState<any>(null)
     const [showEditTarif, setShowEditTarif] = useState<boolean>(false)
@@ -98,20 +94,50 @@ const Agence = ({ ...props }) => {
         })
     }
 
-    const handleDeleteAgence = () => {
-        setDeleteLoading(true)
-        router.delete(route('agence.destroy', agence?.id), {
+    const handleChangeAgenceStatus = (status) => {
+        setStatusLoading(true)
+        router.patch(route('shipping_agency.update', agence?.id), {
+            name: agence?.name,
+            name_ar: agence?.name_ar,
+            active: status
+        }, {
             preserveState: false,
             onSuccess: () => {
                 toast({
-                    title: "La Agence a été supprimé avec succès",
+                    title: "La Agence a été modifié avec succès",
                     duration: 5000,
                 })
             },
             onError: () => {
                 toast({
                     variant: "destructive",
-                    title: "Une erreur s'est produite lors de la suppression de la Agence",
+                    title: "Une erreur s'est produite lors de la modification de la Agence",
+                    description: "",
+                    duration: 5000,
+                })
+            },
+            onFinish: () => {
+                setStatusLoading(false)
+            }
+        })
+    }
+
+    const handleEditAgence = () => {
+        setDeleteLoading(true)
+        router.patch(route('shipping_agency.update', agence?.id), {
+            ...agenceInfo
+        }, {
+            preserveState: false,
+            onSuccess: () => {
+                toast({
+                    title: "La Agence a été modifié avec succès",
+                    duration: 5000,
+                })
+            },
+            onError: () => {
+                toast({
+                    variant: "destructive",
+                    title: "Une erreur s'est produite lors de la modification de la Agence",
                     description: "",
                     duration: 5000,
                 })
@@ -142,45 +168,89 @@ const Agence = ({ ...props }) => {
                         </div>
                     </div>
                     {/* ACTIONS */}
+
                     <div className="flex justify-end gap-2">
+                        {agence?.active === 1 && (
+                            <Button
+                                variant="outline"
+                                className="group p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                disabled={statusLoading[0] && statusLoading[1] === 1}
+                                onClick={() => handleChangeAgenceStatus(false)}
+                            >
+                                {statusLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <FaPowerOff className="text-2xl text-red-500" />}
+                            </Button>
+                        )}
+                        {agence?.active === 0 && (
+                            <Button
+                                variant="outline"
+                                className="group p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                disabled={statusLoading[0] && statusLoading[1] === 0}
+                                onClick={() => handleChangeAgenceStatus(true)}
+                            >
+                                {statusLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <FaPowerOff className="text-2xl text-green-500" />}
+                            </Button>
+                        )}
                         {[3, 4].includes(props?.auth?.user?.role) && (
-                            <AlertDialog>
-                                <AlertDialogTrigger>
-                                    <Button
-                                        variant="outline"
-                                        className="group p-0 h-12 w-12 hover:w-32 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
-                                        disabled={deleteLoading}
-                                    >
-                                        {deleteLoading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
-                                        <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Supprimer</p>
-                                    </Button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                        <AlertDialogTitle>
-                                            Supprimer La Agence
-                                        </AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                            Êtes-vous sûr de vouloir supprimer cette Agence ? Vous ne pourrez pas revenir en arrière.
-                                        </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                        <AlertDialogCancel>
-                                            Annuler
-                                        </AlertDialogCancel>
-                                        <AlertDialogAction
-                                            onClick={() => handleDeleteAgence()}
-                                        >
-                                            Continuer
-                                        </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                </AlertDialogContent>
-                            </AlertDialog>
+                            <Dialog>
+                                <DialogTrigger
+                                    className="group p-0 h-12 w-12 hover:sm:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                    disabled={editInfoLoading}
+
+                                >
+                                    {editInfoLoading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <MdEdit className="text-2xl" />}
+                                    <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Modifier</p>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+
+                                    </DialogHeader>
+                                    <div className="grid gap-4 py-4">
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="name">
+                                                Nom de la Agence
+                                            </Label>
+                                            <Input
+                                                type="text"
+                                                name="name"
+                                                id="name"
+                                                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                                                value={agenceInfo.name}
+                                                onChange={(e) => setagenceInfo({ ...agenceInfo, name: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="name_ar">
+                                                Nom de la Agence (Ar)
+                                            </Label>
+                                            <Input
+                                                dir="rtl"
+                                                type="text"
+                                                name="name_ar"
+                                                id="name_ar"
+                                                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent font-arabic"
+                                                value={agenceInfo.name_ar}
+                                                onChange={(e) => setagenceInfo({ ...agenceInfo, name_ar: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+                                    <DialogFooter>
+                                        <DialogClose asChild>
+                                            <Button className="mr-2" variant="outline">
+                                                Annuler
+                                            </Button>
+                                        </DialogClose>
+                                        <Button type="submit" onClick={() => handleEditAgence()}>
+                                            {editInfoLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : "Modifier"}
+                                        </Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
                         )}
 
                     </div>
                 </div>
-
+                
+                
                 <Separator className="" />
                 <div className="flex flex-col gap-4 py-5 px-5 ">
                     <div className="flex flex-row justify-start items-center gap-2">

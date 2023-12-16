@@ -28,12 +28,12 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
     return (
         <div className="md:w-full flex flex-col items-start justify-start gap-5 font-sans rtl:font-arabic ">
             <div className="w-full flex flex-col items-start justify-start gap-5">
-                <p className="text-gray-800 font-semibold text-xl md:text-xl">
+                <p className="text-gray-800 font-semibold text-sm md:text-xl">
                     {t("products_page.categories")}
                 </p>
                 {(type === "both" || type === "perfumes") && (
                     <div className="flex flex-col items-start justify-start gap-2">
-                        <p className="text-gray-800 font-semibold text-base md:text-lg ltr:pl-2 rtl:pr-2">
+                        <p className="text-gray-800 font-semibold text-sm md:text-lg ltr:pl-2 rtl:pr-2">
                             {t('products_page.perfumes')}
                         </p>
                         <div className="flex justify-center font-semibold items-center gap-2 ltr:pl-6 rtl:pr-6">
@@ -50,12 +50,12 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
 
                             <Label
                                 htmlFor="homme"
-                                className="text-base md:text-lg cursor-pointer"
+                                className="text-sm md:text-lg cursor-pointer"
                             >
                                 {t("categories.male")}
                             </Label>
                         </div>
-                        <div className="flex justify-center font-semibold items-center gap-2  ltr:pl-6 rtl:pr-6">
+                        <div className="flex justify-center font-semibold items-center gap-2 ltr:pl-6 rtl:pr-6">
                             <Checkbox id="femme"
                                 className="rounded-none"
                                 onCheckedChange={(checked) => {
@@ -68,12 +68,12 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                                 checked={categories?.includes("femme") ? true : false} />
                             <Label
                                 htmlFor="femme"
-                                className="text-base md:text-lg cursor-pointer"
+                                className="text-sm md:text-lg cursor-pointer"
                             >
                                 {t("categories.female")}
                             </Label>
                         </div>
-                        <div className="flex justify-center font-semibold items-center gap-2  ltr:pl-6 rtl:pr-6">
+                        <div className="flex justify-center font-semibold items-center gap-2 ltr:pl-6 rtl:pr-6">
                             <Checkbox id="unisexe"
                                 className="rounded-none"
                                 onCheckedChange={(checked) => {
@@ -86,7 +86,7 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                                 checked={categories?.includes("unisexe") ? true : false} />
                             <Label
                                 htmlFor="unisexe"
-                                className="text-base md:text-lg cursor-pointer"
+                                className="text-sm md:text-lg cursor-pointer"
                             >
                                 {t("categories.unisex")}
                             </Label>
@@ -95,7 +95,7 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                 )}
                 {(type === "both" || type === "accessories") && (
                     <div className="flex flex-col justify-start items-start gap-2">
-                        <p className="text-gray-800 font-semibold text-base md:text-lg ltr:pl-2 rtl:pr-2">
+                        <p className="text-gray-800 font-semibold text-sm md:text-lg ltr:pl-2 rtl:pr-2">
                             {t('products_page.accessories')}
                         </p>
                         <div className="flex justify-center font-semibold items-center gap-2  ltr:pl-6 rtl:pr-6">
@@ -111,7 +111,7 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                                 checked={categories?.includes("bouteille") ? true : false} />
                             <Label
                                 htmlFor="bouteille"
-                                className="text-base md:text-lg cursor-pointer"
+                                className="text-sm md:text-lg cursor-pointer"
                             >
                                 {t('categories.bottle')}
                             </Label>
@@ -124,10 +124,10 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
             </div>
             <Separator className="w-full my-2" />
             <div className="w-full flex flex-col items-start justify-start gap-2">
-                <p className="text-gray-800 font-semibold text-xl md:text-xl">
+                <p className="text-gray-800 font-semibold text-sm md:text-xl">
                     {t("products_page.price")}
                 </p>
-                <div className="flex justify-center font-semibold items-center gap-2 pl-2 mb-3">
+                <div className="text-sm md:text-base flex justify-center font-semibold items-center gap-2 pl-2 mb-3">
                     {minMaxPriceLocal[0]? minMaxPriceLocal[0] : 0} - {minMaxPriceLocal[1]? minMaxPriceLocal[1] : t("global.top_limit")} {t("global.da")}
                 </div>
                 {/* <Slider
@@ -162,7 +162,7 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
             </div>
             <Separator className="w-full my-2" />
             <div className="w-full flex flex-col items-start justify-start gap-2">
-                <p className="text-gray-800 font-semibold text-xl md:text-xl">
+                <p className="text-gray-800 font-semibold text-sm md:text-xl">
                     {t("products_page.seasons")}
                 </p>
                 <div className="flex justify-start font-semibold items-center gap-2 ltr:pl-2 rtl:pr-2">
@@ -179,7 +179,7 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                     <BsSnow2 className="w-5 h-5" />
                     <Label
                         htmlFor="hiver"
-                        className="text-base md:text-lg cursor-pointer"
+                        className="text-sm md:text-lg cursor-pointer"
                     >
                         {t("categories.winter")}
                     </Label>
@@ -198,7 +198,7 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                     <BsSunFill className="w-5 h-5" />
                     <Label
                         htmlFor="ete"
-                        className="text-base md:text-lg cursor-pointer"
+                        className="text-sm md:text-lg cursor-pointer"
                     >
                         {t("categories.summer")}
                     </Label>
@@ -217,7 +217,7 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                     <FaLeaf className="w-5 h-5" />
                     <Label
                         htmlFor="printemps"
-                        className="text-base md:text-lg cursor-pointer"
+                        className="text-sm md:text-lg cursor-pointer"
                     >
                         {t("categories.spring")}
                     </Label>
@@ -236,7 +236,7 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                     <FaCanadianMapleLeaf className="w-5 h-5" />
                     <Label
                         htmlFor="automne"
-                        className="text-base md:text-lg cursor-pointer"
+                        className="text-sm md:text-lg cursor-pointer"
                     >
                         {t("categories.autumn")}
                     </Label>
@@ -244,7 +244,7 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
             </div>
             <Separator className="w-full my-2" />
             <div className="w-full flex flex-col items-start justify-start gap-2">
-                <p className="text-gray-800 font-semibold text-xl md:text-xl">
+                <p className="text-gray-800 font-semibold text-sm md:text-xl">
                     {t("products_page.labels")}
                 </p>
                 <div className="w-full flex flex-col justify-start overflow-y-auto max-h-96 py-2">
@@ -262,7 +262,7 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                                 checked={categories?.includes(category.name) ? true : false} />
                             <Label
                                 htmlFor={category.name}
-                                className="text-base md:text-lg cursor-pointer"
+                                className="text-sm md:text-lg cursor-pointer"
                             >
                                 {i18n.language === "fr" ? category.name : category.name_ar}
                             </Label>

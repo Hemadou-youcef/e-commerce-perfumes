@@ -65,11 +65,12 @@ class ShippingAgencyController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'name_ar' => 'required|string',
+            'active' => 'required|boolean',
         ]);
 
         $shippingAgency->update($validated);
 
-        return redirect()->route('shipping-agencies.index');
+        return back();
     }
 
 
