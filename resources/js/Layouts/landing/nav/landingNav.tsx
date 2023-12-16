@@ -55,7 +55,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
     const handleSearch = (search: string) => {
         setSearchLoading(true);
         router.get("/products?q=" + search, {}, {
-            preserveScroll: true,
+            preserveScroll: false,
             onFinish: () => {
                 setSearchLoading(false);
                 setNavbarOpen(false);
@@ -119,16 +119,16 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                             {/* Accessoires */}
                         </p>
                     </Link>
-                    <Link href="/about-us" onClick={() => setNavbarOpen(false)}>
-                        <p>
-                            {t('layout.navbar.about')}
-                            {/* A propos */}
-                        </p>
-                    </Link>
                     <Link href="/contact-us" onClick={() => setNavbarOpen(false)}>
                         <p>
                             {t('layout.navbar.contact')}
                             {/* Contact */}
+                        </p>
+                    </Link>
+                    <Link href="/about" onClick={() => setNavbarOpen(false)}>
+                        <p>
+                            {t('layout.navbar.about')}
+                            {/* A propos */}
                         </p>
                     </Link>
                 </div>
@@ -199,7 +199,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                                     handleSearch(search)
                                 }
                             }}
-                            placeholder="Recherche..."
+                            placeholder={t('layout.navbar.search') + "..."}
                             className="h-10 border-0 focus-visible:ring-transparent bg-white"
                         />
                         {searchLoading ? <AiOutlineLoading3Quarters className="w-8 h-8 text-forth animate-spin" /> : <IoMdSearch className="w-8 h-8 text-forth" />}

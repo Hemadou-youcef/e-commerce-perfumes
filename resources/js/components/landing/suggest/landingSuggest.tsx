@@ -15,7 +15,7 @@ const LandingSuggest = ({ title, products, url }) => {
         <>
             <div className="mx-auto px-2 pt-2 py-0 bg-white ltr:font-sans rtl:font-arabic">
                 <div className="md:container">
-                    <div className="flex items-center  justify-between pr-5 py-3">
+                    <div className="flex items-center justify-between ltr:pl-5 rtl:pr-5 py-3">
                         <p className="pb-1 inline text-gray-600 font-bold text-sm md:text-3xl font-serif border-b-2 border-gray-600  ltr:font-sans rtl:font-arabic">
                             {title}
                         </p>
@@ -27,7 +27,15 @@ const LandingSuggest = ({ title, products, url }) => {
                         {/* <div className="w-24 h-0.5 rounded-full mt-2 bg-gray-600"></div> */}
                     </div>
                     <div className=" w-full flex justify-center">
-                        <ProductsSwiper products={products} />
+                        {products?.length > 0 ? (
+                            <ProductsSwiper products={products} />
+                        ) : (
+                            <div className="h-20 w-full flex justify-center items-center">
+                                <p className="text-gray-600 font-bold text-sm md:text-xl font-sans">
+                                    {t('layout.navbar.no_product')}
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

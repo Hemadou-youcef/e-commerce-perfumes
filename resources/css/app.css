@@ -85,7 +85,9 @@
 .swiper-button-next {
   color: white !important;
 }
-
+.swiper-pagination-bullet-active {
+  background: #fede59 !important;
+}
 /* p, h1, h2, h3, h4, h5, h6, a, li, span, div, button, input, textarea, label, select, option, form, fieldset, legend, table, caption, tbody, tfoot, thead, tr, th, td {
   font-size: 10px;
 }

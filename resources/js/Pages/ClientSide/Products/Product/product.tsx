@@ -332,6 +332,7 @@ const Product = ({ ...props }) => {
             </div>
             <LandingSuggest title={t("product_page.you_may_also_like")} url="/products"
                 products={props?.product?.suggestedProducts} />
+                
             {showImageSlider && (
                 <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
                     {/* overlay */}

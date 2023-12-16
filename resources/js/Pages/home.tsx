@@ -21,6 +21,7 @@ import { TbTruckDelivery } from 'react-icons/tb';
 import { GiReceiveMoney, GiReturnArrow } from 'react-icons/gi';
 import { BiSupport } from 'react-icons/bi';
 import { useTranslation } from 'react-i18next';
+import ContactUsForm from '@/components/landing/contanct/contact';
 
 
 // export default function Welcome(Props: PageProps<{ laravelVersion: string, phpVersion: string }>) {
@@ -43,32 +44,34 @@ const Home = ({ ...props }) => {
                         spaceBetween={0}
                         slidesPerView={1}
                         pagination={{ clickable: true }}
-                        autoplay={{ delay: 5000 }}
+                        autoplay={{ delay: 10000 }}
                         className="h-full"
                     >
                         {props?.pinned_products?.map((product, index) => (
                             <SwiperSlide key={index} className="h-full">
                                 {/* Wallpaper For Information */}
-                                <div className="h-128 py-10 bg-cover bg-fixed bg-center text-gray-50 font-serif"
+                                <div className="h-128 flex justify-center items-center py-10 bg-cover bg-fixed bg-center text-gray-50 font-serif "
                                 >
-                                    <div className="container flex flex-col md:flex-row items-center justify-center md:justify-around gap-5 select-none">
-                                        <div className="flex flex-col md:justify-centers items-center  text-center">
-                                            <h1 className="text-xl md:text-5xl md:pl-4 text-white" style={{ textShadow: "0 0 10px #000" }}>
-                                                {product.name}
-                                            </h1>
-                                            <p className="text-xs md:text-sm font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
-                                                {i18n.language === "fr" ? product.description : product.description_ar}
-                                            </p>
-                                            <Link href={`/products/${product.id}`}>
-                                                <Button variant="default" className="mt-5 w-44 text-gray-900 hover:text-third bg-prime border-2 border-prime font-sans rtl:font-arabic  ">
-                                                    {t('product_page.view_product')}
-                                                </Button>
-                                            </Link>
-                                        </div>
-                                        <div className=" ">
-                                            <img src={product?.main_image?.path} alt=""
-                                                className="landingImageRadius p-5 h-52 md:h-80  object-cover shadow-md"
-                                            />
+                                    <div className="w-full py-10 h-128 md:h-fit bg-[#11182770]">
+                                        <div className="container flex flex-col md:flex-row  items-center justify-center md:justify-around gap-5 select-none z-10">
+                                            <div className="flex flex-col md:justify-centers items-center  text-center">
+                                                <h1 className="text-xl md:text-5xl md:pl-4  text-white" style={{ textShadow: "0 0 10px #000" }}>
+                                                    {product.name}
+                                                </h1>
+                                                <p className="text-xs md:text-sm font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
+                                                    {i18n.language === "fr" ? product.description : product.description_ar}
+                                                </p>
+                                                <Link href={`/products/${product.id}`}>
+                                                    <Button variant="default" className="mt-5 w-44 text-gray-900 hover:text-third bg-prime border-2 border-prime font-sans rtl:font-arabic  ">
+                                                        {t('product_page.view_product')}
+                                                    </Button>
+                                                </Link>
+                                            </div>
+                                            <div className=" ">
+                                                <img src={product?.main_image?.path} alt=""
+                                                    className="landingImageRadius p-5 h-52 md:h-60 lg:h-60 xl:h-80  object-cover shadow-md"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +80,7 @@ const Home = ({ ...props }) => {
                     </Swiper>
                 )}
             </div>
-            <div className="w-full p-1 px-5 sm:px-1 h-32 flex md:hidden justify-center items-center bg-forth uppercase">
+            <div className="w-full p-1 px-5 sm:px-1 h-32 flex md:hidden justify-center items-center bg-forth uppercase ">
                 <Swiper
                     modules={[Autoplay]}
                     spaceBetween={0}
@@ -96,14 +99,16 @@ const Home = ({ ...props }) => {
                             },
                         }
                     }
+                    className="ltr:font-sans rtl:font-arabic"
                 >
                     <SwiperSlide>
                         <div className='flex items-center px-2 gap-2'>
                             <div className=' bg-white rounded-full p-2'>
                                 <GiReceiveMoney className="w-7 h-7 text-gray-900" />
                             </div>
-                            <p className="text-gray-100 text-xs font-medium font-sans">
-                                Paiement <br />à la livraison
+                            <p className="text-gray-100 text-xs font-medium ">
+                                {t('layout.navbar.payment')} <br />
+                                {t('layout.navbar.on_delivery')}
                             </p>
                         </div>
                         <Separator orientation="vertical" />
@@ -113,9 +118,9 @@ const Home = ({ ...props }) => {
                             <div className=' bg-white rounded-full p-2'>
                                 <TbTruckDelivery className="w-7 h-7 text-gray-900" />
                             </div>
-                            <p className="text-gray-100 text-xs font-medium font-sans">
-                                LIVRAISON <br />
-                                58 WILAYAS
+                            <p className="text-gray-100 text-xs font-medium ">
+                                {t('layout.navbar.delivery')} <br />
+                                {t('layout.navbar.58_wilayas')}
                             </p>
                         </div>
                         <Separator orientation="vertical" />
@@ -125,23 +130,24 @@ const Home = ({ ...props }) => {
                             <div className='bg-white rounded-full p-2'>
                                 <BiSupport className="w-7 h-7 text-gray-900" />
                             </div>
-                            <p className="text-gray-100 text-xs font-medium font-sans">
-                                Service Client <br />
-                                A L'ECOUTE
+                            <p className="text-gray-100 text-xs font-medium ">
+                                {t('layout.navbar.support')} <br />
+                                {t('layout.navbar.listening')}
                             </p>
                         </div>
                         <Separator orientation="vertical" />
                     </SwiperSlide>
                 </Swiper >
             </div>
-            <div className='w-full p-1 h-32 hidden md:flex justify-center items-center bg-forth uppercase'>
-                <div className="container h-10 md:flex justify-center items-center space-x-4 text-sm">
+            <div className='w-full p-1 h-32 hidden md:flex justify-center items-center bg-forth uppercase ltr:font-sans rtl:font-arabic'>
+                <div className="container h-10 md:flex justify-center items-center space-x-4 text-sm ">
                     <div className='flex items-center px-2 gap-2'>
                         <div className=' bg-third rounded-full p-2'>
                             <GiReceiveMoney className="w-7 h-7 text-gray-900" />
                         </div>
-                        <p className="text-third text-xs font-medium font-sans">
-                            Paiement <br />à la livraison
+                        <p className="text-third text-xs font-medium ">
+                            {t('layout.navbar.payment')} <br />
+                            {t('layout.navbar.on_delivery')}
                         </p>
                     </div>
                     <Separator orientation="vertical" />
@@ -149,9 +155,9 @@ const Home = ({ ...props }) => {
                         <div className=' bg-third rounded-full p-2'>
                             <TbTruckDelivery className="w-7 h-7 text-gray-900" />
                         </div>
-                        <p className="text-third text-xs font-medium font-sans">
-                            LIVRAISON <br />
-                            58 WILAYAS
+                        <p className="text-third text-xs font-medium ">
+                            {t('layout.navbar.delivery')} <br />
+                            {t('layout.navbar.58_wilayas')}
                         </p>
                     </div>
                     <Separator orientation="vertical" />
@@ -159,26 +165,36 @@ const Home = ({ ...props }) => {
                         <div className='bg-third rounded-full p-2'>
                             <BiSupport className="w-7 h-7 text-gray-900" />
                         </div>
-                        <p className="text-third text-xs font-medium font-sans">
-                            Service Client <br />
-                            A L'ECOUTE
-                        </p>
-                    </div>
-                    <Separator orientation="vertical" />
-                    <div className='flex items-center px-2 gap-2'>
-                        <div className='bg-third rounded-full p-2'>
-                            {/* Add an icon related to your additional information */}
-                            <GiReturnArrow className="w-7 h-7 text-gray-900" />
-                        </div>
-                        <p className="text-third text-xs font-medium font-sans">
-                            {/* Add your return policy information here */}
-                            Politique de Retour <br />
-                            Retours faciles sous 30 jours
+                        <p className="text-third text-xs font-medium ">
+                            {t('layout.navbar.support')} <br />
+                            {t('layout.navbar.listening')}
                         </p>
                     </div>
                 </div>
             </div >
-            <LandingSuggest title={t('layout.navbar.for_you')} url="/products" products={props?.for_you_products} />
+            {/* <LandingSuggest title={t('layout.navbar.for_you')} url="/products" products={props?.for_you_products} /> */}
+            <LandingSuggest title={t('layout.navbar.for_you_perfumes')} url="/products/perfumes" products={props?.for_you_perfumes} />
+            <LandingSuggest title={t('layout.navbar.for_you_accessories')} url="/products/accessories" products={props?.for_you_accessories} />
+            {/* CONTACT US FORM */}
+            <div className="w-full bg-white py-10">
+                <div className="px-2 md:container">
+                    <p className="ltr:ml-5 rtl:mr-5 pb-1 inline text-gray-600 font-bold text-sm md:text-3xl font-serif border-b-2 border-gray-600  ltr:font-sans rtl:font-arabic">
+                        {t('contact_page.title')}
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 my-5 bg-gray-50 font-sans rtl:font-arabic rounded-lg gap-5 border-2">
+                        <div className="hidden w-full h-full md:flex flex-col justify-center overflow-hidden">
+                            <img
+                                src="/image/contact-us.png"
+                                className="w-full h-full object-cover"
+                                alt="contact us"
+                            />
+                        </div>
+                        <div className="px-8 w-full py-5 ltr:font-sans rtl:font-arabic">
+                            <ContactUsForm />
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="w-full h-128 bg-black bg-contain bg-right bg-no-repeat text-gray-50 font-serif"
                 style={{ backgroundImage: "url(/image/about-us/french.png)" }}>
                 <div className="container flex flex-col items-start justify-center h-full">
