@@ -158,14 +158,8 @@ class Product extends Model
         return Product::activeProducts()->where('type', 2);
     }
 
-
-    public function isPerfume(): bool
+    public static function oils(): Builder
     {
-        return $this->type === 1;
-    }
-
-    public function isAccessory(): bool
-    {
-        return $this->type === 2;
+        return Product::activeProducts()->where('type', 3);
     }
 }

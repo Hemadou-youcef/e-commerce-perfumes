@@ -16,6 +16,7 @@ class ShippingAgencySeeder extends Seeder
         ShippingAgency::query()->create([
            'name' => 'Yalidine',
            'name_ar' => 'ياليدين',
+            'active' => true,
         ]);
     }
 }

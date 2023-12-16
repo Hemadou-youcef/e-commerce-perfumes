@@ -27,7 +27,7 @@ class ProductFactory extends Factory
             'main_image_id' => null,
             'quantity' => 10000,
             'unit' => $this->faker->randomElement(['l', 'ml', 'unité']),
-            'type' => $this->faker->randomElement([1,2]),
+            'type' => $this->faker->randomElement([1,2,3]),
 //            'status' => $this->faker->randomElement([ null]),
             'status' => $this->faker->randomElement(['pinned', 'archived', 'published']),
             'user_id' => User::factory(),
