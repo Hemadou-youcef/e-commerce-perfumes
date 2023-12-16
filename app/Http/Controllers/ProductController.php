@@ -22,8 +22,10 @@ class ProductController extends Controller
             'products' => Product::query()
                 ->when(request('search'), fn($query, $search) => $query
                     ->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('id', 'LIKE', '%' . $search . '%')
                     ->orWhere('description', 'LIKE', '%' . $search . '%')
                     ->orWhere('description_ar', 'LIKE', '%' . $search . '%')
+
                 )
                 ->when(request('status'), fn($query, $status) => $query
                     ->where('status', $status)
@@ -133,7 +135,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $orders = $product->orders()->paginate(10);
-        $receiptions = $product->receptions()->paginate(10);
+        $receptions = $product->receptions()->with('user')->paginate(10);
         return inertia::render('Dashboard/Products/product', [
             'product' => [
                 'id' => $product->id,
@@ -147,7 +149,7 @@ class ProductController extends Controller
                 'categories' => $product->categories,
                 'images' => $product->images,
                 'productPrices' => $product->productPrices,
-                'receptions' => $receiptions,
+                'receptions' => $receptions,
                 'orders' => $orders,
 
             ],

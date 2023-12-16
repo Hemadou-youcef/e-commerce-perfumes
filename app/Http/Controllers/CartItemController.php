@@ -66,6 +66,17 @@ class CartItemController extends Controller
         if ($productPrice->product_id != $product->id || !$productPrice->active || $product->isArchived()) {
             return redirect()->back()->withErrors(['cart' => 'something went wrong']);
         }
+        // check if product already in cart
+        $cartItem = Auth::user()->cartItems()->where('product_id', $validated['product_id'])->where('product_price_id', $validated['product_price_id'])->first();
+        if ($cartItem) {
+//            dd('item already in cart');
+            $cartItem['quantity'] = $cartItem->quantity + $validated['quantity'];
+//            dd($cartItem['quantity']);
+            $cartItem->save();
+            return redirect()->back();
+        }
+
+
 
         Auth::user()->cartItems()->create($validated);
     }

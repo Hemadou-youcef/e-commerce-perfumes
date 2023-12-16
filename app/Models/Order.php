@@ -70,9 +70,9 @@ class Order extends Model
 
     public function totalPrice(): int
     {
-        if ($this->address()->exists()) {
-            return $this->orderProducts->sum('price') + $this->address->shipping_price;
-        }
+//        if ($this->address()->exists()) {
+//            return $this->orderProducts->sum('price') + $this->address->shipping_price;
+//        }
         return $this->orderProducts->sum('price');
     }
 
@@ -87,10 +87,18 @@ class Order extends Model
 
     public function profit(): int
     {
-        if ($this->address){
-            return $this->totalPrice() - $this->buyingPrice() - $this->address->shipping_price;
-        }
+//        if ($this->address){
+//            return $this->totalPrice() - $this->buyingPrice() - $this->address->shipping_price;
+//        }
         return $this->total - $this->buyingPrice();
+    }
+
+    public function shippingPrice(): int
+    {
+        if ($this->address){
+            return $this->address->shipping_price;
+        }
+        return 0;
     }
 
     public function shippingAgency(): BelongsTo
