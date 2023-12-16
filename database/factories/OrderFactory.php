@@ -21,6 +21,7 @@ class OrderFactory extends Factory
             'user_id' => User::factory(),
             'total' => 0,
             'status' => $this->faker->randomElement(['pending']),
+            'shipping_agency_id' => 1,
 //            'status' => $this->faker->randomElement(['pending', 'confirmed', 'delivered']),
             'address_id' => null,
             'verified_by' => null,

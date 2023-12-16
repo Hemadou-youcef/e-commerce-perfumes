@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Address;
 use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Order;
@@ -43,6 +44,7 @@ class DatabaseSeeder extends Seeder
             $this->call(CategorySeeder::class);
             $this->call(ShippingAgencySeeder::class);
             $this->call(ShippingFeeSeeder::class);
+            $this->call(AddressSeeder::class);
 
             User::factory()->has(Product::factory()->hasImages(3)->hasProductPrices(1)->count(3))->count(20)->create(['role' => 2]);
             User::factory()->has(Product::factory()->hasImages(3)->hasProductPrices(1)->count(3))->count(10)->create(['role' => fake()->randomElement([2, 3])]);
@@ -68,7 +70,11 @@ class DatabaseSeeder extends Seeder
 
         foreach (Order::all() as $order) {
             $order->total = $order->totalPrice();
+            $order->address_id = Address::query()->inRandomOrder()->first()->id;
             $order->save();
+
         }
+
+
     }
 }

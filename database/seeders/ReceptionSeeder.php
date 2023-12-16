@@ -17,7 +17,7 @@ class ReceptionSeeder extends Seeder
         foreach (Product::all() as $product) {
 
             $product_min_price = $product->productPrices()->first()->price / $product->productPrices()->first()->quantity;
-            $reception_price = fake()->numberBetween($product_min_price - 100, $product_min_price - 800);
+            $reception_price = fake()->numberBetween($product_min_price - 300, $product_min_price - 100);
 
             $product->receptions()->create([
                 'user_id' => User::where('role',3)->inRandomOrder()->first()->id,

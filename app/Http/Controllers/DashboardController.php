@@ -32,7 +32,7 @@ class DashboardController extends Controller
     public function sales($startDate = null, $endDate = null): int
     {
         if (!$startDate) {
-            $startDate = now()->subDay();
+            $startDate = now()->subMonth();
         }
 
         if (!$endDate) {
@@ -54,7 +54,7 @@ class DashboardController extends Controller
     public function profit($startDate = null, $endDate = null): int
     {
         if (!$startDate) {
-            $startDate = now()->subMonth();
+            $startDate = now()->startOfMonth();
         }
 
         if (!$endDate) {
@@ -73,7 +73,7 @@ class DashboardController extends Controller
     public function ordersCount($startDate = null, $endDate = null): array
     {
         if (!$startDate) {
-            $startDate = now()->subMonth();
+            $startDate = now()->startOfMonth();
         }
         if (!$endDate) {
             $endDate = now();
@@ -95,7 +95,7 @@ class DashboardController extends Controller
     public function orders($startDate = null, $endDate = null, $status = null, $limit = 5)
     {
         if (!$startDate) {
-            $startDate = now()->subMonth();
+            $startDate = now()->startOfMonth();
         }
 
         if (!$endDate) {
@@ -209,7 +209,7 @@ class DashboardController extends Controller
 
 
         if (!$startDate) {
-            $startDate = now()->subYear();
+            $startDate = now()->startOfYear();
         }
 
         if (!$endDate) {
@@ -278,7 +278,7 @@ class DashboardController extends Controller
     public function ordersCountChart($startDate = null, $endDate = null, $period = 'monthly'): array
     {
         if (!$startDate) {
-            $startDate = now()->subYear();
+            $startDate = now()->startOfYear();
         }
 
         if (!$endDate) {
