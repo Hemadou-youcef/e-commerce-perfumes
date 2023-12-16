@@ -19,7 +19,7 @@ class OrderFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'total' => $this->faker->numberBetween(50, 5000),
+            'total' => 0,
             'status' => $this->faker->randomElement(['pending']),
 //            'status' => $this->faker->randomElement(['pending', 'confirmed', 'delivered']),
             'address_id' => null,
@@ -27,8 +27,8 @@ class OrderFactory extends Factory
             'confirmed_by' => null,
             'delivered_by' => null,
             'cancelled_by' => null,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_at' => $this->faker->dateTimeBetween('-1 month', 'now')
+
         ];
     }
 }
