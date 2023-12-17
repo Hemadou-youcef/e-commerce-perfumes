@@ -63,19 +63,6 @@ const ReceptionForm = ({ ...props }) => {
         product_id: "",
     });
     const [totalPrice, setTotalPrice] = useState(1)
-    const [dataProducts, setDataProducts] = useState<SelectOption[]>(() => {
-        return props?.products.map((product: any) => {
-            return {
-                id: product.id,
-                value: product.id,
-                label: product.name,
-                category: product.category,
-                status: product.status,
-                quantity: product.quantity + " " + product.unit
-            }
-        })
-
-    })
 
     const [openSheet, setOpenSheet] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState<SelectOption | null>(null)

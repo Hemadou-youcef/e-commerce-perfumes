@@ -72,7 +72,7 @@ class ShippingAgencyController extends Controller
 
         $shippingAgency->update($validated);
 
-        return redirect()->route('shipping-agencies.index');
+        return back();
     }
 
 

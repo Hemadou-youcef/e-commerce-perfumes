@@ -32,46 +32,19 @@ import { Label } from "@/shadcn/ui/label";
 import { AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { FaAngleDown, FaCheck, FaSave } from "react-icons/fa";
 
-// Style
-import sheetDialog from '@/styles/dialog.module.css'
-import { IoClose } from "react-icons/io5";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import SelectProductSheet from "@/components/dashboard/order/selectProductSheet";
-
-type tarif = {
-    wilaya: string;
-    wilaya_ar: string;
-    wilaya_code: number;
-    home_delivery_price: number;
-    agency_delivery_price: number;
-}
 interface FormData {
     name: string;
     name_ar: string;
 }
 
-type SelectOption = {
-    id: string;
-    value: string;
-    label: string;
-    category: string;
-    status: string;
-    quantity: string;
-};
 
 const AgenceForm = ({ ...props }) => {
     // console.log(props)
+    const editMode = props?.agence ? true : false;
     const { data, setData, post, transform, processing, errors, reset } = useForm<FormData>({
-        name: props?.agence?.name || "",
+        name: "",
         name_ar: "",
     });
-    const [currentTarif, setCurrentTarif] = useState<tarif>({
-        wilaya: "",
-        wilaya_ar: "",
-        wilaya_code: 0,
-        home_delivery_price: 0,
-        agency_delivery_price: 0,
-    })
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
@@ -146,116 +119,6 @@ const AgenceForm = ({ ...props }) => {
                                 )}
                             </div>
                         </div>
-                        {false && (<div className="col-span-2">
-                            <Label htmlFor="prices" className="text-base"> Tarifs </Label>
-                            <div className="flex flex-col gap-2">
-                                <Table className="w-full">
-                                    <TableHeader>
-                                        <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
-                                            <TableHead > Wilaya </TableHead>
-                                            <TableHead > Wilaya en Arabe </TableHead>
-                                            <TableHead > Code Wilaya </TableHead>
-                                            <TableHead > Prix de livraison à domicile </TableHead>
-                                            <TableHead > Prix de livraison à l'agence </TableHead>
-
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                            {/* <TableRow key={index} className="hover:bg-gray-100">
-                                                <TableCell className="text-center">
-                                                    {price.wilaya}
-                                                </TableCell>
-                                                <TableCell className="text-center">
-                                                    {price.wilaya_ar}
-                                                </TableCell>
-                                                <TableCell className="text-center">
-                                                    {price.wilaya_code}
-                                                </TableCell>
-                                                <TableCell className="text-center">
-                                                    {price.home_delivery_price}
-                                                </TableCell>
-                                                <TableCell className="text-center">
-                                                    {price.agency_delivery_price}
-                                                </TableCell>
-                                            </TableRow> */}
-                                    </TableBody>
-
-                                </Table>
-                                <div className="flex flex-row justify-between items-center gap-2">
-                                    <div className="flex flex-col gap-2">
-                                        <Input
-                                            id="wilaya"
-                                            type="text"
-                                            placeholder="Wilaya"
-                                            className="w-full h-12 border-2 focus-visible:ring-transparent"
-                                            value={currentTarif.wilaya}
-                                            onChange={(e) => setCurrentTarif({ ...currentTarif, wilaya: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <Input
-                                            id="wilaya_ar"
-                                            type="text"
-                                            placeholder="Wilaya en Arabe"
-                                            className="w-full h-12 border-2 focus-visible:ring-transparent"
-                                            value={currentTarif.wilaya_ar}
-                                            onChange={(e) => setCurrentTarif({ ...currentTarif, wilaya_ar: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <Input
-                                            id="wilaya_code"
-                                            type="number"
-                                            placeholder="Code Wilaya"
-                                            className="w-full h-12 border-2 focus-visible:ring-transparent"
-                                            value={currentTarif.wilaya_code}
-                                            onChange={(e) => setCurrentTarif({ ...currentTarif, wilaya_code: Number(e.target.value) })}
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <Input
-                                            id="home_delivery_price"
-                                            type="number"
-                                            placeholder="Prix de livraison à domicile"
-                                            className="w-full h-12 border-2 focus-visible:ring-transparent"
-                                            value={currentTarif.home_delivery_price}
-                                            onChange={(e) => setCurrentTarif({ ...currentTarif, home_delivery_price: Number(e.target.value) })}
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <Input
-                                            id="agency_delivery_price"
-                                            type="number"
-                                            placeholder="Prix de livraison à l'agence"
-                                            className="w-full h-12 border-2 focus-visible:ring-transparent"
-                                            value={currentTarif.agency_delivery_price}
-                                            onChange={(e) => setCurrentTarif({ ...currentTarif, agency_delivery_price: Number(e.target.value) })}
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <Button
-                                            className="w-full h-12 bg-gray-900 hover:bg-gray-800 text-white"
-                                            onClick={(e) => {
-                                                e.preventDefault()
-                                                setCurrentTarif({
-                                                    wilaya: "",
-                                                    wilaya_ar: "",
-                                                    wilaya_code: 0,
-                                                    home_delivery_price: 0,
-                                                    agency_delivery_price: 0,
-                                                })
-                                            }}
-                                        >
-                                            Ajouter
-                                        </Button>
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                        )}
                     </div>
                 </form >
 
