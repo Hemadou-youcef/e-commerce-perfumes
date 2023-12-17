@@ -22,9 +22,11 @@ class ReceptionController extends Controller
                     $userQuery->where('name', 'like', '%' . $q . '%');
                 })->orWhereHas('user', function ($userQuery) use ($q) {
                     $userQuery->where('first_name', 'like', '%' . $q . '%')
-                        ->orWhere('last_name', 'like', '%' . $q . '%')
-                        ->orWhere('phone', 'like', '%' . $q . '%');
-                })->orWhere('name', 'like', '%' . $q . '%');
+                        ->orWhere('last_name', 'like', '%' . $q . '%');
+                })
+                    ->orWhere('name', 'like', '%' . $q . '%')
+                    ->orWhere('id',$q )
+                ;
             })
             ->when(request('start'), fn ($query) => $query->where('created_at', '>=', request('start')))
             ->when(request('end'), fn ($query) => $query->where('created_at', '<=', request('end')))
@@ -73,7 +75,8 @@ class ReceptionController extends Controller
         return Inertia::render('Dashboard/Receptions/receptionForm', [
             'products' => Product::query()
                 ->when(request('q'), function ($query, $q) {
-                    $query->where('name', 'like', '%' . $q . '%');
+                    $query->where('name', 'like', '%' . $q . '%')
+                    ->orWhere('id' , $q);
                 })
                 ->orderBy('quantity', 'asc')->get(),
         ]);

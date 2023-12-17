@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\WilayaMapper;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,6 +16,7 @@ class ShippingAgency extends Model
     protected $fillable = [
         'name',
         'name_ar',
+        'active',
     ];
 
 
@@ -42,4 +44,8 @@ class ShippingAgency extends Model
 
     }
 
+    public static function activeAgencies(): Builder
+    {
+        return self::where('active', true);
+    }
 }

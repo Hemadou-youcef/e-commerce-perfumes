@@ -40,7 +40,7 @@ class CartItemController extends Controller
                 ,
             ])->get()
             ,
-            'shippingAgencies' => ShippingAgency::all()->load('shippingFees'),
+            'shippingAgencies' => ShippingAgency::activeAgencies()->with('shippingFees')->get(),
 
         ]);
     }

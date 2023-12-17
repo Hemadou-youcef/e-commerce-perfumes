@@ -34,6 +34,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('/products', [App\Http\Controllers\ClientProductController::class, 'index'])->name('client_products');
 Route::get('/products/perfumes' , [App\Http\Controllers\ClientProductController::class, 'perfumes'])->name('client_perfumes');
 Route::get('/products/accessories' , [App\Http\Controllers\ClientProductController::class, 'accessories'])->name('client_accessories');
+Route::get('/products/aromatic_oils' , [App\Http\Controllers\ClientProductController::class, 'oils'])->name('client_sets');
 Route::get('/products/{product}', [App\Http\Controllers\ClientProductController::class, 'show'])->name('client_product');
 // client contact routes
 Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
@@ -133,7 +134,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/shipping_agencies/create', [App\Http\Controllers\ShippingAgencyController::class, 'create'])->name('shipping_agency.create');
         Route::post('/dashboard/shipping_agencies/create', [App\Http\Controllers\ShippingAgencyController::class, 'store'])->name('shipping_agency.store');
         Route::get('/dashboard/shipping_agencies/{shippingAgency}', [App\Http\Controllers\ShippingAgencyController::class, 'show'])->name('shipping_agency');
-        Route::patch('/dashboard/shipping_agencies/{shippingAgency}', [App\Http\Controllers\ShippingFeeController::class, 'update'])->name('shipping_agency.updateTarif');
+        Route::patch('/dashboard/shipping_agencies/{shippingAgency}', [App\Http\Controllers\ShippingAgencyController::class, 'update'])->name('shipping_agency.updateTarif');
         Route::patch('dashboard/shipping_agencies/shipping_fee/{shippingFee}', [App\Http\Controllers\ShippingFeeController::class, 'update'])->name('shipping_fee.update');
     });
 

@@ -27,4 +27,9 @@ class Category extends Model
     {
         return Category::query()->where('type', 2);
     }
+
+    public static function oilsCategories(): Builder
+    {
+        return Category::query()->where('type', 3);
+    }
 }

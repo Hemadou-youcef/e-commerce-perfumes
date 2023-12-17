@@ -48,6 +48,18 @@ class HomeController extends Controller
                     'main_image' => $product->mainImage,
                     ];
             }),
+            'for_you_oils' => Product::oils()->inRandomOrder()->take(10)->get()->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'description' => $product->description,
+                    'description_ar' => $product->description_ar,
+                    'main_image_id' => $product->main_image_id,
+                    'type' => $product->type,
+                    'active_product_prices' => $product->activeProductPrices,
+                    'main_image' => $product->mainImage,
+                    ];
+            }),
 
         ]);
 

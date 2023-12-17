@@ -25,7 +25,7 @@ class StoreCategoryRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'name_ar' => 'nullable|string|max:255',
-            'type' => 'required|integer|in:1,2',
+            'type' => 'required|integer|in:1,2,3',
         ];
     }
 }

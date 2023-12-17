@@ -23,6 +23,7 @@ class ShippingAgencyController extends Controller
                     'id' => $shippingAgency->id,
                     'name' => $shippingAgency->name,
                     'name_ar' => $shippingAgency->name_ar,
+                    'active' => $shippingAgency->active,
                 ])
                 ->withQueryString(),
             'filters' => [
@@ -42,6 +43,7 @@ class ShippingAgencyController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'name_ar' => 'required|string',
+            'active' => 'required|boolean',
         ]);
 
         $agency =  ShippingAgency::create($validated);
@@ -65,6 +67,7 @@ class ShippingAgencyController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'name_ar' => 'required|string',
+            'active' => 'required|boolean',
         ]);
 
         $shippingAgency->update($validated);

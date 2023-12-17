@@ -32,8 +32,10 @@ class OrderController extends Controller
                     $query->whereHas('user', function ($userQuery) use ($q) {
                         $userQuery->where('first_name', 'like', '%' . $q . '%')
                             ->orWhere('last_name', 'like', '%' . $q . '%')
-                            ->orWhere('phone', 'like', '%' . $q . '%');
-                    });
+                            ->orWhere('phone',  $q)
+                        ;
+                    })->orWhere('id', $q);
+                    ;
                 })
                 ->when(request('status') && request('status') != 'all', fn($query) => $query->where('status', request('status')))
                 ->when(request('start'), fn($query) => $query->where('created_at', '>=', request('start')))
