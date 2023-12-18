@@ -2,7 +2,7 @@ import LandingMainLayout from "@/Layouts/landing/mainLayout";
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
 import { Label } from "@/shadcn/ui/label";
-import { Link, router, useForm } from "@inertiajs/react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IoBagHandleOutline } from "react-icons/io5";
@@ -37,7 +37,6 @@ import i18n from "@/i18n";
 import CartProduct from "@/components/Products/cart/product";
 
 const Cart = ({ ...props }) => {
-    console.log(props);
     const [cartItems, setCartItems] = useState(props?.cartItems);
     const [shippingAgencies, setShippingAgencies] = useState(props?.shippingAgencies);
     const { data, setData, post, transform, processing, errors, reset } = useForm<FormData>({
@@ -145,6 +144,16 @@ const Cart = ({ ...props }) => {
 
     return (
         <>
+            <Head>
+                <title>{t('cart_page.title')}</title>
+                <meta name="description" content={
+                    i18n.language === "fr" ?
+                        "Vérifiez votre panier"
+                        :
+                        "تحقق من سلة التسوق الخاصة بك"
+                } />
+
+            </Head>
             <div className="flex items-center justify-center gap-2 py-5 px-8 border-b border-gray-300 font-sans rtl:font-arabic">
                 <IoBagHandleOutline className="h-8 w-8 text-gray-900" />
                 <h1 className="text-2xl font-bold text-gray-900 uppercase">

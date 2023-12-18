@@ -29,13 +29,12 @@ import { PiStarFourFill } from "react-icons/pi"
 import { CiDeliveryTruck } from "react-icons/ci"
 import { LiaLuggageCartSolid } from "react-icons/lia";
 import { Button } from "@/shadcn/ui/button";
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import { useToast } from "@/shadcn/ui/use-toast";
 import { useState } from "react";
 import { AiOutlineDelete, AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Order = ({ ...props }) => {
-    console.log(props)
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
     const { t, i18n } = useTranslation()
     const { toast } = useToast()
@@ -107,6 +106,11 @@ const Order = ({ ...props }) => {
     }
     return (
         <>
+            <Head>
+                <title>{t('order_page.title')} #{props?.order?.id}</title>
+                <meta name="description" content={t('order_page.title')} />
+                <meta name="keywords" content={t('order_page.title')} />
+            </Head>
             <div className="container mx-auto">
                 {/* RETURN TO ORDERS */}
                 <div className="flex flex-row justify-start items-center gap-2 my-5 ltr:font-sans rtl:font-arabic">

@@ -1,6 +1,6 @@
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
 
-import { Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { FormEventHandler, useState } from "react";
 
 
@@ -54,8 +54,7 @@ type SelectOption = {
     quantity: string;
 };
 
-const ReceptionForm = ({ ...props }) => {
-    // console.log(props)
+const ReceptionForm = () => {
     const { data, setData, post, processing, errors, reset } = useForm<FormData>({
         name: "",
         quantity: "",
@@ -118,6 +117,11 @@ const ReceptionForm = ({ ...props }) => {
     }
     return (
         <>
+            <Head>
+                <title>
+                    Ajouter une réception
+                </title>
+            </Head>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/dashboard/receptions">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Réceptions</h2>

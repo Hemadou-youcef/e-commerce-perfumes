@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // Inertia Components
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 
 // Main Components
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
@@ -81,6 +81,10 @@ const Contact = ({ ...props }) => {
     }
     return (
         <>
+            <Head>
+                <title>Le Contact</title>
+                <meta name="description" content="Découvrez notre liste de contacts" />
+            </Head>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/dashboard/contacts">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Contacts</h2>

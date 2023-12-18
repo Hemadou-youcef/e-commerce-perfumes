@@ -30,7 +30,7 @@ import { RadioGroup, RadioGroupItem } from "@/shadcn/ui/radio-group"
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
 import { Label } from "@/shadcn/ui/label";
-import { useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaSave } from "react-icons/fa";
 import {
@@ -62,7 +62,6 @@ interface FormData {
     new_password_confirmation: string;
 }
 const ProfileEdit = ({ ...props }) => {
-    console.log(props?.auth?.user);
     const { data, setData, patch, transform, processing, errors, reset } = useForm<FormData>({
         first_name: props?.auth?.user?.first_name,
         last_name: props?.auth?.user?.last_name,
@@ -160,10 +159,19 @@ const ProfileEdit = ({ ...props }) => {
 
     return (
         <>
+            <Head>
+                <title>{t("profile_page.title")}</title>
+                <meta name="description" content={
+                    i18n.language === "fr" ?
+                        "Découvrez votre profile"
+                        :
+                        "تعرف على ملفك الشخصي"
+                } />
+            </Head>
             <div className="flex items-center justify-center gap-5 py-5 px-8 border-b border-gray-300">
                 <CgProfile className="h-12 w-12 text-gray-900" />
                 <h1 className="text-2xl font-bold text-gray-900 uppercase">
-                {t("profile_page.title")}
+                    {t("profile_page.title")}
                 </h1>
             </div>
             <div className="container mx-auto px-5 py-5 font-sans rtl:font-arabic">

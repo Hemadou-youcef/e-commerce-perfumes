@@ -1,6 +1,6 @@
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
 
-import { Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { FormEventHandler, useEffect, useState } from "react";
 
 
@@ -103,7 +103,6 @@ const stepsInformation = [
 ]
 
 const OrdersForm = ({ ...props }) => {
-    console.log(props)
     const [step, setStep] = useState(0);
     const { data, setData, post, patch, processing, errors, reset } = useForm<FormData>({
         products: []
@@ -279,6 +278,10 @@ const OrdersForm = ({ ...props }) => {
 
     return (
         <>
+            <Head>
+                <title>Ajouter un Commande</title>
+                <meta name="description" content="Ajouter un command dans votre base de données" />
+            </Head>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/dashboard/orders">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Commandes</h2>

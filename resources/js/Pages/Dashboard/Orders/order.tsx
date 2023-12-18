@@ -1,7 +1,7 @@
 
 
 // inertia components
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 
 // Layouts
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
@@ -68,8 +68,6 @@ type reservationDataFrame = {
 }
 
 const Order = ({ ...props }) => {
-    console.log(props)
-
     // Order State
     const [order, setOrder] = useState(props?.order)
     const [productSelected, setProductSelected] = useState<any>(null);
@@ -312,6 +310,11 @@ const Order = ({ ...props }) => {
 
     return (
         <>
+            <Head>
+                <title>
+                    CM / {order?.id.toString().padStart(5, "000")}
+                </title>
+            </Head>
             {/* TREE */}
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/dashboard/orders">

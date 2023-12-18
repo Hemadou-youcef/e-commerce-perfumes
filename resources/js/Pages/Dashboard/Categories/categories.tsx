@@ -4,7 +4,7 @@ import { DataTable } from "@/components/tables/data-table"
 import { Input } from "@/shadcn/ui/input";
 import { Button } from "@/shadcn/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shadcn/ui/accordion";
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import Pagination from "@/components/tables/pagination";
 import { IoMdAdd } from "react-icons/io";
 import { CategorieInfo, columns } from "@/components/columns/categories";
@@ -16,7 +16,6 @@ const LoadingComponent = () => (
 );
 
 const Categories = ({ ...props }) => {
-    console.log(props)
     const [data, setData] = useState<CategorieInfo[]>(props?.categories?.data);
     const [search, setSearch] = useState(props?.filters?.q || "");
     const [searchLoading, setSearchLoading] = useState(false);
@@ -32,6 +31,10 @@ const Categories = ({ ...props }) => {
     }
     return (
         <>
+            <Head>
+                <title>Les Categories</title>
+                <meta name="description" content="Découvrez notre liste de categories" />
+            </Head>
             <div className="flex flex-row justify-between items-center px-5 py-2 gap-2 h-14 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
                 <h2 className="text-base md:text-2xl text-gray-900 font-bold tracking-tight">Les Categories</h2>
                 <Link href="/dashboard/categories/create">

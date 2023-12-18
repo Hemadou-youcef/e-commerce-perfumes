@@ -1,5 +1,5 @@
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
-import { Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { FormEventHandler, useState } from "react";
 
 
@@ -52,7 +52,6 @@ interface FormData {
 
 
 const CategoriesForm = ({ ...props }) => {
-    console.log(props)
     const editMode = props?.category ? true : false;
     const { data, setData, post, patch, processing, errors, reset } = useForm<FormData>({
         name: props?.category?.name || "",
@@ -79,6 +78,10 @@ const CategoriesForm = ({ ...props }) => {
     };
     return (
         <>
+            <Head>
+                <title>{editMode ? "Modifier un Categorie" : "Ajouter un Categorie"}</title>
+                <meta name="description" content="Découvrez notre liste de categories" />
+            </Head>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href={route("categories")}>
                     <h2 className="text-xs md:text-lg text-gray-900 font-bold tracking-tight">Les Categories</h2>
@@ -135,6 +138,7 @@ const CategoriesForm = ({ ...props }) => {
                                     <SelectContent>
                                         <SelectItem value="1">Parfum</SelectItem>
                                         <SelectItem value="2">Accessoire</SelectItem>
+                                        <SelectItem value="3">Huile essentielle</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>

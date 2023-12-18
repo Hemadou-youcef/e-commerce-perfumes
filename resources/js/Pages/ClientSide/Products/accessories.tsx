@@ -9,7 +9,7 @@ import {
     SheetTrigger,
 } from "@/shadcn/ui/sheet"
 import Pagination from "@/components/tables/pagination";
-import { router, usePage } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import { useTranslation } from "react-i18next";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Input } from "@/shadcn/ui/input";
@@ -18,7 +18,6 @@ import FiltersOptions from "@/components/Products/filtersOptions";
 
 
 const Accessories = ({ ...props }) => {
-    console.log(props)
     const [data, setData] = useState(props?.products?.data)
     const [categoriesList, setCategoriesList] = useState(props?.categories || []);
 
@@ -84,6 +83,32 @@ const Accessories = ({ ...props }) => {
 
     return (
         <>
+            <Head>
+                <title>
+                    {t("layout.navbar.products") + " | " + t('layout.navbar.accessories')}
+                </title>
+                <meta property="og:title" content={t("layout.navbar.products") + " | " + t('layout.navbar.accessories')} />
+                <meta name="description" content={
+                    i18n.language === "fr"
+                        ? "Explorez la vaste collection de produits de Remah Perfum, allant des parfums exquis aux montres élégantes et bien plus encore. Découvrez la quintessence du raffinement et de la qualité."
+                        : "استكشف مجموعة واسعة من منتجات ريما برفيوم، بدءًا من العطور الرائعة إلى الساعات الأنيقة وأكثر. اكتشف جوهر الترف والجودة."
+                } />
+                <meta name="keywords" content={
+                    i18n.language === "fr"
+                        ? "parfum, montres, accessoires, parfums de luxe, montres élégantes, qualité, passion, élégance, style, senteurs"
+                        : "عطور, ساعات, اكسسوارات, عطور فاخرة, ساعات أنيقة, جودة, شغف, أناقة, أسلوب, روائح"
+                } />
+                <meta property="og:description" content={
+                    i18n.language === "fr"
+                        ? "Explorez la vaste collection de produits de Remah Perfum, allant des parfums exquis aux montres élégantes et bien plus encore. Découvrez la quintessence du raffinement et de la qualité."
+                        : "استكشف مجموعة واسعة من منتجات ريما برفيوم، بدءًا من العطور الرائعة إلى الساعات الأنيقة وأكثر. اكتشف جوهر الترف والجودة."
+                } />
+                <meta property="twitter:description" content={
+                    i18n.language === "fr"
+                        ? "Explorez la vaste collection de produits de Remah Perfum, allant des parfums exquis aux montres élégantes et bien plus encore. Découvrez la quintessence du raffinement et de la qualité."
+                        : "استكشف مجموعة واسعة من منتجات ريما برفيوم، بدءًا من العطور الرائعة إلى الساعات الأنيقة وأكثر. اكتشف جوهر الترف والجودة."
+                } />
+            </Head>
             <div
                 style={{
                     backgroundImage: "url('/image/perfumes-page.jpg')"
@@ -159,12 +184,25 @@ const Accessories = ({ ...props }) => {
                         <span>{loading ? <AiOutlineLoading3Quarters className="h-3 w-3 animate-spin" /> : props?.products?.total}</span>
                         <span>)</span>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-5 justify-items-center">
-                        {data.map((product, index) => (
-                            <Product key={index} product={product} />
-                        ))}
+                    {data.length === 0 ? (
+                        <div className="flex flex-col justify-center mb-5">
+                            <img
+                                src="/image/empty.png"
+                                alt="empty"
+                                className="w-32 md:w-52 mx-auto"
+                            />
+                            <p className="text-gray-800 font-semibold text-sm md:text-lg text-center">
+                                {t("products_page.empty")}
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-5 justify-items-center">
+                            {data.map((product, index) => (
+                                <Product key={index} product={product} />
+                            ))}
 
-                    </div>
+                        </div>
+                    )}
                     <Pagination meta={props?.products} />
                 </div>
             </div>

@@ -5,7 +5,7 @@ import { DataTable } from "@/components/tables/data-table"
 import { Input } from "@/shadcn/ui/input";
 import { Button } from "@/shadcn/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shadcn/ui/accordion";
-import { Link, router, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import Pagination from "@/components/tables/pagination";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
@@ -15,9 +15,6 @@ const LoadingComponent = () => (
 );
 
 const Clients = ({ ...props }) => {
-
-    const prop = usePage();
-    console.log(prop)
     const [data, setData] = useState<ClientsInfo[]>(props?.clients?.data);
     const [showFilters, setShowFilters] = useState(false);
     const [search, setSearch] = useState(props?.filters?.q || "");
@@ -36,6 +33,10 @@ const Clients = ({ ...props }) => {
 
     return (
         <>
+            <Head>
+                <title>Les Clients</title>
+                <meta name="description" content="Découvrez notre liste de clients" />
+            </Head>
             <div className="flex flex-row justify-between items-center px-5 py-2 gap-2 h-14 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
                 <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Clients</h2>
             </div>

@@ -154,7 +154,33 @@ const Product = ({ ...props }) => {
 
     return (
         <>
-            <Head title="Perfurms Online" />
+            <Head>
+                <title>{product?.name}</title>
+                <meta name="description" content={
+                    i18n.language === "fr" ?
+                        product?.description
+                        :
+                        product?.description_ar
+                } />
+                <meta property="og:description" content={
+                    i18n.language === "fr" ?
+                        product?.description
+                        :
+                        product?.description_ar
+                } />
+                <meta property="og:image" content={selectedImage} />
+                <meta property="og:title" content={product?.name} />
+
+                <meta property="twitter:description" content={
+                    i18n.language === "fr" ?
+                        product?.description
+                        :
+                        product?.description_ar
+                } />
+                <meta property="twitter:image" content={selectedImage} />
+                <meta property="twitter:title" content={product?.name} />
+
+            </Head>
             <div className="container mx-auto px-5 pt-2 py-0 bg-white mt-10 font-sans rtl:font-arabic">
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-col md:flex-row justify-center items-start gap-6">

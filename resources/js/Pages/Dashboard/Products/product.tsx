@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 // Inertia Components
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 
 // Main Components
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
@@ -64,7 +64,6 @@ import { Label } from "@/shadcn/ui/label";
 import { Input } from "@/shadcn/ui/input";
 
 const Product = ({ ...props }) => {
-    console.log(props?.product)
     const [product, setProduct] = useState<ProductsInfo | null>(props?.product)
     const [statusLoading, setStatusLoading] = useState<[boolean, number]>([false, -1])
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
@@ -202,6 +201,11 @@ const Product = ({ ...props }) => {
     }
     return (
         <>
+            <Head>
+                <title>
+                    {product?.name}
+                </title>
+            </Head>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/dashboard/products">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Produits</h2>

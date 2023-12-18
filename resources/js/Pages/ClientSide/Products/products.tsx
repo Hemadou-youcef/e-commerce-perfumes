@@ -9,7 +9,7 @@ import { Separator } from "@/shadcn/ui/separator";
 import { Slider } from "@/shadcn/ui/slider";
 import Pagination from "@/components/tables/pagination";
 import { Label } from "@/shadcn/ui/label";
-import { router, usePage } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import { useTranslation } from "react-i18next";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Input } from "@/shadcn/ui/input";
@@ -30,7 +30,6 @@ import FiltersOptions from "@/components/Products/filtersOptions";
 
 
 const Products = ({ ...props }) => {
-    console.log(props)
     const [data, setData] = useState(props?.products?.data)
     const [categoriesList, setCategoriesList] = useState(props?.categories || []);
 
@@ -100,6 +99,28 @@ const Products = ({ ...props }) => {
 
     return (
         <>
+            <Head>
+                <title>
+                    {t("layout.navbar.products") + " | " + t('global.shop')}
+                </title>
+                <meta name="description" content={
+                    i18n.language === "fr"
+                        ? "Explorez la vaste collection de produits de Remah Perfum, allant des parfums exquis aux montres élégantes et bien plus encore. Découvrez la quintessence du raffinement et de la qualité."
+                        : "استكشف مجموعة واسعة من منتجات ريما برفيوم، بدءًا من العطور الرائعة إلى الساعات الأنيقة وأكثر. اكتشف جوهر الترف والجودة."
+                } />
+                <meta  name="keywords" content="perfume, cologne, fragrance, scents, watches, timepieces, luxury watches, elegant watches, men's watches, women's watches, unisex watches, seasonal fragrances, winter scents, summer scents, spring fragrances, fall perfumes, homme, femme, unisexe, bottle design, all-season scents, Remah Perfum, Arabic fragrances" />
+                <meta property="og:description" content={
+                    i18n.language === "fr"
+                        ? "Explorez la vaste collection de produits de Remah Perfum, allant des parfums exquis aux montres élégantes et bien plus encore. Découvrez la quintessence du raffinement et de la qualité."
+                        : "استكشف مجموعة واسعة من منتجات ريما برفيوم، بدءًا من العطور الرائعة إلى الساعات الأنيقة وأكثر. اكتشف جوهر الترف والجودة."
+                } />
+                <meta property="twitter:description" content={
+                    i18n.language === "fr"
+                        ? "Explorez la vaste collection de produits de Remah Perfum, allant des parfums exquis aux montres élégantes et bien plus encore. Découvrez la quintessence du raffinement et de la qualité."
+                        : "استكشف مجموعة واسعة من منتجات ريما برفيوم، بدءًا من العطور الرائعة إلى الساعات الأنيقة وأكثر. اكتشف جوهر الترف والجودة."
+                } />
+                <meta property="og:title" content={t("layout.navbar.products") + " | " + t('global.shop')} />
+            </Head>
             <div className="container grid grid-cols-1 md:grid-cols-12 md:gap-5 mx-auto px-5 pt-2 py-0 bg-white mt-10">
                 {/* FILTER SECTION */}
                 <div className="md:col-span-3 lg:col-span-2 py-0">

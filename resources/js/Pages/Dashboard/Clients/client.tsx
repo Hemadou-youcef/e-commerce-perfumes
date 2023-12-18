@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // Inertia Components
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 
 // Main Components
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
@@ -43,7 +43,6 @@ import { useToast } from "@/shadcn/ui/use-toast";
 import { TbExternalLink } from "react-icons/tb";
 
 const Client = ({ ...props }) => {
-    console.log(props)
     const [client, setClient] = useState(props?.client)
     const [confirmeloading, setConfirmeloading] = useState(false)
     const [deleteloading, setDeleteloading] = useState(false)
@@ -137,6 +136,10 @@ const Client = ({ ...props }) => {
     }
     return (
         <>
+            <Head>
+                <title>Le Client</title>
+                <meta name="description" content="Découvrez notre liste de clients" />
+            </Head>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/dashboard/clients">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Clients</h2>

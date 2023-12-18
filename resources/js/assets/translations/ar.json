@@ -12,7 +12,8 @@
         "error":"حدث خطأ",
         "error_occured":"حدث خطأ ما",
         "error_description":"حدث خطأ ما. يرجى المحاولة مرة أخرى",
-        "top_limit":"الحد الأعلى"
+        "top_limit":"الحد الأعلى",
+        "shop":"المتجر"
     },
     "language":{
         "ar":"العربية",
@@ -65,6 +66,7 @@
             "search":"بحث",
             "for_you_perfumes":"العطور قد تعجبك",
             "for_you_accessories":"الاكسسوارات قد تعجبك",
+            "for_you_oils":"الزيوت العطرية قد تعجبك",
             "payment":"الدفع",
             "on_delivery":"عند التوصيل",
             "delivery":"التوصيل",

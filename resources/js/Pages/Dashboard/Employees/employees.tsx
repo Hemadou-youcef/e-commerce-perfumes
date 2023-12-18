@@ -5,7 +5,7 @@ import { DataTable } from "@/components/tables/data-table"
 import { Input } from "@/shadcn/ui/input";
 import { Button } from "@/shadcn/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shadcn/ui/accordion";
-import { Link } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import Pagination from "@/components/tables/pagination";
 import { IoMdAdd } from "react-icons/io";
 import { Separator } from "@/shadcn/ui/separator";
@@ -15,8 +15,7 @@ const LoadingComponent = () => (
     <div className="container mx-auto py-10">Loading...</div>
 );
 
-const Clients = ({ ...props }) => {
-    console.log(props)
+const Employees = ({ ...props }) => {
     const [admins, setAdmins] = useState<ClientsInfo[]>(props?.admins);
     const [employees, setData] = useState<ClientsInfo[]>(props?.employees?.data);
 
@@ -24,6 +23,11 @@ const Clients = ({ ...props }) => {
 
     return (
         <>
+            <Head>
+                <title>
+                    Les Employees
+                </title>
+            </Head>
             <div className="flex flex-row justify-between items-center px-5 py-2 gap-2 h-14 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
                 <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Employees</h2>
                 <Link href="/dashboard/employees/create">
@@ -72,5 +76,5 @@ const Clients = ({ ...props }) => {
 }
 
 
-Clients.layout = (page: React.ReactNode) => <DashboardMainLayout children={page} />;
-export default Clients;
+Employees.layout = (page: React.ReactNode) => <DashboardMainLayout children={page} />;
+export default Employees;

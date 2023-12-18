@@ -21,13 +21,12 @@ import { useEffect, useState } from "react"
 import { GiSellCard } from "react-icons/gi"
 import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker"
 import { Button } from "@/shadcn/ui/button"
-import { router } from "@inertiajs/react"
+import { Head, router } from "@inertiajs/react"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { CiDeliveryTruck } from "react-icons/ci"
 import { CheckCircledIcon } from "@radix-ui/react-icons"
 
 const DashboardPage = ({ ...props }) => {
-    console.log(props)
     const [data, setData] = useState(props?.data)
     const [date, setDate] = useState<any>(null)
     const [loadingData, setLoadingData] = useState<boolean>(false)
@@ -74,17 +73,10 @@ const DashboardPage = ({ ...props }) => {
 
     return (
         <>
-            {/* <div className="hidden flex-col md:flex"> */}
-            {/* <div className="border-b">
-            <div className="flex h-16 items-center px-4">
-                <TeamSwitcher />
-                <MainNav className="mx-6" />
-                <div className="ml-auto flex items-center space-x-4">
-                <Search />
-                <UserNav />
-                </div>
-            </div>
-            </div> */}
+            <Head>
+                <title>Tableau de bord</title>
+                <meta name="description" content="Découvrez notre tableau de bord" />
+            </Head>
             <div className="flex-1 space-y-4 p-8 pt-6">
                 <div className="flex items-center flex-col md:flex-row justify-between space-y-2">
                     <h2 className="text-base md:text-3xl font-bold tracking-tight">

@@ -69,7 +69,7 @@ const Register = () => {
 
     return (
         <>
-            <Head title="Log in" />
+            <Head title={t('register_page.title')} />
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
             <div className="grid md:grid-cols-2" dir={i18n.dir()}>

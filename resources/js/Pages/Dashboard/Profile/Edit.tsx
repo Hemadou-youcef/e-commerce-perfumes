@@ -7,7 +7,7 @@ import { RadioGroup, RadioGroupItem } from "@/shadcn/ui/radio-group"
 import { Button } from "@/shadcn/ui/button";
 import { Input } from "@/shadcn/ui/input";
 import { Label } from "@/shadcn/ui/label";
-import { useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaSave } from "react-icons/fa";
 import {
@@ -41,7 +41,6 @@ interface FormData {
 }
 
 const Profile = ({ ...props }) => {
-    console.log(props?.auth?.user);
     const { data, setData, patch,transform, processing, errors, reset } = useForm<FormData>({
         first_name: props?.auth?.user?.first_name,
         last_name: props?.auth?.user?.last_name,
@@ -137,6 +136,9 @@ const Profile = ({ ...props }) => {
 
     return (
         <>
+            <Head>
+                <title>Mon Profile</title>
+            </Head>
             <div className="md:container md:mx-auto md:px-5 md:py-5">
                 <form onSubmit={submit} className="w-full">
                     <div className=" border-2 rounded-md grid mx-auto p-0 md:my-5 bg-white gap-5">

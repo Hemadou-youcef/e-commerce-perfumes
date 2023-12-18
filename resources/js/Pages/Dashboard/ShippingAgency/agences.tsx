@@ -5,7 +5,7 @@ import { DataTable } from "@/components/tables/data-table"
 import { Input } from "@/shadcn/ui/input";
 import { Button } from "@/shadcn/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shadcn/ui/accordion";
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import Pagination from "@/components/tables/pagination";
 
 // Icons
@@ -20,7 +20,6 @@ const LoadingComponent = () => (
 );
 
 const Agences = ({ ...props }) => {
-    console.log(props)
     const [data, setData] = useState<ShippingAgenciesInfo[]>(props?.shippingAgencies?.data);
     const [showFilters, setShowFilters] = useState(false);
     const [search, setSearch] = useState(props?.filters?.q || "");
@@ -38,6 +37,11 @@ const Agences = ({ ...props }) => {
 
     return (
         <>
+            <Head>
+                <title>
+                    Les Agences
+                </title>
+            </Head>
             <div className="flex flex-row justify-between items-center px-5 py-2 gap-2 h-14 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
                 <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Agences</h2>
                 <Link href="/dashboard/shipping_agencies/create">

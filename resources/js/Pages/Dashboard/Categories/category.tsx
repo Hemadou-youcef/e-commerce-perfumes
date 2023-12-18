@@ -1,6 +1,6 @@
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
 
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import { useState } from "react";
 
 
@@ -37,7 +37,6 @@ import Pagination from "@/components/tables/pagination";
 
 // Types
 const Category = ({ ...props }) => {
-    console.log(props)
     const [data, setData] = useState(props?.category)
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
 
@@ -73,6 +72,11 @@ const Category = ({ ...props }) => {
     }
     return (
         <>
+            <Head>
+                <title>
+                    les Categories
+                </title>
+            </Head>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/dashboard/categories">
                     <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Categories</h2>

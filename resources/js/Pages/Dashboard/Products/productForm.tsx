@@ -357,6 +357,7 @@ const ProductForm = ({ ...props }) => {
                                     <SelectContent>
                                         <SelectItem value="1">Parfum</SelectItem>
                                         <SelectItem value="2">Accessoire</SelectItem>
+                                        <SelectItem value="3">Huile essentielle</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -679,7 +680,7 @@ const ProductForm = ({ ...props }) => {
                                 </TableHeader>
                                 <TableBody>
 
-                                    {(categories || []).filter((category: any) => category.name.toLowerCase().includes(search.toLowerCase())).map((category: any, index: number) => (
+                                    {(categories || []).filter((category: any) => category.name.toLowerCase().includes(search.toLowerCase()) && category.type === data.type).map((category: any, index: number) => (
                                         <TableRow
                                             key={index}
                                             className={`hover:bg-gray-50 cursor-pointer ${checkBoxSelectedCategory?.id === category.id ? "bg-gray-100" : ""}`}

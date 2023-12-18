@@ -32,7 +32,7 @@ import {
     TabsTrigger,
 } from "@/shadcn/ui/tabs"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shadcn/ui/accordion";
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import Pagination from "@/components/tables/pagination";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
@@ -42,7 +42,6 @@ import { DatePicker } from "@/components/dashboard/date-picker";
 
 
 const Orders = ({ ...props }) => {
-    console.log(props)
     const [data, setData] = useState<OrdersInfo[]>(props?.orders?.data)
     const [showFilters, setShowFilters] = useState(false);
     const [status, setStatus] = useState(props?.filters?.status || "all");
@@ -109,6 +108,10 @@ const Orders = ({ ...props }) => {
     }
     return (
         <div className="">
+            <Head>
+                <title>Les Commandes</title>
+                <meta name="description" content="Découvrez notre liste de commandes" />
+            </Head>
             <div className="flex flex-col md:flex-row justify-between items-center px-5 py-2 gap-2 md:h-14 w-full sticky top-0 bg-gray-50 shadow-sm z-10">
                 <Link href="/dashboard/orders">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Commandes</h2>

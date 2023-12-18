@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next"
 import { CiDeliveryTruck } from "react-icons/ci"
 import Pagination from "@/components/tables/pagination";
 import { LiaLuggageCartSolid } from "react-icons/lia";
+import { Head } from "@inertiajs/react";
 
 type OrdersInfo = {
     id: number;
@@ -23,7 +24,6 @@ type OrdersInfo = {
 }
 
 const Orders = ({ ...props }) => {
-    console.log(props)
     const [data, setData] = useState(props?.orders?.data)
     const { t, i18n } = useTranslation()
 
@@ -131,6 +131,16 @@ const Orders = ({ ...props }) => {
 
     return (
         <>
+            <Head>
+                <title>{t('orders_page.title')}</title>
+                <meta name="description" content={
+                    i18n.language === "fr" ?
+                        "Consultez vos commandes"
+                        :
+                        "تحقق من طلباتك"
+                } />
+                <meta name="keywords" content="orders, commandes, consulter vos commandes, check your orders" />
+            </Head>
             <div className="flex items-center justify-center gap-5 py-5 px-8 border-b border-gray-300 font-sans rtl:font-arabic">
                 <LiaLuggageCartSolid className="h-8 w-8 text-gray-900" />
                 <h1 className="text-2xl font-bold text-gray-900 uppercase">

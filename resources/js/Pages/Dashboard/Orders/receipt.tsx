@@ -46,25 +46,6 @@ const PrintOrder = ({ ...props }) => {
 
     return (
         <>
-            {/* <div className="container w-full py-10 relative">
-                <div
-                    className="w-full flex items-center gap-2"
-                >
-                    <Button
-                        onClick={() => router.get(route("order", order.id))}
-                        className="bg-gray-900 text-white px-5 py-2 rounded-md shadow-md hover:bg-gray-800">
-                        <FaAngleLeft className="text-xl" />
-                        Retour
-                    </Button>
-                    <Button
-                        onClick={() => pageToBePrinted.current?.print()}
-                        className="bg-gray-900 text-white px-5 py-2 rounded-md shadow-md hover:bg-gray-800"
-                    >
-                        Imprimer
-                        <IoMdPrint className="text-xl ml-2" />
-                    </Button>
-                </div>
-            </div> */}
             <div className={`container w-full py-10 relative`}>
                 <h1 className="text-3xl text-center font-medium mb-5">
                     REÇU

@@ -1,6 +1,6 @@
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
 
-import { Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { FormEventHandler, useState } from "react";
 
 
@@ -59,7 +59,6 @@ interface FormData {
 
 
 const EmployeesForm = ({ ...props }) => {
-    console.log(props)
     const editMode = props?.employee ? true : false;
     const { data, setData, post, patch, transform, processing, errors, reset } = useForm<FormData>({
         first_name: props?.employee?.first_name || "",
@@ -103,6 +102,11 @@ const EmployeesForm = ({ ...props }) => {
     };
     return (
         <>
+            <Head>
+                <title>
+                    {editMode ? "Modifier un Employé" : "Ajouter un Employé"}
+                </title>
+            </Head>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/dashboard/employees">
                     <h2 className="text-sm md:text-lg text-gray-900 font-bold tracking-tight">Les Employés</h2>

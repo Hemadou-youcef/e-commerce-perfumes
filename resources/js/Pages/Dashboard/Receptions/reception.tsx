@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 // Inertia Components
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 
 // Main Components
 import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
@@ -42,7 +42,6 @@ import { useToast } from "@/shadcn/ui/use-toast";
 
 
 const Reception = ({ ...props }) => {
-    console.log(props?.reception)
     const [reception, setReception] = useState<ReceptionInfo | null>(props?.reception)
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
 
@@ -110,6 +109,11 @@ const Reception = ({ ...props }) => {
     }
     return (
         <>
+            <Head>
+                <title>
+                    {reception?.name}
+                </title>
+            </Head>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
                 <Link href="/dashboard/receptions">
                     <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Réceptions</h2>
