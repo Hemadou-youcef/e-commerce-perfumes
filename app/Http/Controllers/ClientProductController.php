@@ -36,7 +36,7 @@ class ClientProductController extends Controller
 
     public function oils(): Response
     {
-        return $this->getResponse(Product::oils(), Category::oilsCategories()->get() , 'ClientSide/Products/oils');
+        return $this->getResponse(Product::oils(), Category::oilsCategories()->get() , 'ClientSide/Products/aromaticOils');
     }
 
     /**

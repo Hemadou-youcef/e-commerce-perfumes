@@ -14,13 +14,13 @@ import { Slider } from "@/shadcn/ui/slider";
 import { BsSnow2, BsSunFill } from "react-icons/bs";
 import { FaCanadianMapleLeaf, FaLeaf } from "react-icons/fa";
 import { WiDayHaze } from "react-icons/wi";
-import { GiNightSleep } from "react-icons/gi";
+import { GiNightSleep, GiWorld } from "react-icons/gi";
 import { Button } from "@/shadcn/ui/button";
 import { IoMdOptions } from "react-icons/io";
 import { Input } from "@/shadcn/ui/input";
 import { useState } from "react";
 
-const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsedCategories, setCategories, minMaxPrice, setMinMaxPrice }: any) => {
+const FiltersOptions = ({ type = "all", categoriesList, categories, alreadyUsedCategories, setCategories, minMaxPrice, setMinMaxPrice }: any) => {
     const [minMaxPriceLocal, setMinMaxPriceLocal] = useState<(string | undefined)[]>([undefined, undefined]);
 
     const { t, i18n } = useTranslation()
@@ -28,10 +28,10 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
     return (
         <div className="md:w-full flex flex-col items-start justify-start gap-5 font-sans rtl:font-arabic ">
             <div className="w-full flex flex-col items-start justify-start gap-5">
-                <p className="text-gray-800 font-semibold text-sm md:text-xl">
+                <p className="text-gray-800 font-semibold text-base md:text-xl">
                     {t("products_page.categories")}
                 </p>
-                {(type === "both" || type === "perfumes") && (
+                {(type === "all" || type === "perfumes") && (
                     <div className="flex flex-col items-start justify-start gap-2">
                         <p className="text-gray-800 font-semibold text-sm md:text-lg ltr:pl-2 rtl:pr-2">
                             {t('products_page.perfumes')}
@@ -93,7 +93,69 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                         </div>
                     </div>
                 )}
-                {(type === "both" || type === "accessories") && (
+                {(type === "all" || type === "aromatic_oils") && (
+                    <div className="flex flex-col items-start justify-start gap-2">
+                        <p className="text-gray-800 font-semibold text-sm md:text-lg ltr:pl-2 rtl:pr-2">
+                            {t('products_page.aromatic_oils')}
+                        </p>
+                        <div className="flex justify-center font-semibold items-center gap-2 ltr:pl-6 rtl:pr-6">
+                            <Checkbox id="homme"
+                                className="rounded-none"
+                                onCheckedChange={(checked) => {
+                                    if (checked) {
+                                        setCategories((data) => [...data, "homme"])
+                                    } else {
+                                        setCategories((data) => data?.filter((item) => item !== "homme"));
+                                    }
+                                }}
+                                checked={categories?.includes("homme") ? true : false} />
+
+                            <Label
+                                htmlFor="homme"
+                                className="text-sm md:text-lg cursor-pointer"
+                            >
+                                {t("categories.male")}
+                            </Label>
+                        </div>
+                        <div className="flex justify-center font-semibold items-center gap-2 ltr:pl-6 rtl:pr-6">
+                            <Checkbox id="femme"
+                                className="rounded-none"
+                                onCheckedChange={(checked) => {
+                                    if (checked) {
+                                        setCategories((data) => [...data, "femme"])
+                                    } else {
+                                        setCategories((data) => data?.filter((item) => item !== "femme"));
+                                    }
+                                }}
+                                checked={categories?.includes("femme") ? true : false} />
+                            <Label
+                                htmlFor="femme"
+                                className="text-sm md:text-lg cursor-pointer"
+                            >
+                                {t("categories.female")}
+                            </Label>
+                        </div>
+                        <div className="flex justify-center font-semibold items-center gap-2 ltr:pl-6 rtl:pr-6">
+                            <Checkbox id="unisexe"
+                                className="rounded-none"
+                                onCheckedChange={(checked) => {
+                                    if (checked) {
+                                        setCategories((data) => [...data, "unisexe"])
+                                    } else {
+                                        setCategories((data) => data?.filter((item) => item !== "unisexe"));
+                                    }
+                                }}
+                                checked={categories?.includes("unisexe") ? true : false} />
+                            <Label
+                                htmlFor="unisexe"
+                                className="text-sm md:text-lg cursor-pointer"
+                            >
+                                {t("categories.unisex")}
+                            </Label>
+                        </div>
+                    </div>
+                )}
+                {(type === "all" || type === "accessories") && (
                     <div className="flex flex-col justify-start items-start gap-2">
                         <p className="text-gray-800 font-semibold text-sm md:text-lg ltr:pl-2 rtl:pr-2">
                             {t('products_page.accessories')}
@@ -116,7 +178,64 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                                 {t('categories.bottle')}
                             </Label>
                         </div>
+                        {/* بخارات */}
+                        <div className="flex justify-center font-semibold items-center gap-2  ltr:pl-6 rtl:pr-6">
+                            <Checkbox id="vapeurs"
+                                className="rounded-none"
+                                onCheckedChange={(checked) => {
+                                    if (checked) {
+                                        setCategories((data) => [...data, "vapeurs"])
+                                    } else {
+                                        setCategories((data) => data?.filter((item) => item !== "vapeurs"));
+                                    }
+                                }}
+                                checked={categories?.includes("vapeurs") ? true : false} />
+                            <Label
+                                htmlFor="vapeurs"
+                                className="text-sm md:text-lg cursor-pointer"
+                            >
+                                {t('categories.vapors')}
+                            </Label>
+                        </div>
 
+                        {/* الساعات */}
+                        <div className="flex justify-center font-semibold items-center gap-2  ltr:pl-6 rtl:pr-6">
+                            <Checkbox id="montres"
+                                className="rounded-none"
+                                onCheckedChange={(checked) => {
+                                    if (checked) {
+                                        setCategories((data) => [...data, "montres"])
+                                    } else {
+                                        setCategories((data) => data?.filter((item) => item !== "montres"));
+                                    }
+                                }}
+                                checked={categories?.includes("montres") ? true : false} />
+                            <Label
+                                htmlFor="montres"
+                                className="text-sm md:text-lg cursor-pointer"
+                            >
+                                {t('categories.watches')}
+                            </Label>
+                        </div>
+                        {/* نظارات */}
+                        <div className="flex justify-center font-semibold items-center gap-2  ltr:pl-6 rtl:pr-6">
+                            <Checkbox id="lunettes"
+                                className="rounded-none"
+                                onCheckedChange={(checked) => {
+                                    if (checked) {
+                                        setCategories((data) => [...data, "lunettes"])
+                                    } else {
+                                        setCategories((data) => data?.filter((item) => item !== "lunettes"));
+                                    }
+                                }}
+                                checked={categories?.includes("lunettes") ? true : false} />
+                            <Label
+                                htmlFor="lunettes"
+                                className="text-sm md:text-lg cursor-pointer"
+                            >
+                                {t('categories.glasses')}
+                            </Label>
+                        </div>
                     </div>
                 )}
 
@@ -128,7 +247,7 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                     {t("products_page.price")}
                 </p>
                 <div className="text-sm md:text-base flex justify-center font-semibold items-center gap-2 pl-2 mb-3">
-                    {minMaxPriceLocal[0]? minMaxPriceLocal[0] : 0} - {minMaxPriceLocal[1]? minMaxPriceLocal[1] : t("global.top_limit")} {t("global.da")}
+                    {minMaxPriceLocal[0] ? minMaxPriceLocal[0] : 0} - {minMaxPriceLocal[1] ? minMaxPriceLocal[1] : t("global.top_limit")} {t("global.da")}
                 </div>
                 {/* <Slider
                     defaultValue={[0, 1000]}
@@ -165,6 +284,26 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                 <p className="text-gray-800 font-semibold text-sm md:text-xl">
                     {t("products_page.seasons")}
                 </p>
+                {/* ALL THE SESIONS */}
+                <div className="flex justify-start font-semibold items-center gap-2 ltr:pl-2 rtl:pr-2">
+                    <Checkbox id="all_seasons"
+                        className="rounded-none"
+                        onCheckedChange={(checked) => {
+                            if (checked) {
+                                setCategories((data) => [...data, "toutes_saisons"])
+                            } else {
+                                setCategories((data) => data?.filter((item) => item !== "toutes_saisons"));
+                            }
+                        }}
+                        checked={categories?.includes("toutes_saisons") ? true : false} />
+                    <GiWorld className="w-5 h-5" />
+                    <Label
+                        htmlFor="all_seasons"
+                        className="text-sm md:text-lg cursor-pointer"
+                    >
+                        {t("categories.all_seasons")}
+                    </Label>
+                </div>
                 <div className="flex justify-start font-semibold items-center gap-2 ltr:pl-2 rtl:pr-2">
                     <Checkbox id="hiver"
                         className="rounded-none"
@@ -247,7 +386,7 @@ const FiltersOptions = ({ type = "both", categoriesList, categories, alreadyUsed
                 <p className="text-gray-800 font-semibold text-sm md:text-xl">
                     {t("products_page.labels")}
                 </p>
-                <div className="w-full flex flex-col justify-start overflow-y-auto max-h-96 py-2">
+                <div className="w-full flex flex-col justify-start overflow-y-auto max-h-96 py-2 pb-10 md:pb-2">
                     {categoriesList.filter((category) => !alreadyUsedCategories.includes(category.name.toLowerCase())).map((category, index) => (
                         <div key={index} className="flex justify-start font-semibold items-center gap-2 ltr:pl-2 rtl:pr-2">
                             <Checkbox id={category.name}

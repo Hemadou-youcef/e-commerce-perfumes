@@ -43,6 +43,12 @@ const LandingMainLayout = ({ children, ...props }) => {
                             {t('layout.navbar.perfumes')}
                         </Link>
                         <Link
+                            href="/products/aromatic_oils"
+                            className="text-base font-medium transition-colors hover:text-gray-400"
+                        >
+                            {t('layout.navbar.aromatic_oils')}
+                        </Link>
+                        <Link
                             href="/products/accessories"
                             className="text-base font-medium transition-colors hover:text-gray-400"
                         >

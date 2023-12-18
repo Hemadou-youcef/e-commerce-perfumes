@@ -113,6 +113,12 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                             {/* Parfums */}
                         </p>
                     </Link>
+                    <Link href="/products/aromatic_oils" onClick={() => setNavbarOpen(false)}>
+                        <p>
+                            {t('layout.navbar.aromatic_oils')}
+                            {/* Huiles */}
+                        </p>
+                    </Link>
                     <Link href="/products/accessories" onClick={() => setNavbarOpen(false)}>
                         <p>
                             {t('layout.navbar.accessories')}

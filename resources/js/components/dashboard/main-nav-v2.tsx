@@ -17,7 +17,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/shadcn/ui/collapsible"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { MdCategory, MdMailOutline } from "react-icons/md";
@@ -31,6 +31,11 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
   const { height, width } = useWindowDimensions();
   const [currentTab, setCurrentTab] = useState("basic");
   const [collapsedStateList, setCollapsedStateList] = useState([true, true, true])
+  useEffect(() => {
+    if (width > 768) {
+      setNav(true)
+    }
+  }, [])
   return (
     <>
       <div className={`flex flex-row fixed h-screen bg-white border-b shadow-md z-10 ${showNav ? "w-[50px] md:w-[270px]" : "w-[50px]"} transition-all duration-300`}>

@@ -14,7 +14,7 @@ import { Toaster } from "@/shadcn/ui/toaster"
 
 const DashboardMainLayout = ({ children }: { children: React.ReactNode }) => {
     const pageProps = usePage().props
-    const [showNav, setShowNav] = useState(true);
+    const [showNav, setShowNav] = useState(false);
     return (
         <>
             <div className="flex h-[calc(100dvh)]">

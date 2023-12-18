@@ -19,7 +19,7 @@ const LandingFooter = () => {
         if (value) {
             i18n.changeLanguage(value);
             localStorage.setItem("language", value);
-            router.reload();
+            window.location.reload();
         }
     }
     return (

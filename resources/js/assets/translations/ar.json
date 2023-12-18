@@ -32,10 +32,14 @@
         "male": "لذكور",
         "female": "لإناث",
         "unisex": "للجنسين",
+        "all_seasons": "لجميع الفصول",
         "winter": "لشتاء",
         "summer": "لصيف",
         "autumn": "للخريف",
-        "spring": "لربيع"
+        "spring": "لربيع",
+        "watches": "الساعات",
+        "vapors":"البخارات",
+        "glasses":"النظارات"
     },
     "layout":{
         "navbar":{
@@ -67,7 +71,8 @@
             "58_wilayas":"58 ولاية",
             "support":"خدمة العميل",
             "listening":"في الإستماع",
-            "no_products":"فارغة"
+            "no_products":"فارغة",
+            "aromatic_oils":"الزيوت العطرية"
         },
         "pagination":{
             "previous":"السابق",
@@ -106,6 +111,7 @@
         "products":"المنتجات",
         "categories":"الاقسام",
         "perfumes":"العطور",
+        "aromatic_oils":"الزيوت العطرية",
         "accessories":"الاكسسوارات",
         "price":"السعر",
         "empty_products":"لا يوجد منتجات في هذا القسم!",

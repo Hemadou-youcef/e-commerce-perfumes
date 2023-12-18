@@ -170,7 +170,7 @@ const Agence = ({ ...props }) => {
                     {/* ACTIONS */}
 
                     <div className="flex justify-end gap-2">
-                        {agence?.active === 1 && (
+                        {[3, 4].includes(props?.auth?.user?.role) && agence?.active === 1 && (
                             <Button
                                 variant="outline"
                                 className="group p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
@@ -180,7 +180,7 @@ const Agence = ({ ...props }) => {
                                 {statusLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <FaPowerOff className="text-2xl text-red-500" />}
                             </Button>
                         )}
-                        {agence?.active === 0 && (
+                        {[3, 4].includes(props?.auth?.user?.role) && agence?.active === 0 && (
                             <Button
                                 variant="outline"
                                 className="group p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
@@ -249,10 +249,27 @@ const Agence = ({ ...props }) => {
 
                     </div>
                 </div>
-                
-                
+
+
                 <Separator className="" />
                 <div className="flex flex-col gap-4 py-5 px-5 ">
+                    <div className="flex flex-row justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium w-40 text-gray-800">Status :</h1>
+                        <div className="flex flex-row justify-start items-center gap-2">
+                            {agence?.active === 1 && (
+                                <div className="flex items-center gap-2 rounded-full bg-green-100 px-2 py-1">
+                                    <FaPowerOff className="text-green-500 text-xl" />
+                                    <p className="text-sm font-bold text-green-500">Active</p>
+                                </div>
+                            )}
+                            {agence?.active === 0 && (
+                                <div className="flex items-center gap-2 rounded-full bg-red-100 px-2 py-1">
+                                    <FaPowerOff className="text-red-500 text-xl" />
+                                    <p className="text-sm font-bold text-red-500">Désactivé</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                     <div className="flex flex-row justify-start items-center gap-2">
                         <h1 className="text-sm font-medium w-40 text-gray-800">Date De Création :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
@@ -287,16 +304,18 @@ const Agence = ({ ...props }) => {
                                                 <TableCell className="font-bold text-xs">{tarif?.home_delivery_price} DA</TableCell>
                                                 <TableCell className="font-bold text-xs">{tarif?.agency_delivery_price} DA</TableCell>
                                                 <TableCell className="font-bold text-xs">
-                                                    <Button
-                                                        variant="outline"
-                                                        className="text-xs text-gray-900 hover:text-gray-700 border-0 hover:bg-transparent"
-                                                        onClick={() => {
-                                                            setCurrentTarif(tarif)
-                                                            setShowEditTarif(true)
-                                                        }}
-                                                    >
-                                                        <MdEdit className="h-5 w-5" />
-                                                    </Button>
+                                                    {[3, 4].includes(props?.auth?.user?.role) && (
+                                                        <Button
+                                                            variant="outline"
+                                                            className="text-xs text-gray-900 hover:text-gray-700 border-0 hover:bg-transparent"
+                                                            onClick={() => {
+                                                                setCurrentTarif(tarif)
+                                                                setShowEditTarif(true)
+                                                            }}
+                                                        >
+                                                            <MdEdit className="h-5 w-5" />
+                                                        </Button>
+                                                    )}
                                                 </TableCell>
                                             </TableRow>
                                         ))}
