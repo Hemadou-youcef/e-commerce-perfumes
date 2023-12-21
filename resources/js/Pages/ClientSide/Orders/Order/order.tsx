@@ -107,7 +107,7 @@ const Order = ({ ...props }) => {
     return (
         <>
             <Head>
-                <title>{t('order_page.title')} #{props?.order?.id}</title>
+                <title>{t('order_page.site_title')}</title>
                 <meta name="description" content={t('order_page.title')} />
                 <meta name="keywords" content={t('order_page.title')} />
             </Head>
@@ -128,7 +128,7 @@ const Order = ({ ...props }) => {
                     </div>
                     {props?.order?.status === "pending" && (
                         <AlertDialog>
-                            <AlertDialogTrigger>
+                            <AlertDialogTrigger >
                                 <Button variant="outline" className="text-sm font-medium text-red-500 hover:text-red-400 transition-colors gap-2 flex justify-center items-center">
                                     {deleteLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
                                     {t('order_page.cancel_order')}

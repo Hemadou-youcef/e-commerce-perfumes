@@ -196,6 +196,7 @@
         "product": "Produit"
     },
     "order_page":{
+        "site_title": "Ma commande - Rumah Perfum",
         "order": "Commande",
         "order_date": "Date de la commande",
         "total_price": "Prix total",

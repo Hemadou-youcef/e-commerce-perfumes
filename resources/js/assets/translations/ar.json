@@ -201,6 +201,7 @@
         "product": "المنتج"
     },
     "order_page":{
+        "site_title": "طلبي - متجر العطور",
         "order": "الطلب",
         "order_date": "تاريخ الطلب",
         "total_price": "السعر الكلي",
