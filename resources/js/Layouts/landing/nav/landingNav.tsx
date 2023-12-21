@@ -31,8 +31,7 @@ import { FaLuggageCart } from "react-icons/fa";
 import { LiaLuggageCartSolid } from "react-icons/lia";
 
 
-const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
-
+const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
     const searchInput = useRef<HTMLInputElement>(null);
     const [search, setSearch] = useState("");
     const [searchLoading, setSearchLoading] = useState(false);
@@ -48,10 +47,8 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
     const isEmployee = () => {
         return props?.auth?.user?.role == 2 || props?.auth?.user?.role == 3
     }
-    const logout = () => {
-        router.post(route('logout'))
-    }
 
+    
     const handleSearch = (search: string) => {
         setSearchLoading(true);
         router.get("/products?q=" + search, {}, {
@@ -101,60 +98,60 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                 </div>
 
                 <div className="flex flex-col items-center text-white text-lg font-medium uppercase gap-3 mx-5 ltr:font-sans rtl:font-arabic">
-                    <Link href="/products" onClick={() => setNavbarOpen(false)}>
+                    <div onClick={() => handleVisit("/products")} className="cursor-pointer">
                         <p>
                             {t('layout.navbar.products')}
                             {/* Produits */}
                         </p>
-                    </Link>
-                    <Link href="/products/perfumes" onClick={() => setNavbarOpen(false)}>
+                    </div>
+                    <div onClick={() => handleVisit("/products/perfumes")} className="cursor-pointer">
                         <p>
                             {t('layout.navbar.perfumes')}
                             {/* Parfums */}
                         </p>
-                    </Link>
-                    <Link href="/products/aromatic_oils" onClick={() => setNavbarOpen(false)}>
+                    </div>
+                    <div onClick={() => handleVisit("/products/aromatic_oils")} className="cursor-pointer">
                         <p>
                             {t('layout.navbar.aromatic_oils')}
                             {/* Huiles */}
                         </p>
-                    </Link>
-                    <Link href="/products/accessories" onClick={() => setNavbarOpen(false)}>
+                    </div>
+                    <div onClick={() => handleVisit("/products/accessories")} className="cursor-pointer">
                         <p>
                             {t('layout.navbar.accessories')}
                             {/* Accessoires */}
                         </p>
-                    </Link>
-                    <Link href="/contact-us" onClick={() => setNavbarOpen(false)}>
+                    </div>
+                    <div onClick={() => handleVisit("/contact-us")} className="cursor-pointer">
                         <p>
                             {t('layout.navbar.contact')}
                             {/* Contact */}
                         </p>
-                    </Link>
-                    <Link href="/about" onClick={() => setNavbarOpen(false)}>
+                    </div>
+                    <div onClick={() => handleVisit("/about")} className="cursor-pointer">
                         <p>
                             {t('layout.navbar.about')}
                             {/* A propos */}
                         </p>
-                    </Link>
+                    </div>
                 </div>
             </div>
             <div className="block md:hidden">
 
                 <div dir='ltr' className="fixed bottom-0 left-0 w-full h-14 bg-white z-10 flex items-center justify-around p-2 border-t shadow-md"
                 >
-                    {(!isLogged() || isEmployee()) && <Link href="/">
+                    {(!isLogged() || isEmployee()) && <div onClick={()=>handleVisit("/")} className="cursor-pointer">
                         <AiOutlineHome className="w-6 h-full text-primary" />
-                    </Link>}
-                    <Link href="/products">
+                    </div>}
+                    <div onClick={()=>handleVisit("/products")} className="cursor-pointer">
                         <TbPerfume className="w-6 h-full text-primary" />
-                    </Link>
-                    {isClient() && <Link href="/cart">
+                    </div>
+                    {isClient() && <div onClick={()=>handleVisit("/cart")} className="cursor-pointer">
                         <HiOutlineShoppingBag className="w-6 h-6 text-primary" />
-                    </Link>}
-                    {isClient() && <Link href="/orders">
+                    </div>}
+                    {isClient() && <div onClick={()=>handleVisit("/orders")} className="cursor-pointer">
                         <LiaLuggageCartSolid className="w-7 h-7 text-primary" />
-                    </Link>}
+                    </div>}
                     <Button
                         variant="outline"
                         onClick={() => {
@@ -166,24 +163,24 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                     >
                         <AiOutlineSearch className="w-6 h-6 text-primary" />
                     </Button>
-                    {isClient() && <Link href="/bookmarks">
+                    {isClient() && <div onClick={()=>handleVisit("/bookmarks")} className="cursor-pointer">
                         <TbBookmark className="w-6 h-6 text-primary" />
-                    </Link>}
-                    {isClient() && <Link href="/profile">
+                    </div>}
+                    {isClient() && <div onClick={()=>handleVisit("/profile")} className="cursor-pointer">
                         <CgProfile className="w-5 h-5 text-primary" />
-                    </Link>}
-                    {isEmployee() && <Link href="/dashboard">
+                    </div>}
+                    {isEmployee() && <div onClick={()=>handleVisit("/dashboard")} className="cursor-pointer">
                         <MdOutlineDashboard className="w-6 h-6 text-primary" />
-                    </Link>}
-                    {isLogged() && <Link href="/logout" method="post">
+                    </div>}
+                    {isLogged() && <div onClick={()=>handleVisit("/logout", "post")} className="cursor-pointer">
                         <BiLogOut className="w-6 h-6 text-primary" />
-                    </Link>}
-                    {!isLogged() && <Link href="/register">
+                    </div>}
+                    {!isLogged() && <div onClick={()=>handleVisit("/register")} className="cursor-pointer">
                         <BsPersonAdd className="w-6 h-6 text-primary" />
-                    </Link>}
-                    {!isLogged() && <Link href="/login">
+                    </div>}
+                    {!isLogged() && <div onClick={()=>handleVisit("/login")} className="cursor-pointer">
                         <BiLogIn className="w-6 h-6 text-primary" />
-                    </Link>}
+                    </div>}
                 </div>
             </div>
             <div className="container w-full h-16 hidden md:flex justify-between items-center py-3 pl-3 pr-2 md:px-5 ">
@@ -214,98 +211,97 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen }) => {
                     {/* IF LOGGED IN */}
                     {props?.auth?.user !== null && <div className="flex items-center gap-3 text-third">
                         {[2, 3, 4].includes(props?.auth?.user?.role) ? (
-                            <Link
-                                href="/dashboard"
-                                className="flex flex-col items-center group gap-1"
+                            <div
+                                onClick={() => handleVisit("/dashboard")}
+                                className="flex flex-col items-center group gap-1 cursor-pointer"
                             >
                                 <MdOutlineDashboard className="w-5 h-5 text-white group-hover:text-gray-400" />
                                 <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                     {t('layout.navbar.dashboard')}
                                     {/* Tableau de bord */}
                                 </p>
-                            </Link>
+                            </div>
                         ) : (
                             <div className="flex items-center gap-5 ">
-                                <Link
-                                    href="/cart"
-                                    className="flex flex-col items-center group gap-1"
+                                <div
+                                    onClick={() => handleVisit("/cart")}
+                                    className="flex flex-col items-center group gap-1 cursor-pointer"
                                 >
                                     <HiOutlineShoppingBag className="w-5 h-5 text-white group-hover:text-gray-400" />
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                         {t('layout.navbar.cart')}
                                         {/* panier */}
                                     </p>
-                                </Link>
-                                <Link
-                                    href="/orders"
-                                    className="flex flex-col items-center group gap-1"
+                                </div>
+                                <div
+                                    onClick={() => handleVisit("/orders")}
+                                    className="flex flex-col items-center group gap-1 cursor-pointer"
                                 >
                                     <FaLuggageCart className="w-5 h-5 text-white group-hover:text-gray-400" />
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                         {t('layout.navbar.orders')}
                                         {/* mes commandes */}
                                     </p>
-                                </Link>
-                                <Link
-                                    href="/bookmarks"
-                                    className="flex flex-col items-center group gap-1"
+                                </div>
+                                <div
+                                    onClick={() => handleVisit("/bookmarks")}
+                                    className="flex flex-col items-center group gap-1 cursor-pointer"
                                 >
                                     <TbBookmark className="w-5 h-5 text-white group-hover:text-gray-400" />
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                         {t('layout.navbar.bookmarks')}
                                         {/* signet */}
                                     </p>
-                                </Link>
-                                <Link
-                                    href="/profile"
-                                    className="flex flex-col items-center group gap-1"
+                                </div>
+                                <div
+                                    onClick={() => handleVisit("/profile")}
+                                    className="flex flex-col items-center group gap-1 cursor-pointer"
                                 >
                                     <CgProfile className="w-5 h-5 text-white group-hover:text-gray-400" />
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                         {t('layout.navbar.profile')}
                                         {/* mon compte */}
                                     </p>
-                                </Link>
+                                </div>
                             </div>
                         )}
                         {/* LOG OUT */}
-                        <Link
-                            href="/logout"
-                            method="post"
-                            className="flex flex-col items-center group gap-1"
+                        <div
+                            onClick={() => handleVisit("/logout", "post")}
+                            className="flex flex-col items-center group gap-1 cursor-pointer"
                         >
                             <MdOutlineLogout className="w-5 h-5 text-white group-hover:text-gray-400" />
                             <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                 {t('layout.navbar.logout')}
                                 {/* Déconnexion */}
                             </p>
-                        </Link>
+                        </div>
 
                     </div>}
 
 
                     {/* IF NOT LOGGED IN */}
                     {props?.auth?.user === null && <div className="flex items-center gap-3 text-third">
-                        <Link
-                            href="/register"
-                            className="flex flex-col items-center group gap-1"
+                    <div
+                            onClick={() => handleVisit("/register")}
+                            className="flex flex-col items-center group gap-1 cursor-pointer"
                         >
                             <IoPersonAddOutline className="w-5 h-5 text-white group-hover:text-gray-400" />
                             <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                 {t('layout.navbar.register')}
                                 {/* S'inscrire */}
                             </p>
-                        </Link>
-                        <Link
-                            href="/login"
-                            className="flex flex-col items-center group gap-1"
+                        </div>
+                        <div
+                            onClick={() => handleVisit("/login")}
+                            className="flex flex-col items-center group gap-1 cursor-pointer"
                         >
                             <MdOutlineLogout className="w-5 h-5 text-white group-hover:text-gray-400" />
                             <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                 {t('layout.navbar.login')}
                                 {/* Se connecter */}
                             </p>
-                        </Link>
+                        </div>
 
                     </div>}
                     {/* <Select>

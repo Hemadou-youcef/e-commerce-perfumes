@@ -33,7 +33,7 @@ const Login = () => {
         remember: false,
     });
 
-    const { t,i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -48,8 +48,8 @@ const Login = () => {
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
             <div className="grid md:grid-cols-2" dir={i18n.dir()}>
-                <div className="hidden md:block w-full h-screen bg-second">
-
+                <div className="relative hidden md:flex w-full h-screen bg-forth text-third flex-col justify-center items-center gap-5 ltr:font-sans rtl:font-arabic">
+                    <img src="/image/logo.jpg" className="rumah_icon_animation w-96" />
                 </div>
                 <div className="w-full  h-screen overflow-auto ltr:font-sans rtl:font-arabic">
                     <Link href="/" className="flex flex-row items-center gap-2 p-5 group">
@@ -82,7 +82,7 @@ const Login = () => {
                                     <Label htmlFor="password">
                                         {t('login_page.password')}
                                     </Label>
-                                    <Input id="password" type="password" placeholder={t('login_page.password')}className="w-full h-9 focus-visible:ring-transparent"
+                                    <Input id="password" type="password" placeholder={t('login_page.password')} className="w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('password', e.target.value)}
                                     />
                                     {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}

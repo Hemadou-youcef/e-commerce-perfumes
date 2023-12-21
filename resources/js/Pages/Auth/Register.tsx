@@ -73,8 +73,8 @@ const Register = () => {
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
             <div className="grid md:grid-cols-2" dir={i18n.dir()}>
-                <div className="hidden md:block w-full h-screen bg-second">
-
+                <div className="hidden md:flex w-full h-screen bg-forth text-third flex-col justify-center items-center gap-5 ltr:font-sans rtl:font-arabic">
+                    <img src="/image/logo.jpg" className="w-96" />
                 </div>
                 <div className="w-full h-screen overflow-y-auto ltr:font-sans rtl:font-arabic">
                     <Link href="/" className="flex flex-row items-center gap-2 p-5 group">
@@ -98,7 +98,7 @@ const Register = () => {
                                         <Label htmlFor="first_name" className="text-xs md:text-sm">
                                             {t('register_page.first_name')}
                                         </Label>
-                                        <Input id="first_name"  type="first_name" placeholder={t('register_page.first_name')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
+                                        <Input id="first_name" type="first_name" placeholder={t('register_page.first_name')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                             onChange={(e) => setData('first_name', e.target.value)}
                                         />
                                     </div>
@@ -106,7 +106,7 @@ const Register = () => {
                                         <Label htmlFor="last_name" className="text-xs md:text-sm">
                                             {t('register_page.last_name')}
                                         </Label>
-                                        <Input id="last_name"  type="last_name" placeholder={t('register_page.last_name')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
+                                        <Input id="last_name" type="last_name" placeholder={t('register_page.last_name')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                             onChange={(e) => setData('last_name', e.target.value)}
                                         />
                                     </div>

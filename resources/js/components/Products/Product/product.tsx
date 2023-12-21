@@ -2,14 +2,10 @@
 import { Button } from "@/shadcn/ui/button";
 import { useToast } from "@/shadcn/ui/use-toast";
 import { Link, router } from "@inertiajs/react";
-import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { useState,useContext } from "react";
+import { LoadingContext } from "@/Layouts/landing/mainLayout";
 import { useTranslation } from "react-i18next";
-import { AiFillEye, AiOutlineLoading3Quarters } from "react-icons/ai";
-import { BsBookmarkPlusFill } from "react-icons/bs";
-import { FaRegHeart } from "react-icons/fa";
-import { GoBookmark, GoBookmarkSlash } from "react-icons/go";
-import { LuHeartOff } from "react-icons/lu";
+import {AiOutlineLoading3Quarters } from "react-icons/ai";
 import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 
 const getMinPrice = (prices: any) => {
@@ -18,7 +14,7 @@ const getMinPrice = (prices: any) => {
 }
 
 const Product = ({ product }) => {
-    
+    const {handleVisit} = useContext(LoadingContext);
     const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.active_product_prices));
     const [bookmarkLoading, setBookmarkLoading] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -80,8 +76,10 @@ const Product = ({ product }) => {
                 <div className="w-full h-40 md:h-72  relative bg-cover bg-center border-b"
                     style={{ backgroundImage: "url(" + (product.main_image?.path || product?.images?.filter((image: any) => product?.main_image_id === image.id)[0]?.path || "/image/no-image.jpg") + ")" }}
                 >
-                    <Link href={`/products/${product.id}`} className="absolute inset-0 w-full h-full flex items-center justify-center">
-                    </Link>
+                    <div 
+                    onClick={() => handleVisit(`/products/${product.id}`)}
+                    className="absolute inset-0 w-full h-full flex items-center justify-center cursor-pointer">
+                    </div>
                     <div className="hidden absolute right-1 top-1 group-hover:flex flex-col gap-2 group-hover:transition-all group-hover:delay-150 group-hover:duration-300">
                         <Button
                             variant="ghost"
