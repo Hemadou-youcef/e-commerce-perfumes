@@ -105,7 +105,7 @@ const LandingMainLayout = ({ children, ...props }) => {
                     </div>
                 </LoadingContext.Provider>
                 {/* FOOTER */}
-                <LandingFooter />
+                <LandingFooter handleVisit={handleVisit} />
             </div>
             <Toaster />
         </>

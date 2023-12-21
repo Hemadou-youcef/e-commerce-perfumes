@@ -29,13 +29,14 @@ import { is } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
 import { FaLuggageCart } from "react-icons/fa";
 import { LiaLuggageCartSolid } from "react-icons/lia";
+import { Separator } from "@/shadcn/ui/separator";
 
 
 const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
     const searchInput = useRef<HTMLInputElement>(null);
     const [search, setSearch] = useState("");
     const [searchLoading, setSearchLoading] = useState(false);
-    const { t } = useTranslation()
+    const { t,i18n } = useTranslation()
     // console.log(props?.auth?.user)
 
     const isLogged = () => {
@@ -48,6 +49,16 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
         return props?.auth?.user?.role == 2 || props?.auth?.user?.role == 3
     }
 
+    const handleChangeLanguage = (value) => {
+        if (value) {
+            setNavbarOpen(false);
+            setTimeout(() => {
+                handleVisit(window.location.pathname, "get");
+                i18n.changeLanguage(value);
+                localStorage.setItem("language", value);
+            }, 100);
+        }
+    }
     
     const handleSearch = (search: string) => {
         setSearchLoading(true);
@@ -134,6 +145,18 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
                             {/* A propos */}
                         </p>
                     </div>
+                    <Separator className="my-2" />
+                    {i18n.language === "fr" ? <div onClick={() => handleChangeLanguage("ar")} className="cursor-pointer">
+                        <p>
+                            {t('language.ar')}
+                            {/* عربية */}
+                        </p>
+                    </div> : <div onClick={() => handleChangeLanguage("fr")} className="cursor-pointer">
+                        <p>
+                            {t('language.fr')}
+                            {/* فرنسية */}
+                        </p>
+                    </div>}
                 </div>
             </div>
             <div className="block md:hidden">

@@ -12,14 +12,14 @@ import {
 } from "@/shadcn/ui/select"
 import { useTranslation } from "react-i18next";
 
-const LandingFooter = () => {
+const LandingFooter = ({ handleVisit }) => {
     const { t, i18n } = useTranslation()
 
     const handleLanguageChange = (value) => {
         if (value) {
+            handleVisit(window.location.pathname, "get");
             i18n.changeLanguage(value);
             localStorage.setItem("language", value);
-            window.location.reload();
         }
     }
     return (
@@ -82,11 +82,11 @@ const LandingFooter = () => {
                                 {t('layout.navbar.about')}
                             </Link>
                         </div>
-                        <Select onValueChange={handleLanguageChange} value={localStorage.getItem('language') || 'ar'}>
-                            <SelectTrigger className="w-32 h-7 text-forth">
+                        <Select dir={i18n.dir()} onValueChange={handleLanguageChange} value={localStorage.getItem('language') || 'ar'}>
+                            <SelectTrigger className="w-32 h-7 text-forth font-sans rtl:font-arabic">
                                 <SelectValue placeholder={t('language.' + localStorage.getItem('language'))} />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="font-sans rtl:font-arabic">
                                 <SelectItem value="ar">
                                     {t('language.ar')}
                                 </SelectItem>

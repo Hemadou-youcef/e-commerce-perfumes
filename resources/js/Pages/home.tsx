@@ -1,5 +1,6 @@
-import { Link, Head, router } from '@inertiajs/react';
-import { PageProps } from '@/types';
+import { Link, Head } from '@inertiajs/react';
+import { useContext } from 'react';
+import { LoadingContext } from "@/Layouts/landing/mainLayout";
 import { Button } from '@/shadcn/ui/button'
 import LandingMainLayout from '@/Layouts/landing/mainLayout';
 import { Separator } from '@/shadcn/ui/separator';
@@ -27,6 +28,7 @@ import ContactUsForm from '@/components/landing/contanct/contact';
 // export default function Welcome(Props: PageProps<{ laravelVersion: string, phpVersion: string }>) {
 
 const Home = ({ ...props }) => {
+    const { handleVisit } = useContext(LoadingContext);
     const { t, i18n } = useTranslation()
     return (
         <>
@@ -77,11 +79,13 @@ const Home = ({ ...props }) => {
                                                     <p className="text-xs md:text-sm font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
                                                         {i18n.language === "fr" ? product.description : product.description_ar}
                                                     </p>
-                                                    <Link href={`/products/${product.id}`}>
-                                                        <Button variant="default" className="mt-5 w-44 text-gray-900 hover:text-third bg-prime border-2 border-prime font-sans rtl:font-arabic  ">
-                                                            {t('product_page.view_product')}
-                                                        </Button>
-                                                    </Link>
+                                                    <Button
+                                                        variant="outline"
+                                                        onClick={() => handleVisit(`/products/${product.id}`)}
+                                                        className="cursor-pointer mt-5 w-44 text-gray-900 bg-prime border-2 border-prime font-sans rtl:font-arabic uppercase text-xs font-bold py-2 px-4 rounded-full  hover:bg-prime hover:text-gray-500 active:bg-yellow-300 active:text-gray-900"
+                                                    >
+                                                        {t('product_page.view_product')}
+                                                    </Button>
                                                 </div>
                                                 <div className=" ">
                                                     <img src={product?.main_image?.path} alt=""
