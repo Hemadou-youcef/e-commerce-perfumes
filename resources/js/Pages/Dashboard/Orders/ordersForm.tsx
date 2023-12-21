@@ -13,15 +13,13 @@ import {
     TableHeader,
     TableRow,
 } from "@/shadcn/ui/table"
-import { Separator } from "@/shadcn/ui/separator";
 import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/shadcn/ui/sheet"
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/shadcn/ui/select"
 // import {
 //     Select,
 //     SelectContent,
@@ -313,7 +311,7 @@ const OrdersForm = ({ ...props }) => {
                                 onClick={() => {
                                     setStep(step + 1)
                                 }}
-                                disabled={selectedProducts.length === 0}
+                                disabled={selectedProducts.length === 0 || selectedProducts.some((product) => product?.price_quantity == 0) || selectedProducts.some((product) => product?.active_product_prices[product?.selected_price]?.quantity * product?.price_quantity > product?.quantity)}
                             >
                                 <span className="text-sm text-gray-600">
                                     Suivant
@@ -352,15 +350,6 @@ const OrdersForm = ({ ...props }) => {
                                 </Button>
                             </>
                         )}
-                        {/* <Button
-                            variant="outline"
-                            className="p-0 h-12 w-12 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center"
-                            onClick={(e) => submit(e)}
-                            disabled={processing || !isAllRulesVerified()}
-                        >
-                            {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <FaSave className="text-lg" />}
-
-                        </Button> */}
                     </div>
                 </div>
 
@@ -374,16 +363,39 @@ const OrdersForm = ({ ...props }) => {
                                 {selectedProducts.map((product, product_index) => (
                                     <div key={product_index} className="flex flex-col border p-2 rounded-md gap-2">
                                         {/* Product */}
-                                        <div className="flex flex-row justify-between items-center gap-2">
+                                        <div className="flex flex-col md:flex-row justify-between items-center gap-2">
                                             <div className="flex flex-col">
-                                                <h2 className="text-lg text-gray-900 font-bold tracking-tight">
+                                                <h2 className={`text-lg  font-bold tracking-tight ${product?.active_product_prices[product?.selected_price]?.quantity * product?.price_quantity > product?.quantity ? "text-red-500 font-bold" : "text-gray-900"} `}>
                                                     {product.name}
                                                 </h2>
                                                 <p className="text-sm text-gray-600">
                                                     {product?.active_product_prices[product?.selected_price]?.quantity * product?.price_quantity} {product?.active_product_prices[product?.selected_price]?.unit} / {product.quantity} {product.unit}
                                                 </p>
                                             </div>
-                                            <div className="flex flex-row justify-between items-center gap-2">
+                                            <div className="w-full md:w-auto flex flex-col md:flex-row justify-between items-center gap-2">
+                                                <Select onValueChange={(value) => {
+                                                    setSelectedProducts(selectedProducts.map((p, i) => {
+                                                        if (i === product_index) {
+                                                            return {
+                                                                ...p,
+                                                                selected_price: value
+                                                            }
+                                                        }
+                                                        return p;
+                                                    }))
+                                                    console.log(value)
+                                                }}>
+                                                    <SelectTrigger className="min-w-full md:min-w-[300px]">
+                                                        <SelectValue placeholder={product?.active_product_prices[product?.selected_price]?.quantity + " " + product?.active_product_prices[product?.selected_price]?.unit + " / " + product?.active_product_prices[product?.selected_price]?.price + " DA"} className="text-sm text-gray-900 font-bold tracking-tight"/>
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {product?.active_product_prices.map((price, price_index) => (
+                                                            <SelectItem key={price_index} value={price_index}>
+                                                                {price.quantity} {price.unit} / {price.price} DA
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
                                                 <Button
                                                     variant="outline"
                                                     className=" h-10 flex justify-center items-center gap-2"
@@ -398,36 +410,8 @@ const OrdersForm = ({ ...props }) => {
                                                 </Button>
                                             </div>
                                         </div>
-                                        {/* Price List */}
-                                        <div className="flex flex-row gap-2 ">
-                                            {product?.active_product_prices.sort((a: any, b: any) => a.quantity - b.quantity).map((price: any, price_index: number) => (
-                                                <div
-                                                    key={price_index}
-                                                    className={`min-w-[150px] flex flex-col gap-1 border-2 py-1 px-5 text-left cursor-pointer ${product?.selected_price == price_index ? 'border-primary' : 'border-gray-300'}`}
-                                                    onClick={() => {
-                                                        setSelectedProducts(selectedProducts.map((p, i) => {
-                                                            if (i === product_index) {
-                                                                return {
-                                                                    ...p,
-                                                                    selected_price: price_index
-                                                                }
-                                                            }
-                                                            return p;
-                                                        }))
-                                                    }}
-                                                >
-                                                    <p className="text-gray-900 text-xs font-medium md:text-sm ">
-                                                        {price.quantity} {price.unit}
-                                                    </p>
-                                                    <p className="text-gray-400 text-xs font-bold md:text-sm">
-                                                        {price.price} DA
-                                                    </p>
-                                                </div>
-                                            ))}
-
-                                        </div>
-                                        <div className="w-52 flex justify-between gap-1 items-center border-2 overflow-hidden">
-                                            <div className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1 select-none cursor-pointer"
+                                        <div className="w-full md:w-52 flex justify-between gap-1 items-center overflow-hidden">
+                                            <div className="w-10 h-10 flex justify-center border-2  rounded-md items-center text-gray-600 font-bold gap-1 select-none cursor-pointer"
                                                 onClick={() => {
                                                     if (product?.price_quantity > 0) {
                                                         setSelectedProducts(selectedProducts.map((p, i) => {
@@ -441,7 +425,7 @@ const OrdersForm = ({ ...props }) => {
                                                         }))
                                                     }
                                                 }}>
-                                                <AiOutlineMinus className="w-4 h-4 text-gray-600 ml-2 select-none cursor-pointer" />
+                                                <AiOutlineMinus className="w-4 h-4 text-gray-600  select-none cursor-pointer" />
                                             </div>
                                             <div className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1">
                                                 <input
@@ -467,7 +451,7 @@ const OrdersForm = ({ ...props }) => {
                                                 />
                                             </div>
                                             <div
-                                                className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold gap-1 select-none cursor-pointer"
+                                                className="w-10 h-10 flex justify-center border-2 rounded-md items-center text-gray-600 font-bold gap-1 select-none cursor-pointer"
                                                 onClick={() => {
                                                     setSelectedProducts(selectedProducts.map((p, i) => {
                                                         if (i === product_index) {

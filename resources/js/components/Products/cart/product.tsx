@@ -60,7 +60,7 @@ const CartProduct = ({ product }) => {
                 <div>
                     <Button
                         variant="outline"
-                        className="hidden md:block text-sm text-gray-900 hover:text-gray-700 border-0 hover:bg-transparent"
+                        className="hidden md:block text-sm text-gray-900 hover:text-gray-700 border-0 hover:bg-transparent p-1"
                         onClick={() => handleDeleteCartItem(product.id)}
                     >
                         {deleteLoading ? <AiOutlineLoading3Quarters className="animate-spin h-8 w-8" /> : <TiDeleteOutline className="h-8 w-8" />}

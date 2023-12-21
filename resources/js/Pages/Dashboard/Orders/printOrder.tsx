@@ -1,15 +1,9 @@
 
 // Styles
-import { Button } from "@/shadcn/ui/button";
 import "@/styles/receipe.module.css"
-import { router } from "@inertiajs/react";
-import { forwardRef, useEffect, useRef } from "react";
-import { FaAngleLeft } from "react-icons/fa";
-import { IoMdPrint } from "react-icons/io";
+import { useEffect } from "react";
 
 const PrintOrder = ({ order }) => {
-    console.log(order)
-
     const formatDate = (date) => {
         const d = new Date(date);
         return d.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -39,7 +33,7 @@ const PrintOrder = ({ order }) => {
 
     const getQuantity = (product) => {
         const productPrice = getProductPrice(product);
-        return productPrice?.quantity * product.quantity;
+        return [productPrice?.quantity * product.quantity, productPrice?.unit];
     }
 
 
@@ -75,9 +69,26 @@ const PrintOrder = ({ order }) => {
 
                                 <ul>
                                     <li>RUMAH PARFUM</li>
-                                    <li><strong>Address:</strong> </li>
-                                    <li><strong>Téléphone:</strong> </li>
-                                    <li><strong>Mail:</strong> </li>
+                                    <li className="flex flex-row gap-2">
+                                        <strong>Address:</strong>
+                                        <span> Cité lararsa (enface hotel ZIDANE), 19000 Setif</span>
+                                    </li>
+                                    <li className="flex flex-row">
+                                        <strong className="w-24">Fax:</strong>
+                                        <span>036 51 93 78</span>
+                                    </li>
+                                    <li className="flex flex-row">
+                                        <strong className="w-24">Téléphone:</strong>
+                                        <div className="flex flex-col">
+                                            <span>06 62 07 13 94</span>
+                                            <span>06 62 54 13 94</span>
+                                            <span>06 62 46 12 94</span>
+                                        </div>
+                                    </li>
+                                    <li className="flex flex-row gap-2">
+                                        <strong>Mail:</strong>
+                                        <span>parisvip19000@gmail.com</span>
+                                    </li>
 
                                     {/* User Information in the right  */}
                                     <li className="w-full flex flex-col items-end justify-end">
@@ -89,7 +100,7 @@ const PrintOrder = ({ order }) => {
                                     <li className="w-full flex flex-col justify-start">
                                         <span>Bon de commande N°: {order.id}</span>
                                         <span>Date: {formatDate(order.created_at)}</span>
-                                        <span>Lieu d'émission: {order.address}</span>
+                                        <span>Lieu d'émission: {order.address.street_address}</span>
                                         <span>Numéro de client: {order.user.phone}</span>
 
                                     </li>
@@ -113,13 +124,13 @@ const PrintOrder = ({ order }) => {
                                         {order?.order_products?.map((product, index) => (
                                             <tr key={index} className="border-b border-gray-900 border-dashed">
                                                 <td className="pl-2 text-left">{product?.product?.name}</td>
-                                                <td className="text-left">{getQuantity(product)} {product?.product?.unit}</td>
+                                                <td className="text-left">{getQuantity(product)[0]} {getQuantity(product)[1]}</td>
                                                 <td className="pr-2 text-left">{product?.price} DA</td>
                                             </tr>
                                         ))}
                                         <tr>
-                                            <td colSpan={2} className="pl-2 text-left">Livraison ({order?.shipping_provider})</td>
-                                            <td className="pr-2 text-left">{order.total - order?.order_products?.reduce((acc, product) => acc + product.price, 0)} DA</td>
+                                            <td colSpan={2} className="pl-2 text-left">Livraison ({order?.shipping_agency.name})</td>
+                                            <td className="pr-2 text-left">{order?.address?.shipping_price} DA</td>
                                         </tr>
                                         <tr>
                                             <td colSpan={2} className="pl-2 text-left">Total</td>

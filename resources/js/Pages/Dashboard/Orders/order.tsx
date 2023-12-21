@@ -90,7 +90,7 @@ const Order = ({ ...props }) => {
     }, [props?.order])
 
     const setCurrentTabFromStatus = () => {
-        switch (order?.status) {
+        switch (props?.status) {
             case "pending":
                 setCurrentTab("infos");
                 break;
@@ -145,8 +145,10 @@ const Order = ({ ...props }) => {
     const handleVerifyDisponibility = () => {
         setLoadingAction(true);
         router.post(route('verify_order', order?.id), {}, {
-            onSuccess: () => {
-                console.log("success")
+            onSuccess: (page) => {
+                setOrder(page.props.order);
+                getAllReceptions();
+                setCurrentTabFromStatus();
             },
             onError: () => {
                 console.log("error")
@@ -185,8 +187,10 @@ const Order = ({ ...props }) => {
     const handleDeliverOrder = () => {
         setLoadingAction(true);
         router.post(route('deliver_order', order?.id), {}, {
-            onSuccess: () => {
-                console.log("success")
+            onSuccess: (page) => {
+                setOrder(page.props.order);
+                getAllReceptions();
+                setCurrentTabFromStatus();
             },
             onError: () => {
                 console.log("error")
@@ -312,7 +316,7 @@ const Order = ({ ...props }) => {
         <>
             <Head>
                 <title>
-                    CM / {order?.id.toString().padStart(5, "000")}
+                    Page de commande
                 </title>
             </Head>
             {/* TREE */}

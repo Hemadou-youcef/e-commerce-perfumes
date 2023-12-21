@@ -49,6 +49,7 @@ import { FaCheck, FaPlus, FaSave } from "react-icons/fa";
 import { TiPlus } from "react-icons/ti";
 import { LuCrown } from "react-icons/lu";
 import { useToast } from "@/shadcn/ui/use-toast";
+import { IoCloseSharp } from "react-icons/io5";
 
 // Types
 type prices = {
@@ -73,7 +74,7 @@ interface FormData {
     name: string;
     description: string;
     description_ar: string;
-    unit: string;
+    unit?: string;
     status: string;
     type: number;
     category_ids?: number[];
@@ -111,7 +112,7 @@ const ProductForm = ({ ...props }) => {
 
     const [currentPrice, setCurrentPrice] = useState<prices>({
         price: 0,
-        unit: data?.unit,
+        unit: data?.unit || "G",
         quantity: 0,
         active: true
     });
@@ -130,7 +131,7 @@ const ProductForm = ({ ...props }) => {
             data.name.length > 0,
             data.description.length > 0,
             data.description_ar.length > 0,
-            data.unit.length > 0,
+            (data?.unit?.length || 0) > 0,
             data.status.length > 0,
             data.main_image || data.main_image_id,
             editMode || (imagesUploaded || []).length > 0,
@@ -183,6 +184,8 @@ const ProductForm = ({ ...props }) => {
                     const { category_ids, ...rest } = dataToSubmit
                     dataToSubmit = rest
                 }
+                const { unit, ...rest } = dataToSubmit
+                dataToSubmit = rest
                 return dataToSubmit;
             });
             post(route('product.update', props?.product?.id), {
@@ -534,7 +537,7 @@ const ProductForm = ({ ...props }) => {
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
-                                            {data.prices.filter((price) => price.active).map((price, index) => (
+                                            {data.prices.map((price, index) => (
                                                 <TableRow key={index} className="hover:bg-gray-100">
                                                     <TableCell className="r">
                                                         {price.quantity} {price.unit}
@@ -544,7 +547,7 @@ const ProductForm = ({ ...props }) => {
                                                     </TableCell>
                                                     <TableCell className="r">
                                                         <div className="flex flex-row gap-2">
-                                                            <Button
+                                                            {/* <Button
                                                                 type="button"
                                                                 variant="ghost"
                                                                 className="p-2 text-red-600 border-0"
@@ -568,7 +571,30 @@ const ProductForm = ({ ...props }) => {
                                                                 }}
                                                             >
                                                                 <MdDeleteOutline className="w-6 h-6" />
-                                                            </Button>
+                                                            </Button> */}
+                                                            <div
+                                                                className={` flex  flex-row justify-center items-center  rounded-sm gap-2 cursor-pointer ${!editMode ? "": "p-1 border-2 border-gray-400  w-6 h-6"}`}
+                                                                onClick={() => {
+                                                                    if (editMode) {
+                                                                        setData(data => ({
+                                                                            ...data,
+                                                                            prices: data.prices.map((price, i) => {
+                                                                                if (i === index) {
+                                                                                    return { ...price, active: !price.active }
+                                                                                }
+                                                                                return price
+                                                                            })
+                                                                        }));
+                                                                    } else {
+                                                                        setData(data => ({
+                                                                            ...data,
+                                                                            prices: data.prices.filter((price, i) => i !== index)
+                                                                        }));
+                                                                    }
+                                                                }}
+                                                            >
+                                                                {price.active ? (editMode ? <FaCheck className="w-6 h-6" /> : <MdDeleteOutline className="w-6 h-6 text-red-600" />) : null}
+                                                            </div>
                                                         </div>
                                                     </TableCell>
                                                 </TableRow>
@@ -603,7 +629,7 @@ const ProductForm = ({ ...props }) => {
                                             />
                                         </div>
                                         <div>
-                                            DA{ }
+                                            DA
                                         </div>
                                         <div className="flex flex-col gap-2">
                                             <div className="flex flex-row gap-2">
@@ -613,7 +639,7 @@ const ProductForm = ({ ...props }) => {
                                                     className=" text-gray-900 border border-gray-900 hover:bg-gray-900"
                                                     onClick={() => {
                                                         setData("prices", [...data.prices, currentPrice]);
-                                                        setCurrentPrice({ price: 0, unit: data?.unit, quantity: 0, active: true });
+                                                        setCurrentPrice({ price: 0, unit: data?.unit || "G", quantity: 0, active: true });
                                                     }}
                                                     disabled={currentPrice.price.toString().length == 0 || currentPrice.quantity.toString().length == 0 || currentPrice.price.toString() == "NaN" || currentPrice.quantity.toString() == "NaN"}
                                                 >
