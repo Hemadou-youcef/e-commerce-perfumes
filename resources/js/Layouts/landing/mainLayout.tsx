@@ -36,7 +36,7 @@ const LandingMainLayout = ({ children, ...props }) => {
     return (
         <>
             {loadingState && (
-                <div className="fixed top-0 left-0 w-full h-screen bg-third flex items-center justify-center z-10">
+                <div className="fixed top-0 left-0 w-full h-[calc(100dvh)] bg-third flex items-center justify-center z-10">
                     <AiOutlineLoading3Quarters className="w-10 h-10 text-second animate-spin" />
                 </div>
             )}
