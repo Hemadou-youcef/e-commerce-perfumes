@@ -26,8 +26,6 @@ const LandingMainLayout = ({ children, ...props }) => {
     const handleVisit = (url: string, method: string = "get") => {
         setLoadingState(true);
         router[method](url, {}, {
-            preserveScroll: false,
-            preserveState: false,
             onFinish: () => {
                 setLoadingState(false)
                 setNavbarOpen(false);
@@ -38,8 +36,8 @@ const LandingMainLayout = ({ children, ...props }) => {
     return (
         <>
             {loadingState && (
-                <div className="fixed top-0 left-0 w-full h-screen bg-black bg-opacity-70 flex items-center justify-center z-50">
-                    <AiOutlineLoading3Quarters className="w-10 h-10 text-prime animate-spin" />
+                <div className="fixed top-0 left-0 w-full h-screen bg-third flex items-center justify-center z-10">
+                    <AiOutlineLoading3Quarters className="w-10 h-10 text-second animate-spin" />
                 </div>
             )}
             <div dir={i18n.dir()} className="flex flex-col min-h-[calc(100dvh)] font-sans rtl:font-arabic">

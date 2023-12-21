@@ -31,7 +31,6 @@ const getMinPrice = (prices: any) => {
 }
 
 const Product = ({ ...props }) => {
-    console.log(props)
     const [product, setProduct] = useState(props?.product);
     const [selectedImage, setSelectedImage] = useState(product?.images.filter((item: any) => product?.main_image_id === item.id)[0]?.path);
     const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.active_product_prices));
