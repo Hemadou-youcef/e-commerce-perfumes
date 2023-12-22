@@ -47,6 +47,7 @@ const Products = ({ ...props }) => {
         "homme",
         "femme",
         "unisexe",
+        "musc",
         "bouteille",
         "toutes_saisons",
         "hiver",

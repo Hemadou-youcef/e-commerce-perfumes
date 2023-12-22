@@ -91,6 +91,24 @@ const FiltersOptions = ({ type = "all", categoriesList, categories, alreadyUsedC
                                 {t("categories.unisex")}
                             </Label>
                         </div>
+                        <div className="flex justify-center font-semibold items-center gap-2 ltr:pl-6 rtl:pr-6">
+                            <Checkbox id="musc"
+                                className="rounded-none"
+                                onCheckedChange={(checked) => {
+                                    if (checked) {
+                                        setCategories((data) => [...data, "musc"])
+                                    } else {
+                                        setCategories((data) => data?.filter((item) => item !== "musc"));
+                                    }
+                                }}
+                                checked={categories?.includes("musc") ? true : false} />
+                            <Label
+                                htmlFor="musc"
+                                className="text-sm md:text-lg cursor-pointer"
+                            >
+                                {t("categories.musc")}
+                            </Label>
+                        </div>
                     </div>
                 )}
                 {(type === "all" || type === "aromatic_oils") && (

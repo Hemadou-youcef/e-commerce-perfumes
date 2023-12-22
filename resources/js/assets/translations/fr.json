@@ -12,9 +12,9 @@
         "error":"Erreur",
         "error_occured":"Une erreur s'est produite",
         "error_description":"Une erreur s'est produite. Veuillez réessayer",
-        "top_limit":"Limite supérieure"
+        "top_limit":"Limite supérieure",
+        "shop":"Magasin"
     },
-    
     "language":{
         "en":"Anglais",
         "fr":"Français",
@@ -33,11 +33,16 @@
         "male": "Pour Hommes",
         "female": "Pour Femmes",
         "unisex": "Unisexe",
+        "musc": "Musc",
+        "all_seasons": "Toutes Saisons",
         "winter": "Pour l'Hiver",
         "summer": "Pour l'Été",
         "autumn": "Pour l'Automne",
-        "spring": "Pour le Printemps"
-    },
+        "spring": "Pour le Printemps",
+        "watches": "Montres",
+        "vapors":"Vaporisateurs",
+        "glasses":"Lunettes"
+    },    
     "layout":{
         "navbar":{
             "home":"Accueil",
