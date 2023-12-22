@@ -194,9 +194,6 @@ class ProductController extends Controller
             foreach ($prices as $price) {
                 if (isset($price['id'])) {
                     $product->productPrices()->where('id', $price['id'])->update([
-                        'price' => $price['price'],
-                        'unit' => $price['unit'],
-                        'quantity' => $price['quantity'],
                         'active' => $price['active'],
                     ]);
                 } else {

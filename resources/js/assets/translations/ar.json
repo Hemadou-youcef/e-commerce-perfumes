@@ -30,14 +30,14 @@
     },
     "categories":{
         "bottle":"الزجاجات",
-        "male": "لذكور",
-        "female": "لإناث",
+        "male": "للذكور",
+        "female": "للإناث",
         "unisex": "للجنسين",
         "all_seasons": "لجميع الفصول",
-        "winter": "لشتاء",
-        "summer": "لصيف",
+        "winter": "للشتاء",
+        "summer": "للصيف",
         "autumn": "للخريف",
-        "spring": "لربيع",
+        "spring": "للربيع",
         "watches": "الساعات",
         "vapors":"البخارات",
         "glasses":"النظارات"
@@ -45,7 +45,7 @@
     "layout":{
         "navbar":{
             "home":"الصفحة الرئيسية",
-            "products":"المنتجاتنا",
+            "products":"منتجاتنا",
             "contact":"اتصل بنا",
             "about":"من نحن",
             "dashboard":"لوحة التحكم",
@@ -64,14 +64,14 @@
             "see_all":"عرض الكل",
             "for_you":"من أجلك",
             "search":"بحث",
-            "for_you_perfumes":"العطور قد تعجبك",
-            "for_you_accessories":"الاكسسوارات قد تعجبك",
-            "for_you_oils":"الزيوت العطرية قد تعجبك",
-            "payment":"الدفع",
+            "for_you_perfumes":"عطور قد تعجبك",
+            "for_you_accessories":"اكسسوارات قد تعجبك",
+            "for_you_oils":"زيوت العطرية قد تعجبك",
+            "payment":"دفع",
             "on_delivery":"عند التوصيل",
             "delivery":"التوصيل",
             "58_wilayas":"58 ولاية",
-            "support":"خدمة العميل",
+            "support":"خدمة العملاء",
             "listening":"في الإستماع",
             "no_products":"فارغة",
             "aromatic_oils":"الزيوت العطرية"
@@ -83,7 +83,7 @@
         }
     },
     "main":{
-        
+
     },
     "login_page":{
         "title":"تسجيل الدخول",
@@ -145,7 +145,7 @@
         "you_may_also_like":"قد تعجبك أيضا"
     },
     "cart_page":{
-        "title": "السلتي",
+        "title": "سلتي",
         "empty_cart": "السلة فارغة. ابدأ التسوق الآن!",
         "agency": "الوكالة",
         "product": "المنتج",

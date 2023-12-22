@@ -61,6 +61,7 @@ type receptionDataFrame = {
     quantity: number,
 }
 
+
 type reservationDataFrame = {
     reception_id: number,
     order_product_id: number,
@@ -214,7 +215,7 @@ const Order = ({ ...props }) => {
         // Iterate over each product in the order and work with the reservations
         props?.order?.order_products.forEach((product_order) => {
             let remainingQuantity = product_order?.total_quantity;
-            // CREATE RESERVATION FOR EACH RECEPTIONS IF NEEDED 
+            // CREATE RESERVATION FOR EACH RECEPTIONS IF NEEDED
             product_order?.product?.receptions?.forEach((reception) => {
                 const alreadyReservedQuantity = updatedReservations.filter((reservation: reservationDataFrame) => reservation?.reception_id == reception?.id).reduce((a, b) => a + b?.quantity, 0);
 
