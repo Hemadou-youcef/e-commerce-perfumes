@@ -26,7 +26,8 @@
         "kg":"kg",
         "l":"L",
         "piece":"Pièce",
-        "bottle":"Bouteille"
+        "bottle":"Bouteille",
+        "u":"unité"
     },
     "categories":{
         "bottle":"Bouteilles",
@@ -45,6 +46,7 @@
     },    
     "layout":{
         "navbar":{
+            "title":"Rumah Perfum",
             "home":"Accueil",
             "products":"Nos Produits",
             "contact":"Contactez-nous",
@@ -62,6 +64,7 @@
             "orders":"Commandes",
             "perfumes":"Parfums",
             "accessories":"Accessoires",
+            "aromatic_oils":"Huiles Aromatiques",
             "see_all":"Voir Tout",
             "for_you":"Pour Vous",
             "search":"Recherche",
@@ -113,6 +116,7 @@
         "categories":"Catégories",
         "perfumes":"Parfums",
         "accessories":"Accessoires",
+        "aromatic_oils":"Huiles Aromatiques",
         "price":"Prix",
         "empty_products":"Aucun produit dans cette catégorie!",
         "search":"Recherche",
@@ -148,6 +152,7 @@
         "empty_cart": "Votre panier est vide. Commencez vos achats maintenant!",
         "agency": "Agence",
         "product": "Produit",
+        "choose_agency": "Choisissez une agence",
         "shipping_method": "Méthode d'expédition",
         "home_delivery": "Livraison à domicile",
         "agency_delivery": "Livraison à l'agence",

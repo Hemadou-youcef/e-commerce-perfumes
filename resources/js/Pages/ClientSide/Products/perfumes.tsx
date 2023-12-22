@@ -67,7 +67,7 @@ const Perfumes = ({ ...props }) => {
         setLoading(true);
         router.get(route("client_perfumes"), {
             q: delayedSearch,
-            category: categories?.join(","),
+            category: categories.join(",").length > 0 ? categories.join(",") : undefined,
             startPrice: minMaxPrice[0],
             endPrice: minMaxPrice[1],
         }, {
@@ -87,9 +87,9 @@ const Perfumes = ({ ...props }) => {
         <>
             <Head>
                 <title>
-                    {t("layout.navbar.products") + " | " + t('layout.navbar.perfumes')}
+                    {t("layout.navbar.perfumes") + " | " + t("layout.navbar.title")}
                 </title>
-                <meta property="og:title" content={t("layout.navbar.products") + " | " + t('layout.navbar.perfumes')} />
+                <meta property="og:title" content={t("layout.navbar.perfumes") + " | " + t("layout.navbar.title")} />
                 <meta name="description" content={
                     i18n.language === "fr"
                         ? "Explorez la vaste collection de produits de Remah Perfum, allant des parfums exquis aux montres élégantes et bien plus encore. Découvrez la quintessence du raffinement et de la qualité."

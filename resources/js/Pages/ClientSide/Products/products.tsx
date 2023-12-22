@@ -4,11 +4,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 // Component
 import LandingMainLayout from "@/Layouts/landing/mainLayout";
 import Product from "@/components/Products/Product/product";
-import { Checkbox } from "@/shadcn/ui/checkbox";
-import { Separator } from "@/shadcn/ui/separator";
-import { Slider } from "@/shadcn/ui/slider";
 import Pagination from "@/components/tables/pagination";
-import { Label } from "@/shadcn/ui/label";
 import { Head, router, usePage } from "@inertiajs/react";
 import { useTranslation } from "react-i18next";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -20,11 +16,6 @@ import {
 } from "@/shadcn/ui/sheet"
 
 // Icons
-import { BsSnow2, BsSunFill } from "react-icons/bs";
-import { FaCanadianMapleLeaf, FaLeaf } from "react-icons/fa";
-import { WiDayHaze } from "react-icons/wi";
-import { GiNightSleep } from "react-icons/gi";
-import { Button } from "@/shadcn/ui/button";
 import { IoMdOptions } from "react-icons/io";
 import FiltersOptions from "@/components/Products/filtersOptions";
 
@@ -82,7 +73,7 @@ const Products = ({ ...props }) => {
         setLoading(true);
         router.get(route("client_products"), {
             q: delayedSearch,
-            category: categories?.join(","),
+            category: categories.join(",").length > 0 ? categories.join(",") : undefined,
             startPrice: minMaxPrice[0],
             endPrice: minMaxPrice[1],
         }, {
@@ -102,8 +93,9 @@ const Products = ({ ...props }) => {
         <>
             <Head>
                 <title>
-                    {t("layout.navbar.products") + " | " + t('global.shop')}
+                    {t("layout.navbar.products") + " | " + t("layout.navbar.title")}
                 </title>
+                <meta property="og:title" content={t("layout.navbar.products") + " | " + t("layout.navbar.title")} />
                 <meta name="description" content={
                     i18n.language === "fr"
                         ? "Explorez la vaste collection de produits de Remah Perfum, allant des parfums exquis aux montres élégantes et bien plus encore. Découvrez la quintessence du raffinement et de la qualité."
@@ -210,155 +202,6 @@ const Products = ({ ...props }) => {
             </div>
         </>
     );
-}
-
-const filtersOptions = ({ categoriesList, categories, alreadyUsedCategories, setCategories, minMaxPrice, setMinMaxPrice }: any) => {
-    const { t, i18n } = useTranslation()
-    return (
-        <div className="h-screen overflow-y-auto ltr:pr-5 rtl:pl-5 py-7 flex flex-col items-start justify-start gap-5 font-sans rtl:font-arabic">
-            <div className="w-full flex flex-col items-start justify-start gap-2">
-                <p className="text-gray-800 font-semibold text-sm md:text-lg">
-                    {t("products_page.categories")}
-                </p>
-                <p className="text-gray-800 font-semibold text-sm md:text-lg pl-2">
-                    {t('products_page.perfumes')}
-                </p>
-                <div className="flex justify-center font-semibold items-center gap-2 pl-6">
-                    <Checkbox id="homme" onCheckedChange={(checked) => {
-                        if (checked) {
-                            setCategories((data) => [...data, "homme"])
-                        } else {
-                            setCategories((data) => data?.filter((item) => item !== "homme"));
-                        }
-                    }}
-                        checked={categories?.includes("homme") ? true : false} />
-
-                    <Label
-                        htmlFor="homme"
-                        className="text-sm md:text-lg cursor-pointer"
-                    >
-                        Homme
-                    </Label>
-                </div>
-                <div className="flex justify-center font-semibold items-center gap-2 pl-6">
-                    <Checkbox id="femme"
-                        onCheckedChange={(checked) => {
-                            if (checked) {
-                                setCategories((data) => [...data, "femme"])
-                            } else {
-                                setCategories((data) => data?.filter((item) => item !== "femme"));
-                            }
-                        }}
-                        checked={categories?.includes("femme") ? true : false} />
-                    <Label
-                        htmlFor="femme"
-                        className="text-sm md:text-lg cursor-pointer"
-                    >
-                        Femme
-                    </Label>
-                </div>
-                <div className="flex justify-center font-semibold items-center gap-2 pl-6">
-                    <Checkbox id="unisexe"
-                        onCheckedChange={(checked) => {
-                            if (checked) {
-                                setCategories((data) => [...data, "unisexe"])
-                            } else {
-                                setCategories((data) => data?.filter((item) => item !== "unisexe"));
-                            }
-                        }}
-                        checked={categories?.includes("unisexe") ? true : false} />
-                    <Label
-                        htmlFor="unisexe"
-                        className="text-sm md:text-lg cursor-pointer"
-                    >
-                        Unisexe
-                    </Label>
-                </div>
-
-            </div>
-            <Separator className="w-full my-2" />
-            <div className="w-full flex flex-col items-start justify-start gap-2">
-                <p className="text-gray-800 font-semibold text-sm md:text-lg">
-                    {t("products_page.price")}
-                </p>
-                <div className="flex justify-center font-semibold items-center gap-2 pl-2 mb-3">
-                    {minMaxPrice[0]} - {minMaxPrice[1]} {t("global.da")}
-                </div>
-                <Slider
-                    defaultValue={[0, 1000]}
-                    min={0}
-                    max={1000}
-                    step={1}
-                    onValueChange={(value) => setMinMaxPrice(value)}
-                />
-            </div>
-            <Separator className="w-full my-2" />
-            <div className="w-full flex flex-col items-start justify-start gap-2">
-                <p className="text-gray-800 font-semibold  text-sm md:text-lg">
-                    Saison/jour
-                </p>
-                <div className="flex justify-start font-semibold items-center gap-2 pl-2">
-                    <Checkbox />
-                    <BsSnow2 className="w-5 h-5" />
-                    Hiver
-                </div>
-                <div className="flex justify-start font-semibold items-center gap-2 pl-2">
-                    <Checkbox />
-                    <BsSunFill className="w-5 h-5" />
-                    Été
-                </div>
-                <div className="flex justify-start font-semibold items-center gap-2 pl-2">
-                    <Checkbox />
-                    <FaLeaf className="w-5 h-5" />
-                    Printemps
-                </div>
-                <div className="flex justify-start font-semibold items-center gap-2 pl-2">
-                    <Checkbox />
-                    <FaCanadianMapleLeaf className="w-5 h-5" />
-                    Automne
-                </div>
-                <div className="flex justify-start font-semibold items-center gap-2 pl-2">
-                    <Checkbox />
-                    <WiDayHaze className="w-5 h-5" />
-                    Jour
-                </div>
-                <div className="flex justify-start font-semibold items-center gap-2 pl-2">
-                    <Checkbox />
-                    <GiNightSleep className="w-5 h-5" />
-                    Nuit
-                </div>
-            </div>
-            <Separator className="w-full my-2" />
-            <div className="w-full flex flex-col items-start justify-start gap-2">
-                <p className="text-gray-800 font-semibold text-sm md:text-lg">
-                    Étiquette
-                </p>
-                <div className="w-full flex flex-col justify-start overflow-y-auto max-h-96 py-2">
-                    {categoriesList.filter((category) => !alreadyUsedCategories.includes(category.name.toLowerCase())).map((category, index) => (
-                        <div key={index} className="flex justify-start font-semibold items-center gap-2 pl-2">
-                            <Checkbox id={category.name}
-                                onCheckedChange={(checked) => {
-                                    if (checked) {
-                                        setCategories((data) => [...data, category.name])
-                                    } else {
-                                        setCategories((data) => data?.filter((item) => item !== category.name));
-                                    }
-                                }}
-                                checked={categories?.includes(category.name) ? true : false} />
-                            <Label
-                                htmlFor={category.name}
-                                className="text-sm md:text-lg cursor-pointer"
-                            >
-                                {i18n.language === "fr" ? category.name : category.name_ar}
-                            </Label>
-                        </div>
-                    ))}
-
-                </div>
-            </div>
-
-        </div>
-    )
 }
 
 Products.layout = (page: React.ReactNode) => <LandingMainLayout children={page} />;

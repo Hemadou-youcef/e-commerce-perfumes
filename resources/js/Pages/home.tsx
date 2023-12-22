@@ -33,7 +33,7 @@ const Home = ({ ...props }) => {
     return (
         <>
             <Head>
-                <title>Rumah Perfum</title>
+                <title>{t('layout.navbar.home')} | Rumah Perfum</title>
                 <meta name="description" content={
                     i18n.language === "fr" ?
                         "Découvrez un monde de parfums exquis et de montres élégantes chez Rumah Perfum. Explorez notre collection soigneusement sélectionnée de fragrances de luxe et de montres élégantes. Faites vos achats en toute confiance avec une livraison à temps, une couverture étendue sur 58 wilayas et un support client dédié."

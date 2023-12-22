@@ -173,7 +173,7 @@ const Cart = ({ ...props }) => {
                                 setData(data => ({ ...data, shipping_agency_id: value }))
                             }}>
                                 <SelectTrigger dir={i18n.dir()} >
-                                    <SelectValue placeholder="الوكالة" className="w-full h-12 border-2 focus-visible:ring-transparent" />
+                                    <SelectValue placeholder={t('cart_page.choose_agency')} className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
                                 <SelectContent dir={i18n.dir()} className="w-full border-2 focus-visible:ring-transparent">
                                     {shippingAgencies.map((item, index): any => (

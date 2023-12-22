@@ -26,7 +26,8 @@
         "kg":"كيلوغرام",
         "l":"لتر",
         "piece":"قطعة",
-        "bottle":"زجاجة"
+        "bottle":"زجاجة",
+        "u":"وحدة"
     },
     "categories":{
         "bottle":"الزجاجات",
@@ -45,6 +46,7 @@
     },
     "layout":{
         "navbar":{
+            "title": "RUMAH PARFUM",
             "home":"الصفحة الرئيسية",
             "products":"منتجاتنا",
             "contact":"اتصل بنا",
@@ -149,6 +151,7 @@
         "title": "سلتي",
         "empty_cart": "السلة فارغة. ابدأ التسوق الآن!",
         "agency": "الوكالة",
+        "choose_agency": "اختر وكالة الشحن",
         "product": "المنتج",
         "shipping_method": "طريقة الشحن",
         "home_delivery": "توصيل إلى المنزل",

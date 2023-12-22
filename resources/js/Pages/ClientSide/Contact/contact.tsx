@@ -9,7 +9,7 @@ const Contact = ({ ...props }) => {
     return (
         <>
             <Head>
-                <title>{t('contact_page.title')}</title>
+                <title>{t('contact_page.title')} | {t('layout.navbar.title')}</title>
                 <meta name="description" content={
                     i18n.language === "fr" ?
                         "Contactez-nous pour plus d'informations sur nos produits et services"

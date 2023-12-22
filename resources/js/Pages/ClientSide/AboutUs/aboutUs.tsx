@@ -17,7 +17,7 @@ const AboutUs = ({ ...props }) => {
     return (
         <>
             <Head>
-                <title>{t('about_us_page.title')}</title>
+                <title>{t('about_us_page.title')} | {t('layout.navbar.title')}</title>
                 <meta name="description" content={
                     i18n.language === "fr"
                         ? "Découvrez l'histoire captivante de Remah Perfum, une destination de choix pour des parfums exquis et des montres élégantes. Explorez notre passion pour l'élégance et la qualité, et plongez dans un monde de senteurs et de style."

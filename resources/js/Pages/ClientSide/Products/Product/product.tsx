@@ -154,7 +154,8 @@ const Product = ({ ...props }) => {
     return (
         <>
             <Head>
-                <title>{product?.name}</title>
+                <title>{product?.name} | {t("layout.navbar.title")}</title>
+                <meta property="og:title" content={product?.name + " | " + t("layout.navbar.title")} />
                 <meta name="description" content={
                     i18n.language === "fr" ?
                         product?.description
@@ -280,11 +281,11 @@ const Product = ({ ...props }) => {
                                 {product?.active_product_prices.sort((a: any, b: any) => a.quantity - b.quantity).map((price: any, index: number) => (
                                     <div
                                         key={index}
-                                        className={`flex flex-col gap-1 border-2 py-1 px-5 text-left cursor-pointer ${currectPrice?.quantity === price.quantity ? 'border-primary' : 'border-gray-300'}`}
+                                        className={`flex flex-col gap-1 border-2 py-1 px-5  cursor-pointer ${currectPrice?.quantity === price.quantity ? 'border-primary' : 'border-gray-300'}`}
                                         onClick={() => setCurrectPrice(price)}
                                     >
                                         <p className="text-gray-900 text-xs font-medium md:text-sm ">
-                                            {price.quantity} {price.unit}
+                                            {price.quantity} {t("units." + price.unit.toLowerCase())}
                                         </p>
                                         <p className="text-gray-400 text-xs font-bold md:text-sm">
                                             {price.price} {t("global.da")}
