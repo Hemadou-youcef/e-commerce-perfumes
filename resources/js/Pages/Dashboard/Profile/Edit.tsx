@@ -95,9 +95,15 @@ const Profile = ({ ...props }) => {
                 break;
             case 3:
                 text = "ADMIN";
+                color = "bg-red-600";
+                Icon = <RiAdminFill className="text-xl text-red-600" />
+                break;
+            case 4:
+                text = "S-ADMIN";
                 color = "bg-purple-600";
                 Icon = <RiAdminFill className="text-xl text-purple-600" />
                 break;
+
 
         }
         return (

@@ -40,7 +40,8 @@ const Product = ({ ...props }) => {
     const [bookmarkLoading, setBookmarkLoading] = useState(false);
     const [showImageSlider, setShowImageSlider] = useState(false);
 
-    const { t, i18n } = useTranslation()
+    const { t, i18n } = useTranslation();
+    const title = product?.name + " | " + t("layout.navbar.title");
 
     const { toast } = useToast()
 
@@ -139,22 +140,11 @@ const Product = ({ ...props }) => {
         });
     }
 
-    // onKeyDown={(e) => {
-    //     if (e.key === 'ArrowRight') {
-    //         let index = product?.images?.findIndex((item: any) => selectedImage === item.path);
-    //         setSelectedImage(product?.images[index + 1]?.path)
-    //     } else if (e.key === 'ArrowLeft') {
-    //         let index = product?.images?.findIndex((item: any) => selectedImage === item.path);
-    //         setSelectedImage(product?.images[index - 1]?.path)
-    //     } else if (e.key === 'Escape') {
-    //         setShowImageSlider(false)
-    //     }
-    // }}
 
     return (
         <>
             <Head>
-                <title>{product?.name} | {t("layout.navbar.title")}</title>
+                <title>{title}</title>
                 <meta property="og:title" content={product?.name + " | " + t("layout.navbar.title")} />
                 <meta name="description" content={
                     i18n.language === "fr" ?

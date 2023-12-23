@@ -68,7 +68,7 @@ export const columns: ColumnDef<ClientsInfo>[] = [
                     break;
                 case 4:
                     text = "S-ADMIN";
-                    color = "bg-red-600";
+                    color = "bg-purple-600";
                     break;
                 case 3:
                     text = "ADMIN";
