@@ -73,6 +73,17 @@ const EmployeesForm = ({ ...props }) => {
     });
 
     const isAllRulesVerified = () => {
+        const messages = [
+            "Le nom doit être supérieur à 2 caractères",
+            "Le prénom doit être supérieur à 2 caractères",
+            "Le numéro de téléphone doit être égale à 10 caractères",
+            "L'address doit être supérieur à 3 caractères",
+            "le sexe doit être male ou female",
+            "Le rôle doit être employee ou admin",
+            "Le nom d'utilisateur doit être supérieur à 5 caractères",
+            "Le mot de passe doit être supérieur à 7 caractères",
+            "Le mot de passe doit être identique",
+        ];
         const rules = [
             data.first_name.length > 2,
             data.last_name.length > 2,
@@ -84,7 +95,20 @@ const EmployeesForm = ({ ...props }) => {
             editMode || (data?.password?.length || 0) > 7,
             (data?.password?.length || 0) > 0 ? data.password_confirmation == data.password : editMode,
         ];
-        return rules.every((rule) => rule);
+        const AllRulesVerified = rules.every((rule) => rule);
+        if (AllRulesVerified) {
+            return [true, []];
+        } else {
+            // Get the ALL rules that are not verified
+            const notVerifiedRules = rules.map((rule, index) => {
+                if (!rule) {
+                    return index;
+                }
+            }).filter((rule) => rule != undefined);
+            // Get the messages of the rules that are not verified
+            const notVerifiedMessages = notVerifiedRules.map((ruleIndex : any) => messages[ruleIndex]);
+            return [false, notVerifiedMessages || []];
+        }
     }
 
     const submit: FormEventHandler = (e) => {
@@ -143,7 +167,7 @@ const EmployeesForm = ({ ...props }) => {
                             variant="outline"
                             className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                             onClick={(e) => submit(e)}
-                            disabled={processing || !isAllRulesVerified()}
+                            disabled={processing || !isAllRulesVerified()[0]}
                         >
                             {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : editMode ? <MdEdit className="text-lg" /> : <FaSave className="text-lg" />}
                             <p className="group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">{editMode ? "Modifier" : "Ajouter"}</p>
@@ -152,6 +176,13 @@ const EmployeesForm = ({ ...props }) => {
                 </div>
                 <Separator className="mb-2" />
                 <form onSubmit={submit} className="w-full">
+                    <div className="flex flex-col gap-2 px-5 pb-5 border-b border-gray-200">
+                        {!isAllRulesVerified()[0] && <div className="flex flex-col gap-2">
+                            {(isAllRulesVerified()[1] as string[]).map((message, index) => (
+                                <p key={index} className="text-xs text-red-500">*{message}</p>
+                            ))}
+                        </div>}
+                    </div>
                     <div className="grid lg:grid-cols-2">
                         <div className="p-5 flex flex-col gap-5">
                             <div className="grid grid-cols-2 gap-3">
@@ -180,7 +211,7 @@ const EmployeesForm = ({ ...props }) => {
                             </div>
 
                             <div className="grid gap-3">
-                                <Label htmlFor="phone" className="text-base">Téléphone</Label>
+                                <Label htmlFor="phone" className="text-base">Téléphone (10 chiffres)</Label>
                                 <Input
                                     id="phone"
                                     type="text"

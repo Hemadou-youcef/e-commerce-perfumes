@@ -30,10 +30,11 @@ import ContactUsForm from '@/components/landing/contanct/contact';
 const Home = ({ ...props }) => {
     const { handleVisit } = useContext(LoadingContext);
     const { t, i18n } = useTranslation()
+    const title = t('layout.navbar.home') + " | " + t('layout.navbar.title');
     return (
         <>
             <Head>
-                <title>{t('layout.navbar.home')} | Rumah Perfum</title>
+                <title>{title}</title>
                 <meta name="description" content={
                     i18n.language === "fr" ?
                         "Découvrez un monde de parfums exquis et de montres élégantes chez Rumah Perfum. Explorez notre collection soigneusement sélectionnée de fragrances de luxe et de montres élégantes. Faites vos achats en toute confiance avec une livraison à temps, une couverture étendue sur 58 wilayas et un support client dédié."

@@ -55,7 +55,7 @@ export const columns: ColumnDef<ClientsInfo>[] = [
             let color = "bg-gray-600";
             switch (roleValue) {
                 case 0:
-                    text = "GUEST";
+                    text = "INVITÉ";
                     color = "bg-gray-600";
                     break;
                 case 1:
@@ -65,6 +65,10 @@ export const columns: ColumnDef<ClientsInfo>[] = [
                 case 2:
                     text = "TRAVAILLEUR";
                     color = "bg-yellow-600";
+                    break;
+                case 4:
+                    text = "S-ADMIN";
+                    color = "bg-red-600";
                     break;
                 case 3:
                     text = "ADMIN";

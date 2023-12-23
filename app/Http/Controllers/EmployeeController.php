@@ -29,6 +29,7 @@ class EmployeeController extends Controller
             ,
             'admins' => User::query()
                 ->where('role', 3)
+                ->orWhere('role', 4)
                 ->orderBy('created_at', 'desc')
                 ->get()
         ]);
@@ -123,6 +124,14 @@ class EmployeeController extends Controller
             'role' => 'required|string|max:255|in:2,3',
             'password' => 'nullable|string|confirmed|min:8',
         ]);
+
+        // if $user is admin the role of the changer must be 4 not 3
+        if ($user->isAdmin() || $request->role == 3) {
+            if (!auth()->user()->isSuperAdmin()) {
+                abort(403);
+            }
+        }
+        
 
         $user->update([
             'first_name' => $request->first_name,

@@ -31,6 +31,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
   const { height, width } = useWindowDimensions();
   const [currentTab, setCurrentTab] = useState("basic");
   const [collapsedStateList, setCollapsedStateList] = useState([true, true, true])
+  const isAdmin = auth?.user?.role === 3 || auth?.user?.role === 4
   useEffect(() => {
     if (width > 768) {
       setNav(true)
@@ -59,7 +60,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
             <FiBox className="w-5 h-5  group-hover:w-6 group-hover:h-6 transition-all" />
           </div>
 
-          {auth?.user?.role === 3 && (<Link
+          {isAdmin && (<Link
             href={"/dashboard/contacts"}
             className={`w-full h-14 flex justify-center items-center group transition-all cursor-pointer text-white ${pageId === "contacts" ? "bg-purple-800 " : "bg-purple-600"}`}
           >
@@ -105,7 +106,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                   <p className="text-xs text-gray-800 ">LES COMMANDES</p>
                 </Link>
               </CollapsibleContent>
-              <CollapsibleContent className="pl-4 w-full flex flex-col">
+              {isAdmin && (<CollapsibleContent className="pl-4 w-full flex flex-col">
                 <Link
                   href="/dashboard/shipping_agencies"
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3  group transition-all px-4  hover:bg-gray-200 ${pageId === "shipping_agencies" ? "bg-gray-200" : ""}`}
@@ -115,7 +116,8 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                   <p className="text-xs text-gray-800 ">LES AGENCES</p>
                 </Link>
               </CollapsibleContent>
-              
+              )}
+
             </Collapsible>
             <Collapsible className="w-full CollapsibleContent" open={collapsedStateList[1]} onOpenChange={(open) => setCollapsedStateList([collapsedStateList[0], open, collapsedStateList[2]])}>
               <CollapsibleTrigger className="w-full h-10 flex justify-between items-center gap-3   transition-all px-4">
@@ -170,7 +172,7 @@ export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolea
                 <FaAngleRight className={`h-4 w-4 text-red text-gray-800 ${collapsedStateList[2] ? "transform rotate-90" : ""} transition-all`} />
               </CollapsibleTrigger>
               <CollapsibleContent className="pl-4 w-full flex flex-col">
-                {auth?.user?.role === 3 && (<Link
+                {isAdmin && (<Link
                   href="/dashboard/employees"
                   className={`w-full pl-5 h-10 flex justify-start items-center gap-3 group hover:text-gray-200 transition-all px-4 hover:bg-gray-200 ${pageId === "employees" ? "bg-gray-200" : ""}`}
                   onClick={() => (width <= 768) ? setNav(false) : null}

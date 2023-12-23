@@ -245,6 +245,10 @@
     "about_us_page":{
         "title": "À propos de nous",
         "shop_location": "Emplacement du magasin",
-        "shop_1": "Magasin 1"
+        "contact_info": "Informations de contact",
+        "phone": "Téléphone",
+        "fax": "Fax",
+        "email": "Adresse e-mail",
+        "shop": "Magasin"
     }        
 }

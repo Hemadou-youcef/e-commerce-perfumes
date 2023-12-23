@@ -1,15 +1,17 @@
 import LandingMainLayout from "@/Layouts/landing/mainLayout";
 import { TiMessage } from "react-icons/ti";
+import { Head } from "@inertiajs/react";
 import { useTranslation } from "react-i18next";
 import ContactUsForm from "@/components/landing/contanct/contact";
-import { Head } from "@inertiajs/react";
 
-const Contact = ({ ...props }) => {
+const Contact = () => {
     const { t,i18n } = useTranslation();
+    const title = t('contact_page.title') + " | " + t('layout.navbar.title');
+    
     return (
         <>
             <Head>
-                <title>{t('contact_page.title')} | {t('layout.navbar.title')}</title>
+                <title>{title}</title>
                 <meta name="description" content={
                     i18n.language === "fr" ?
                         "Contactez-nous pour plus d'informations sur nos produits et services"

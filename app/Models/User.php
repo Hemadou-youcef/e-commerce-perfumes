@@ -110,14 +110,14 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'cancelled_by');
     }
 
-    public function isSuuuperAdmin(): bool
+    public function isSuperAdmin(): bool
     {
         return $this->role === 4;
     }
     public function isAdmin(): bool
     {
 
-        return $this->role === 3;
+        return $this->role === 3 || $this->isSuperAdmin();
     }
     public function isEmployee(): bool
     {

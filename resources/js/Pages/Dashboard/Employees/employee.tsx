@@ -42,6 +42,8 @@ const Employee = ({ ...props }) => {
     const [data, setData] = useState(props?.employee)
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
 
+    const title = data?.first_name + " " + data?.last_name + " | Les Utilisateurs";
+
     const { toast } = useToast()
 
     const formatDate = (date) => {
@@ -110,7 +112,9 @@ const Employee = ({ ...props }) => {
     return (
         <>
             <Head>
-                <title>{data?.first_name} {data?.last_name}</title>
+                <title>
+                    {title}
+                </title>
                 <meta name="description" content="Découvrez notre liste de clients" />
             </Head>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">

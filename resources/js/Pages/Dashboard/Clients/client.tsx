@@ -59,7 +59,7 @@ const Client = ({ ...props }) => {
         let Icon: JSX.Element = <></>;
         switch (client?.role) {
             case 0:
-                text = "GUEST";
+                text = "INVITÉ";
                 color = "bg-gray-600";
                 Icon = <MdSecurityUpdateWarning className="text-xl text-gray-600" />
                 break;

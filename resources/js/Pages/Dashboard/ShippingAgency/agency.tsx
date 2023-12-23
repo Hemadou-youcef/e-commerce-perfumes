@@ -154,7 +154,7 @@ const Agence = ({ ...props }) => {
                 </title>
             </Head>
             <div className="flex flex-row justify-start items-center px-5 pt-5 pb-2 gap-2">
-                <Link href="/dashboard/agences">
+                <Link href="/dashboard/shipping_agencies">
                     <h2 className="text-lg text-gray-900 font-bold tracking-tight">Les Agences</h2>
                 </Link>
                 <AiOutlineRight className="text-sm text-gray-800" />

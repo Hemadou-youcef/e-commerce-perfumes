@@ -82,7 +82,7 @@ const Products = ({ ...props }) => {
             </div>
             <div className="flex flex-col gap-2 mx-2 md:mx-10 py-2">
                 <div className="flex items-center justify-between">
-                    <div className="flex gap-1 text-white">
+                    <div className="flex gap-1 text-white"> 
                         <Input
                             placeholder="Filter Produits..."
                             value={search}
@@ -110,7 +110,6 @@ const Products = ({ ...props }) => {
                         <MdFilterAlt className="h-5 w-5" />
                         <span className="ml-2 hidden md:block">Filter</span>
                     </Button>
-
                 </div>
                 <Accordion type="single" value={showFilters ? "filter" : undefined}>
                     <AccordionItem value="filter" className="border-0">
@@ -118,7 +117,7 @@ const Products = ({ ...props }) => {
                             <div className="p-2 pt-3 border rounded-md flex flex-col gap-5 bg-gray-800">
                                 <div className="flex flex-col gap-2">
                                     <h1 className="text-sm font-medium  text-gray-50">Status</h1>
-                                    <div className="flex flex-row justify-start items-center gap-2">
+                                    <div className="flex flex-col md:flex-row justify-start items-center gap-2">
                                         <Button variant="outline"
                                             className={`flex h-8 items-center space-x-2 rounded-md bg-transparent border border-dashed text-gray-50 hover:bg-gray-50 hover:text-gray-900 ${status === "all" ? "bg-gray-50 text-gray-900" : ""}`}
                                             onClick={() => setStatus("all")}

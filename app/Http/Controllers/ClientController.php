@@ -26,7 +26,6 @@ class ClientController extends Controller
                 ->when(!$role, fn($query ,$role) => $query->where('role', 0)->orWhere('role', 1))
                 ->when($role, function($query, $role) {
                     // check if role either client or guest
-                    var_dump($role);
                     if ($role === 'guest' ) {
                         return $query->where('role', 0);
                     }elseif($role === 'client'){

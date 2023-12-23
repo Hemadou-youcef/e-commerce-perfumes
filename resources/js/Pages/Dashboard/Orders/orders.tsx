@@ -34,11 +34,12 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shadcn/ui/accordion";
 import { Head, Link, router } from "@inertiajs/react";
 import Pagination from "@/components/tables/pagination";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AiOutlineLoading3Quarters, AiOutlineSearch } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
 import { LuReceipt } from "react-icons/lu";
 import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker";
 import { DatePicker } from "@/components/dashboard/date-picker";
+import { MdFilterAlt } from "react-icons/md";
 
 
 const Orders = ({ ...props }) => {
@@ -53,9 +54,6 @@ const Orders = ({ ...props }) => {
         to: new Date(),
     });
 
-    // useEffect(() => {
-    //     setData(props?.orders?.data);
-    // }, [props?.orders?.data])
 
     const formatDate = (date) => {
         // to this form : mm/dd/yyyy
@@ -82,7 +80,6 @@ const Orders = ({ ...props }) => {
 
     const handleReceipt = () => {
         const popUpFeatures = 'width=' + screen.width + ',height=' + screen.height + ",menubar=no,toolbar=no,location=no,scrollbars=yes,status=no";
-        // setLoading(true);
         let dateRange = {}
         if (receiptDateRange.from === receiptDateRange.to) {
             dateRange = {
@@ -94,17 +91,6 @@ const Orders = ({ ...props }) => {
                 endDate: format(receiptDateRange.to, "yyyy-MM-dd"),
             }
         }
-        const printWindow = window.open(route('print_orders') + "?" + new URLSearchParams(dateRange), 'Print Order', popUpFeatures);
-        // router.get(route("print_orders"), dateRange, {
-        //     preserveScroll: true,
-        //     preserveState: true,
-        //     onSuccess: (page: any) => {
-        //         setData(page.props?.orders?.data || []);
-        //     },
-        //     onFinish: () => {
-        //         setLoading(false);
-        //     }
-        // });
     }
     return (
         <div className="">
@@ -228,32 +214,35 @@ const Orders = ({ ...props }) => {
             </div>
 
             <div className="flex flex-col gap-2 mx-2 md:mx-10 py-2">
-                <div className="flex flex-col sm:flex-row gap-2 items-center ">
-
-                    <Input
-                        placeholder="Rechercher une commande..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        onKeyDown={(key) => {
-                            if (key.key === "Enter") {
-                                handleFilter()
-                            }
-                        }}
-                        className="max-w-sm text-gray-900  focus-visible:ring-transparent"
-                        autoFocus
-                    />
-                    <div className="flex gap-1 w-full justify-between">
+                <div className="flex items-center justify-between">
+                    <div className="flex gap-1 text-white">
+                        <Input
+                            placeholder="Filter Commandes..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            onKeyDown={(key) => {
+                                if (key.key === "Enter") {
+                                    handleFilter()
+                                }
+                            }}
+                            className="max-w-sm text-gray-900  focus-visible:ring-transparent"
+                            autoFocus
+                        />
                         <Button
-                            className="flex items-center space-x-2 rounded-md w-28 focus-visible:ring-transparent"
+                            className="flex items-center rounded-md  focus-visible:ring-transparent"
                             onClick={handleFilter}
                             disabled={searchLoading}
                         >
-                            {searchLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : "Search"}
-                        </Button>
-                        <Button variant="outline" className="flex items-center space-x-2 rounded-md" onClick={() => setShowFilters(!showFilters)}>
-                            Filter
+                            {searchLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <>
+                                <span className="ml-2 hidden md:block">Search</span>
+                                <AiOutlineSearch className="md:hidden h-5 w-5" />
+                            </>}
                         </Button>
                     </div>
+                    <Button variant="outline" className="flex items-center space-x-2 rounded-md" onClick={() => setShowFilters(!showFilters)}>
+                        <MdFilterAlt className="h-5 w-5" />
+                        <span className="ml-2 hidden md:block">Filter</span>
+                    </Button>
                 </div>
                 <Accordion type="single" value={showFilters ? "filter" : undefined}>
                     <AccordionItem value="filter" className="border-0">
