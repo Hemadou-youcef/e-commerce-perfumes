@@ -22,6 +22,8 @@ import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import { RiBookmarkFill, RiBookmarkLine } from 'react-icons/ri';
 import { useTranslation } from 'react-i18next';
+import { is } from 'date-fns/locale';
+import { MdEdit } from 'react-icons/md';
 
 
 const getMinPrice = (prices: any) => {
@@ -62,6 +64,19 @@ const Product = ({ ...props }) => {
     useEffect(() => {
         setProduct(props?.product);
     }, [props?.product]);
+
+
+    const isAdmin = () => {
+        return [3, 4].includes(props?.auth?.user?.role);
+    }
+
+    const isEmployee = () => {
+        return [2].includes(props?.auth?.user?.role);
+    }
+
+    const isClient = () => {
+        return [0, 1].includes(props?.auth?.user?.role);
+    }
 
     const handleBookmark = () => {
         setBookmarkLoading(true);
@@ -231,7 +246,7 @@ const Product = ({ ...props }) => {
                                     {product?.name}
                                 </p>
                                 <p className="w-20 text-gray-900 text-center text-sm lg:tex">
-                                    {currectPrice?.price} {t("global.da")}
+                                    {getMinPrice(product?.active_product_prices)?.price} {t("global.da")}
                                 </p>
                             </div>
                             <hr className="w-full rounded-sm border-gray-400" />
@@ -250,19 +265,21 @@ const Product = ({ ...props }) => {
                                     <p key={index} className="px-2 py-1 rounded-sm text-xs font-medium text-white uppercase bg-gray-600">{i18n.language === "fr" ? category.name : category.name_ar}</p>
                                 ))}
                             </div>
-                            <div className='flex justify-between items-center w-full'>
-                                <p className="text-gray-900 text-xs font-bold md:text-sm lg:tex">
-                                    {t("product_page.add_to_bookmarks")}
-                                    {/* Ajouter aux Signets */}
-                                </p>
-                                <Button
-                                    variant="ghost"
-                                    className="hover:bg-gray-50"
-                                    onClick={() => handleBookmark()}
-                                >
-                                    {bookmarkLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : product?.isProductBookmarked ? <RiBookmarkFill className="w-4 h-4 text-gray-900" /> : <RiBookmarkLine className="w-4 h-4 text-gray-900" />}
-                                </Button>
-                            </div>
+                            {isClient() && (
+                                <div className='flex justify-between items-center w-full'>
+                                    <p className="text-gray-900 text-xs font-bold md:text-sm lg:tex">
+                                        {t("product_page.add_to_bookmarks")}
+                                        {/* Ajouter aux Signets */}
+                                    </p>
+                                    <Button
+                                        variant="ghost"
+                                        className="hover:bg-gray-50"
+                                        onClick={() => handleBookmark()}
+                                    >
+                                        {bookmarkLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : product?.isProductBookmarked ? <RiBookmarkFill className="w-4 h-4 text-gray-900" /> : <RiBookmarkLine className="w-4 h-4 text-gray-900" />}
+                                    </Button>
+                                </div>
+                            )}
                             <Separator className="w-full mt-2" />
                             <p className="w-full mt-2 text-gray-800 text-left rtl:text-right text-xs font-bold md:text-sm lg:text-base">
                                 {t("product_page.product_price")}:
@@ -285,43 +302,45 @@ const Product = ({ ...props }) => {
 
                             </div>
 
-                            <div className="flex md:flex-col lg:flex-row justify-start items-center w-full gap-3 mt-3">
-                                <div dir="ltr" className="w-52 flex justify-between gap-1 items-center  overflow-hidden">
-                                    <div className="w-10 h-10 flex justify-center items-center text-gray-600 border-2 font-bold gap-1 select-none cursor-pointer"
-                                        onClick={() => (qte > 1) ? setQte(qte - 1) : setQte(0)} >
-                                        <AiOutlineMinus className="w-4 h-4 text-gray-600 select-none cursor-pointer" />
-                                    </div>
-                                    <div className="w-10 h-10 flex justify-center border-2 items-center text-gray-600 font-bold gap-1">
-                                        <input
-                                            value={qte}
-                                            onChange={(e) => (parseInt(e.target.value) > 0) ? setQte(parseInt(e.target.value)) : setQte(0)}
-                                            className="outline-none w-10 h-10 text-center text-gray-700 font-bold text-xs md:text-sm lg:tex"
-                                        />
-                                    </div>
-                                    <div
-                                        className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold border-2 gap-1 select-none cursor-pointer"
-                                        onClick={() => setQte(qte + 1)} >
-                                        <AiOutlinePlus className="w-4 h-4 text-gray-600 " />
-                                    </div>
-                                </div>
-                                <Button
-                                    variant="default"
-                                    className="w-full bg-primary text-white rounded-none font-bold text-xs flex justify-between"
-                                    onClick={addToCart}
-                                >
-                                    <p className="text-xs font-bold md:text-sm lg:tex">
-                                        {t("product_page.add_to_cart")}
-                                        {/* AJOUTER AU PANIER */}
-                                    </p>
-                                    {addingToCartLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
-                                        <div className="flex gap-1 text-xs text-gray-300 font-bold">
-                                            {currectPrice?.price * qte} {t("global.da")}
+                            {isClient() && (
+                                <div className="flex md:flex-col lg:flex-row justify-start items-center w-full gap-3 mt-3">
+                                    <div dir="ltr" className="w-52 flex justify-between gap-1 items-center  overflow-hidden">
+                                        <div className="w-10 h-10 flex justify-center items-center text-gray-600 border-2 font-bold gap-1 select-none cursor-pointer"
+                                            onClick={() => (qte > 1) ? setQte(qte - 1) : setQte(0)} >
+                                            <AiOutlineMinus className="w-4 h-4 text-gray-600 select-none cursor-pointer" />
                                         </div>
-                                    )}
-                                </Button>
-                            </div>
+                                        <div className="w-10 h-10 flex justify-center border-2 items-center text-gray-600 font-bold gap-1">
+                                            <input
+                                                value={qte}
+                                                onChange={(e) => (parseInt(e.target.value) > 0) ? setQte(parseInt(e.target.value)) : setQte(0)}
+                                                className="outline-none w-10 h-10 text-center text-gray-700 font-bold text-xs md:text-sm lg:tex"
+                                            />
+                                        </div>
+                                        <div
+                                            className="w-10 h-10 flex justify-center items-center text-gray-600 font-bold border-2 gap-1 select-none cursor-pointer"
+                                            onClick={() => setQte(qte + 1)} >
+                                            <AiOutlinePlus className="w-4 h-4 text-gray-600 " />
+                                        </div>
+                                    </div>
+                                    <Button
+                                        variant="default"
+                                        className="w-full bg-primary text-white rounded-none font-bold text-xs flex justify-between"
+                                        onClick={addToCart}
+                                    >
+                                        <p className="text-xs font-bold md:text-sm lg:tex">
+                                            {t("product_page.add_to_cart")}
+                                            {/* AJOUTER AU PANIER */}
+                                        </p>
+                                        {addingToCartLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
+                                            <div className="flex gap-1 text-xs text-gray-300 font-bold">
+                                                {currectPrice?.price * qte} {t("global.da")}
+                                            </div>
+                                        )}
+                                    </Button>
+                                </div>
+                            )}
                             {/* PRODUCT ALREADY IN CART */}
-                            {product?.isProductInCart && (
+                            {isClient() && product?.isProductInCart && (
                                 <div className="flex justify-start items-center w-full">
                                     <p className="text-gray-900 text-xs font-bold md:text-sm lg:tex">
                                         {t("product_page.product_already_in_cart")}
@@ -340,15 +359,37 @@ const Product = ({ ...props }) => {
                                     </Link>
                                 </div>
                             )}
+
+                            {(isAdmin() || isEmployee()) && (
+                                <div className="flex justify-start items-center w-full">
+                                    {/* EDIT PRODUCT */}
+                                    <Link
+                                        href={route("product.edit", product?.id)}
+                                        className="flex justify-center items-center gap-2"
+                                    >
+                                        <Button
+                                            variant="outline"
+                                            className="hover:bg-gray-50 gap-2"
+                                        >
+                                            <MdEdit className="w-5 h-5 text-gray-900" />
+                                            {t("global.edit")}
+                                            {/* Modifier */}
+                                        </Button>
+                                    </Link>
+                                </div>
+                            )}
+
+                            {/* PRODUCT ALREADY IN BOOKMARKS */}
+
                         </div>
                     </div>
 
                 </div>
-                
+
             </div>
             <LandingSuggest title={t("product_page.you_may_also_like")} url="/products"
                 products={props?.product?.suggestedProducts} />
-                
+
             {showImageSlider && (
                 <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
                     {/* overlay */}
