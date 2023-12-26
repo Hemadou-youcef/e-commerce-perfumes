@@ -148,9 +148,9 @@ const ProductForm = ({ ...props }) => {
             if (file instanceof File && file.size > 1000000) {
                 // Compress the file with resizing and quality adjustments=
                 new Compressor(file, {
-                    height: 600,
-                    width: 600,
-                    quality: 0.8,
+                    height: 1000,
+                    width: 1000,
+                    quality: 0.9,
                     success: (compressedFile) => {
                         // If the compressed file is within the size limit, resolve with it
                         resolve(compressedFile as File);
