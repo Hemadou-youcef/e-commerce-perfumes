@@ -88,10 +88,7 @@ interface FormData {
 }
 
 const ProductForm = ({ ...props }) => {
-    console.log(props)
     const editMode = props?.product ? true : false;
-
-    
     const { data, setData, post, transform, processing, errors, reset } = useForm<FormData>({
         name: props?.product?.name || "",
         description: props?.product?.description || "",
@@ -107,11 +104,13 @@ const ProductForm = ({ ...props }) => {
         other_images: [],
         removed_images: [],
     });
-    
     const [categories, setCategories] = useState<any[]>(props?.categories || [])
 
-    const [imagesUploaded, setImagesUploaded] = useState<File[]>([
-        new File([""], "image1"),
+    const [imagesUploaded, setImagesUploaded] = useState([
+        {
+            file: new File([""], "image1"),
+            url: "",
+        },
     ]);
 
     const [currentPrice, setCurrentPrice] = useState<prices>({
@@ -147,18 +146,14 @@ const ProductForm = ({ ...props }) => {
         return new Promise((resolve, reject) => {
             // Check if the file size exceeds 1MB
             if (file instanceof File && file.size > 1000000) {
-                // Compress the file with a quality of 0.6
+                // Compress the file with resizing and quality adjustments=
                 new Compressor(file, {
-                    quality: 0.6,
+                    height: 600,
+                    width: 600,
+                    quality: 0.8,
                     success: (compressedFile) => {
-                        // Check if the compressed file size still exceeds 1MB
-                        if (compressedFile.size > 1000000) {
-                            // Recursively compress the file until it's within the size limit
-                            handleCompress(compressedFile).then(resolve);
-                        } else {
-                            // If the compressed file is within the size limit, resolve with it
-                            resolve(compressedFile as File);
-                        }
+                        // If the compressed file is within the size limit, resolve with it
+                        resolve(compressedFile as File);
                     },
                     error: (error) => {
                         // Reject with the compression error
@@ -170,28 +165,38 @@ const ProductForm = ({ ...props }) => {
                 resolve(file as File);
             }
         });
-    };    
-    
+    };
+
+
     const imagesToDataForm = async () => {
         // USE COMPRESSOR TO ASYNCHRONOUSLY COMPRESS IMAGES
         const compressedImages: File[] = [];
-    
+
         // Filter and compress images (excluding the main image and the first one)
         for (const img of imagesUploaded.slice(1)) {
-            const notTheMainImage = img.name !== data.main_image?.name;
+            const notTheMainImage = img.file.name !== data.main_image?.name;
             if (notTheMainImage) {
                 try {
-                    const compressedImage = await handleCompress(img);
+                    const compressedImage = await handleCompress(img.file);
                     compressedImages.push(compressedImage);
                 } catch (error) {
                     console.error(error);
                 }
             }
         }
-    
+        // COMPRESS THE MAIN IMAGE
+        if (data.main_image) {
+            try {
+                const compressedImage = await handleCompress(data.main_image);
+                data.main_image = compressedImage;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
         setData(editMode ? "other_images" : "images", compressedImages);
     };
-    
+
 
     const changeAllPricesUnit = (unit: string) => {
         const prices = data.prices.map((price) => {
@@ -202,7 +207,6 @@ const ProductForm = ({ ...props }) => {
 
     const handleChangeMainImage = (type, value) => {
         if (type === "file") {
-            console.log(value)
             setData(data => ({ ...data, main_image: value }));
             setData(data => ({ ...data, main_image_id: null }));
         } else {
@@ -261,7 +265,10 @@ const ProductForm = ({ ...props }) => {
                 preserveScroll: true,
                 onSuccess: () => {
                     reset();
-                    setImagesUploaded([new File([""], "image1")]);
+                    setImagesUploaded([{
+                        file: new File([""], "image1"),
+                        url: "",
+                    }]);
                     toast({
                         title: "Produit ajouté avec succès",
                         description: "Vous pouvez maintenant consulter votre liste de produits",
@@ -336,7 +343,7 @@ const ProductForm = ({ ...props }) => {
                                     type="text"
                                     className="w-full h-12 border-2 focus-visible:ring-transparent"
                                     value={data.name}
-                                    onChange={(e) => setData((data) => ({ ...data, name: e.target.value }))}
+                                    onChange={(e) => setData("name", e.target.value)}
                                 />
 
                                 {editMode && data.name.length === 0 && <p className="text-xs text-red-500">Le nom de la produit est obligatoire</p>}
@@ -466,13 +473,13 @@ const ProductForm = ({ ...props }) => {
                                             <ContextMenu>
                                                 <ContextMenuTrigger>
                                                     <div
-                                                        style={{ backgroundImage: "url(" + URL.createObjectURL(image) + ")" }}
+                                                        style={{ backgroundImage: "url(" + image.url + ")" }}
                                                         className={`w-full h-full relative flex items-center justify-center bg-cover bg-center cursor-pointer`}
                                                         onClick={() => {
-                                                            if (data?.main_image?.name === image.name) {
+                                                            if (data?.main_image?.name === image.file.name) {
                                                                 setData(data => ({ ...data, main_image: null }));
                                                             }
-                                                            setImagesUploaded(imagesUploaded.filter((img) => img !== image));
+                                                            setImagesUploaded(imagesUploaded.filter((img) => img.file !== image.file));
                                                         }}
                                                     >
                                                         <div className="absolute inset-0 w-full h-full bg-gray-300 opacity-0 group-hover:opacity-50 transition-all duration-300">
@@ -490,7 +497,10 @@ const ProductForm = ({ ...props }) => {
                                                         accept="image/*"
                                                         className={`absolute inset-0 w-full h-full opacity-0 cursor-pointer ${index !== 0 ? "hidden" : ""}`}
                                                         onChange={(e: any) => {
-                                                            setImagesUploaded([...imagesUploaded, e.target.files[0]]);
+                                                            setImagesUploaded([...imagesUploaded, {
+                                                                file: e.target.files[0],
+                                                                url: URL.createObjectURL(e.target.files[0]),
+                                                            }])
                                                         }}
                                                     />
                                                 </ContextMenuTrigger>
@@ -498,7 +508,7 @@ const ProductForm = ({ ...props }) => {
                                                     <ContextMenuContent>
                                                         <ContextMenuItem
                                                             className="flex items-center justify-center gap-2"
-                                                            onClick={() => handleChangeMainImage("file", new File([image], image.name))}
+                                                            onClick={() => handleChangeMainImage("file", new File([image.file], image.file.name, { type: image.file.type }))}
                                                         >
                                                             Définir comme image principale
                                                         </ContextMenuItem>
@@ -506,7 +516,7 @@ const ProductForm = ({ ...props }) => {
                                                 )}
                                             </ContextMenu>
 
-                                            {data?.main_image?.name === image.name && (
+                                            {data?.main_image?.name === image.file.name && (
                                                 <div className="absolute top-0 right-0 w-7 h-7 bg-yellow-400 flex items-center justify-center">
                                                     <LuCrown className="w-4 h-4 text-gray-50" />
                                                 </div>
