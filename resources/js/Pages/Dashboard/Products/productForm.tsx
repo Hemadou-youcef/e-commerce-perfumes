@@ -2,6 +2,7 @@ import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
 
 import { Link, useForm } from "@inertiajs/react";
 import { FormEventHandler, useEffect, useMemo, useState } from "react";
+import Compressor from 'compressorjs';
 
 // Shadcn Components
 import {
@@ -89,6 +90,8 @@ interface FormData {
 const ProductForm = ({ ...props }) => {
     console.log(props)
     const editMode = props?.product ? true : false;
+
+    
     const { data, setData, post, transform, processing, errors, reset } = useForm<FormData>({
         name: props?.product?.name || "",
         description: props?.product?.description || "",
@@ -104,6 +107,7 @@ const ProductForm = ({ ...props }) => {
         other_images: [],
         removed_images: [],
     });
+    
     const [categories, setCategories] = useState<any[]>(props?.categories || [])
 
     const [imagesUploaded, setImagesUploaded] = useState<File[]>([
@@ -139,15 +143,55 @@ const ProductForm = ({ ...props }) => {
         return rules.every((rule) => rule);
     }
 
-    const imagesToDataForm = () => {
-        const images = imagesUploaded.filter((img, index) => {
-            const notTheMainImage = img.name !== data.main_image?.name;
-            const notZeroIndex = index !== 0;
-            return notZeroIndex && notTheMainImage;
-
+    const handleCompress = (file: File | Blob): Promise<File> => {
+        return new Promise((resolve, reject) => {
+            // Check if the file size exceeds 1MB
+            if (file instanceof File && file.size > 1000000) {
+                // Compress the file with a quality of 0.6
+                new Compressor(file, {
+                    quality: 0.6,
+                    success: (compressedFile) => {
+                        // Check if the compressed file size still exceeds 1MB
+                        if (compressedFile.size > 1000000) {
+                            // Recursively compress the file until it's within the size limit
+                            handleCompress(compressedFile).then(resolve);
+                        } else {
+                            // If the compressed file is within the size limit, resolve with it
+                            resolve(compressedFile as File);
+                        }
+                    },
+                    error: (error) => {
+                        // Reject with the compression error
+                        reject(new Error(`Compression error: ${error.message}`));
+                    },
+                });
+            } else {
+                // If the file is already within the size limit or is not a File, resolve with it
+                resolve(file as File);
+            }
         });
-        setData(editMode ? "other_images" : "images", images);
-    }
+    };    
+    
+    const imagesToDataForm = async () => {
+        // USE COMPRESSOR TO ASYNCHRONOUSLY COMPRESS IMAGES
+        const compressedImages: File[] = [];
+    
+        // Filter and compress images (excluding the main image and the first one)
+        for (const img of imagesUploaded.slice(1)) {
+            const notTheMainImage = img.name !== data.main_image?.name;
+            if (notTheMainImage) {
+                try {
+                    const compressedImage = await handleCompress(img);
+                    compressedImages.push(compressedImage);
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+    
+        setData(editMode ? "other_images" : "images", compressedImages);
+    };
+    
 
     const changeAllPricesUnit = (unit: string) => {
         const prices = data.prices.map((price) => {
@@ -169,6 +213,7 @@ const ProductForm = ({ ...props }) => {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+        // USE COMPRESSOR TO COMPRESS IMAGES
         if (editMode) {
 
             transform((data: FormData) => {
@@ -209,6 +254,7 @@ const ProductForm = ({ ...props }) => {
         } else {
             transform((data: FormData) => {
                 const { main_image_id, other_images, removed_images, ...rest } = data
+                // use compress to compress images
                 return rest;
             });
             post(route("product.store"), {
@@ -290,7 +336,7 @@ const ProductForm = ({ ...props }) => {
                                     type="text"
                                     className="w-full h-12 border-2 focus-visible:ring-transparent"
                                     value={data.name}
-                                    onChange={(e) => setData("name", e.target.value)}
+                                    onChange={(e) => setData((data) => ({ ...data, name: e.target.value }))}
                                 />
 
                                 {editMode && data.name.length === 0 && <p className="text-xs text-red-500">Le nom de la produit est obligatoire</p>}
@@ -573,7 +619,7 @@ const ProductForm = ({ ...props }) => {
                                                                 <MdDeleteOutline className="w-6 h-6" />
                                                             </Button> */}
                                                             <div
-                                                                className={` flex  flex-row justify-center items-center  rounded-sm gap-2 cursor-pointer ${!editMode ? "": "p-1 border-2 border-gray-400  w-6 h-6"}`}
+                                                                className={` flex  flex-row justify-center items-center  rounded-sm gap-2 cursor-pointer ${!editMode ? "" : "p-1 border-2 border-gray-400  w-6 h-6"}`}
                                                                 onClick={() => {
                                                                     if (editMode) {
                                                                         setData(data => ({

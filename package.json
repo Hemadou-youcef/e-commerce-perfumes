@@ -52,6 +52,7 @@
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
         "cmdk": "^0.2.0",
+        "compressorjs": "^1.2.1",
         "date-fns": "^2.30.0",
         "fs": "^0.0.1-security",
         "i18next": "^23.7.8",

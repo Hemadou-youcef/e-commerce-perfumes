@@ -348,21 +348,21 @@ const Cart = ({ ...props }) => {
                     )}
 
                     {cartItems.length > 0 && (
-                        <div className="flex flex-col p-5 gap-3">
+                        <div className="flex flex-col p-5 gap-3 text-xs sm:text-sm md:text-base lg:text-lg">
                             {checkedOut &&
                                 <><div className="flex items-center font-mono rtl:font-arabic justify-between">
-                                    <p className="text-lg">
+                                    <p>
                                         {t('cart_page.sub_total')}:
                                     </p>
-                                    <p className="flex rtl:flex-row-reverse gap-2 text-base text-gray-900">
+                                    <p className="flex rtl:flex-row-reverse gap-2  text-gray-900">
                                         {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0)},00 {t("global.da")}
                                     </p>
                                 </div>
                                     <div className="flex items-center font-mono rtl:font-arabic justify-between">
-                                        <p className="text-lg">
+                                        <p>
                                             {t('cart_page.shipping')}:
                                         </p>
-                                        <p className="text-base text-gray-900">
+                                        <p className=" text-gray-900">
                                             {data.state_code != "" ?
                                                 (currentFees || 0 )+ ",00 " + t("global.da")
                                                 :
@@ -372,10 +372,10 @@ const Cart = ({ ...props }) => {
                                     </div>
                                     {/* yalidine[(parseInt(data.state_code) || 1) - 1][data.shipping_method == "1" ? "2" : "1"] */}
                                     <div className="flex items-center font-bold font-mono rtl:font-arabic justify-between">
-                                        <p className="text-lg">
+                                        <p>
                                             {t('cart_page.total')}:
                                         </p>
-                                        <p className="text-base text-gray-900">
+                                        <p className=" text-gray-900">
                                             {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + currentFees || 0},00 {t("global.da")}  
                                         </p>
                                     </div>
@@ -402,7 +402,10 @@ const Cart = ({ ...props }) => {
                                 ) : (
                                     <Button
                                         className="w-64 text-white px-4 py-2 bg-gray-900 rounded-md hover:bg-gray-800 active:bg-gray-700"
-                                        onClick={() => setCheckedOut(true)}
+                                        onClick={() => {
+                                            setCheckedOut(true);
+                                            window.scrollTo(0, 0);
+                                        }}
                                     >
                                         <div className="flex items-center justify-center gap-2">
                                             <p className="text-sm text-gray-50 font-bold uppercase">

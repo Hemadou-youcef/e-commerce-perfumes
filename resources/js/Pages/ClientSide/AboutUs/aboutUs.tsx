@@ -65,7 +65,7 @@ const AboutUs = ({ ...props }) => {
                                 <span className="text-[10px] md:text-xs lg:text-lg font-bold text-gray-900 uppercase w-20 md:w-52">
                                     {t('about_us_page.fax')}
                                 </span>
-                                <span className="text-[10px] md:text-xs lg:text-lg font-medium text-gray-900 uppercase">
+                                <span dir="ltr" className="text-[10px] md:text-xs lg:text-lg font-medium text-gray-900 uppercase">
                                     052 51 93 78
                                 </span>
                             </div>
@@ -74,7 +74,7 @@ const AboutUs = ({ ...props }) => {
                                 <span className="text-[10px] md:text-xs lg:text-lg font-bold text-gray-900 uppercase w-20 md:w-52">
                                     {t('about_us_page.phone')}
                                 </span>
-                                <div className="flex flex-col gap-2 text-[10px] md:text-xs lg:text-lg font-medium text-gray-900 uppercase">
+                                <div dir="ltr" className="flex flex-col gap-2 text-[10px] md:text-xs lg:text-lg font-medium text-gray-900 uppercase">
                                     <span>06 62 07 13 94</span>
                                     <span>06 62 54 13 94</span>
                                     <span>06 62 46 12 94</span>

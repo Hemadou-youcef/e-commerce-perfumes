@@ -69,6 +69,9 @@ const PrintOrder = ({ order }) => {
 
                                 <ul>
                                     <li>RUMAH PARFUM</li>
+                                    <li className="float-right">
+                                        <img src="/image/rumah-logo.png" alt="logo" className="w-24" />
+                                    </li>
                                     <li className="flex flex-row gap-2">
                                         <strong>Address:</strong>
                                         <span> Cité lararsa (enface hotel ZIDANE), 19000 Setif</span>
@@ -89,19 +92,21 @@ const PrintOrder = ({ order }) => {
                                         <strong>Mail:</strong>
                                         <span>parisvip19000@gmail.com</span>
                                     </li>
+                                    {/* ADD LOGO IMAGE IN RIGHT */}
+                                    
 
                                     {/* User Information in the right  */}
                                     <li className="w-full flex flex-col items-end justify-end">
                                         <strong>Destinataire</strong>
-                                        <span>{`${order.user.first_name}, ${order.user.last_name}`}</span>
-                                        <span>{order.user.address}</span>
+                                        <span>{`${order?.user?.first_name}, ${order?.user?.last_name}`}</span>
+                                        <span>{order?.user?.address}</span>
                                     </li>
 
                                     <li className="w-full flex flex-col justify-start">
                                         <span>Bon de commande N°: {order.id}</span>
-                                        <span>Date: {formatDate(order.created_at)}</span>
-                                        <span>Lieu d'émission: {order.address.street_address}</span>
-                                        <span>Numéro de client: {order.user.phone}</span>
+                                        <span>Date: {formatDate(order?.created_at)}</span>
+                                        <span>Lieu d'émission: {order?.address?.street_address}</span>
+                                        <span>Numéro de client: {order?.user?.phone}</span>
 
                                     </li>
                                 </ul>
@@ -129,7 +134,7 @@ const PrintOrder = ({ order }) => {
                                             </tr>
                                         ))}
                                         <tr>
-                                            <td colSpan={2} className="pl-2 text-left">Livraison ({order?.shipping_agency.name})</td>
+                                            <td colSpan={2} className="pl-2 text-left">Livraison ({order?.shipping_agency?.name})</td>
                                             <td className="pr-2 text-left">{order?.address?.shipping_price} DA</td>
                                         </tr>
                                         <tr>

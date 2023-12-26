@@ -50,15 +50,15 @@ const Orders = ({ ...props }) => {
     const [searchLoading, setSearchLoading] = useState(false);
     const [loading, setLoading] = useState(false);
     const [receiptDateRange, setReceiptDateRange] = useState({
-        from: addDays(new Date(), -7),
+        from: new Date(),
         to: new Date(),
     });
 
 
     const formatDate = (date) => {
-        // to this form : mm/dd/yyyy
-        const d = new Date(date);
-        return d.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        // to this form : "yyyy-MM-dd"
+        
+        return date.toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' });
     }
 
     const handleFilter = () => {
@@ -91,6 +91,7 @@ const Orders = ({ ...props }) => {
                 endDate: format(receiptDateRange.to, "yyyy-MM-dd"),
             }
         }
+        const printWindow = window.open(route('print_orders') + "?" + new URLSearchParams(dateRange), 'Print Order', popUpFeatures);
     }
     return (
         <div className="">
