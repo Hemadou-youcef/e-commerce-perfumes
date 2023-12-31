@@ -297,15 +297,22 @@ class OrderController extends Controller
             return back()->withErrors($errors);
         }
 
-        // Deduct stock and update order status
-        foreach ($order->orderProducts as $orderProduct) {
-            $orderProduct->product->removeStock($orderProduct->totalQuantity());
+        try {
+            DB::beginTransaction();
+            // Deduct stock and update order status
+            foreach ($order->orderProducts as $orderProduct) {
+                $orderProduct->product->removeStock($orderProduct->totalQuantity());
+            }
+            $order->update([
+                'status' => 'verified',
+                'verified_by' => auth()->user()->id
+            ]);
+            DB::commit();
+            return back();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Une erreur est survenue']);
         }
-
-        $order->update([
-            'status' => 'verified',
-            'verified_by' => auth()->user()->id
-        ]);
     }
 
     /**
@@ -330,62 +337,65 @@ class OrderController extends Controller
             return back()->withErrors(['data' => 'Veuillez envoyer les données de dans le format json']);
         }
 
-        // return $reservations;
-        foreach ($reservations as $reservation) {
 
-            $reception_id = $reservation->reception_id;
-            $order_product_id = $reservation->order_product_id;
-            $quantity = $reservation->quantity;
+        try {// return $reservations;
+            DB::beginTransaction();
+            foreach ($reservations as $reservation) {
+
+                $reception_id = $reservation->reception_id;
+                $order_product_id = $reservation->order_product_id;
+                $quantity = $reservation->quantity;
 
 
-            // check if reception exists
-            $reception = Reception::query()->where('id', $reception_id)->first();
-            if ($reception == null) {
-                return back()->withErrors(['reception_id' => 'reception_id n\'existe pas']);
+                // check if reception exists
+                $reception = Reception::query()->where('id', $reception_id)->first();
+                if ($reception == null) {
+                    return back()->withErrors(['reception_id' => 'reception_id n\'existe pas']);
+                }
+
+                // check if reception rest is enough
+                if ($quantity > $reception->rest) {
+                    return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité restante dans la réception']);
+                }
+
+                // check if order_product exists
+                $order_product = OrderProduct::query()->where('id', $order_product_id)->first();
+                if ($order_product == null) {
+                    return back()->withErrors(['order_product_id' => 'order_product_id n\'existe pas']);
+                }
+
+
+                if ($quantity > $order_product->totalQuantity()) {
+                    return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité de la commande']);
+                }
+
+                // return [$reception_id, $order_product_id, $quantity];
+                $reservation = Reservation::query()->create([
+                    'reception_id' => $reception_id,
+                    'order_product_id' => $order_product_id,
+                    'quantity' => $quantity,
+                ]);
+
+                $reservation->apply();
+
+
             }
-
-            // check if reception rest is enough
-            if ($quantity > $reception->rest) {
-                return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité restante dans la réception']);
+            foreach ($order->orderProducts as $orderProduct) {
+                $orderProduct->buying_price = $orderProduct->buyingPrice();
+                $orderProduct->save();
             }
-
-            // check if order_product exists
-            $order_product = OrderProduct::query()->where('id', $order_product_id)->first();
-            if ($order_product == null) {
-                return back()->withErrors(['order_product_id' => 'order_product_id n\'existe pas']);
-            }
-
-
-            if ($quantity > $order_product->totalQuantity()) {
-                return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité de la commande']);
-            }
-
-            // return [$reception_id, $order_product_id, $quantity];
-            $reservation = Reservation::query()->create([
-                'reception_id' => $reception_id,
-                'order_product_id' => $order_product_id,
-                'quantity' => $quantity,
+            $order->update([
+                'status' => 'confirmed',
+                'confirmed_by' => auth()->user()->id,
+                'profit' => $order->profit(),
             ]);
 
-            $reservation->apply();
-
-
+            DB::commit();
+            return back();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Une erreur est survenue']);
         }
-
-        foreach ($order->orderProducts as  $orderProduct ) {
-            $orderProduct->buying_price = $orderProduct->buyingPrice();
-            $orderProduct->save();
-        }
-
-
-        $order->update([
-            'status' => 'confirmed',
-            'confirmed_by' => auth()->user()->id,
-            'profit' => $order->profit(),
-        ]);
-
-
-        return back();
     }
 
 
@@ -406,39 +416,45 @@ class OrderController extends Controller
     {
 
         $this->authorize('cancel', $order);
-        switch ($order->status) {
-            case 'cancelled':
-                return back()->withErrors(['order' => 'order est déjà annulé']);
-            case 'delivered':
-                return back()->withErrors(['order' => 'order ne peut pas être annulé car il est déjà livré']);
-            case 'verified':
-                // revert stock for each product
-                $order->orderProducts->each(function ($orderProduct) {
-                    $orderProduct->product->addStock($orderProduct->totalQuantity());
-                });
-                break;
-            case 'confirmed':
-                // revert stock for each product
-                $order->orderProducts->each(function ($orderProduct) {
-                    $orderProduct->product->addStock($orderProduct->totalQuantity());
-                });
-                // delete reservations
-                $order->reservations()->each(function ($reservation) {
-                    $reservation->revert();
-                    $reservation->delete();
-                });
-                break;
 
 
+        try {
+            DB::beginTransaction();
+            switch ($order->status) {
+                case 'cancelled':
+                    return back()->withErrors(['order' => 'order est déjà annulé']);
+                case 'delivered':
+                    return back()->withErrors(['order' => 'order ne peut pas être annulé car il est déjà livré']);
+                case 'verified':
+                    // revert stock for each product
+                    $order->orderProducts->each(function ($orderProduct) {
+                        $orderProduct->product->addStock($orderProduct->totalQuantity());
+                    });
+                    break;
+                case 'confirmed':
+                    // revert stock for each product
+                    $order->orderProducts->each(function ($orderProduct) {
+                        $orderProduct->product->addStock($orderProduct->totalQuantity());
+                    });
+                    // delete reservations
+                    $order->reservations()->each(function ($reservation) {
+                        $reservation->revert();
+                        $reservation->delete();
+                    });
+                    break;
+
+
+            }
+            $order->update([
+                'status' => 'cancelled',
+                'cancelled_by' => auth()->user()->id
+            ]);
+            DB::commit();
+            return back();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Une erreur est survenue']);
         }
-
-
-        $order->update([
-            'status' => 'cancelled',
-            'cancelled_by' => auth()->user()->id
-        ]);
-
-        return back();
 
     }
 

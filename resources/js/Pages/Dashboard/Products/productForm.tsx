@@ -589,7 +589,7 @@ const ProductForm = ({ ...props }) => {
                                             <TableRow className="bg-gray-100 hover:bg-gray-100 text-center">
                                                 <TableHead >Quantité</TableHead>
                                                 <TableHead >Prix</TableHead>
-                                                <TableHead className="w-20"></TableHead>
+                                                <TableHead className="w-20">Active</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>

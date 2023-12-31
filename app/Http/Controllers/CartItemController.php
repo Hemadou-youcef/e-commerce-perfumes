@@ -68,17 +68,25 @@ class CartItemController extends Controller
         }
         // check if product already in cart
         $cartItem = Auth::user()->cartItems()->where('product_id', $validated['product_id'])->where('product_price_id', $validated['product_price_id'])->first();
-        if ($cartItem) {
-//            dd('item already in cart');
-            $cartItem['quantity'] = $cartItem->quantity + $validated['quantity'];
-//            dd($cartItem['quantity']);
-            $cartItem->save();
+
+
+        try {
+
+            DB::beginTransaction();
+            if ($cartItem) {
+                //            dd('item already in cart');
+                $cartItem['quantity'] = $cartItem->quantity + $validated['quantity'];
+                //            dd($cartItem['quantity']);
+                $cartItem->save();
+                return redirect()->back();
+            }
+            Auth::user()->cartItems()->create($validated);
+            DB::commit();
             return redirect()->back();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['cart' => 'Une erreur est survenue']);
         }
-
-
-
-        Auth::user()->cartItems()->create($validated);
     }
 
     /**
