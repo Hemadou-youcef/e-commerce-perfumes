@@ -107,6 +107,11 @@ class Product extends Model
         return Product::query()->where('status', '!=' , 'archived');
     }
 
+    public function orderProducts(): HasMany
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
+
 
 
 

@@ -24,7 +24,6 @@ use Inertia\Inertia;
 
 
 
-
 // guest middleware routes
 
 
