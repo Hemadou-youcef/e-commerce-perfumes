@@ -70,6 +70,7 @@
             "search":"Recherche",
             "for_you_perfumes":"Parfums Pour Vous",
             "for_you_accessories":"Accessoires Pour Vous",
+            "for_you_oils":"Extrait de parfum Pour Vous",
             "payment":"Paiement",
             "on_delivery":"À la Livraison",
             "delivery":"Livraison",
@@ -128,7 +129,6 @@
         "max_price": "Prix maximum",
         "min_price": "Prix minimum"
     },
-    
     "product_page":{
         "add_to_cart":"Ajouter au panier",
         "add_to_bookmarks":"Ajouter aux favoris",
@@ -171,7 +171,6 @@
         "last_name": "Nom",
         "start_order": "Commencer la commande"
     },
-    
     "bookmarks_page":{
         "title": "Favoris",
         "empty_bookmarks": "Aucun favori pour le moment!"

@@ -24,7 +24,7 @@ export const columns: ColumnDef<CategorieInfo>[] = [
         header: "Nom",
         cell: ({ row }: { row: any }) => {
             return (
-                <div className="flex flex-row items-center gap-2 font-arabic">
+                <div className="flex flex-row items-center gap-2 font-arabic font-sm">
                     <span>{row?.original?.name}</span>
                 </div>
             )

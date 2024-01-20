@@ -216,7 +216,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
 
                 {/* LOGIN ACTIONS */}
                 <div className="items-center gap-5 flex font-sans rtl:font-arabic">
-                    <div className="flex items-center gap-3 bg-white rounded-full px-3 py-0 overflow-hidden">
+                    <div className="flex items-center gap-3 bg-white rounded-full h-10 px-3 py-0 overflow-hidden">
                         <Input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
@@ -228,7 +228,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
                             placeholder={t('layout.navbar.search') + "..."}
                             className="h-10 border-0 focus-visible:ring-transparent bg-white"
                         />
-                        {searchLoading ? <AiOutlineLoading3Quarters className="w-8 h-8 text-forth animate-spin" /> : <IoMdSearch className="w-8 h-8 text-forth" />}
+                        {searchLoading ? <AiOutlineLoading3Quarters className="p-1 w-8 h-8 text-forth animate-spin" /> : <IoMdSearch className="w-8 h-8 text-forth" />}
                     </div>
 
                     {/* IF LOGGED IN */}
