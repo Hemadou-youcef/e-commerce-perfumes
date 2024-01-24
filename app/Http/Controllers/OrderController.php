@@ -84,11 +84,12 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
+        
         $order_products = $request->validated();
 
         $errors = [];
         $productQuantities = []; // To aggregate quantities for each product
-
+        
         // check if product exists with its price
         foreach ($order_products['products'] as $product) {
             $product_id = $product['product_id'];
@@ -133,7 +134,7 @@ class OrderController extends Controller
             }
         }
 
-
+    
         // Aggregate quantities for each product in the order
         foreach ($order_products['products'] as $order_product) {
             $product_id = $order_product['product_id'];
@@ -149,11 +150,11 @@ class OrderController extends Controller
                 $errors[] = $productId;
             }
         }
-
+        
         if ($errors) {
             return back()->withErrors($errors);
         }
-
+        
         try {
             DB::beginTransaction();
 
@@ -181,14 +182,17 @@ class OrderController extends Controller
                 // deduct stock
                 $product->removeStock($created_order_product->totalQuantity());
 
-
+                
                 // create reservations
                 if (isset($order_product['reservations'])) {
                     foreach ($order_product['reservations'] as $reservation) {
+                        
                         $reception_id = $reservation['reception_id'];
                         $quantity = $reservation['quantity'];
-
-                        $reservation = Reservation::query()->create([
+                        if ($quantity <= 0){
+                             continue;
+                        }
+                        $reservation = Reservation::Query()->create([
                             'reception_id' => $reception_id,
                             'order_product_id' => $created_order_product->id,
                             'quantity' => $quantity,
@@ -215,7 +219,7 @@ class OrderController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Une erreur est survenue']);
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
 
 
@@ -274,7 +278,7 @@ class OrderController extends Controller
     {
         $errors = [];
         $productQuantities = []; // To aggregate quantities for each product
-
+        
         // Aggregate quantities for each product in the order
         foreach ($order->orderProducts as $orderProduct) {
             $productId = $orderProduct->product_id;
@@ -336,65 +340,91 @@ class OrderController extends Controller
         } catch (Exception $e) {
             return back()->withErrors(['data' => 'Veuillez envoyer les données de dans le format json']);
         }
+        
+        
 
-
+       
         try {// return $reservations;
             DB::beginTransaction();
             foreach ($reservations as $reservation) {
-
-                $reception_id = $reservation->reception_id;
-                $order_product_id = $reservation->order_product_id;
-                $quantity = $reservation->quantity;
-
-
-                // check if reception exists
-                $reception = Reception::query()->where('id', $reception_id)->first();
-                if ($reception == null) {
-                    return back()->withErrors(['reception_id' => 'reception_id n\'existe pas']);
+                if (!empty($reservation)) {
+                    $reception_id = $reservation->reception_id;
+                    $order_product_id = $reservation->order_product_id;
+                    $quantity = $reservation->quantity;
+    
+    
+                    // check if reception exists
+                    $reception = Reception::query()->where('id', $reception_id)->first();
+                    if ($reception == null) {
+                        return back()->withErrors(['reception_id' => 'reception_id n\'existe pas']);
+                    }
+                    
+                    
+                    
+    
+                    // check if reception rest is enough
+                    if ($quantity > $reception->rest) {
+                        return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité restante dans la réception']);
+                    }
+    
+                    // check if order_product exists
+                    $order_product = OrderProduct::query()->where('id', $order_product_id)->first();
+                    if ($order_product == null) {
+                        return back()->withErrors(['order_product_id' => 'order_product_id n\'existe pas']);
+                    }
+    
+    
+                    if ($quantity > $order_product->totalQuantity()) {
+                        return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité de la commande']);
+                    }
+                    
+                    
+                    
+                    
+                    // return [$reception_id, $order_product_id, $quantity];
+                    
+                    $reservation = new Reservation;
+                    
+                    $reservation->reception_id = $reception_id;
+                    $reservation->order_product_id = $order_product_id;
+                    $reservation->quantity = $quantity;
+                    
+                    $reservation->save();
+                    
+                    
+                    
+                    if ($reservation->save()) {
+                       //
+                    } else {
+                        return back()->withErrors(['reservation' => 'Failed to create reservation.']);
+                    }
                 }
-
-                // check if reception rest is enough
-                if ($quantity > $reception->rest) {
-                    return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité restante dans la réception']);
-                }
-
-                // check if order_product exists
-                $order_product = OrderProduct::query()->where('id', $order_product_id)->first();
-                if ($order_product == null) {
-                    return back()->withErrors(['order_product_id' => 'order_product_id n\'existe pas']);
-                }
-
-
-                if ($quantity > $order_product->totalQuantity()) {
-                    return back()->withErrors(['quantity' => 'quantity doit être inférieur ou égal à la quantité de la commande']);
-                }
-
-                // return [$reception_id, $order_product_id, $quantity];
-                $reservation = Reservation::query()->create([
-                    'reception_id' => $reception_id,
-                    'order_product_id' => $order_product_id,
-                    'quantity' => $quantity,
-                ]);
-
-                $reservation->apply();
-
-
+    
+               
             }
+           
             foreach ($order->orderProducts as $orderProduct) {
+                
                 $orderProduct->buying_price = $orderProduct->buyingPrice();
                 $orderProduct->save();
             }
+            
+            
+             
             $order->update([
                 'status' => 'confirmed',
                 'confirmed_by' => auth()->user()->id,
                 'profit' => $order->profit(),
             ]);
+            
+            
 
             DB::commit();
             return back();
         } catch (Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Une erreur est survenue']);
+
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
 
