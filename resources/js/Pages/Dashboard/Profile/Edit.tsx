@@ -87,7 +87,7 @@ const Profile = ({ ...props }) => {
         let text = "NaN";
         let color = "bg-gray-600";
         let Icon: JSX.Element = <></>;
-        switch (props?.auth?.user?.role) {
+        switch (parseInt(props?.auth?.user?.role)) {
             case 2:
                 text = "EMPLOYEE";
                 color = "bg-blue-600";

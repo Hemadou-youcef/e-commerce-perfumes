@@ -50,10 +50,10 @@ export const columns: ColumnDef<ClientsInfo>[] = [
         maxSize: 10,
         cell: ({ row }) => {
             // CHECK IF RO
-            const roleValue : number = row.getValue("role")
+            const roleValue : string = row.getValue("role")
             let text = "NaN";
             let color = "bg-gray-600";
-            switch (roleValue) {
+            switch (parseInt(roleValue)) {
                 case 0:
                     text = "INVITÉ";
                     color = "bg-gray-600";

@@ -49,11 +49,13 @@ const Orders = ({ ...props }) => {
     const [search, setSearch] = useState(props?.filters?.q || "");
     const [searchLoading, setSearchLoading] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [receiptDateRange, setReceiptDateRange] = useState({
-        from: new Date(),
-        to: new Date(),
-    });
-
+    const [receiptDateRange, setReceiptDateRange] = useState(() => {
+        const today = new Date();
+        return {
+            from: today,
+            to: today,
+        }
+    })
 
     const formatDate = (date) => {
         // to this form : "yyyy-MM-dd"

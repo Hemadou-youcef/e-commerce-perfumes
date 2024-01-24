@@ -10,7 +10,7 @@ import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 
 const getMinPrice = (prices: any) => {
     let min = Math.min(...prices.map((price: any) => price.quantity));
-    return prices.find((price: any) => price.quantity === min);
+    return prices.find((price: any) => price.quantity == min);
 }
 
 const Product = ({ product }) => {
@@ -74,7 +74,7 @@ const Product = ({ product }) => {
             {/* Link href="/product/5"  */}
             <div className="group w-full md:w-[248px] flex flex-col items-center justify-center border overflow-hidden shadow-md rounded-md">
                 <div className="w-full h-40 md:h-72  relative bg-cover bg-center border-b"
-                    style={{ backgroundImage: "url(" + (product.main_image?.path || product?.images?.filter((image: any) => product?.main_image_id === image.id)[0]?.path || "/image/no-image.jpg") + ")" }}
+                    style={{ backgroundImage: "url(" + (product.main_image?.path || product?.images?.filter((image: any) => product?.main_image_id == image.id)[0]?.path || "/image/no-image.jpg") + ")" }}
                 >
                     <div
                         onClick={() => handleVisit(`/products/${product.id}`)}

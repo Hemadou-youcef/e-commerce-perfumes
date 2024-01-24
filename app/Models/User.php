@@ -112,28 +112,28 @@ class User extends Authenticatable
 
     public function isSuperAdmin(): bool
     {
-        return $this->role === 4;
+        return $this->role == 4;
     }
     public function isAdmin(): bool
     {
 
-        return $this->role === 3 || $this->isSuperAdmin();
+        return $this->role == 3 || $this->isSuperAdmin();
     }
     public function isEmployee(): bool
     {
-        return $this->role === 2;
+        return $this->role == 2;
     }
 
     public function isClient(): bool
     {
 
-        return $this->role === 1;
+        return $this->role == 1;
     }
 
     public function isGuest(): bool
     {
 
-        return $this->role === 0;
+        return $this->role == 0;
     }
 
 

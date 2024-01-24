@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->integer('total')->nullable();
             $table->string('status')->default('pending');
-;
             $table->foreignId('address_id')->nullable()->constrained();
             $table->integer('profit')->nullable();
 

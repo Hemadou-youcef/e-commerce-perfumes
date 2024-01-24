@@ -95,7 +95,7 @@ const ProductForm = ({ ...props }) => {
         description_ar: props?.product?.description_ar || "",
         unit: props?.product?.unit?.toUpperCase() || "G",
         status: props?.product?.status || "published",
-        type: props?.product?.type || 1,
+        type: props?.product?.type || "1",
         category_ids: props?.product?.categories?.map((category) => category.id) || [],
         main_image: null,
         main_image_id: props?.product?.main_image_id || null,
@@ -206,7 +206,7 @@ const ProductForm = ({ ...props }) => {
     }
 
     const handleChangeMainImage = (type, value) => {
-        if (type === "file") {
+        if (type == "file") {
             setData(data => ({ ...data, main_image: value }));
             setData(data => ({ ...data, main_image_id: null }));
         } else {
@@ -229,7 +229,7 @@ const ProductForm = ({ ...props }) => {
                     const { main_image_id, other_images, ...rest } = dataToSubmit
                     dataToSubmit = rest
                 }
-                if ((data?.category_ids?.length || 0) === 0) {
+                if ((data?.category_ids?.length || 0) == 0) {
                     const { category_ids, ...rest } = dataToSubmit
                     dataToSubmit = rest
                 }
@@ -456,7 +456,7 @@ const ProductForm = ({ ...props }) => {
                                                     <MdDeleteOutline className="w-4 h-4 text-lg text-gray-600" />
                                                 </Button>
                                                 <div className="flex flex-col gap-2 font-bold uppercase text-gray-700">
-                                                    {categories?.find((category) => category.id === category_id)?.name}
+                                                    {categories?.find((category) => category.id == category_id)?.name}
                                                 </div>
                                             </div>
                                         ))}
@@ -761,22 +761,21 @@ const ProductForm = ({ ...props }) => {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-
-                                    {(categories || []).filter((category: any) => category.name.toLowerCase().includes(search.toLowerCase()) && category.type === data.type).map((category: any, index: number) => (
+                                    {(categories || []).filter((category: any) => category.name.toLowerCase().includes(search.toLowerCase()) && category.type == data.type).map((category: any, index: number) => (
                                         <TableRow
                                             key={index}
-                                            className={`hover:bg-gray-50 cursor-pointer ${checkBoxSelectedCategory?.id === category.id ? "bg-gray-100" : ""}`}
+                                            className={`hover:bg-gray-50 cursor-pointer ${checkBoxSelectedCategory?.id == category.id ? "bg-gray-100" : ""}`}
                                             onClick={() => setCheckBoxSelectedCategory(category)}
                                         >
                                             <TableCell className="h-12 ">
                                                 <div className="w-6 h-6 flex p-1 flex-row justify-center items-center border-2 border-gray-400 rounded-sm gap-2">
-                                                    {checkBoxSelectedCategory?.id === category.id ? <FaCheck className="text-lg text-gray-600" /> : <FaCheck className="text-lg text-gray-600 invisible" />}
+                                                    {checkBoxSelectedCategory?.id == category.id ? <FaCheck className="text-lg text-gray-600" /> : <FaCheck className="text-lg text-gray-600 invisible" />}
                                                 </div>
                                             </TableCell>
                                             <TableCell className="font-bold text-xs">{category.name}</TableCell>
                                         </TableRow>
                                     ))}
-                                    {(categories || []).filter((category: any) => category.name.toLowerCase().includes(search.toLowerCase())).length === 0 && (
+                                    {(categories || []).filter((category: any) => category.name.toLowerCase().includes(search.toLowerCase())).length == 0 && (
                                         <TableRow>
                                             <TableCell colSpan={3} className="text-center text-sm font-medium text-gray-500 uppercase">
                                                 Aucune donnée

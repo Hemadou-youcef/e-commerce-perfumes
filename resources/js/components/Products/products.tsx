@@ -12,26 +12,28 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
 const ProductsSwiper = ({ products }) => {
+    
     return (
         <>
+            {products?.length > 1 ? (
             <Swiper
                 modules={[Pagination]}
                 spaceBetween={5}
-                slidesPerView={2}
+                slidesPerView={products?.length > 2 ? 2 : products?.length}
                 pagination={{ clickable: true }}
                 className="h-[300px] md:h-[460px] lg:h-[470px]"
                 breakpoints={{
                     // when window width is >= 640px
                     640: {
-                        slidesPerView: 2,
+                        slidesPerView: products?.length > 2 ? 2 : products?.length,
                     },
                     // when window width is >= 768px
                     768: {
-                        slidesPerView: 3,
+                        slidesPerView: products?.length > 3 ? 3 : products?.length,
                     },
                     // when window width is >= 1200px
                     1200: {
-                        slidesPerView: 5,
+                        slidesPerView: products?.length > 5 ? 5 : products?.length,
                     },
                 }}
             >
@@ -41,8 +43,11 @@ const ProductsSwiper = ({ products }) => {
                     </SwiperSlide>
                 ))}
             </Swiper >
-
-
+            ) : (
+                <div className="w-full">
+                    <Product product={products[0]} />
+                </div>
+            )}
         </>
     );
 }

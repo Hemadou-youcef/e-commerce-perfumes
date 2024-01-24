@@ -81,7 +81,9 @@ const Order = ({ ...props }) => {
     const [cancelLoading, setCancelLoading] = useState(false);
     const [open, setOpen] = useState(false);
 
-
+    const isAdmin = () => {
+        return props?.auth?.user?.role == 3 || props?.auth?.user?.role == 4;
+    }
 
     useEffect(() => {
         setOrder(props?.order);
@@ -338,7 +340,7 @@ const Order = ({ ...props }) => {
                         </div>
                         {/* ACTIONS */}
                         {order?.user?.role > 0 ? (<div className="flex flex-col md:flex-row items-center md:justify-end gap-2">
-                            {props?.auth?.user?.role === 3 && (order?.status != "delivered" && order?.status != "cancelled") && (
+                            {isAdmin() && (order?.status != "delivered" && order?.status != "cancelled") && (
                                 <AlertDialog>
                                     <AlertDialogTrigger>
                                         <Button
@@ -373,7 +375,7 @@ const Order = ({ ...props }) => {
                                 </AlertDialog>
 
                             )}
-                            {props?.auth?.user?.role === 3 && order?.status == "pending" && (
+                            {isAdmin() && order?.status == "pending" && (
                                 <Button
                                     variant="outline"
                                     className="flex items-center border-transparent h-9 space-x-2 bg-blue-900 hover:bg-blue-800 active:bg-blue-700 text-white hover:text-gray-100"
@@ -384,7 +386,7 @@ const Order = ({ ...props }) => {
                                     {loadingAction ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <BsListCheck className="text-xl" />}
                                 </Button>
                             )}
-                            {props?.auth?.user?.role === 3 && order?.status == "verified" && (
+                            {isAdmin() && order?.status == "verified" && (
                                 <Button
                                     variant="outline"
                                     className="flex items-center h-9 space-x-2 border-transparent bg-transparent hover:border border-gray-300"
@@ -477,10 +479,10 @@ const Order = ({ ...props }) => {
                         <Separator className="mt-0 md:hidden" />
                         <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                             <h1 className="text-sm font-medium md:w-40 text-gray-800">
-                                {[3, 4].includes(order?.user?.role) ? "Employé" : "Client"} :
+                                {[2, 3, 4].includes(parseInt(order?.user?.role)) ? "Employé" : "Client"} :
                             </h1>
                             <Link
-                                href={[0, 1].includes(order?.user?.role) ? `/dashboard/clients/${order?.user?.id}` : `/dashboard/employees/${order?.user?.id}`}
+                                href={[0, 1].includes(parseInt(order?.user?.role)) ? `/dashboard/clients/${order?.user?.id}` : `/dashboard/employees/${order?.user?.id}`}
                                 className="flex flex-row justify-start items-center gap-2">
                                 <CgProfile className="text-xl text-blue-800" />
                                 <p className="text-sm font-bold text-blue-600">
@@ -650,7 +652,7 @@ const Order = ({ ...props }) => {
 
                                     </div>
                                 )}
-                                {props?.auth?.user?.role === 3 && order?.status == "verified" && (
+                                {isAdmin() && order?.status == "verified" && (
                                     <>
                                         <div className="mb-2 flex justify-end">
                                             <Button

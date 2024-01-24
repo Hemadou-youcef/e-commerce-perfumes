@@ -29,12 +29,12 @@ import { MdEdit } from 'react-icons/md';
 const getMinPrice = (prices: any) => {
     if (!prices) return null;
     let min = Math.min(...prices?.map((price: any) => price.quantity));
-    return prices.find((price: any) => price.quantity === min);
+    return prices.find((price: any) => price.quantity == min);
 }
 
 const Product = ({ ...props }) => {
     const [product, setProduct] = useState(props?.product);
-    const [selectedImage, setSelectedImage] = useState(product?.images.filter((item: any) => product?.main_image_id === item.id)[0]?.path);
+    const [selectedImage, setSelectedImage] = useState(product?.images.filter((item: any) => product?.main_image_id == item.id)[0]?.path);
     const [currectPrice, setCurrectPrice] = useState(getMinPrice(product?.active_product_prices));
     const [qte, setQte] = useState(1);
 
@@ -67,15 +67,15 @@ const Product = ({ ...props }) => {
 
 
     const isAdmin = () => {
-        return [3, 4].includes(props?.auth?.user?.role);
+        return [3, 4].includes(parseInt(props?.auth?.user?.role));
     }
 
     const isEmployee = () => {
-        return [2].includes(props?.auth?.user?.role);
+        return [2].includes(parseInt(props?.auth?.user?.role));
     }
 
     const isClient = () => {
-        return [0, 1].includes(props?.auth?.user?.role);
+        return [0, 1].includes(parseInt(props?.auth?.user?.role));
     }
 
     const handleBookmark = () => {

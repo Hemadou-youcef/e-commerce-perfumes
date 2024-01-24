@@ -55,7 +55,7 @@ const Employee = ({ ...props }) => {
         let text = "NaN";
         let color = "bg-gray-600";
         let Icon: JSX.Element = <></>;
-        switch (data?.role) {
+        switch (parseInt(data?.role)) {
             case 2:
                 text = "EMPLOYEE";
                 color = "bg-blue-600";

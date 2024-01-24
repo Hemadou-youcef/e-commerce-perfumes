@@ -46,7 +46,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
         return props?.auth?.user?.role == 0 || props?.auth?.user?.role == 1
     }
     const isEmployee = () => {
-        return props?.auth?.user?.role == 2 || props?.auth?.user?.role == 3
+        return props?.auth?.user?.role == 2 || props?.auth?.user?.role == 3 || props?.auth?.user?.role == 4
     }
 
     const handleChangeLanguage = (value) => {

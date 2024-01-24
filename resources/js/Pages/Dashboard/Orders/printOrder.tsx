@@ -27,13 +27,13 @@ const PrintOrder = ({ order }) => {
     }, []);
 
     const getProductPrice = (product) => {
-        const productPrice = product?.product?.active_product_prices?.find((price) => price.id === product.product_price_id);
+        const productPrice = product?.product?.active_product_prices?.find((price) => price.id == product.product_price_id);
         return productPrice;
     }
 
     const getQuantity = (product) => {
         const productPrice = getProductPrice(product);
-        return [productPrice?.quantity * product.quantity, productPrice?.unit];
+        return [productPrice?.quantity * parseInt(product.quantity), productPrice?.unit];
     }
 
 

@@ -114,7 +114,7 @@ const Contact = ({ ...props }) => {
                                 <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Répondre</p>
                             </Button>
                         </a>
-                        {[3, 4].includes(props?.auth?.user?.role) && (
+                        {[3, 4].includes(parseInt(props?.auth?.user?.role)) && (
                             <AlertDialog>
                                 <AlertDialogTrigger>
                                     <Button

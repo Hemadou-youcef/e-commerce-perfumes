@@ -339,7 +339,7 @@ const Product = ({ ...props }) => {
                             </Button>
                         )}
 
-                        {[3, 4].includes(props?.auth?.user?.role) && (
+                        {[3, 4].includes(parseInt(props?.auth?.user?.role)) && (
                             <AlertDialog>
                                 <AlertDialogTrigger>
                                     <Button

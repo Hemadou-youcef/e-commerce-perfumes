@@ -197,6 +197,26 @@ const Home = ({ ...props }) => {
                 <LandingSuggest title={t('layout.navbar.for_you_perfumes')} url="/products/perfumes" products={props?.for_you_perfumes} />
                 <LandingSuggest title={t('layout.navbar.for_you_oils')} url="/products/cosmetics" products={props?.for_you_oils} />
                 <LandingSuggest title={t('layout.navbar.for_you_accessories')} url="/products/accessories" products={props?.for_you_accessories} />
+
+                <div className="w-full h-64 sm:h-72 md:h-80 lg:128 bg-white  bg-cover bg-right bg-no-repeat text-gray-900 font-serif ltr:font-sans rtl:font-arabic"
+                >
+                    <div className='mx-auto rounded-md w-48 h-2 bg-second '></div>
+                    <div className="container flex flex-col items-center justify-start mt-5 h-full">
+                        <p className="text-2xl md:text-4xl font-bold text-left">
+                            {t('layout.navbar.about')}
+                        </p>
+                        <p className="text-sm md:text-xl text-left pt-5">
+                            {t('about_us_page.description')}
+                        </p>
+                        <Button
+                            variant="outline"
+                            className="mt-5 w-44 bg-transparent border-2 border-gray-900 hover:bg-gray-900 active:bg-gray-800 text-gray-900 hover:text-gray-100 active:text-gray-900"
+                        >
+                            {t('global.find_out_more')}
+                        </Button>
+                    </div>
+                </div>
+
                 {/* CONTACT US FORM */}
                 <div className="w-full bg-white py-10">
                     <div className="px-2 md:container">
@@ -217,23 +237,7 @@ const Home = ({ ...props }) => {
                         </div>
                     </div>
                 </div>
-                <div className="w-full h-128 bg-black bg-contain bg-right bg-no-repeat text-gray-50 font-serif"
-                    style={{ backgroundImage: "url(/image/about-us/french.png)" }}>
-                    <div className="container flex flex-col items-start justify-center h-full">
-                        <p className="text-2xl md:text-5xl font-bold text-left pt-10">
-                            A PROPOS
-                        </p>
-                        <p className="text-sm md:text-xl text-left pt-5">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. <br /> Quisquam, voluptatibus.
-                        </p>
-                        <Button
-                            variant="outline"
-                            className="mt-5 w-44 bg-transparent border-2 border-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-100 hover:text-gray-100 active:text-gray-100"
-                        >
-                            EN SAVOIR PLUS
-                        </Button>
-                    </div>
-                </div>
+
 
             </div>
         </>

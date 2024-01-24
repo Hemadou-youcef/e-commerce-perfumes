@@ -43,7 +43,7 @@ class ShippingAgencyController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'name_ar' => 'required|string',
-            'active' => 'required|boolean',
+            'active' => 'sometimes|boolean',
         ]);
 
         $agency =  ShippingAgency::create($validated);
@@ -67,7 +67,7 @@ class ShippingAgencyController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'name_ar' => 'required|string',
-            'active' => 'required|boolean',
+            'active' => 'sometimes|boolean'
         ]);
 
         $shippingAgency->update($validated);

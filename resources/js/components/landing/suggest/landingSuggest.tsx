@@ -32,7 +32,7 @@ const LandingSuggest = ({ title, products, url }) => {
                         ) : (
                             <div className="h-20 w-full flex justify-center items-center">
                                 <p className="text-gray-600 font-bold text-sm md:text-xl font-sans">
-                                    {t('layout.navbar.no_product')}
+                                    {t('layout.navbar.no_products')}
                                 </p>
                             </div>
                         )}

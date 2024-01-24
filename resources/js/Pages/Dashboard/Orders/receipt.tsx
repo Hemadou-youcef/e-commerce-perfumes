@@ -34,13 +34,13 @@ const PrintOrder = ({ ...props }) => {
     }, []);
 
     const getProductPrice = (product) => {
-        const productPrice = product?.product?.active_product_prices?.find((price) => price.id === product.product_price_id);
+        const productPrice = product?.product?.active_product_prices?.find((price) => price.id == product.product_price_id);
         return productPrice;
     }
 
     const getQuantity = (product) => {
         const productPrice = getProductPrice(product);
-        return productPrice?.quantity * product.quantity;
+        return productPrice?.quantity * parseInt(product.quantity);
     }
 
 
@@ -95,8 +95,8 @@ const PrintOrder = ({ ...props }) => {
                                             <tr className="border-b border-gray-900 border-dashed">
                                                 <td colSpan={2} className="pl-2 text-left">Total</td>
                                                 <td className="pl-2 text-left">{data.reduce((a, b) => a + b.order_products.length, 0)}</td>
-                                                <td className="pl-2 text-left">{data.reduce((a, b) => a + b.total, 0)} DA</td>
-                                                <td className="pl-2 text-left">{data.reduce((a, b) => a + b.profit, 0)} DA</td>
+                                                <td className="pl-2 text-left">{data.reduce((a, b) => a + parseInt(b.total), 0)} DA</td>
+                                                <td className="pl-2 text-left">{data.reduce((a, b) => a + parseInt(b.profit), 0)} DA</td>
                                             </tr>
                                         </tbody>
                                     </table>
