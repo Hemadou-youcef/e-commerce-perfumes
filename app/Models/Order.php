@@ -27,6 +27,18 @@ class Order extends Model
         'delivered_by',
         'cancelled_by',
     ];
+    
+     protected $casts = [
+        'total' => 'integer',
+        'profit' => 'integer',
+        'user_id' => 'integer',
+        'shipping_agency_id' => 'integer',
+        'verified_by' => 'integer',
+        'confirmed_by' => 'integer',
+        'delivered_by' => 'integer',
+        'cancelled_by' => 'integer',
+        'address_id' => 'integer',
+    ];
 
     public function user(): BelongsTo
     {

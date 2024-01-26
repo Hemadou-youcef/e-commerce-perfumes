@@ -13,6 +13,15 @@ class OrderProduct extends Model
 
 //    protected $appends = ['total_quantity'];
     protected $fillable = ['order_id', 'product_id', 'quantity', 'price', 'total', 'product_price_id'];
+    
+    protected $casts = [
+        'quantity' => 'integer',
+        'buying_price' => 'integer',
+        'price' => 'integer',
+        'product_id' => 'integer',
+        'order_id' => 'integer',
+        'product_price_id' => 'integer',
+    ];
 
     public function order(): BelongsTo
     {

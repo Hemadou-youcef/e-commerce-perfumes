@@ -47,7 +47,7 @@ const PrintOrder = ({ ...props }) => {
     return (
         <>
             <div className={`container w-full py-10 relative`}>
-                <h1 className="text-3xl text-center font-medium mb-5">
+                <h1 className="text-3xl text-center font-bold mb-5">
                     REÇU
                 </h1>
                 {data && (
@@ -56,10 +56,13 @@ const PrintOrder = ({ ...props }) => {
                             <div id="header" className="mt-2">
 
                                 <ul>
+                                    <li className="float-right">
+                                        <img src="/image/rumah-logo.png" alt="logo" className="w-24" />
+                                    </li>
                                     <li>RUMAH PARFUM</li>
 
                                     {/* User Information in the right  */}
-                                    <li className="w-full flex flex-col justify-start">
+                                    <li className="w-full">
                                         <span>Date: {props?.order ? urlParams.get('date') : urlParams.get('startDate') + " - " + urlParams.get('endDate')}</span>
                                     </li>
                                 </ul>
@@ -74,11 +77,11 @@ const PrintOrder = ({ ...props }) => {
                                         <thead>
                                             <tr className="border-b border-gray-900 border-dashed">
 
-                                                <th className="pl-2 text-left">Bon de commande N°</th>
-                                                <th className="pl-2 text-left">Client</th>
-                                                <th className="pl-2 text-left">Nombre de produits</th>
-                                                <th className="pl-2 text-left">Total</th>
-                                                <th className="pl-2 text-left">Benefice</th>
+                                                <th className="w-40 pl-2 text-left">Bon de commande N°</th>
+                                                <th className=" pl-2 text-left">Client</th>
+                                                <th className="w-40 pl-2 text-left">Nombre de produits</th>
+                                                <th className="w-28 pl-2 text-left">Total</th>
+                                                <th className="w-28 pl-2 text-left">Benefice</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -87,14 +90,14 @@ const PrintOrder = ({ ...props }) => {
                                                 <tr className="border-b border-gray-900 border-dashed" key={index}>
                                                     <td className="pl-2 text-left">{order.id}</td>
                                                     <td className="pl-2 text-left">{order.user.first_name} {order.user.last_name}</td>
-                                                    <td className="pl-2 text-left">{order.order_products.length}</td>
+                                                    <td className="pl-2 text-center">{order.order_products.length}</td>
                                                     <td className="pl-2 text-left">{order.total} DA</td>
                                                     <td className="pl-2 text-left">{order.profit} DA</td>
                                                 </tr>
                                             ))}
                                             <tr className="border-b border-gray-900 border-dashed">
                                                 <td colSpan={2} className="pl-2 text-left">Total</td>
-                                                <td className="pl-2 text-left">{data.reduce((a, b) => a + b.order_products.length, 0)}</td>
+                                                <td className="pl-2 text-center">{data.reduce((a, b) => a + b.order_products.length, 0)}</td>
                                                 <td className="pl-2 text-left">{data.reduce((a, b) => a + parseInt(b.total), 0)} DA</td>
                                                 <td className="pl-2 text-left">{data.reduce((a, b) => a + parseInt(b.profit), 0)} DA</td>
                                             </tr>

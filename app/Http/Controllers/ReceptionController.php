@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReceptionChangeQuantityRequest;
 use App\Models\Product;
 use App\Http\Requests\StoreReceptionRequest;
 use App\Http\Requests\UpdateReceptionRequest;
@@ -122,6 +123,26 @@ class ReceptionController extends Controller
     }
 
     /**
+     * Remove Quantity from the specified resource.
+     */
+    public function removeQuantity(Reception $reception, ReceptionChangeQuantityRequest $request)
+    {
+        $quantity = $request->quantity;
+        $reception->product->removeStock($quantity);
+        $reception->rest -= $quantity;
+        $reception->save();
+        return redirect()->route('reception', $reception);
+    }
+
+    public function addQuantity(Reception $reception, ReceptionChangeQuantityRequest $request)
+    {
+        $quantity = $request->quantity;
+        $reception->product->addStock($quantity);
+        $reception->rest += $quantity;
+        $reception->save();
+        return redirect()->route('reception', $reception);
+    }
+    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateReceptionRequest $request, Reception $reception)
@@ -137,6 +158,7 @@ class ReceptionController extends Controller
      */
     public function destroy(Reception $reception)
     {
+        
         $reception->product->removeStock($reception->rest);
 
         if ($reception->rest == $reception->quantity) {

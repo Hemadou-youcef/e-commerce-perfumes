@@ -32,6 +32,7 @@ const ContactUsForm = ({ ...props }) => {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('contact.store'), {
+            preserveState: false,
             onSuccess: () => {
                 toast({
                     title: t("contact_page.success"),

@@ -19,7 +19,9 @@ class ShippingAgency extends Model
         'active'
     ];
 
-
+    protected $casts = [
+        'active' => 'integer',
+    ];
 
 
     public function shippingFees(): HasMany

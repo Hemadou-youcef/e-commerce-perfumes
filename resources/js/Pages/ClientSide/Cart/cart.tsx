@@ -31,7 +31,6 @@ type FormData = {
 
 // Information
 import wilaya from "@/data/wilaya";
-import yalidine from "@/data/yalidine";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 import CartProduct from "@/components/Products/cart/product";

@@ -18,6 +18,7 @@ import { Button } from "@/shadcn/ui/button"
 
 
 const OrderReceptionsSelector = ({ open, setOpen, receptions, setReceptions, reservations, setReservations, productSelected }) => {
+    console.log(receptions)
     const [vertualReservations, setVertualReservations] = useState(reservations);
     const [quantityTotalSelected, setQuantityTotalSelected] = useState(vertualReservations.filter((reservation) => reservation?.order_product_id == productSelected?.id).reduce((a, b) => a + b?.quantity, 0));
 

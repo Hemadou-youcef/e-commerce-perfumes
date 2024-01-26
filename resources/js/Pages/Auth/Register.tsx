@@ -1,6 +1,6 @@
 
-import { Head, Link, useForm } from "@inertiajs/react"
-import { FormEventHandler } from "react"
+import { Head, Link, router, useForm } from "@inertiajs/react"
+import { FormEventHandler, useState } from "react"
 
 import { Button } from "@/shadcn/ui/button"
 import {
@@ -23,6 +23,7 @@ import { useTranslation } from "react-i18next"
 interface formData {
     first_name: string;
     last_name: string;
+    email: string;
     phone: string;
     address: string;
     gender: "male" | "female";
@@ -32,9 +33,11 @@ interface formData {
 }
 
 const Register = () => {
+    const [checkedAlready, setCheckedAlready] = useState(false);
     const { data, setData, post, processing, errors, reset } = useForm<formData>({
         first_name: '',
         last_name: '',
+        email: '',
         phone: '',
         address: '',
         gender: 'male',
@@ -46,9 +49,14 @@ const Register = () => {
     const { t, i18n } = useTranslation();
 
     const isAllRulesVerified = () => {
+        // regex check for email
+        const regex = /^[^\s@]+@[^\s@]+$/;
+
+
         const rules = [
             data.first_name.length > 2,
             data.last_name.length > 2,
+            regex.test(data.email),
             data.phone.length == 10,
             data.address.length > 3,
             data.gender == "male" || data.gender == "female",
@@ -62,10 +70,24 @@ const Register = () => {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+        setCheckedAlready(true);
+        if (isAllRulesVerified()) {
+            post(route('register'));
+        }
 
-        post(route('register'));
     };
 
+    const handleVisit = (url: string, method: string = "get") => {
+        router[method](url)
+    }
+
+    const handleLanguageChange = (value) => {
+        if (value) {
+            handleVisit(window.location.pathname, "get");
+            i18n.changeLanguage(value);
+            localStorage.setItem("language", value);
+        }
+    }
 
     return (
         <>
@@ -77,13 +99,27 @@ const Register = () => {
                     <img src="/image/logo.jpg" className="w-96" />
                 </div>
                 <div className="w-full h-screen overflow-y-auto ltr:font-sans rtl:font-arabic">
-                    <Link href="/" className="flex flex-row items-center gap-2 p-5 group">
-                        {i18n.language === "fr" ? <AiOutlineArrowLeft className="text-base text-gray-800 group-hover:text-second " /> : <AiOutlineArrowRight className="text-base text-gray-800 group-hover:text-second " />}
+                    <div className="flex justify-between items-center gap-2">
+                        <Link href="/" className="flex flex-row items-center gap-2 p-5 group">
+                            {i18n.language === "fr" ? <AiOutlineArrowLeft className="text-base text-gray-800 group-hover:text-second " /> : <AiOutlineArrowRight className="text-base text-gray-800 group-hover:text-second " />}
 
-                        <p className="text-forth group-hover:text-second ">
-                            {t('layout.navbar.home')}
-                        </p>
-                    </Link>
+                            <p className="text-forth group-hover:text-second ">
+                                {t('layout.navbar.home')}
+                            </p>
+                        </Link>
+                        {/* Change language without select*/}
+                        <div className="flex justify-center gap-2 px-5">
+                            {i18n.language === "ar" ? (
+                                <button onClick={() => handleLanguageChange("fr")} className="text-xs text-gray-600 font-bold hover:text-second">
+                                    {t('language.fr')}
+                                </button>
+                            ) : (
+                                <button onClick={() => handleLanguageChange("ar")} className="text-xs text-gray-600 font-bold hover:text-second">
+                                    {t('language.ar')}
+                                </button>
+                            )}
+                        </div>
+                    </div>
                     <div className="py-0 my-10 mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[500px] md:w-[400px] lg:w-[500px]">
                         <div className="flex flex-col space-y-2 text-center">
                             <h1 className="text-2xl font-semibold tracking-tight">
@@ -110,8 +146,20 @@ const Register = () => {
                                             onChange={(e) => setData('last_name', e.target.value)}
                                         />
                                     </div>
+                                    {checkedAlready && (data.first_name.length > 2 ? null : <p className="text-xs text-red-500">Prénom il faudrait supérieur à 2 caractères</p>)}
+                                    {checkedAlready && (data.last_name.length > 2 ? null : <p className="text-xs text-red-500">Nom il faudrait supérieur à 2 caractères</p>)}
                                     {errors.first_name && <p className="text-xs text-red-500">{errors.first_name}</p>}
                                     {errors.last_name && <p className="text-xs text-red-500">{errors.last_name}</p>}
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="email" className="text-xs md:text-sm">
+                                        {t('register_page.email')}
+                                    </Label>
+                                    <Input id="email" type="email" placeholder={t('register_page.email')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
+                                        onChange={(e) => setData('email', e.target.value)}
+                                    />
+                                    {checkedAlready && (data.email.length > 0 ? null : <p className="text-xs text-red-500">Email il faudrait supérieur à 0 caractères</p>)}
+                                    {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
                                 </div>
                                 <div className="grid gap-2">
                                     <Label htmlFor="phone" className="text-xs md:text-sm">
@@ -120,6 +168,7 @@ const Register = () => {
                                     <Input id="phone" type="phone" placeholder={t('register_page.phone')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('phone', e.target.value)}
                                     />
+                                    {checkedAlready && (data.phone.length == 10 ? null : <p className="text-xs text-red-500">Numéro de téléphone il faudrait égale à 10 caractères</p>)}
                                     {errors.phone && <p className="text-xs text-red-500">{errors.phone}</p>}
                                 </div>
                                 <div className="grid gap-2">
@@ -129,6 +178,7 @@ const Register = () => {
                                     <Textarea id="address" placeholder={t('register_page.address')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('address', e.target.value)}
                                     />
+                                    {checkedAlready && (data.address.length > 3 ? null : <p className="text-xs text-red-500">Adresse il faudrait supérieur à 3 caractères</p>)}
                                     {errors.address && <p className="text-xs text-red-500">{errors.address}</p>}
                                 </div>
                                 <RadioGroup dir={i18n.dir()} defaultValue={t('register_page.male')} className="flex gap-5" onValueChange={(v: 'male' | 'female') => setData('gender', v)}>
@@ -153,6 +203,7 @@ const Register = () => {
                                     <Input id="user_name" placeholder={t('register_page.user_name')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('username', e.target.value)}
                                     />
+                                    {checkedAlready && (data.username.length > 5 ? null : <p className="text-xs text-red-500">Nom d'utilisateur il faudrait supérieur à 5 caractères</p>)}
                                     {errors.username && <p className="text-xs text-red-500">{errors.username}</p>}
                                 </div>
                                 <div className="grid gap-2">
@@ -162,6 +213,7 @@ const Register = () => {
                                     <Input id="password" type="password" placeholder={t('register_page.password')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('password', e.target.value)}
                                     />
+
                                     {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
                                     {data.password.length != 0 && (data.password.length > 7 ? <p className="text-xs text-green-500">Mot de passe valide</p> : <p className="text-xs text-red-500">Mot de passe il faudrait supérieur à 7 caractères</p>)}
                                 </div>
@@ -179,7 +231,7 @@ const Register = () => {
                                 </div>
 
 
-                                <Button className="w-full bg-forth er:bg-prime-dark active:bg-second" onClick={() => post('/register')} disabled={!isAllRulesVerified() || processing}>
+                                <Button className="w-full bg-forth er:bg-prime-dark active:bg-second" disabled={processing}>
                                     {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <p className="text-white">{t('register_page.register')}</p>}
                                 </Button>
                             </div>

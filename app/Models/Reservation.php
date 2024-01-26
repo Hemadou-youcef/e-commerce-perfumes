@@ -22,7 +22,10 @@ class Reservation extends Model
         'order_product_id',
         'quantity',
     ];
-
+    
+    protected $casts = [
+        'quantity' => 'integer',
+    ];
 
     public function orderProduct(): BelongsTo
     {

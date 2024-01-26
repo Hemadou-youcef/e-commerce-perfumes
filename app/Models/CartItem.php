@@ -22,7 +22,11 @@ class CartItem extends Model
         'quantity',
         'product_price_id',
     ];
-
+    
+    protected $casts = [
+        'quantity' => 'integer',
+    ];
+    
     /**
      * @var array<string> $casts
      */

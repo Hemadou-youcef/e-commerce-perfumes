@@ -101,6 +101,7 @@ const stepsInformation = [
 ]
 
 const OrdersForm = ({ ...props }) => {
+    
     const [step, setStep] = useState(0);
     const { data, setData, post, patch, processing, errors, reset } = useForm<FormData>({
         products: []
@@ -114,7 +115,6 @@ const OrdersForm = ({ ...props }) => {
 
     const [receptions, setReceptions] = useState<receptionDataFrame[]>([]);
     const [reservations, setReservations] = useState<reservationDataFrame[]>([]);
-
     useEffect(() => {
         if (step === 1) {
             fillTotalQuantity();
@@ -173,7 +173,7 @@ const OrdersForm = ({ ...props }) => {
     const fillTotalQuantity = () => {
         const updatedSelectedProducts = [...selectedProducts];
         updatedSelectedProducts.forEach((product, index) => {
-            console.log(product?.active_product_prices[product?.selected_price]?.quantity * product?.price_quantity)
+            // console.log(product?.active_product_prices[product?.selected_price]?.quantity * product?.price_quantity)
             updatedSelectedProducts[index].total_quantity = product?.active_product_prices[product?.selected_price]?.quantity * product?.price_quantity;
         })
         setSelectedProducts(updatedSelectedProducts);
@@ -186,7 +186,7 @@ const OrdersForm = ({ ...props }) => {
                 receptionsList.push({
                     reception_id: reception?.id,
                     reception_name: reception?.name,
-                    reception_date: reception?.date,
+                    reception_date: reception?.created_at,
                     order_product_id: index,
                     rest_quantity: reception?.rest,
                     used_quantity: 0,
@@ -198,7 +198,6 @@ const OrdersForm = ({ ...props }) => {
     }
 
     const addProduct = (product: any) => {
-        console.log(product)
         setSelectedProducts([...selectedProducts, {
             ...product,
             real_id: product?.id,
@@ -383,7 +382,6 @@ const OrdersForm = ({ ...props }) => {
                                                         }
                                                         return p;
                                                     }))
-                                                    console.log(value)
                                                 }}>
                                                     <SelectTrigger className="min-w-full md:min-w-[300px]">
                                                         <SelectValue placeholder={product?.active_product_prices[product?.selected_price]?.quantity + " " + product?.active_product_prices[product?.selected_price]?.unit + " / " + product?.active_product_prices[product?.selected_price]?.price + " DA"} className="text-sm text-gray-900 font-bold tracking-tight"/>

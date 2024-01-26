@@ -389,12 +389,12 @@ class OrderController extends Controller
                     $reservation->order_product_id = $order_product_id;
                     $reservation->quantity = $quantity;
                     
-                    $reservation->save();
-                    
-                    
                     
                     if ($reservation->save()) {
-                       //
+                        // Update reception rest
+                        $reception->removeStock($quantity);
+                        
+                        
                     } else {
                         return back()->withErrors(['reservation' => 'Failed to create reservation.']);
                     }
@@ -417,8 +417,6 @@ class OrderController extends Controller
                 'profit' => $order->profit(),
             ]);
             
-            
-
             DB::commit();
             return back();
         } catch (Exception $e) {
@@ -453,8 +451,6 @@ class OrderController extends Controller
             switch ($order->status) {
                 case 'cancelled':
                     return back()->withErrors(['order' => 'order est déjà annulé']);
-                case 'delivered':
-                    return back()->withErrors(['order' => 'order ne peut pas être annulé car il est déjà livré']);
                 case 'verified':
                     // revert stock for each product
                     $order->orderProducts->each(function ($orderProduct) {
@@ -472,8 +468,17 @@ class OrderController extends Controller
                         $reservation->delete();
                     });
                     break;
-
-
+                case 'delivered':
+                    // revert stock for each product
+                    $order->orderProducts->each(function ($orderProduct) {
+                        $orderProduct->product->addStock($orderProduct->totalQuantity());
+                    });
+                    // delete reservations
+                    $order->reservations()->each(function ($reservation) {
+                        $reservation->revert();
+                        $reservation->delete();
+                    });
+                    break;
             }
             $order->update([
                 'status' => 'cancelled',

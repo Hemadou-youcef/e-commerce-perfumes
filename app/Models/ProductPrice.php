@@ -17,6 +17,14 @@ class ProductPrice extends Model
         'quantity',
         'active',
     ];
+    
+    protected $casts = [
+        'price' => 'integer',
+        'quantity' => 'integer',
+        'active' => 'boolean',
+        'product_id' => 'integer', // Assuming product_id is an integer
+    ];
+
 
     public function product(): BelongsTo
     {

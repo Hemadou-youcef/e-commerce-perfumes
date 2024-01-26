@@ -16,6 +16,10 @@ class Bookmark extends Model
         'product_id',
     ];
 
+    protected $casts = [
+        'user_id' => 'integer',
+        'product_id' => 'integer',
+    ];
 
     public function user(): BelongsTo
     {

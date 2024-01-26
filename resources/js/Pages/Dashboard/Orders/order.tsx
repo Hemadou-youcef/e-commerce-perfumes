@@ -340,7 +340,7 @@ const Order = ({ ...props }) => {
                         </div>
                         {/* ACTIONS */}
                         {order?.user?.role > 0 ? (<div className="flex flex-col md:flex-row items-center md:justify-end gap-2">
-                            {isAdmin() && (order?.status != "delivered" && order?.status != "cancelled") && (
+                            {isAdmin() && (order?.status != "cancelled") && (
                                 <AlertDialog>
                                     <AlertDialogTrigger>
                                         <Button
@@ -483,7 +483,7 @@ const Order = ({ ...props }) => {
                             </h1>
                             <Link
                                 href={[0, 1].includes(parseInt(order?.user?.role)) ? `/dashboard/clients/${order?.user?.id}` : `/dashboard/employees/${order?.user?.id}`}
-                                className="flex flex-row justify-start items-center gap-2">
+                                className="flex flex-row justify-start items-center gap-2 font-arabic">
                                 <CgProfile className="text-xl text-blue-800" />
                                 <p className="text-sm font-bold text-blue-600">
                                     {order?.user?.first_name} {order?.user?.last_name}
@@ -612,9 +612,14 @@ const Order = ({ ...props }) => {
                                                     <TableCell className="font-bold text-xs">{product?.total_quantity} G</TableCell>
                                                     <TableCell className="font-bold text-xs">{product?.price} DA</TableCell>
                                                     <TableCell className="text-center text-sm">
-                                                        {order?.status != "pending" && (
+                                                        {(order?.status != "pending" && order?.status != "cancelled") && (
                                                             <p className="text-sm font-bold text-gray-500">
                                                                 {product?.product?.quantity} {product?.product?.unit} ({product?.total_quantity} {product?.product?.unit} réservé)
+                                                            </p>
+                                                        )}
+                                                        {order?.status == "cancelled" && (
+                                                            <p className="text-sm font-bold text-gray-500">
+                                                                {product?.product?.quantity} {product?.product?.unit}
                                                             </p>
                                                         )}
 

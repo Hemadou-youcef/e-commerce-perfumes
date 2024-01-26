@@ -22,6 +22,12 @@ class Address extends Model
         'shipping_method',
     ];
 
+    protected $casts = [
+        'shipping_method' => 'integer',
+        'shipping_fee_id' => 'integer',
+        'shipping_price' => 'integer',
+    ];
+
     public function shippingFee(): BelongsTo
     {
         return $this->belongsTo(ShippingFee::class);

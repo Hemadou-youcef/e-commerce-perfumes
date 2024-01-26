@@ -15,15 +15,11 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.rumahperfum.com/" />
-    <meta property="og:title" content="Rumah Perfum" />
-    <meta property="og:description" content="اكتشف عالمًا من العطور الفاخرة والساعات الأنيقة في Rumah Perfum. استكشف مجموعتنا المختارة بعناية من العطور الفاخرة والأوقات الأنيقة. تسوق بثقة مع التوصيل في الوقت المناسب، وتغطية واسعة عبر 58 ولاية، ودعم العملاء المخصص." />
     <meta property="og:image" content="/image/meta-logo.jpg" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://www.rumahperfum.com/" />
-    <meta property="twitter:title" content="Rumah Perfum" />
-    <meta property="twitter:description" content="اكتشف عالمًا من العطور الفاخرة والساعات الأنيقة في Rumah Perfum. استكشف مجموعتنا المختارة بعناية من العطور الفاخرة والأوقات الأنيقة. تسوق بثقة مع التوصيل في الوقت المناسب، وتغطية واسعة عبر 58 ولاية، ودعم العملاء المخصص." />
     <meta property="twitter:image" content="/image/meta-logo.jpg" />
 
 

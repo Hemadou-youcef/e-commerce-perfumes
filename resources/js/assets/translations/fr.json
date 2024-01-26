@@ -78,7 +78,8 @@
             "58_wilayas":"58 Wilayas",
             "support":"Support Client",
             "listening":"À l'Écoute",
-            "no_product":"Aucun produit"
+            "no_product":"Aucun produit",
+            "no_products":"Aucun produit"
         },
         "pagination":{
             "previous":"Précédent",
@@ -92,16 +93,21 @@
     "login_page":{
         "title":"Connexion",
         "username":"Nom d'utilisateur",
+        "email":"Adresse e-mail",
         "password":"Mot de passe",
         "remember_me":"Se souvenir de moi",
         "login":"Connexion",
         "or_register_with":"Ou créez un nouveau compte",
-        "register":"Créer un nouveau compte"
+        "register":"Créer un nouveau compte",
+        "account_recovery":"Récupération du compte",
+        "forgot_password":"Mot de passe oublié?",
+        "send_password_reset_link":"Envoyer le lien de réinitialisation du mot de passe"
     },
     "register_page":{
         "title":"Nouveau Compte",
         "first_name":"Prénom",
         "last_name":"Nom de famille",
+        "email":"Adresse e-mail",
         "phone":"Numéro de téléphone",
         "address":"Adresse",
         "male":"Homme",
@@ -113,6 +119,21 @@
         "already_account":"Vous avez déjà un compte?",
         "login":"Connexion"
     },    
+    "forgot_password_page":{
+        "title":"Mot de passe oublié",
+        "email":"Adresse e-mail",
+        "password": "Mot de passe",
+        "confirm_password": "Confirmer le mot de passe",
+        "reset_password": "Réinitialiser le mot de passe",
+        "password_reset_description": "Réinitialisez votre mot de passe",
+        "password_reset_success": "Mot de passe réinitialisé avec succès",
+        "password_reset_success_description": "Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
+        "send_password_reset_link":"Envoyer le lien de réinitialisation du mot de passe",
+        "back_to_login":"Retour à la connexion",
+        "password_reset_link_sent":"Lien de réinitialisation du mot de passe envoyé",
+        "password_reset_link_sent_description":"Si l'adresse e-mail est valide, vous recevrez un e-mail avec un lien de réinitialisation du mot de passe.",
+        "invalid_token":"Token invalide"
+    },
     "products_page":{
         "products":"Produits",
         "categories":"Catégories",

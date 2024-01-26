@@ -18,12 +18,6 @@ use Inertia\Inertia;
 
 
 
-
-
-
-
-
-
 // guest middleware routes
 
 
@@ -89,6 +83,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/receptions/{reception}', [App\Http\Controllers\ReceptionController::class, 'show'])->name('reception');
         Route::get('/dashboard/receptions/{reception}/edit', [App\Http\Controllers\ReceptionController::class, 'edit'])->name('reception.edit');
         Route::put('/dashboard/receptions/{reception}', [App\Http\Controllers\ReceptionController::class, 'update'])->name('reception.update');
+        Route::put('/dashboard/receptions/{reception}/add_stock', [App\Http\Controllers\ReceptionController::class, 'addQuantity'])->name('reception.add_stock');
+        Route::put('/dashboard/receptions/{reception}/remove_stock', [App\Http\Controllers\ReceptionController::class, 'removeQuantity'])->name('reception.remove_stock');
         Route::delete('/dashboard/receptions/{reception}', [App\Http\Controllers\ReceptionController::class, 'destroy'])->name('reception.destroy');
 
 

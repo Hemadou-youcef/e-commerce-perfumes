@@ -27,6 +27,16 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/shadcn/ui/alert-dialog"
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/shadcn/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
 import { Button } from "@/shadcn/ui/button";
 import { Separator } from "@/shadcn/ui/separator";
@@ -37,13 +47,21 @@ import { CgProfile } from "react-icons/cg";
 
 // Types
 import { ReceptionInfo } from "@/components/columns/reception";
-import { FaChevronRight } from "react-icons/fa";
+import { FaChevronRight, FaMinus, FaPlus } from "react-icons/fa";
 import { useToast } from "@/shadcn/ui/use-toast";
+import { Input } from "@/shadcn/ui/input";
+import { Label } from "@/shadcn/ui/label";
+import { LiaEdit } from "react-icons/lia";
 
 
 const Reception = ({ ...props }) => {
     const [reception, setReception] = useState<ReceptionInfo | null>(props?.reception)
+    const [receptionLoading, setReceptionLoading] = useState<boolean>(false)
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
+    const [receptionData, setReceptionData] = useState<any>({
+        type: 1,
+        quantity: "",
+    })
 
     const { toast } = useToast()
 
@@ -82,6 +100,34 @@ const Reception = ({ ...props }) => {
             </div>
         )
     }
+
+    const handleAddOrRemoveQuantity = () => {
+        setReceptionLoading(true)
+        router.put(route(`reception.${receptionData.type === 1 ? "add_stock" : "remove_stock"}`, reception?.id), {
+            quantity: parseInt(receptionData.quantity)
+        }, {
+            preserveState: false,
+            onSuccess: () => {
+                toast({
+                    title: "La réception a été modifié avec succès",
+                    description: "",
+                    duration: 5000,
+                })
+            },
+            onError: () => {
+                toast({
+                    variant: "destructive",
+                    title: "Une erreur s'est produite lors de la modification de la réception",
+                    description: "",
+                    duration: 5000,
+                })
+            },
+            onFinish: () => {
+                setReceptionLoading(false)
+            }
+        })
+    }
+
 
     const handleDeleteReception = () => {
         setDeleteLoading(true)
@@ -134,13 +180,13 @@ const Reception = ({ ...props }) => {
                     </div>
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-2">
-                        {[3,4].includes(props?.auth?.user?.role) && (
+                        {[3, 4].includes(props?.auth?.user?.role) && (
                             <AlertDialog>
                                 <AlertDialogTrigger>
-                                    <Button 
-                                    variant="outline" 
-                                    className="group p-0 h-12 w-12 hover:w-32 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
-                                    disabled={deleteLoading}
+                                    <Button
+                                        variant="outline"
+                                        className="group p-0 h-12 w-12 hover:w-32 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                        disabled={deleteLoading}
                                     >
                                         {deleteLoading ? <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
                                         <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-2 text-sm font-medium text-gray-900">Supprimer</p>
@@ -169,6 +215,63 @@ const Reception = ({ ...props }) => {
                             </AlertDialog>
                         )}
 
+                        {[3, 4].includes(props?.auth?.user?.role) && (
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        className="group p-0 h-12 w-12 hover:w-52 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                    >
+                                        {receptionLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <LiaEdit className="text-xl" />}
+                                        <p className="hidden md:block group-hover:w-36 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Modifier La Quantité</p>
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                        <DialogTitle>Ajouter ou Soustraire une quantité</DialogTitle>
+                                        <DialogDescription>
+                                            Ajouter ou Soustraire une quantité de la réception
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <div className="grid gap-4 py-4">
+
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="type">Type</Label>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                <div className={`flex justify-center items-center bg-green-100 rounded-md p-2 cursor-pointer ${receptionData.type === 1 && "border-2 border-green-600"}`} onClick={() => setReceptionData({ ...receptionData, type: 1 })}>
+                                                    <FaPlus className="text-xl text-green-600" />
+                                                </div>
+                                                <div className={`flex justify-center items-center bg-red-100 rounded-md p-2 cursor-pointer ${receptionData.type === 2 && "border-2 border-red-600"}`} onClick={() => setReceptionData({ ...receptionData, type: 2 })}>
+                                                    <FaMinus className="text-xl text-red-600" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="quantity">Quantité</Label>
+                                            <Input
+                                                type="number"
+                                                name="quantity"
+                                                id="quantity"
+                                                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                                                value={receptionData.quantity}
+                                                onChange={(e) => setReceptionData({ ...receptionData, quantity: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <DialogFooter>
+                                        <DialogClose asChild>
+                                            <Button className="mr-2" variant="outline">
+                                                Annuler
+                                            </Button>
+                                        </DialogClose>
+                                        <Button type="submit" onClick={() => handleAddOrRemoveQuantity()} disabled={receptionLoading || receptionData.quantity === "" || receptionData.quantity === 0 || receptionData.quantity < 0} >
+                                            {receptionLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : "Appliquer"}
+                                        </Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                        )}
                     </div>
                 </div>
 
@@ -178,6 +281,12 @@ const Reception = ({ ...props }) => {
                         <h1 className="text-sm font-medium w-40 text-gray-800">Quantité reçue :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <p className="text-sm font-bold text-gray-500">{reception?.quantity} {reception?.product?.unit}</p>
+                        </div>
+                    </div>
+                    <div className="flex flex-row justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium w-40 text-gray-800">Quantité restante :</h1>
+                        <div className="flex flex-row justify-start items-center gap-2">
+                            <p className="text-sm font-bold text-gray-500">{reception?.product?.quantity} {reception?.product?.unit}</p>
                         </div>
                     </div>
                     <div className="flex flex-row justify-start items-center gap-2">
@@ -253,7 +362,7 @@ const Reception = ({ ...props }) => {
                                                 <TableCell className="font-bold text-xs">Command #{reservation.order_id}</TableCell>
                                                 <TableCell className="font-bold text-xs">{reservation.quantity} {reception?.product?.unit}</TableCell>
                                                 <TableCell className="font-bold text-xs">{formatDate(reservation.created_at)}</TableCell>
-                                                
+
                                                 <TableCell className="font-medium text-xs">
                                                     <Link href={`/dashboard/orders/${reservation.order_id}`}>
                                                         <Button variant="outline" className="flex items-center gap-2 border-2 border-gray-600 hover:border-gray-800">

@@ -32,6 +32,13 @@ class Product extends Model
         'unit',
         'type'
     ];
+    protected $casts = [
+        'quantity' => 'integer',
+        'type' => 'integer',
+        'user_id' => 'integer',
+        'main_image_id'=> 'integer',
+        'created_by'=> 'integer',
+    ];
 
     public function user(): BelongsTo
     {

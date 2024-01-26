@@ -137,8 +137,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $orders = $product->orders()->paginate(10);
-        $receptions = $product->receptions()->with('user')->paginate(10);
+        $orders = $product->orders()->orderBy('created_at', 'desc')->paginate(10);
+        $receptions = $product->receptions()->with('user')->orderBy('created_at', 'desc')->paginate(10);
         return inertia::render('Dashboard/Products/product', [
             'product' => [
                 'id' => $product->id,

@@ -13,6 +13,10 @@ class Category extends Model
 
     protected $fillable = ['name', 'name_ar' , 'type'];
 
+    protected $casts = [
+        'type' => 'integer',
+    ];
+
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'category_product', 'category_id', 'product_id');

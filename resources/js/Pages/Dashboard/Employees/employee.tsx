@@ -36,6 +36,7 @@ import { LiaEdit } from "react-icons/lia";
 import { RiAdminFill } from "react-icons/ri";
 import { useToast } from "@/shadcn/ui/use-toast";
 import { TbExternalLink } from "react-icons/tb";
+import { MdAlternateEmail } from "react-icons/md";
 
 // Types
 const Employee = ({ ...props }) => {
@@ -192,6 +193,17 @@ const Employee = ({ ...props }) => {
                         <h1 className="text-sm font-medium md:w-40 text-gray-800">Rôle :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             {role()}
+                        </div>
+                    </div>
+                    {/* email */}
+                    <Separator className="mt-0 md:hidden" />
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Email :</h1>
+                        <div className="flex flex-row justify-start items-center gap-2">
+                            <MdAlternateEmail className="text-xl text-gray-800" />
+                            <p className="text-sm font-bold text-gray-500">
+                                {data?.email}
+                            </p>
                         </div>
                     </div>
                     <Separator className="mt-0 md:hidden" />

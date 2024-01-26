@@ -36,7 +36,7 @@ import { Separator } from "@/shadcn/ui/separator";
 import { AiOutlineCalendar, AiOutlineCheckCircle, AiOutlineDelete, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { BsFillTelephoneOutboundFill } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
-import { MdOutlineSystemSecurityUpdateGood, MdSecurityUpdateWarning } from "react-icons/md";
+import { MdAlternateEmail, MdOutlineSystemSecurityUpdateGood, MdSecurityUpdateWarning } from "react-icons/md";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { FaFemale, FaMale } from "react-icons/fa";
 import { useToast } from "@/shadcn/ui/use-toast";
@@ -233,6 +233,17 @@ const Client = ({ ...props }) => {
                                     </p>
                                 </div>
                             )}
+                        </div>
+                    </div>
+                    <Separator className="mt-0 md:hidden" />
+                    {/* EMAIL */}
+                    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Email :</h1>
+                        <div className="flex flex-row justify-start items-center gap-2">
+                            <MdAlternateEmail className="text-xl text-gray-800" />
+                            <p className="text-sm font-bold text-gray-500">
+                                {client?.email}
+                            </p>
                         </div>
                     </div>
                     <Separator className="mt-0 md:hidden" />

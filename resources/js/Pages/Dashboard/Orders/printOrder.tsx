@@ -59,7 +59,7 @@ const PrintOrder = ({ order }) => {
                 </div>
             </div> */}
             <div className={`container w-full py-10 relative`}>
-                <h1 className="text-3xl text-center font-medium mb-5">
+                <h1 className="text-3xl text-center font-bold mb-5">
                     BON DE COMMANDE
                 </h1>
                 {order && (
@@ -93,20 +93,20 @@ const PrintOrder = ({ order }) => {
                                         <span>parisvip19000@gmail.com</span>
                                     </li>
                                     {/* ADD LOGO IMAGE IN RIGHT */}
-                                    
+
 
                                     {/* User Information in the right  */}
-                                    <li className="w-full flex flex-col items-end justify-end">
+                                    <li className="w-full flex flex-col items-end justify-end font-arabic">
                                         <strong>Destinataire</strong>
                                         <span>{`${order?.user?.first_name}, ${order?.user?.last_name}`}</span>
                                         <span>{order?.user?.address}</span>
+                                        <span className="">{order?.user?.phone}</span>
                                     </li>
 
                                     <li className="w-full flex flex-col justify-start">
                                         <span>Bon de commande N°: {order.id}</span>
                                         <span>Date: {formatDate(order?.created_at)}</span>
                                         <span>Lieu d'émission: {order?.address?.street_address}</span>
-                                        <span>Numéro de client: {order?.user?.phone}</span>
 
                                     </li>
                                 </ul>
@@ -120,8 +120,8 @@ const PrintOrder = ({ order }) => {
                                     <thead>
                                         <tr className="border-b border-gray-900 border-dashed">
                                             <th className="pl-2 text-left">Produit</th>
-                                            <th className="text-left">Quantité</th>
-                                            <th className="pr-2 text-left">Prix</th>
+                                            <th className="w-28 text-left">Quantité</th>
+                                            <th className="w-28 pr-2 text-left">Prix</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -137,12 +137,17 @@ const PrintOrder = ({ order }) => {
                                             <td colSpan={2} className="pl-2 text-left">Livraison ({order?.shipping_agency?.name})</td>
                                             <td className="pr-2 text-left">{order?.address?.shipping_price} DA</td>
                                         </tr>
-                                        <tr>
-                                            <td colSpan={2} className="pl-2 text-left">Total</td>
-                                            <td className="pr-2 text-left">{order.total} DA</td>
-                                        </tr>
                                     </tbody>
                                 </table>
+                                {/* SHOW TOTAL */}
+                                <div className="mt-2 w-full flex justify-end gap-2">
+                                    <span className="w-28 text-right">
+                                        Total:
+                                    </span>
+                                    <span className="w-28 text-left text-sm px-2">
+                                        {order.total + order?.address?.shipping_price} DA
+                                    </span>
+                                </div>
                             </div>
                         </tbody>
                     </table>

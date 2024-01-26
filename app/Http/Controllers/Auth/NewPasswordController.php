@@ -19,9 +19,19 @@ class NewPasswordController extends Controller
     /**
      * Display the password reset view.
      */
-    public function create(Request $request): Response
+    public function create(Request $request)
     {
-        return Inertia::render('Auth/ResetPassword', [
+
+        // CHECK IF TOKEN IS VALID
+        $token = $request->route('token');
+        $email = $request->email;
+
+        // Check if the token is valid
+        $user = Password::broker()->getUser(['email' => $email]);
+        if (!$user || !Password::broker()->tokenExists($user, $token)) {
+            return Inertia::render('Auth/invalidToken');
+        }
+        return Inertia::render('Auth/resetPassword', [
             'email' => $request->email,
             'token' => $request->route('token'),
         ]);

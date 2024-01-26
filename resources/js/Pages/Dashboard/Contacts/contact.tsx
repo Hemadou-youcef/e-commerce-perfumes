@@ -10,14 +10,6 @@ import DashboardMainLayout from "@/Layouts/dashboard/mainLayout";
 
 // Shadcn Components
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/shadcn/ui/table"
-import {
     AlertDialog,
     AlertDialogAction,
     AlertDialogCancel,
@@ -28,23 +20,25 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/shadcn/ui/alert-dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shadcn/ui/tabs"
 import { Button } from "@/shadcn/ui/button";
 import { Separator } from "@/shadcn/ui/separator";
 
 // Icons
-import { AiOutlineCalendar, AiOutlineCheckCircle, AiOutlineDelete, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlineDelete, AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
 import { BsFillTelephoneOutboundFill } from "react-icons/bs";
-import { IoLocationSharp, IoMail } from "react-icons/io5";
-import { MdOutlineSystemSecurityUpdateGood, MdSecurityUpdateWarning } from "react-icons/md";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { FaFemale, FaMale } from "react-icons/fa";
+import { IoMail } from "react-icons/io5";
+import { MdOutlineFormatAlignLeft, MdOutlineFormatAlignRight, MdOutlineTextDecrease, MdOutlineTextIncrease } from "react-icons/md";
+import { RxTextAlignMiddle } from "react-icons/rx";
+
 import { useToast } from "@/shadcn/ui/use-toast";
-import { TbExternalLink } from "react-icons/tb";
 import { IoMdSend } from "react-icons/io";
+import { RiLineHeight } from "react-icons/ri";
 
 const Contact = ({ ...props }) => {
     const [message, setClient] = useState(props?.contact)
+    const [direction, setDirection] = useState('ltr')
+    const [fontSize, setFontSize] = useState(16)
+    const [lineHeight, setLineHeight] = useState(1.5)
     const [deleteloading, setDeleteloading] = useState(false)
 
     const { toast } = useToast()
@@ -97,7 +91,7 @@ const Contact = ({ ...props }) => {
             <div className="md:mx-10 p-0 m-2 border rounded-none md:rounded-md overflow-hidden">
                 <div className="flex flex-col md:flex-row justify-between items-center px-5 py-5 gap-5 bg-gray-100">
                     <div className="flex flex-col text-center md:text-left">
-                        <h2 className="text-xl text-gray-900 font-bold tracking-tight">{message?.subject}</h2>
+                        <h2 className="text-xl text-gray-900 font-bold tracking-tight font-arabic">{message?.subject}</h2>
                         <p className="text-sm text-gray-600 font-arabic">{message?.first_name} {message?.last_name}</p>
                     </div>
                     {/* ACTIONS */}
@@ -185,10 +179,60 @@ const Contact = ({ ...props }) => {
                     </div>
                     <Separator className="" />
                     <div className="flex flex-col justify-start items-center gap-2">
-                        <h1 className="text-sm font-medium md:w-40 text-gray-800">Message :</h1>
-                        <div className="w-full items-center gap-2">
-                            <p className="text-sm font-bold text-gray-900  font-arabic">
-                                {message?.message}
+
+                        <div className="w-full flex flex-row justify-between items-center gap-2">
+
+                            <h1 className="text-sm font-medium md:w-40 text-gray-800">Message :</h1>
+                            <div className="flex flex-row justify-start items-center gap-2">
+                                <Button
+                                    variant="outline"
+                                    className="group p-0 h-9 w-9 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                    onClick={() => setDirection('ltr')}
+                                >
+                                    <MdOutlineFormatAlignLeft className="text-lg" />
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="group p-0 h-9 w-9 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                    onClick={() => setDirection('rtl')}
+                                >
+                                    <MdOutlineFormatAlignRight className="text-lg" />
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="group p-0 h-9 w-9 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                    onClick={() => setFontSize(fontSize + 1)}
+                                >
+                                    <MdOutlineTextIncrease className="text-lg" />
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="group p-0 h-9 w-9 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                    onClick={() => setFontSize(fontSize - 1)}
+                                >
+                                    <MdOutlineTextDecrease className="text-lg" />
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="group p-0 h-9 w-9 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                    onClick={() => setLineHeight(lineHeight + 0.5)}
+                                >
+                                    <RiLineHeight className="text-lg" />
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="group p-0 h-9 w-9 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                    onClick={() => setLineHeight(lineHeight - 0.5)}
+                                >
+                                    <RxTextAlignMiddle className="text-lg transform rotate-180" />
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="w-full items-center gap-2 border border-gray-300 rounded-md p-2">
+                            <p className={`font-bold text-gray-900  font-arabic ${direction === 'rtl' ? 'text-right' : 'text-left'}`} style={{ fontSize: `${fontSize}px`, lineHeight: `${lineHeight}` }}>
+                                {message?.message.split("\n").map((i, key) => {
+                                    return <div key={key}>{i}</div>;
+                                })}
                             </p>
                         </div>
                     </div>

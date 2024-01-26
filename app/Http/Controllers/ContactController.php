@@ -7,7 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ForgotPassword;
+use App\Mail\ResetPassword;
 
 
 
@@ -47,7 +47,7 @@ class ContactController
         
         $recipientEmail = 'youcef.hemadou@hotmail.com';
         $name = request('first_name') . " " . request('last_name'); 
-        $view = 'emails.forgot_password_plain'; 
+        $view = 'contact-message';
         $data = ['contact' => $contactData];
         Mail::send($view, $data, function ($message) use ($recipientEmail, $name) {
             $message->to($recipientEmail, "Youcef Hemadou")

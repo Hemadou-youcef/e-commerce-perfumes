@@ -44,6 +44,7 @@ class EmployeeController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
+            'email'=> 'required|string|lowercase|email|max:255|unique:' . User::class . ',email',
             'username' => 'required|string|max:255|unique:' . User::class,
             'phone' => 'required|string|max:255|unique:' . User::class,
             'address' => 'required|string|max:255',
@@ -55,6 +56,7 @@ class EmployeeController extends Controller
         User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
+            'email'=> $request->email,
             'username' => strtolower($request->username),
             'phone' => $request->phone,
             'address' => $request->address,

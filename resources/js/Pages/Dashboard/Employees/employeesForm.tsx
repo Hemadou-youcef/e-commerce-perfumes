@@ -37,17 +37,15 @@ import { Label } from "@/shadcn/ui/label";
 
 // Icons
 import { AiOutlineLoading3Quarters, AiOutlineRight } from "react-icons/ai";
-import { FaAngleDown, FaCheck, FaSave } from "react-icons/fa";
+import {  FaSave } from "react-icons/fa";
 
 // Style
-import sheetDialog from '@/styles/dialog.module.css'
-import { IoClose } from "react-icons/io5";
-import { ReloadIcon } from "@radix-ui/react-icons";
 import { MdEdit } from "react-icons/md";
 
 interface FormData {
     first_name: string;
     last_name: string;
+    email: string;
     phone: string;
     address: string;
     gender: string;
@@ -63,6 +61,7 @@ const EmployeesForm = ({ ...props }) => {
     const { data, setData, post, patch, transform, processing, errors, reset } = useForm<FormData>({
         first_name: props?.employee?.first_name || "",
         last_name: props?.employee?.last_name || "",
+        email: props?.employee?.email || "",
         phone: props?.employee?.phone || "",
         address: props?.employee?.address || "",
         gender: props?.employee?.gender || "male",
@@ -73,9 +72,12 @@ const EmployeesForm = ({ ...props }) => {
     });
 
     const isAllRulesVerified = () => {
+
+        const regex = /^[^\s@]+@[^\s@]+$/;
         const messages = [
             "Le nom doit être supérieur à 2 caractères",
             "Le prénom doit être supérieur à 2 caractères",
+            "L'email doit être valide",
             "Le numéro de téléphone doit être égale à 10 caractères",
             "L'address doit être supérieur à 3 caractères",
             "le sexe doit être male ou female",
@@ -87,6 +89,7 @@ const EmployeesForm = ({ ...props }) => {
         const rules = [
             data.first_name.length > 2,
             data.last_name.length > 2,
+            regex.test(data.email),
             data.phone.length == 10,
             data.address.length > 3,
             data.gender == "male" || data.gender == "female",
@@ -114,7 +117,6 @@ const EmployeesForm = ({ ...props }) => {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         if (editMode) {
-            
             transform((data) => (
                 data?.password?.length == 0 ? { ...data, password: undefined, password_confirmation: undefined } : data
             ))
@@ -208,6 +210,18 @@ const EmployeesForm = ({ ...props }) => {
                                     />
                                     {errors.last_name && <p className="text-xs text-red-500">{errors.last_name}</p>}
                                 </div>
+                            </div>
+
+                            <div className="grid gap-3">
+                                <Label htmlFor="email" className="text-base">Email</Label>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    className="w-full h-12 border-2 focus-visible:ring-transparent"
+                                    value={data.email}
+                                    onChange={(e) => setData("email", e.target.value)}
+                                />
+                                {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
                             </div>
 
                             <div className="grid gap-3">

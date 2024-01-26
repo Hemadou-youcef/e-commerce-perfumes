@@ -22,6 +22,14 @@ class Reception extends Model
         'price',
         'rest'
     ];
+    
+    protected $casts = [
+        'quantity' => 'integer',
+        'price' => 'double',
+        'rest' => 'integer',
+        'user_id' => 'integer',
+        'product_id' => 'integer',
+    ];
 
     public function user(): BelongsTo
     {

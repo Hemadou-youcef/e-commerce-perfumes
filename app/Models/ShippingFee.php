@@ -17,6 +17,12 @@ class ShippingFee extends Model
         'home_delivery_price',
         'agency_delivery_price',
     ];
+    
+     protected $casts = [
+        'wilaya_code' => 'integer',
+        'home_delivery_price' => 'integer',
+        'agency_delivery_price' => 'integer',
+    ];
 
 
     public function shippingAgency(): \Illuminate\Database\Eloquent\Relations\BelongsTo
