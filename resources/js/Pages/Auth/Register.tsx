@@ -47,6 +47,7 @@ const Register = () => {
     });
 
     const { t, i18n } = useTranslation();
+    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
 
     const isAllRulesVerified = () => {
         // regex check for email
@@ -85,7 +86,7 @@ const Register = () => {
         if (value) {
             handleVisit(window.location.pathname, "get");
             i18n.changeLanguage(value);
-            localStorage.setItem("language", value);
+            localStorage?.setItem("language", value);
         }
     }
 
@@ -94,7 +95,7 @@ const Register = () => {
             <Head title={t('register_page.title')} />
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-            <div className="grid md:grid-cols-2" dir={i18n.dir()}>
+            <div className="grid md:grid-cols-2" dir={languageDir}>
                 <div className="hidden md:flex w-full h-screen bg-forth text-third flex-col justify-center items-center gap-5 ltr:font-sans rtl:font-arabic">
                     <img src="/image/logo.jpg" className="w-96" />
                 </div>
@@ -181,7 +182,7 @@ const Register = () => {
                                     {checkedAlready && (data.address.length > 3 ? null : <p className="text-xs text-red-500">Adresse il faudrait supérieur à 3 caractères</p>)}
                                     {errors.address && <p className="text-xs text-red-500">{errors.address}</p>}
                                 </div>
-                                <RadioGroup dir={i18n.dir()} defaultValue={t('register_page.male')} className="flex gap-5" onValueChange={(v: 'male' | 'female') => setData('gender', v)}>
+                                <RadioGroup dir={languageDir} defaultValue={t('register_page.male')} className="flex gap-5" onValueChange={(v: 'male' | 'female') => setData('gender', v)}>
                                     <div className="flex items-center gap-2">
                                         <RadioGroupItem value="male" id="male" />
                                         <Label htmlFor="male" className="cursor-pointer text-xs md:text-sm">

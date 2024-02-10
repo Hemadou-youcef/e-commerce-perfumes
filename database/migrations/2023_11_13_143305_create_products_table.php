@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->text('description_ar');
+            $table->string('reference')->nullable();
             $table->unsignedBigInteger('main_image_id')->nullable();
             $table->bigInteger('quantity')->default(0);
             $table->string('unit')->nullable();

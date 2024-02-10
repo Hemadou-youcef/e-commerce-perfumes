@@ -72,6 +72,7 @@ type Category = {
     name_ar: string;
 }
 interface FormData {
+    reference: string;
     name: string;
     description: string;
     description_ar: string;
@@ -90,6 +91,7 @@ interface FormData {
 const ProductForm = ({ ...props }) => {
     const editMode = props?.product ? true : false;
     const { data, setData, post, transform, processing, errors, reset } = useForm<FormData>({
+        reference: props?.product?.reference || "",
         name: props?.product?.name || "",
         description: props?.product?.description || "",
         description_ar: props?.product?.description_ar || "",
@@ -131,6 +133,7 @@ const ProductForm = ({ ...props }) => {
 
     const isAllRulesVerified = () => {
         const rules = [
+            data.reference.length > 0,
             data.name.length > 0,
             data.description.length > 0,
             data.description_ar.length > 0,
@@ -347,6 +350,17 @@ const ProductForm = ({ ...props }) => {
                                 />
 
                                 {editMode && data.name.length === 0 && <p className="text-xs text-red-500">Le nom de la produit est obligatoire</p>}
+                            </div>
+                            <div className="grid gap-3">
+                                <Label htmlFor="name_ar" className="text-base">Référence</Label>
+                                <Input
+                                    id="reference"
+                                    type="text"
+                                    className="w-full h-12 border-2 focus-visible:ring-transparent font-arabic"
+                                    value={data.reference}
+                                    onChange={(e) => setData("reference", e.target.value)}
+                                />
+                                {editMode && data.reference.length === 0 && <p className="text-xs text-red-500">La référence de la produit est obligatoire</p>}
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="description" className="text-base">Description</Label>

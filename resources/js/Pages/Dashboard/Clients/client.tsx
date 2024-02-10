@@ -191,7 +191,7 @@ const Client = ({ ...props }) => {
                                 </AlertDialogContent>
                             </AlertDialog>
                         )}
-                        {[3, 4].includes(parseInt(props?.auth?.user?.role)) && client?.role == 0 && (
+                        {client?.role == 0 && (
                             <Button
                                 variant="outline"
                                 className="group p-0 h-12 w-12 hover:w-32 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"

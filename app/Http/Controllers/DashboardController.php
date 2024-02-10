@@ -189,14 +189,20 @@ class DashboardController extends Controller
         if ($startDate && $endDate) {
             return [
                 'ordersCount' => $this->ordersCount($startDate, $endDate),
-                'orders' => $this->orders($startDate,$endDate, $ordersStatus, $ordersLimit),
+                'orders' => $this->orders($startDate, $endDate, $ordersStatus, $ordersLimit),
                 'ordersCountChart' => $this->ordersCountChart($chartStartDate, $chartEndDate, $chartPeriod),
+                'clientsCount' => User::query()
+                    ->whereHas('orders', fn ($query) => $query->whereIn('status', ['confirmed', 'delivered']))
+                    ->count(),
             ];
         }
         return [
             'ordersCount' => $this->ordersCount($ordersCountStartDate, $ordersCountEndDate),
             'orders' => $this->orders($orderStartDate, $orderEndDate, $ordersStatus, $ordersLimit),
             'ordersCountChart' => $this->ordersCountChart($chartStartDate, $chartEndDate, $chartPeriod),
+            'clientsCount' => User::query()
+                ->whereHas('orders', fn ($query) => $query->whereIn('status', ['confirmed', 'delivered']))
+                ->count(),
         ];
     }
 
@@ -229,7 +235,7 @@ class DashboardController extends Controller
                 $format = 'F Y';
                 $interval = '1 month';
                 if (!$startDate) {
-                    $startDate = now()->subMonths(12);  ;
+                    $startDate = now()->subMonths(12);;
                 }
                 break;
 

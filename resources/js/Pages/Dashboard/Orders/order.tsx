@@ -457,7 +457,7 @@ const Order = ({ ...props }) => {
                             </Link>
                         </div>
 
-                        {order?.status == "delivered" && (
+                        {isAdmin() && order?.status == "delivered" && (
                             <>
                                 <Separator className="mt-0 md:hidden" />
                                 <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
@@ -499,7 +499,7 @@ const Order = ({ ...props }) => {
                             </div>
                         </div>
                         <Separator className="mt-0 md:hidden" />
-                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2 font-arabic">
                             <h1 className="text-sm font-medium md:w-40 text-gray-800">Address :</h1>
                             <div className="flex flex-row justify-start items-center gap-2">
                                 <IoLocationSharp className="text-lg text-gray-800" />
@@ -516,12 +516,12 @@ const Order = ({ ...props }) => {
                                 {(order?.status != "cancelled" && order?.status != "pending") && (
                                     <TabsTrigger value="stock" className="w-52  border-b rounded-none">Stock Consommation</TabsTrigger>
                                 )}
-                                {order?.status == "delivered" && (
+                                {isAdmin() && order?.status == "delivered" && (
                                     <TabsTrigger value="benefices" className="w-52  border-b rounded-none">Bénéfices</TabsTrigger>
                                 )}
                             </TabsList>
                             <TabsContent value="infos">
-                                <div className="flex flex-col gap-3 px-5 p-5">
+                                <div className="flex flex-col gap-3 px-5 p-5 font-arabic">
                                     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                                         <h1 className="text-sm font-medium md:w-40 text-gray-800">Total Articles :</h1>
                                         <p className="text-sm font-bold text-gray-500">{order?.order_products?.length}</p>
@@ -545,7 +545,7 @@ const Order = ({ ...props }) => {
                                     {(order?.status != "pending" && order?.status != "cancelled" && order?.status != "verified") && (
                                         <>
                                             <Separator className="mt-0 md:hidden" />
-                                            <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                                            <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2 ">
                                                 <h1 className="text-sm font-medium md:w-40 text-gray-800">Confirmé Par :</h1>
                                                 <Link href={`/employees/${order?.confirmed_by?.id}`} className="flex flex-row justify-start items-center gap-2">
                                                     <CgProfile className="text-xl text-blue-800" />

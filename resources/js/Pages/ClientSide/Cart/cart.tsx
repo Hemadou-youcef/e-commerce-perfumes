@@ -55,6 +55,7 @@ const Cart = ({ ...props }) => {
     const [checkoutLoading, setCheckoutLoading] = useState(false);
 
     const { t, i18n } = useTranslation()
+    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
 
     useEffect(() => {
         setCartItems(props?.cartItems);
@@ -62,8 +63,8 @@ const Cart = ({ ...props }) => {
 
     useEffect(() => {
         handleGetDeliveryFees()
-    },[data.shipping_method, data.state_code, data.shipping_agency_id])
-    
+    }, [data.shipping_method, data.state_code, data.shipping_agency_id])
+
 
     const isAllRulesVerified = () => {
         const rules = [
@@ -71,11 +72,10 @@ const Cart = ({ ...props }) => {
             data.last_name.length > 0,
             data.phone.length > 0,
             data.street_address.length > 0,
-            data.city.length > 0,
             data.state_code.length > 0,
             data.shipping_agency_id.length > 0,
             data.shipping_method.length > 0,
-            data.postal_code.length > 0,
+            data.shipping_method == "1" ? data.city.length > 0 : true,
         ];
         return rules.every((rule) => rule);
     }
@@ -98,7 +98,7 @@ const Cart = ({ ...props }) => {
 
     const handleGetSheepingAgency = () => {
         return shippingAgencies.find((item) => item.id == data.shipping_agency_id);
-        
+
     }
 
     const handleGetWilaya = (currentSheppingAgency) => {
@@ -106,7 +106,7 @@ const Cart = ({ ...props }) => {
     }
 
     const handleGetFees = (currentWilaya) => {
-        return  data.shipping_method == "1" ? currentWilaya?.home_delivery_price : currentWilaya?.agency_delivery_price 
+        return data.shipping_method == "1" ? currentWilaya?.home_delivery_price : currentWilaya?.agency_delivery_price
     }
 
     const handleGetDeliveryFees = () => {
@@ -165,16 +165,16 @@ const Cart = ({ ...props }) => {
                     <form onSubmit={submit} className="w-full p-5 flex flex-col gap-5">
                         <div className="grid gap-3">
                             <Label htmlFor="agency" className="text-base">
-                                {t('cart_page.agency')}
+                                {t('cart_page.agency')}*
                                 {/* Agence  */}
                             </Label>
                             <Select onValueChange={(value) => {
                                 setData(data => ({ ...data, shipping_agency_id: value }))
                             }}>
-                                <SelectTrigger dir={i18n.dir()} >
+                                <SelectTrigger dir={languageDir} >
                                     <SelectValue placeholder={t('cart_page.choose_agency')} className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
-                                <SelectContent dir={i18n.dir()} className="w-full border-2 focus-visible:ring-transparent">
+                                <SelectContent dir={languageDir} className="w-full border-2 focus-visible:ring-transparent">
                                     {shippingAgencies.map((item, index): any => (
                                         <SelectItem
                                             key={index}
@@ -186,20 +186,23 @@ const Cart = ({ ...props }) => {
                                     ))}
                                 </SelectContent>
                             </Select>
+                            {errors.shipping_agency_id && (
+                                <p className="text-red-500 text-sm">{errors.shipping_agency_id}</p>
+                            )}
                         </div>
 
                         <div className="grid gap-3">
                             <Label htmlFor="shipping_method" className="text-base">
-                                {t('cart_page.shipping_method')}
+                                {t('cart_page.shipping_method')}*
                                 {/* Méthode de livraison */}
                             </Label>
                             <Select onValueChange={(value) => {
                                 setData(data => ({ ...data, shipping_method: value }))
                             }}>
-                                <SelectTrigger dir={i18n.dir()}>
+                                <SelectTrigger dir={languageDir}>
                                     <SelectValue placeholder={t('cart_page.home_delivery')} className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
-                                <SelectContent dir={i18n.dir()} className="w-full border-2 focus-visible:ring-transparent font-arabic">
+                                <SelectContent dir={languageDir} className="w-full border-2 focus-visible:ring-transparent font-arabic">
                                     <SelectItem value="1">
                                         {t('cart_page.home_delivery')}
                                     </SelectItem>
@@ -208,12 +211,15 @@ const Cart = ({ ...props }) => {
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
+                            {errors.shipping_method && (
+                                <p className="text-red-500 text-sm">{errors.shipping_method}</p>
+                            )}
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
                             <div className="grid gap-3">
                                 <Label htmlFor="name" className="text-base">
-                                    {t('cart_page.first_name')}
+                                    {t('cart_page.first_name')}*
                                     {/* Nom */}
                                 </Label>
                                 <Input
@@ -225,10 +231,13 @@ const Cart = ({ ...props }) => {
                                         setData(data => ({ ...data, first_name: e.target.value }))
                                     }}
                                 />
+                                {errors.first_name && (
+                                    <p className="text-red-500 text-sm">{errors.first_name}</p>
+                                )}
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="name" className="text-base">
-                                    {t('cart_page.last_name')}
+                                    {t('cart_page.last_name')}*
                                     {/* Prénom */}
                                 </Label>
                                 <Input
@@ -240,12 +249,15 @@ const Cart = ({ ...props }) => {
                                         setData(data => ({ ...data, last_name: e.target.value }))
                                     }}
                                 />
+                                {errors.last_name && (
+                                    <p className="text-red-500 text-sm">{errors.last_name}</p>
+                                )}
                             </div>
                         </div>
 
                         <div className="grid gap-3">
                             <Label htmlFor="phone" className="text-base">
-                                {t('cart_page.phone')}
+                                {t('cart_page.phone')}*
                                 {/* Numéro de téléphone */}
                             </Label>
                             <Input
@@ -257,11 +269,14 @@ const Cart = ({ ...props }) => {
                                     setData(data => ({ ...data, phone: e.target.value }))
                                 }}
                             />
+                            {errors.phone && (
+                                <p className="text-red-500 text-sm">{errors.phone}</p>
+                            )}
                         </div>
 
                         <div className="grid gap-3">
                             <Label htmlFor="address" className="text-base">
-                                {t('cart_page.street_address')}
+                                {t('cart_page.street_address')}*
                                 {/* Adresse */}
                             </Label>
                             <Input
@@ -273,19 +288,22 @@ const Cart = ({ ...props }) => {
                                     setData(data => ({ ...data, street_address: e.target.value }))
                                 }}
                             />
+                            {errors.street_address && (
+                                <p className="text-red-500 text-sm">{errors.street_address}</p>
+                            )}
                         </div>
                         <div className="grid gap-3">
                             <Label htmlFor="state" className="text-base">
-                                {t('cart_page.state')}
+                                {t('cart_page.state')}*
                                 {/* Wilaya */}
                             </Label>
                             <Select onValueChange={(value) => {
                                 setData(data => ({ ...data, state_code: value }))
                             }}>
-                                <SelectTrigger dir={i18n.dir()}>
+                                <SelectTrigger dir={languageDir}>
                                     <SelectValue placeholder="" className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
-                                <SelectContent dir={i18n.dir()} className="w-full h-52 border-2 focus-visible:ring-transparent">
+                                <SelectContent dir={languageDir} className="w-full h-52 border-2 focus-visible:ring-transparent">
                                     {wilaya.map((item, index): any => (
                                         <SelectItem
                                             key={index}
@@ -297,6 +315,9 @@ const Cart = ({ ...props }) => {
                                     ))}
                                 </SelectContent>
                             </Select>
+                            {errors.state_code && (
+                                <p className="text-red-500 text-sm">{errors.state_code}</p>
+                            )}
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                             <div className="grid gap-3">
@@ -313,7 +334,11 @@ const Cart = ({ ...props }) => {
                                         setData(data => ({ ...data, postal_code: e.target.value }))
                                     }}
                                 />
+
                             </div>
+                            {errors.postal_code && (
+                                <p className="text-red-500 text-sm">{errors.postal_code}</p>
+                            )}
                             <div className="grid gap-3">
                                 <Label htmlFor="city" className="text-base">
                                     {t('cart_page.city')}
@@ -328,7 +353,11 @@ const Cart = ({ ...props }) => {
                                         setData(data => ({ ...data, city: e.target.value }))
                                     }}
                                 />
+
                             </div>
+                            {errors.city && (
+                                <p className="text-red-500 text-sm">{errors.city}</p>
+                            )}
                         </div>
 
                     </form>
@@ -363,7 +392,7 @@ const Cart = ({ ...props }) => {
                                         </p>
                                         <p className=" text-gray-900">
                                             {data.state_code != "" ?
-                                                (currentFees || 0 )+ ",00 " + t("global.da")
+                                                (currentFees || 0) + ",00 " + t("global.da")
                                                 :
                                                 "remplir l'entrée"
                                             }
@@ -375,7 +404,7 @@ const Cart = ({ ...props }) => {
                                             {t('cart_page.total')}:
                                         </p>
                                         <p className=" text-gray-900">
-                                            {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + currentFees || 0},00 {t("global.da")}  
+                                            {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + currentFees || 0},00 {t("global.da")}
                                         </p>
                                     </div>
                                 </>

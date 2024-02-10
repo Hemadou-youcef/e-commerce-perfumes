@@ -33,6 +33,7 @@ const Products = ({ ...props }) => {
     const firstUpdate = useRef(true);
 
     const { t, i18n } = useTranslation()
+    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
 
     const alreadyUsedCategories = [
         "homme",
@@ -113,6 +114,7 @@ const Products = ({ ...props }) => {
                         : "استكشف مجموعة واسعة من منتجات ريما برفيوم، بدءًا من العطور الرائعة إلى الساعات الأنيقة وأكثر. اكتشف جوهر الترف والجودة."
                 } />
                 <meta property="og:title" content={t("layout.navbar.products") + " | " + t('global.shop')} />
+                    
             </Head>
             <div className="container grid grid-cols-1 md:grid-cols-12 md:gap-5 mx-auto px-5 pt-2 py-0 bg-white mt-10">
                 {/* FILTER SECTION */}
@@ -125,7 +127,7 @@ const Products = ({ ...props }) => {
                                 <IoMdOptions className="h-5 w-5" />
                                 <span className="ml-2">{t("products_page.filter")}</span>
                             </SheetTrigger>
-                            <SheetContent dir={i18n.dir()} side={i18n.language === "fr" ? "left" : "right"}>
+                            <SheetContent dir={languageDir} side={i18n.language === "fr" ? "left" : "right"}>
                                 <div className="h-[calc(95dvh)] bg-white rounded-tl-md rounded-tr-md overflow-y-auto flex flex-col items-start justify-start gap-5 font-sans rtl:font-arabic  ">
 
                                     <FiltersOptions

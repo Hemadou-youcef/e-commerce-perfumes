@@ -66,7 +66,7 @@ const Home = ({ ...props }) => {
                             autoplay={{ delay: 10000 }}
                             className="h-full"
                         >
-                            {props?.pinned_products?.map((product, index) => (
+                            {props?.pinned_products?.map((product : any, index : any) => (
                                 <SwiperSlide key={index} className="h-full">
                                     {/* Wallpaper For Information */}
                                     <div className="h-128 flex justify-center items-center py-10 bg-cover bg-fixed bg-center text-gray-50 font-serif "

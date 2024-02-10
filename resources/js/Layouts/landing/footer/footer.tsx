@@ -14,12 +14,14 @@ import { useTranslation } from "react-i18next";
 
 const LandingFooter = ({ handleVisit }) => {
     const { t, i18n } = useTranslation()
+    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
+    
 
     const handleLanguageChange = (value) => {
         if (value) {
             handleVisit(window.location.pathname, "get");
             i18n.changeLanguage(value);
-            localStorage.setItem("language", value);
+            localStorage?.setItem("language", value);
         }
     }
     return (
@@ -64,6 +66,12 @@ const LandingFooter = ({ handleVisit }) => {
                                 {t('layout.navbar.perfumes')}
                             </Link>
                             <Link
+                                href="/products/aromatic_oils"
+                                className="text-sm font-bold transition-colors hover:text-gray-400"
+                            >
+                                {t('layout.navbar.aromatic_oils')}
+                            </Link>
+                            <Link
                                 href="/products/accessories"
                                 className="text-sm font-bold transition-colors hover:text-gray-400"
                             >
@@ -76,15 +84,15 @@ const LandingFooter = ({ handleVisit }) => {
                                 {t('layout.navbar.contact')}
                             </Link>
                             <Link
-                                href="/about-us"
+                                href="/about"
                                 className="text-sm font-bold transition-colors hover:text-gray-400"
                             >
                                 {t('layout.navbar.about')}
                             </Link>
                         </div>
-                        <Select dir={i18n.dir()} onValueChange={handleLanguageChange} value={localStorage.getItem('language') || 'ar'}>
+                        <Select dir={languageDir} onValueChange={handleLanguageChange} value={i18n.language}>
                             <SelectTrigger className="w-32 h-7 text-forth font-sans rtl:font-arabic">
-                                <SelectValue placeholder={t('language.' + localStorage.getItem('language'))} />
+                                <SelectValue placeholder={t('language.' + i18n.language)} />
                             </SelectTrigger>
                             <SelectContent className="font-sans rtl:font-arabic">
                                 <SelectItem value="ar">

@@ -9,6 +9,7 @@ import { CiDeliveryTruck } from "react-icons/ci"
 // You can use a Zod schema here if you want.
 export type ProductsInfo = {
     id: number;
+    reference: string;
     name: string;
     description: string;
     description_ar: string;
@@ -40,6 +41,18 @@ export const columns: ColumnDef<ProductsInfo>[] = [
             )
         },
         maxSize: 5,
+    },
+    {
+        accessorKey: "reference",
+        header: "Référence",
+        cell: ({ row }) => {
+            return (
+                <span className="flex flex-row items-center gap-2 font-arabic text-xs md:text-base">
+                    {row?.original?.reference}
+                </span>
+            )
+        },
+        maxSize: 10,
     },
     {
         accessorKey: "name",

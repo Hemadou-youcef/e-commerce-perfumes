@@ -100,7 +100,7 @@ const ContactUsForm = ({ ...props }) => {
                         type="email"
                         name="email"
                         id="email"
-                        className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring blue-600 focus:border-transparent"
+                        className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 blue-600 focus:border-transparent"
                         value={data.email}
                         placeholder={t('contact_page.email')}
                         onChange={(e) => setData("email", e.target.value)}

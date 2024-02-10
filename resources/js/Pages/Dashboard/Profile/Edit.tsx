@@ -32,6 +32,7 @@ import { RiAdminFill } from "react-icons/ri";
 interface FormData {
     first_name: string;
     last_name: string;
+    email: string;
     phone: string;
     address: string;
     gender: string;
@@ -44,6 +45,7 @@ const Profile = ({ ...props }) => {
     const { data, setData, patch,transform, processing, errors, reset } = useForm<FormData>({
         first_name: props?.auth?.user?.first_name,
         last_name: props?.auth?.user?.last_name,
+        email: props?.auth?.user?.email,
         phone: props?.auth?.user?.phone,
         gender: props?.auth?.user?.gender,
         address: props?.auth?.user?.address,
@@ -59,6 +61,7 @@ const Profile = ({ ...props }) => {
             ...data,
             first_name: props?.auth?.user?.first_name,
             last_name: props?.auth?.user?.last_name,
+            email: props?.auth?.user?.email,
             phone: props?.auth?.user?.phone,
             gender: props?.auth?.user?.gender,
             address: props?.auth?.user?.address,
@@ -70,9 +73,13 @@ const Profile = ({ ...props }) => {
     }, [props?.auth?.user]);
 
     const isAllRulesVerified = () => {
+        const regex = new RegExp(/^[0-9]+$/);
+        const emailRegex = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
         const rules = [
             data.first_name.length > 0,
             data.last_name.length > 0,
+            emailRegex.test(data.email),
+            regex.test(data.phone),
             data.phone.length > 0,
             data.address.length > 0,
             data.gender.length > 0,
@@ -209,6 +216,18 @@ const Profile = ({ ...props }) => {
                             </div>
 
                             <div className="grid gap-3">
+                                <Label htmlFor="email" className="text-base">Email</Label>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    className="w-full h-12 border-2 focus-visible:ring-transparent"
+                                    value={data.email}
+                                    onChange={(e) => setData("email", e.target.value)}
+                                />
+                                {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
+                            </div>
+
+                            <div className="grid gap-3">
                                 <Label htmlFor="phone" className="text-base">Téléphone</Label>
                                 <Input
                                     id="phone"
@@ -285,6 +304,14 @@ const Profile = ({ ...props }) => {
                                 <h1 className="text-sm font-medium md:w-40 text-gray-800">Role</h1>
                                 <div className="flex flex-row justify-start items-center gap-2">
                                     {role()}
+                                </div>
+                            </div>
+                            <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                                <h1 className="text-sm font-medium md:w-40 text-gray-800">Email</h1>
+                                <div className="flex flex-row justify-start items-center gap-2">
+                                    <p className="text-sm font-bold text-gray-500">
+                                        {props?.auth?.user?.email}
+                                    </p>
                                 </div>
                             </div>
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">

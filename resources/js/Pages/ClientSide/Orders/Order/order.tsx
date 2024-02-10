@@ -37,6 +37,7 @@ import { AiOutlineDelete, AiOutlineLoading3Quarters } from "react-icons/ai";
 const Order = ({ ...props }) => {
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
     const { t, i18n } = useTranslation()
+    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
     const { toast } = useToast()
 
     const formatDate = (date) => {
@@ -196,7 +197,7 @@ const Order = ({ ...props }) => {
 
                 {/* PRODUCT LIST */}
                 <div className="w-full mb-5 border-2 ">
-                    <Table className="min-w-[700px] w-full ltr:font-sans rtl:font-arabic" dir={i18n.dir()}>
+                    <Table className="min-w-[700px] w-full ltr:font-sans rtl:font-arabic" dir={languageDir}>
                         <TableHeader>
                             <TableRow className="bg-gray-100 hover:bg-gray-100">
                                 <TableHead className="rtl:text-right w-7">{t("order_page.ID")}</TableHead>

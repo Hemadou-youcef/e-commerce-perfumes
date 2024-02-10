@@ -20,23 +20,22 @@ import { AiOutlineHome, AiOutlineLoading3Quarters, AiOutlineSearch } from "react
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { TbBookmark, TbPerfume } from "react-icons/tb";
-import { MdOutlineDashboard, MdOutlineLogout } from "react-icons/md";
+import { MdLanguage, MdOutlineDashboard, MdOutlineLogout } from "react-icons/md";
 import { IoMdClose, IoMdSearch } from "react-icons/io";
 import { IoMenu, IoPersonAddOutline } from "react-icons/io5";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { BsPersonAdd } from "react-icons/bs";
-import { is } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
 import { FaLuggageCart } from "react-icons/fa";
 import { LiaLuggageCartSolid } from "react-icons/lia";
 import { Separator } from "@/shadcn/ui/separator";
 
 
-const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
+const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
     const searchInput = useRef<HTMLInputElement>(null);
     const [search, setSearch] = useState("");
     const [searchLoading, setSearchLoading] = useState(false);
-    const { t,i18n } = useTranslation()
+    const { t, i18n } = useTranslation()
     // console.log(props?.auth?.user)
 
     const isLogged = () => {
@@ -55,11 +54,11 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
             setTimeout(() => {
                 handleVisit(window.location.pathname, "get");
                 i18n.changeLanguage(value);
-                localStorage.setItem("language", value);
+                localStorage?.setItem("language", value);
             }, 100);
         }
     }
-    
+
     const handleSearch = (search: string) => {
         setSearchLoading(true);
         router.get("/products?q=" + search, {}, {
@@ -107,6 +106,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
                     />
                     {searchLoading ? <AiOutlineLoading3Quarters className="w-6 h-6 text-forth animate-spin" /> : <IoMdSearch className="w-6 h-6 text-forth" />}
                 </div>
+
 
                 <div className="flex flex-col items-center text-white text-lg font-medium uppercase gap-3 mx-5 ltr:font-sans rtl:font-arabic">
                     <div onClick={() => handleVisit("/products")} className="cursor-pointer">
@@ -163,16 +163,16 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
 
                 <div dir='ltr' className="fixed bottom-0 left-0 w-full h-14 bg-white z-10 flex items-center justify-around p-2 border-t shadow-md"
                 >
-                    {(!isLogged() || isEmployee()) && <div onClick={()=>handleVisit("/")} className="cursor-pointer">
+                    {(!isLogged() || isEmployee()) && <div onClick={() => handleVisit("/")} className="cursor-pointer">
                         <AiOutlineHome className="w-6 h-full text-primary" />
                     </div>}
-                    <div onClick={()=>handleVisit("/products")} className="cursor-pointer">
+                    <div onClick={() => handleVisit("/products")} className="cursor-pointer">
                         <TbPerfume className="w-6 h-full text-primary" />
                     </div>
-                    {isClient() && <div onClick={()=>handleVisit("/cart")} className="cursor-pointer">
+                    {isClient() && <div onClick={() => handleVisit("/cart")} className="cursor-pointer">
                         <HiOutlineShoppingBag className="w-6 h-6 text-primary" />
                     </div>}
-                    {isClient() && <div onClick={()=>handleVisit("/orders")} className="cursor-pointer">
+                    {isClient() && <div onClick={() => handleVisit("/orders")} className="cursor-pointer">
                         <LiaLuggageCartSolid className="w-7 h-7 text-primary" />
                     </div>}
                     <Button
@@ -186,22 +186,22 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
                     >
                         <AiOutlineSearch className="w-6 h-6 text-primary" />
                     </Button>
-                    {isClient() && <div onClick={()=>handleVisit("/bookmarks")} className="cursor-pointer">
+                    {isClient() && <div onClick={() => handleVisit("/bookmarks")} className="cursor-pointer">
                         <TbBookmark className="w-6 h-6 text-primary" />
                     </div>}
-                    {isClient() && <div onClick={()=>handleVisit("/profile")} className="cursor-pointer">
+                    {isClient() && <div onClick={() => handleVisit("/profile")} className="cursor-pointer">
                         <CgProfile className="w-5 h-5 text-primary" />
                     </div>}
-                    {isEmployee() && <div onClick={()=>handleVisit("/dashboard")} className="cursor-pointer">
+                    {isEmployee() && <div onClick={() => handleVisit("/dashboard")} className="cursor-pointer">
                         <MdOutlineDashboard className="w-6 h-6 text-primary" />
                     </div>}
-                    {isLogged() && <div onClick={()=>handleVisit("/logout", "post")} className="cursor-pointer">
+                    {isLogged() && <div onClick={() => handleVisit("/logout", "post")} className="cursor-pointer">
                         <BiLogOut className="w-6 h-6 text-primary" />
                     </div>}
-                    {!isLogged() && <div onClick={()=>handleVisit("/register")} className="cursor-pointer">
+                    {!isLogged() && <div onClick={() => handleVisit("/register")} className="cursor-pointer">
                         <BsPersonAdd className="w-6 h-6 text-primary" />
                     </div>}
-                    {!isLogged() && <div onClick={()=>handleVisit("/login")} className="cursor-pointer">
+                    {!isLogged() && <div onClick={() => handleVisit("/login")} className="cursor-pointer">
                         <BiLogIn className="w-6 h-6 text-primary" />
                     </div>}
                 </div>
@@ -229,6 +229,19 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
                             className="h-10 border-0 focus-visible:ring-transparent bg-white"
                         />
                         {searchLoading ? <AiOutlineLoading3Quarters className="p-1 w-8 h-8 text-forth animate-spin" /> : <IoMdSearch className="w-8 h-8 text-forth" />}
+                    </div>
+                    {/* LANGUAGE */}
+                    <div className="flex flex-col items-center group gap-1 cursor-pointer text-third" onClick={() => handleChangeLanguage(i18n.language === "fr" ? "ar" : "fr")}>
+                        <MdLanguage className="w-5 h-5 text-white group-hover:text-gray-400" />
+                        {i18n.language === "fr" ? (
+                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
+                                Arabe
+                            </p>
+                        ) : (
+                            <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
+                                فرنسية
+                            </p>
+                        )}
                     </div>
 
                     {/* IF LOGGED IN */}
@@ -305,7 +318,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen,handleVisit }) => {
 
                     {/* IF NOT LOGGED IN */}
                     {props?.auth?.user === null && <div className="flex items-center gap-3 text-third">
-                    <div
+                        <div
                             onClick={() => handleVisit("/register")}
                             className="flex flex-col items-center group gap-1 cursor-pointer"
                         >

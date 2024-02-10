@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next"
 
 const InvalidToken = () => {
     const { t, i18n } = useTranslation();
+    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
 
 
     const handleVisit = (url: string, method: string = "get") => {
@@ -17,14 +18,14 @@ const InvalidToken = () => {
         if (value) {
             handleVisit(window.location.pathname, "get");
             i18n.changeLanguage(value);
-            localStorage.setItem("language", value);
+            localStorage?.setItem("language", value);
         }
     }
 
     return (
         <>
             <Head title={t('forgot_password_page.title')} />
-            <div className="grid md:grid-cols-1" dir={i18n.dir()}>
+            <div className="grid md:grid-cols-1" dir={languageDir}>
                 
                 <div className="w-full  h-screen overflow-auto ltr:font-sans rtl:font-arabic">
                     <div className="flex justify-between items-center gap-2">

@@ -20,12 +20,12 @@ const AboutUs = ({ ...props }) => {
             <Head>
                 <title>{title}</title>
                 <meta name="description" content={
-                    i18n.language === "fr"
+                    i18n?.language === "fr"
                         ? "Découvrez l'histoire captivante de Remah Perfum, une destination de choix pour des parfums exquis et des montres élégantes. Explorez notre passion pour l'élégance et la qualité, et plongez dans un monde de senteurs et de style."
                         : "Explore the captivating story of Remah Perfum, a premier destination for exquisite perfumes and elegant watches. Discover our commitment to elegance and quality, and immerse yourself in a world of scents and style."
                 } />
                 <meta name="keywords" content={
-                    i18n.language === "fr"
+                    i18n?.language === "fr"
                         ? "parfum, montres, histoire de la marque, parfums de luxe, montres élégantes, qualité, passion, élégance, style, senteurs"
                         : "perfume, watches, brand history, luxury fragrances, elegant watches, quality, passion, elegance, style, scents"
                 } />
@@ -34,20 +34,22 @@ const AboutUs = ({ ...props }) => {
                 style={{
                     backgroundImage: "url('/image/wallpaper.png')"
                 }}
-                className="w-full bg-cover bg-center bg-fixed py-5 flex justify-center items-center"
+                className="w-full bg-cover bg-center bg-fixed py-5 flex flex-col justify-center items-center text-white"
             >
                 <span className="text-white text-xl md:text-3xl font-bold font-sans rtl:font-arabic" style={{ textShadow: "0 0 10px #000" }}>
                     {t('about_us_page.title')}
                 </span>
-                {i18n.language === "fr" ? (
-                    <span>
-
-                    </span>
-                ) : (
-                    <span>
-
-                    </span>
-                )}
+                <div className="container mx-auto text-center font-bold text-sm md:text-lg lg:text-xl leading-8 md:leading-8 lg:leading-10 py-5 rtl:font-arabic ltr:font-sans">
+                    {i18n.language === "fr" ? (
+                        <span>
+                            Le monde des parfums est un monde qui incarne la sophistication, la beauté et la joie, et les parfums de luxe témoignent du caractère unique d'excellents produits.  Rumah  Perfume est une entreprise passionnée qui a été créée, grâce à Dieu, en 2019  , à l'époque de la renaissance des parfums modernes. Depuis les hauts plateaux du nord de mon pays, l'Algérie, nous prenons un chemin pionnier dans le domaine de la vente de l'extrait de parfums et de la fabrication de cosmétiques et d'entretien physique du corps.
+                        </span>
+                    ) : (
+                        <span>
+                            عالم العطور ، عالم يجسد الرقي و الجمال والبهجة ، والعطور الفاخرة تدل على تفرد المنتجات الممتازة ؛ الرماح للعطور شركة شغوفة تأسست بفضل الله عام 2019 م في وقت نهضة العطور الحديثة  . من الهضاب العليا شمال بلدي الجزائر نأخذ طريقا رائدا في في مجال بيع العطور الزيتية و صناعة مواد التجميل و التنظيف البدني
+                        </span>
+                    )}
+                </div>
             </div>
             <div className="w-full md:container md:px-0 font-sans rtl:font-arabic rounded-lg bg-white p-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 ">
@@ -58,6 +60,7 @@ const AboutUs = ({ ...props }) => {
                             <h1 className="text-xs md:text-base lg:text-lg font-bold text-gray-900 uppercase">
                                 {t('about_us_page.contact_info')}
                             </h1>
+
                         </div>
                         <div className="grid grid-cols-1 gap-5 px-2 md:px-8 py-4">
                             {/* FAX */}

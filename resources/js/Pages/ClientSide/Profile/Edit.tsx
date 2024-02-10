@@ -54,6 +54,7 @@ import { useTranslation } from "react-i18next";
 interface FormData {
     first_name: string;
     last_name: string;
+    email: string;
     phone: string;
     address: string;
     gender: string;
@@ -65,6 +66,7 @@ const ProfileEdit = ({ ...props }) => {
     const { data, setData, patch, transform, processing, errors, reset } = useForm<FormData>({
         first_name: props?.auth?.user?.first_name,
         last_name: props?.auth?.user?.last_name,
+        email: props?.auth?.user?.email,
         phone: props?.auth?.user?.phone,
         gender: props?.auth?.user?.gender,
         address: props?.auth?.user?.address,
@@ -82,6 +84,7 @@ const ProfileEdit = ({ ...props }) => {
             ...data,
             first_name: props?.auth?.user?.first_name,
             last_name: props?.auth?.user?.last_name,
+            email: props?.auth?.user?.email,
             phone: props?.auth?.user?.phone,
             gender: props?.auth?.user?.gender,
             address: props?.auth?.user?.address,
@@ -93,9 +96,11 @@ const ProfileEdit = ({ ...props }) => {
     }, [props?.auth?.user]);
 
     const isAllRulesVerified = () => {
+        const emailRegex = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
         const rules = [
             data.first_name.length > 0,
             data.last_name.length > 0,
+            emailRegex.test(data.email),
             data.phone.length > 0,
             data.address.length > 0,
             data.gender.length > 0,
@@ -246,6 +251,21 @@ const ProfileEdit = ({ ...props }) => {
                             </div>
 
                             <div className="grid gap-3">
+                                <Label htmlFor="email" className="text-base">
+                                    {t("profile_page.email")}
+                                    {/* Email */}
+                                </Label>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    className="w-full h-12 border-2 focus-visible:ring-transparent"
+                                    value={data.email}
+                                    onChange={(e) => setData("email", e.target.value)}
+                                />
+                                {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
+                            </div>
+
+                            <div className="grid gap-3">
                                 <Label htmlFor="phone" className="text-base">
                                     {t("profile_page.phone")}
                                     {/* Téléphone */}
@@ -350,6 +370,17 @@ const ProfileEdit = ({ ...props }) => {
                             </div>
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                                 <h1 className="text-sm font-medium md:w-40 text-gray-800">
+                                    {t("profile_page.email")}
+                                    {/* Email */}
+                                </h1>
+                                <div className="flex flex-row justify-start items-center gap-2">
+                                    <p className="text-sm font-bold text-gray-500">
+                                        {data?.email}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
+                                <h1 className="text-sm font-medium md:w-40 text-gray-800">
                                     {t("profile_page.phone")}
                                     {/* Téléphone */}
                                 </h1>
@@ -390,7 +421,7 @@ const ProfileEdit = ({ ...props }) => {
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>
-                            <div className={`flex flex-row justify-start items-center gap-2 ${i18n.dir() === "rtl" ? "font-arabic" : "font-sans"}`}>
+                            <div className={`flex flex-row justify-start items-center gap-2 ${i18n?.dir() === "rtl" ? "font-arabic" : "font-sans"}`}>
                                 <MdSecurityUpdateWarning className="text-xl text-gray-600" />
                                 <h1 className="text-lg font-medium text-gray-900">
                                     {t("profile_page.confirm_password")}
@@ -415,7 +446,7 @@ const ProfileEdit = ({ ...props }) => {
                                 {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
                             </div>
                         </DialogDescription>
-                        <DialogFooter className={i18n.dir() === "rtl" ? "font-arabic" : "font-sans"}>
+                        <DialogFooter className={i18n?.dir() === "rtl" ? "font-arabic" : "font-sans"}>
                             <Button
                                 variant="outline"
                                 onClick={() => setShowConfirmPassword(false)}

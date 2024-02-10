@@ -246,6 +246,16 @@ class OrderController extends Controller
 
         ]);
 
+        // remove order profits and all order_products buying prices if user is not admin
+        if (!auth()->user()->isAdmin()) {
+            $order->profit = null;
+            $order->orderProducts->each(function ($orderProduct) {
+                $orderProduct->buying_price = null;
+            });
+        }
+
+        
+
         // Load orderProducts and calculate totalQuantity for each
         $order->orderProducts->each(function ($orderProduct) {
             $orderProduct->total_quantity = $orderProduct->totalQuantity();

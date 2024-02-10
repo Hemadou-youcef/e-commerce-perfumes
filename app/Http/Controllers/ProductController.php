@@ -27,6 +27,7 @@ class ProductController extends Controller
                     ->orWhere('id', 'LIKE', '%' . $search . '%')
                     ->orWhere('description', 'LIKE', '%' . $search . '%')
                     ->orWhere('description_ar', 'LIKE', '%' . $search . '%')
+                    ->orWhere('reference', 'LIKE', '%' . $search . '%')
 
                 )
                 ->when(request('status'), fn($query, $status) => $query
@@ -38,6 +39,7 @@ class ProductController extends Controller
                 ->paginate(10)
                 ->through(fn($product) => [
                     'id' => $product->id,
+                    'reference' => $product->reference,
                     'name' => $product->name,
                     'description' => $product->description,
                     'description_ar' => $product->description_ar,
@@ -75,6 +77,7 @@ class ProductController extends Controller
 
         try {
             $product = new Product([
+                'reference' => $validatedData['reference'],
                 'name' => $validatedData['name'],
                 'description' => $validatedData['description'],
                 'description_ar' => $validatedData['description_ar'],
@@ -142,6 +145,7 @@ class ProductController extends Controller
         return inertia::render('Dashboard/Products/product', [
             'product' => [
                 'id' => $product->id,
+                'reference' => $product->reference,
                 'name' => $product->name,
                 'description' => $product->description,
                 'description_ar' => $product->description_ar,
@@ -181,7 +185,7 @@ class ProductController extends Controller
 
         DB::beginTransaction();
 
-
+        $product->reference = $validatedData['reference'];
         $product->name = $validatedData['name'];
         $product->description = $validatedData['description'];
         $product->description_ar = $validatedData['description_ar'];

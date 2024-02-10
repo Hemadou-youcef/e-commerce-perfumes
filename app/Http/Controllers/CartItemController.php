@@ -144,18 +144,20 @@ class CartItemController extends Controller
             'last_name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'street_address' => 'nullable|string|max:255',
-            'city' => 'required|string|max:255',
+            'city' => 'nullable|string|max:255',
             'postal_code' => 'nullable|string|max:255',
             'shipping_method' => 'required|integer|between:1,2',
             'shipping_fee_id' => 'required|integer|exists:shipping_fees,id',
         ]);
+
+        
         // Retrieve cart items for the authenticated user
         $cartItems = $user->cartItems()->get();
 
         try {
             DB::beginTransaction();
 
-
+            
             // Create a new order for the user
             $order = Order::create([
                 'user_id' => $user->id,
@@ -196,7 +198,7 @@ class CartItemController extends Controller
             DB::commit();
         }catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->withErrors(['cart' => 'something went wrong']);
+            return redirect()->back()->withErrors(['cart' => $e->getMessage()]);
 
         }
         return redirect()->to('/orders');

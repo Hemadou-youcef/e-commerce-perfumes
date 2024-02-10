@@ -150,7 +150,7 @@ const Orders = ({ ...props }) => {
             </div>
             <div className="container mx-auto py-10">
                 <div className="max-w-full overflow-x-auto pb-2">
-                    <DataTable columns={columns} data={data} baseUrl="/orders/" />
+                    <DataTable columns={columns} data={data} baseUrl="/orders/"/>
                 </div>
                 <Pagination meta={props?.orders} />
             </div>

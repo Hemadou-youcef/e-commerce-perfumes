@@ -22,6 +22,7 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'reference' => 'sometimes|required|string|max:255|unique:products,reference,' . $this->product->id,
             'name' => 'sometimes|required|string|max:255',
             'description' => 'sometimes|required|string',
             'description_ar' => 'sometimes|required|string',

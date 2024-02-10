@@ -3,7 +3,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build"
+        "build": "tsc && vite build && vite build --ssr"
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
@@ -56,6 +56,9 @@
         "date-fns": "^2.30.0",
         "fs": "^0.0.1-security",
         "i18next": "^23.7.8",
+        "i18next-browser-languagedetector": "^7.2.0",
+        "i18next-http-backend": "^2.4.3",
+        "laravel-react-i18n": "^2.0.4",
         "lucide-react": "^0.292.0",
         "react-day-picker": "^8.9.1",
         "react-hook-form": "^7.48.2",

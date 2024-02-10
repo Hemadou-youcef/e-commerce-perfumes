@@ -30,6 +30,7 @@ const Accessories = ({ ...props }) => {
     const firstUpdate = useRef(true);
 
     const { t, i18n } = useTranslation()
+    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
 
     const alreadyUsedCategories = [
         "bouteille",
@@ -130,7 +131,7 @@ const Accessories = ({ ...props }) => {
                                 <IoMdOptions className="h-5 w-5" />
                                 <span className="ml-2">{t("products_page.filter")}</span>
                             </SheetTrigger>
-                            <SheetContent dir={i18n.dir()} side={i18n.language === "fr" ? "left" : "right"}>
+                            <SheetContent dir={languageDir} side={i18n.language === "fr" ? "left" : "right"}>
                                 <div className="h-[calc(100dvh)] bg-white rounded-tl-md rounded-tr-md overflow-y-auto flex flex-col items-start justify-start gap-5 font-sans rtl:font-arabic  ">
 
                                     <FiltersOptions

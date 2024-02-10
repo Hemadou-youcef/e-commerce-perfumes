@@ -29,6 +29,7 @@ const ResetPassword = ({ token, email }) => {
 
     const { toast } = useToast()
     const { t, i18n } = useTranslation();
+    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
 
     const isAllRulesVerified = () => {
         const rules = [
@@ -68,14 +69,14 @@ const ResetPassword = ({ token, email }) => {
         if (value) {
             handleVisit(window.location.pathname, "get");
             i18n.changeLanguage(value);
-            localStorage.setItem("language", value);
+            localStorage?.setItem("language", value);
         }
     }
 
     return (
         <>
             <Head title={t('forgot_password_page.title')} />
-            <div className="grid md:grid-cols-2" dir={i18n.dir()}>
+            <div className="grid md:grid-cols-2" dir={languageDir}>
                 <div className="relative hidden md:flex w-full h-screen bg-forth text-third flex-col justify-center items-center gap-5 ltr:font-sans rtl:font-arabic">
                     <img src="/image/logo.jpg" className="rumah_icon_animation w-96" />
                 </div>

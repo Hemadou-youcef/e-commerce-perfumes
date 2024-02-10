@@ -24,6 +24,7 @@ const Login = () => {
     });
 
     const { t, i18n } = useTranslation();
+    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -39,7 +40,7 @@ const Login = () => {
         if (value) {
             handleVisit(window.location.pathname, "get");
             i18n.changeLanguage(value);
-            localStorage.setItem("language", value);
+            localStorage?.setItem("language", value);
         }
     }
 
@@ -49,7 +50,7 @@ const Login = () => {
             <Head title={t('login_page.title')} />
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-            <div className="grid md:grid-cols-2" dir={i18n.dir()}>
+            <div className="grid md:grid-cols-2" dir={languageDir}>
                 <div className="relative hidden md:flex w-full h-screen bg-forth text-third flex-col justify-center items-center gap-5 ltr:font-sans rtl:font-arabic">
                     <img src="/image/logo.jpg" className="rumah_icon_animation w-96" />
                 </div>
