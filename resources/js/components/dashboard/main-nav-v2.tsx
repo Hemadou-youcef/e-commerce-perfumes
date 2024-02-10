@@ -24,7 +24,7 @@ import { MdCategory, MdMailOutline } from "react-icons/md";
 import { TiMessage } from "react-icons/ti";
 
 
-const parsePageId = (path: string) => path.split("/")[2] || "admin"
+const parsePageId = (path: string) => path.split("custom./")[2] || "admin"
 
 export function MainNav({ auth, showNav, setNav }: { auth?: any, showNav: boolean, setNav: (value: boolean) => void }) {
   const pageId = parsePageId(window.location.pathname)

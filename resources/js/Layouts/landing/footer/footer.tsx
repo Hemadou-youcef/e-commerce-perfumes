@@ -10,17 +10,17 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/shadcn/ui/select"
-import { useTranslation } from "react-i18next";
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 const LandingFooter = ({ handleVisit }) => {
-    const { t, i18n } = useTranslation()
-    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
+    const { t, currentLocale,setLocale   } = useLaravelReactI18n();
+    const languageDir = currentLocale() === "ar" ? "rtl" : "ltr";
     
 
     const handleLanguageChange = (value) => {
         if (value) {
             handleVisit(window.location.pathname, "get");
-            i18n.changeLanguage(value);
+            setLocale(value);
             localStorage?.setItem("language", value);
         }
     }
@@ -57,55 +57,55 @@ const LandingFooter = ({ handleVisit }) => {
                                 href="/products"
                                 className="text-sm font-bold transition-colors hover:text-gray-400"
                             >
-                                {t('layout.navbar.products')}
+                                {t('custom.layout.navbar.products')}
                             </Link>
                             <Link
                                 href="/products/perfumes"
                                 className="text-sm font-bold transition-colors hover:text-gray-400"
                             >
-                                {t('layout.navbar.perfumes')}
+                                {t('custom.layout.navbar.perfumes')}
                             </Link>
                             <Link
                                 href="/products/aromatic_oils"
                                 className="text-sm font-bold transition-colors hover:text-gray-400"
                             >
-                                {t('layout.navbar.aromatic_oils')}
+                                {t('custom.layout.navbar.aromatic_oils')}
                             </Link>
                             <Link
                                 href="/products/accessories"
                                 className="text-sm font-bold transition-colors hover:text-gray-400"
                             >
-                                {t('layout.navbar.accessories')}
+                                {t('custom.layout.navbar.accessories')}
                             </Link>
                             <Link
                                 href="/contact"
                                 className="text-sm font-bold transition-colors hover:text-gray-400"
                             >
-                                {t('layout.navbar.contact')}
+                                {t('custom.layout.navbar.contact')}
                             </Link>
                             <Link
                                 href="/about"
                                 className="text-sm font-bold transition-colors hover:text-gray-400"
                             >
-                                {t('layout.navbar.about')}
+                                {t('custom.layout.navbar.about')}
                             </Link>
                         </div>
-                        <Select dir={languageDir} onValueChange={handleLanguageChange} value={i18n.language}>
+                        <Select dir={languageDir} onValueChange={handleLanguageChange} value={currentLocale()}>
                             <SelectTrigger className="w-32 h-7 text-forth font-sans rtl:font-arabic">
-                                <SelectValue placeholder={t('language.' + i18n.language)} />
+                                <SelectValue placeholder={t('custom.language.' + currentLocale())} />
                             </SelectTrigger>
                             <SelectContent className="font-sans rtl:font-arabic">
                                 <SelectItem value="ar">
-                                    {t('language.ar')}
+                                    {t('custom.language.ar')}
                                 </SelectItem>
                                 <SelectItem value="fr">
-                                    {t('language.fr')}
+                                    {t('custom.language.fr')}
                                 </SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
                 </div>
-                {i18n.language === "fr" ? (
+                {currentLocale() === "fr" ? (
                     <div className="text-xs md:text-base border-t border-gray-700 mt-8 p-2 text-center">
                         &copy; {new Date().getFullYear()} RUMAH PARFUM. All rights reserved.
                     </div>

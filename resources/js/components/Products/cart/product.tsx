@@ -1,14 +1,14 @@
 import { Button } from "@/shadcn/ui/button";
 import { Link, router } from "@inertiajs/react";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { MdDeleteOutline } from "react-icons/md";
 import { TiDeleteOutline } from "react-icons/ti";
 
 const CartProduct = ({ product }) => {
     const [deleteLoading, setDeleteLoading] = useState(false);
-    const { t } = useTranslation()
+    const { t } = useLaravelReactI18n();
 
     const handleDeleteCartItem = (id) => {
         setDeleteLoading(true);
@@ -49,10 +49,10 @@ const CartProduct = ({ product }) => {
                     </Link>
                     <p className="flex gap-2 text-gray-600 mb-2">
                         <span className="text-gray-600 mr-1">
-                            {product.quantity * product.product_price?.quantity} {t("units." + product.product_price?.unit?.toLowerCase())} =
+                            {product.quantity * product.product_price?.quantity} {t("custom.units." + product.product_price?.unit?.toLowerCase())} =
                         </span>
                         <span className="text-gray-900 font-semibold">
-                            {product.quantity * product.product_price?.price} {t("global.da")}
+                            {product.quantity * product.product_price?.price} {t("custom.global.da")}
                         </span>
                     </p>
 

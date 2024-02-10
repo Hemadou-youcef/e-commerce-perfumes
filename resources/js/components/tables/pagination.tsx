@@ -10,13 +10,13 @@ import {
 import { Link, router } from "@inertiajs/react";
 import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
-const parsePageId = (path: string) => path.split("/")[2] || "admin"
+const parsePageId = (path: string) => path.split("custom./")[2] || "admin"
 
 const Pagination = ({ meta, preservestate = false, preserveScroll = false }) => {
     const pageId = parsePageId(window.location.pathname)
-    const { t } = useTranslation()
+    const { t } = useLaravelReactI18n();
 
     const visitPage = (page_url) => {
         router.visit(page_url, {
@@ -28,7 +28,7 @@ const Pagination = ({ meta, preservestate = false, preserveScroll = false }) => 
         <div className="flex flex-row justify-between items-center gap-2 mb-5">
             <div className="flex flex-row justify-start items-center gap-2">
                 <p className="text-sm md:text-base font-medium text-gray-600 uppercase">
-                    {window.location.pathname.includes("dashboard") ? "total" : t('layout.pagination.total')}: {meta.total}
+                    {window.location.pathname.includes("dashboard") ? "total" : t('custom.layout.pagination.total')}: {meta.total}
                 </p>
             </div>
             <div dir="ltr" className="flex flex-row justify-end items-center gap-2">

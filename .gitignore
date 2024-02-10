@@ -6,6 +6,7 @@
 /public/hot
 /public/storage
 /storage/*.key
+/lang/php_*.json
 /vendor
 .env
 .env.backup

@@ -475,14 +475,14 @@ const Product = ({ ...props }) => {
                     <div className="flex flex-col justify-center md:justify-start items-start gap-2">
                         <h1 className="text-sm font-medium md:w-128 text-gray-800">Description :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
-                            <div className="text-sm font-bold text-gray-500">{product?.description.split('<br/>').map((value, index) => (<div key={index}><span>{value}</span><br /></div>))}</div>
+                            <div className="text-sm font-bold text-gray-500">{product?.description.split('custom.<br/>').map((value, index) => (<div key={index}><span>{value}</span><br /></div>))}</div>
                         </div>
                     </div>
                     <Separator className="mt-0 md:hidden" />
                     <div className="flex flex-col  justify-center md:justify-start items-start gap-2">
                         <h1 className="text-sm font-medium md:w-128 text-gray-800">Description En arabe :</h1>
                         <div dir="rtl" className="w-full flex flex-row justify-start items-center gap-2">
-                            <div className="text-sm font-bold text-gray-500 font-arabic">{product?.description_ar.split('<br/>').map((value, index) => (<div key={index}><span>{value}</span><br /></div>))}</div>
+                            <div className="text-sm font-bold text-gray-500 font-arabic">{product?.description_ar.split('custom.<br/>').map((value, index) => (<div key={index}><span>{value}</span><br /></div>))}</div>
                         </div>
                     </div>
                     {/* <Separator className="mt-0 md:hidden" />

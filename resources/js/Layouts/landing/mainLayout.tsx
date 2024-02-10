@@ -8,7 +8,7 @@ import { Toaster } from "@/shadcn/ui/toaster"
 import { useState } from "react";
 import { createContext } from "react";
 
-import { useTranslation } from "react-i18next";
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export const LoadingContext = createContext({ handleVisit: (url: string, method?: string) => { } });
@@ -18,10 +18,11 @@ const LandingMainLayout = ({ children, ...props }) => {
     const [navbarOpen, setNavbarOpen] = useState(false);
     const [loadingState, setLoadingState] = useState(false);
 
+    
 
-
-    const { t, i18n } = useTranslation()
-    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
+    // const { t, currentLocale } = useLaravelReactI18n();
+    const { t, currentLocale,isLocale } = useLaravelReactI18n();
+    const languageDir = currentLocale() === "ar" ? "rtl" : "ltr";
     // console.log(pageProps)
 
     const handleVisit = (url: string, method: string = "get") => {
@@ -58,43 +59,43 @@ const LandingMainLayout = ({ children, ...props }) => {
                             onClick={() => handleVisit("/")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('layout.navbar.home')}
+                            {t('custom.layout.navbar.home')}
                         </div>
                         <div
                             onClick={() => handleVisit("/products")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('layout.navbar.products')}
+                            {t('custom.layout.navbar.products')}
                         </div>
                         <div
                             onClick={() => handleVisit("/products/perfumes")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('layout.navbar.perfumes')}
+                            {t('custom.layout.navbar.perfumes')}
                         </div>
                         <div
                             onClick={() => handleVisit("/products/aromatic_oils")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('layout.navbar.aromatic_oils')}
+                            {t('custom.layout.navbar.aromatic_oils')}
                         </div>
                         <div
                             onClick={() => handleVisit("/products/accessories")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('layout.navbar.accessories')}
+                            {t('custom.layout.navbar.accessories')}
                         </div>
                         <div
                             onClick={() => handleVisit("/contact")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('layout.navbar.contact')}
+                            {t('custom.layout.navbar.contact')}
                         </div>
                         <div
                             onClick={() => handleVisit("/about")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('layout.navbar.about')}
+                            {t('custom.layout.navbar.about')}
                         </div>
                     </div>
                 </div>

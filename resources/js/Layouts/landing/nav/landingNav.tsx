@@ -25,7 +25,7 @@ import { IoMdClose, IoMdSearch } from "react-icons/io";
 import { IoMenu, IoPersonAddOutline } from "react-icons/io5";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { BsPersonAdd } from "react-icons/bs";
-import { useTranslation } from "react-i18next";
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { FaLuggageCart } from "react-icons/fa";
 import { LiaLuggageCartSolid } from "react-icons/lia";
 import { Separator } from "@/shadcn/ui/separator";
@@ -35,7 +35,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
     const searchInput = useRef<HTMLInputElement>(null);
     const [search, setSearch] = useState("");
     const [searchLoading, setSearchLoading] = useState(false);
-    const { t, i18n } = useTranslation()
+    const { t, currentLocale,setLocale } = useLaravelReactI18n();
     // console.log(props?.auth?.user)
 
     const isLogged = () => {
@@ -53,7 +53,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
             setNavbarOpen(false);
             setTimeout(() => {
                 handleVisit(window.location.pathname, "get");
-                i18n.changeLanguage(value);
+                setLocale(value);
                 localStorage?.setItem("language", value);
             }, 100);
         }
@@ -101,7 +101,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                 handleSearch(search)
                             }
                         }}
-                        placeholder={t('layout.navbar.search') + "..."}
+                        placeholder={t('custom.layout.navbar.search') + "..."}
                         className="h-10 border-0 focus-visible:ring-transparent bg-white ltr:font-sans rtl:font-arabic"
                     />
                     {searchLoading ? <AiOutlineLoading3Quarters className="w-6 h-6 text-forth animate-spin" /> : <IoMdSearch className="w-6 h-6 text-forth" />}
@@ -111,49 +111,49 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                 <div className="flex flex-col items-center text-white text-lg font-medium uppercase gap-3 mx-5 ltr:font-sans rtl:font-arabic">
                     <div onClick={() => handleVisit("/products")} className="cursor-pointer">
                         <p>
-                            {t('layout.navbar.products')}
+                            {t('custom.layout.navbar.products')}
                             {/* Produits */}
                         </p>
                     </div>
                     <div onClick={() => handleVisit("/products/perfumes")} className="cursor-pointer">
                         <p>
-                            {t('layout.navbar.perfumes')}
+                            {t('custom.layout.navbar.perfumes')}
                             {/* Parfums */}
                         </p>
                     </div>
                     <div onClick={() => handleVisit("/products/aromatic_oils")} className="cursor-pointer">
                         <p>
-                            {t('layout.navbar.aromatic_oils')}
+                            {t('custom.layout.navbar.aromatic_oils')}
                             {/* Huiles */}
                         </p>
                     </div>
                     <div onClick={() => handleVisit("/products/accessories")} className="cursor-pointer">
                         <p>
-                            {t('layout.navbar.accessories')}
+                            {t('custom.layout.navbar.accessories')}
                             {/* Accessoires */}
                         </p>
                     </div>
                     <div onClick={() => handleVisit("/contact-us")} className="cursor-pointer">
                         <p>
-                            {t('layout.navbar.contact')}
+                            {t('custom.layout.navbar.contact')}
                             {/* Contact */}
                         </p>
                     </div>
                     <div onClick={() => handleVisit("/about")} className="cursor-pointer">
                         <p>
-                            {t('layout.navbar.about')}
+                            {t('custom.layout.navbar.about')}
                             {/* A propos */}
                         </p>
                     </div>
                     <Separator className="my-2" />
-                    {i18n.language === "fr" ? <div onClick={() => handleChangeLanguage("ar")} className="cursor-pointer">
+                    {currentLocale() === "fr" ? <div onClick={() => handleChangeLanguage("ar")} className="cursor-pointer">
                         <p>
-                            {t('language.ar')}
+                            {t('custom.language.ar')}
                             {/* عربية */}
                         </p>
                     </div> : <div onClick={() => handleChangeLanguage("fr")} className="cursor-pointer">
                         <p>
-                            {t('language.fr')}
+                            {t('custom.language.fr')}
                             {/* فرنسية */}
                         </p>
                     </div>}
@@ -225,15 +225,15 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                     handleSearch(search)
                                 }
                             }}
-                            placeholder={t('layout.navbar.search') + "..."}
+                            placeholder={t('custom.layout.navbar.search') + "..."}
                             className="h-10 border-0 focus-visible:ring-transparent bg-white"
                         />
                         {searchLoading ? <AiOutlineLoading3Quarters className="p-1 w-8 h-8 text-forth animate-spin" /> : <IoMdSearch className="w-8 h-8 text-forth" />}
                     </div>
                     {/* LANGUAGE */}
-                    <div className="flex flex-col items-center group gap-1 cursor-pointer text-third" onClick={() => handleChangeLanguage(i18n.language === "fr" ? "ar" : "fr")}>
+                    <div className="flex flex-col items-center group gap-1 cursor-pointer text-third" onClick={() => handleChangeLanguage(currentLocale() === "fr" ? "ar" : "fr")}>
                         <MdLanguage className="w-5 h-5 text-white group-hover:text-gray-400" />
-                        {i18n.language === "fr" ? (
+                        {currentLocale() === "fr" ? (
                             <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
                                 Arabe
                             </p>
@@ -253,7 +253,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                             >
                                 <MdOutlineDashboard className="w-5 h-5 text-white group-hover:text-gray-400" />
                                 <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
-                                    {t('layout.navbar.dashboard')}
+                                    {t('custom.layout.navbar.dashboard')}
                                     {/* Tableau de bord */}
                                 </p>
                             </div>
@@ -265,7 +265,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                 >
                                     <HiOutlineShoppingBag className="w-5 h-5 text-white group-hover:text-gray-400" />
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
-                                        {t('layout.navbar.cart')}
+                                        {t('custom.layout.navbar.cart')}
                                         {/* panier */}
                                     </p>
                                 </div>
@@ -275,7 +275,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                 >
                                     <FaLuggageCart className="w-5 h-5 text-white group-hover:text-gray-400" />
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
-                                        {t('layout.navbar.orders')}
+                                        {t('custom.layout.navbar.orders')}
                                         {/* mes commandes */}
                                     </p>
                                 </div>
@@ -285,7 +285,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                 >
                                     <TbBookmark className="w-5 h-5 text-white group-hover:text-gray-400" />
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
-                                        {t('layout.navbar.bookmarks')}
+                                        {t('custom.layout.navbar.bookmarks')}
                                         {/* signet */}
                                     </p>
                                 </div>
@@ -295,7 +295,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                 >
                                     <CgProfile className="w-5 h-5 text-white group-hover:text-gray-400" />
                                     <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
-                                        {t('layout.navbar.profile')}
+                                        {t('custom.layout.navbar.profile')}
                                         {/* mon compte */}
                                     </p>
                                 </div>
@@ -308,7 +308,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                         >
                             <MdOutlineLogout className="w-5 h-5 text-white group-hover:text-gray-400" />
                             <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
-                                {t('layout.navbar.logout')}
+                                {t('custom.layout.navbar.logout')}
                                 {/* Déconnexion */}
                             </p>
                         </div>
@@ -324,7 +324,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                         >
                             <IoPersonAddOutline className="w-5 h-5 text-white group-hover:text-gray-400" />
                             <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
-                                {t('layout.navbar.register')}
+                                {t('custom.layout.navbar.register')}
                                 {/* S'inscrire */}
                             </p>
                         </div>
@@ -334,7 +334,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                         >
                             <MdOutlineLogout className="w-5 h-5 text-white group-hover:text-gray-400" />
                             <p className="text-xs font-bold group-hover:text-gray-400 uppercase">
-                                {t('layout.navbar.login')}
+                                {t('custom.layout.navbar.login')}
                                 {/* Se connecter */}
                             </p>
                         </div>

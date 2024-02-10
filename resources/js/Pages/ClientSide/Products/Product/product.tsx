@@ -21,8 +21,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import { RiBookmarkFill, RiBookmarkLine } from 'react-icons/ri';
-import { useTranslation } from 'react-i18next';
-import { is } from 'date-fns/locale';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { MdEdit } from 'react-icons/md';
 
 
@@ -42,8 +41,8 @@ const Product = ({ ...props }) => {
     const [bookmarkLoading, setBookmarkLoading] = useState(false);
     const [showImageSlider, setShowImageSlider] = useState(false);
 
-    const { t, i18n } = useTranslation();
-    const title = product?.name + " | " + t("layout.navbar.title");
+    const { t, currentLocale } = useLaravelReactI18n();;
+    const title = product?.name + " | " + t("custom.layout.navbar.title");
 
     const { toast } = useToast()
 
@@ -85,16 +84,16 @@ const Product = ({ ...props }) => {
                 preserveScroll: true,
                 onSuccess: () => {
                     toast({
-                        title: t("product_page.product_removed_from_bookmarks"),
-                        description: t("product_page.you_can_now_see_your_bookmarks"),
+                        title: t("custom.product_page.product_removed_from_bookmarks"),
+                        description: t("custom.product_page.you_can_now_see_your_bookmarks"),
                         duration: 5000,
                     })
                 },
                 onError: () => {
                     toast({
                         variant: "destructive",
-                        title: t("global.error"),
-                        description: t("global.error_occured"),
+                        title: t("custom.global.error"),
+                        description: t("custom.global.error_occured"),
                         duration: 5000,
                     })
                 },
@@ -107,16 +106,16 @@ const Product = ({ ...props }) => {
                 preserveScroll: true,
                 onSuccess: () => {
                     toast({
-                        title: t("product_page.product_added_to_bookmarks"),
-                        description: t("product_page.you_can_now_see_your_bookmarks"),
+                        title: t("custom.product_page.product_added_to_bookmarks"),
+                        description: t("custom.product_page.you_can_now_see_your_bookmarks"),
                         duration: 5000,
                     })
                 },
                 onError: () => {
                     toast({
                         variant: "destructive",
-                        title: t("global.error"),
-                        description: t("global.error_occured"),
+                        title: t("custom.global.error"),
+                        description: t("custom.global.error_occured"),
                         duration: 5000,
                     })
                 },
@@ -135,8 +134,8 @@ const Product = ({ ...props }) => {
             preserveScroll: true,
             onSuccess: () => {
                 toast({
-                    title: t("product_page.product_added_to_cart"),
-                    description: t("product_page.you_can_now_see_your_cart"),
+                    title: t("custom.product_page.product_added_to_cart"),
+                    description: t("custom.product_page.you_can_now_see_your_cart"),
                     duration: 5000,
                     action: <Link href="/cart"><Button variant="outline" className="hover:bg-gray-50"><TbExternalLink className="w-5 h-5" /></Button></Link>
                 })
@@ -144,8 +143,8 @@ const Product = ({ ...props }) => {
             onError: () => {
                 toast({
                     variant: "destructive",
-                    title: t("global.error"),
-                    description: t("global.error_occured"),
+                    title: t("custom.global.error"),
+                    description: t("custom.global.error_occured"),
                     duration: 5000,
                 })
             }
@@ -160,15 +159,15 @@ const Product = ({ ...props }) => {
         <>
             <Head>
                 <title>{title}</title>
-                <meta property="og:title" content={product?.name + " | " + t("layout.navbar.title")} />
+                <meta property="og:title" content={product?.name + " | " + t("custom.layout.navbar.title")} />
                 <meta name="description" content={
-                    i18n.language === "fr" ?
+                    currentLocale() === "fr" ?
                         product?.description
                         :
                         product?.description_ar
                 } />
                 <meta property="og:description" content={
-                    i18n.language === "fr" ?
+                    currentLocale() === "fr" ?
                         product?.description
                         :
                         product?.description_ar
@@ -177,7 +176,7 @@ const Product = ({ ...props }) => {
                 <meta property="og:title" content={product?.name} />
 
                 <meta property="twitter:description" content={
-                    i18n.language === "fr" ?
+                    currentLocale() === "fr" ?
                         product?.description
                         :
                         product?.description_ar
@@ -246,14 +245,14 @@ const Product = ({ ...props }) => {
                                     {product?.name}
                                 </p>
                                 <p className="w-20 text-gray-900 text-center text-sm lg:tex">
-                                    {getMinPrice(product?.active_product_prices)?.price} {t("global.da")}
+                                    {getMinPrice(product?.active_product_prices)?.price} {t("custom.global.da")}
                                 </p>
                             </div>
                             <hr className="w-full rounded-sm border-gray-400" />
                             <div className="flex justify-between w-full mt-2">
                                 <div className="text-gray-700 text-sm lg:tex">
-                                    {(i18n.language === "fr") ? product?.description : product?.description_ar
-                                        .split('\n').map((item: any, index: number) => (
+                                    {(currentLocale() === "fr") ? product?.description : product?.description_ar
+                                        .split('custom.\n').map((item: any, index: number) => (
                                             <p key={index}>{item}</p>
                                         ))}
                                 </div>
@@ -262,13 +261,13 @@ const Product = ({ ...props }) => {
                             {/* CATEGORY */}
                             <div className="w-full flex flex-row justify-start items-center mt-5 gap-2">
                                 {product?.categories.map((category: any, index) => (
-                                    <p key={index} className="px-2 py-1 rounded-sm text-xs font-medium text-white uppercase bg-gray-600">{i18n.language === "fr" ? category.name : category.name_ar}</p>
+                                    <p key={index} className="px-2 py-1 rounded-sm text-xs font-medium text-white uppercase bg-gray-600">{currentLocale() === "fr" ? category.name : category.name_ar}</p>
                                 ))}
                             </div>
                             {isClient() && (
                                 <div className='flex justify-between items-center w-full'>
                                     <p className="text-gray-900 text-xs font-bold md:text-sm lg:tex">
-                                        {t("product_page.add_to_bookmarks")}
+                                        {t("custom.product_page.add_to_bookmarks")}
                                         {/* Ajouter aux Signets */}
                                     </p>
                                     <Button
@@ -282,7 +281,7 @@ const Product = ({ ...props }) => {
                             )}
                             <Separator className="w-full mt-2" />
                             <p className="w-full mt-2 text-gray-800 text-left rtl:text-right text-xs font-bold md:text-sm lg:text-base">
-                                {t("product_page.product_price")}:
+                                {t("custom.product_page.product_price")}:
                             </p>
                             <div className="w-full  grid grid-cols-3 my-2 gap-2">
                                 {product?.active_product_prices.sort((a: any, b: any) => a.quantity - b.quantity).map((price: any, index: number) => (
@@ -292,10 +291,10 @@ const Product = ({ ...props }) => {
                                         onClick={() => setCurrectPrice(price)}
                                     >
                                         <p className="text-gray-900 text-xs font-medium md:text-sm ">
-                                            {price.quantity} {t("units." + price.unit.toLowerCase())}
+                                            {price.quantity} {t("custom.units." + price.unit.toLowerCase())}
                                         </p>
                                         <p className="text-gray-400 text-xs font-bold md:text-sm">
-                                            {price.price} {t("global.da")}
+                                            {price.price} {t("custom.global.da")}
                                         </p>
                                     </div>
                                 ))}
@@ -328,12 +327,12 @@ const Product = ({ ...props }) => {
                                         onClick={addToCart}
                                     >
                                         <p className="text-xs font-bold md:text-sm lg:tex">
-                                            {t("product_page.add_to_cart")}
+                                            {t("custom.product_page.add_to_cart")}
                                             {/* AJOUTER AU PANIER */}
                                         </p>
                                         {addingToCartLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
                                             <div className="flex gap-1 text-xs text-gray-300 font-bold">
-                                                {currectPrice?.price * qte} {t("global.da")}
+                                                {currectPrice?.price * qte} {t("custom.global.da")}
                                             </div>
                                         )}
                                     </Button>
@@ -343,7 +342,7 @@ const Product = ({ ...props }) => {
                             {isClient() && product?.isProductInCart && (
                                 <div className="flex justify-start items-center w-full">
                                     <p className="text-gray-900 text-xs font-bold md:text-sm lg:tex">
-                                        {t("product_page.product_already_in_cart")}
+                                        {t("custom.product_page.product_already_in_cart")}
                                         {/* Produit déjà dans le panier */}
                                     </p>
                                     <Link
@@ -372,7 +371,7 @@ const Product = ({ ...props }) => {
                                             className="hover:bg-gray-50 gap-2"
                                         >
                                             <MdEdit className="w-5 h-5 text-gray-900" />
-                                            {t("global.edit")}
+                                            {t("custom.global.edit")}
                                             {/* Modifier */}
                                         </Button>
                                     </Link>
@@ -387,7 +386,7 @@ const Product = ({ ...props }) => {
                 </div>
 
             </div>
-            <LandingSuggest title={t("product_page.you_may_also_like")} url="/products"
+            <LandingSuggest title={t("custom.product_page.you_may_also_like")} url="/products"
                 products={props?.product?.suggestedProducts} />
 
             {showImageSlider && (

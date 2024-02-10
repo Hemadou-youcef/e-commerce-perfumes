@@ -18,7 +18,7 @@ import { RadioGroup, RadioGroupItem } from "@/shadcn/ui/radio-group"
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineLoading3Quarters } from "react-icons/ai"
 import { Textarea } from "@/shadcn/ui/textarea"
 import { ReloadIcon } from "@radix-ui/react-icons"
-import { useTranslation } from "react-i18next"
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 interface formData {
     first_name: string;
@@ -46,8 +46,8 @@ const Register = () => {
         confirm_password: '',
     });
 
-    const { t, i18n } = useTranslation();
-    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
+    const { t, currentLocale,setLocale } = useLaravelReactI18n();;
+    const languageDir = currentLocale() === "ar" ? "rtl" : "ltr";
 
     const isAllRulesVerified = () => {
         // regex check for email
@@ -85,14 +85,14 @@ const Register = () => {
     const handleLanguageChange = (value) => {
         if (value) {
             handleVisit(window.location.pathname, "get");
-            i18n.changeLanguage(value);
+            setLocale(value);
             localStorage?.setItem("language", value);
         }
     }
 
     return (
         <>
-            <Head title={t('register_page.title')} />
+            <Head title={t('custom.register_page.title')} />
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
             <div className="grid md:grid-cols-2" dir={languageDir}>
@@ -102,21 +102,21 @@ const Register = () => {
                 <div className="w-full h-screen overflow-y-auto ltr:font-sans rtl:font-arabic">
                     <div className="flex justify-between items-center gap-2">
                         <Link href="/" className="flex flex-row items-center gap-2 p-5 group">
-                            {i18n.language === "fr" ? <AiOutlineArrowLeft className="text-base text-gray-800 group-hover:text-second " /> : <AiOutlineArrowRight className="text-base text-gray-800 group-hover:text-second " />}
+                            {currentLocale() === "fr" ? <AiOutlineArrowLeft className="text-base text-gray-800 group-hover:text-second " /> : <AiOutlineArrowRight className="text-base text-gray-800 group-hover:text-second " />}
 
                             <p className="text-forth group-hover:text-second ">
-                                {t('layout.navbar.home')}
+                                {t('custom.layout.navbar.home')}
                             </p>
                         </Link>
                         {/* Change language without select*/}
                         <div className="flex justify-center gap-2 px-5">
-                            {i18n.language === "ar" ? (
+                            {currentLocale() === "ar" ? (
                                 <button onClick={() => handleLanguageChange("fr")} className="text-xs text-gray-600 font-bold hover:text-second">
-                                    {t('language.fr')}
+                                    {t('custom.language.fr')}
                                 </button>
                             ) : (
                                 <button onClick={() => handleLanguageChange("ar")} className="text-xs text-gray-600 font-bold hover:text-second">
-                                    {t('language.ar')}
+                                    {t('custom.language.ar')}
                                 </button>
                             )}
                         </div>
@@ -124,7 +124,7 @@ const Register = () => {
                     <div className="py-0 my-10 mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[500px] md:w-[400px] lg:w-[500px]">
                         <div className="flex flex-col space-y-2 text-center">
                             <h1 className="text-2xl font-semibold tracking-tight">
-                                {t('register_page.title')}
+                                {t('custom.register_page.title')}
                             </h1>
 
                         </div>
@@ -133,17 +133,17 @@ const Register = () => {
                                 <div className="grid gap-2 grid-cols-2">
                                     <div className="grid gap-2">
                                         <Label htmlFor="first_name" className="text-xs md:text-sm">
-                                            {t('register_page.first_name')}
+                                            {t('custom.register_page.first_name')}
                                         </Label>
-                                        <Input id="first_name" type="first_name" placeholder={t('register_page.first_name')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
+                                        <Input id="first_name" type="first_name" placeholder={t('custom.register_page.first_name')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                             onChange={(e) => setData('first_name', e.target.value)}
                                         />
                                     </div>
                                     <div className="grid gap-2">
                                         <Label htmlFor="last_name" className="text-xs md:text-sm">
-                                            {t('register_page.last_name')}
+                                            {t('custom.register_page.last_name')}
                                         </Label>
-                                        <Input id="last_name" type="last_name" placeholder={t('register_page.last_name')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
+                                        <Input id="last_name" type="last_name" placeholder={t('custom.register_page.last_name')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                             onChange={(e) => setData('last_name', e.target.value)}
                                         />
                                     </div>
@@ -154,9 +154,9 @@ const Register = () => {
                                 </div>
                                 <div className="grid gap-2">
                                     <Label htmlFor="email" className="text-xs md:text-sm">
-                                        {t('register_page.email')}
+                                        {t('custom.register_page.email')}
                                     </Label>
-                                    <Input id="email" type="email" placeholder={t('register_page.email')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
+                                    <Input id="email" type="email" placeholder={t('custom.register_page.email')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('email', e.target.value)}
                                     />
                                     {checkedAlready && (data.email.length > 0 ? null : <p className="text-xs text-red-500">Email il faudrait supérieur à 0 caractères</p>)}
@@ -164,9 +164,9 @@ const Register = () => {
                                 </div>
                                 <div className="grid gap-2">
                                     <Label htmlFor="phone" className="text-xs md:text-sm">
-                                        {t('register_page.phone')}
+                                        {t('custom.register_page.phone')}
                                     </Label>
-                                    <Input id="phone" type="phone" placeholder={t('register_page.phone')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
+                                    <Input id="phone" type="phone" placeholder={t('custom.register_page.phone')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('phone', e.target.value)}
                                     />
                                     {checkedAlready && (data.phone.length == 10 ? null : <p className="text-xs text-red-500">Numéro de téléphone il faudrait égale à 10 caractères</p>)}
@@ -174,34 +174,34 @@ const Register = () => {
                                 </div>
                                 <div className="grid gap-2">
                                     <Label htmlFor="address" className="text-xs md:text-sm">
-                                        {t('register_page.address')}
+                                        {t('custom.register_page.address')}
                                     </Label>
-                                    <Textarea id="address" placeholder={t('register_page.address')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
+                                    <Textarea id="address" placeholder={t('custom.register_page.address')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('address', e.target.value)}
                                     />
                                     {checkedAlready && (data.address.length > 3 ? null : <p className="text-xs text-red-500">Adresse il faudrait supérieur à 3 caractères</p>)}
                                     {errors.address && <p className="text-xs text-red-500">{errors.address}</p>}
                                 </div>
-                                <RadioGroup dir={languageDir} defaultValue={t('register_page.male')} className="flex gap-5" onValueChange={(v: 'male' | 'female') => setData('gender', v)}>
+                                <RadioGroup dir={languageDir} defaultValue={t('custom.register_page.male')} className="flex gap-5" onValueChange={(v: 'male' | 'female') => setData('gender', v)}>
                                     <div className="flex items-center gap-2">
                                         <RadioGroupItem value="male" id="male" />
                                         <Label htmlFor="male" className="cursor-pointer text-xs md:text-sm">
-                                            {t('register_page.male')}
+                                            {t('custom.register_page.male')}
                                         </Label>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <RadioGroupItem value="female" id="female" />
                                         <Label htmlFor="female" className="cursor-pointer text-xs md:text-sm">
-                                            {t('register_page.female')}
+                                            {t('custom.register_page.female')}
                                         </Label>
                                     </div>
                                 </RadioGroup>
                                 {errors.gender && <p className="text-xs text-red-500">{errors.gender}</p>}
                                 <div className="grid gap-2">
                                     <Label htmlFor="user_name" className="text-xs md:text-sm">
-                                        {t('register_page.user_name')}
+                                        {t('custom.register_page.user_name')}
                                     </Label>
-                                    <Input id="user_name" placeholder={t('register_page.user_name')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
+                                    <Input id="user_name" placeholder={t('custom.register_page.user_name')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('username', e.target.value)}
                                     />
                                     {checkedAlready && (data.username.length > 5 ? null : <p className="text-xs text-red-500">Nom d'utilisateur il faudrait supérieur à 5 caractères</p>)}
@@ -209,9 +209,9 @@ const Register = () => {
                                 </div>
                                 <div className="grid gap-2">
                                     <Label htmlFor="password" className="text-xs md:text-sm">
-                                        {t('register_page.password')}
+                                        {t('custom.register_page.password')}
                                     </Label>
-                                    <Input id="password" type="password" placeholder={t('register_page.password')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
+                                    <Input id="password" type="password" placeholder={t('custom.register_page.password')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('password', e.target.value)}
                                     />
 
@@ -222,9 +222,9 @@ const Register = () => {
 
                                 <div className="grid gap-2">
                                     <Label htmlFor="confirm_password" className="text-xs md:text-sm">
-                                        {t('register_page.confirm_password')}
+                                        {t('custom.register_page.confirm_password')}
                                     </Label>
-                                    <Input id="confirm_password" type="password" placeholder={t('register_page.confirm_password')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
+                                    <Input id="confirm_password" type="password" placeholder={t('custom.register_page.confirm_password')} className="text-xs md:text-sm w-full h-9 focus-visible:ring-transparent"
                                         onChange={(e) => setData('confirm_password', e.target.value)}
                                     />
                                     {errors.confirm_password && <p className="text-xs text-red-500">{errors.confirm_password}</p>}
@@ -233,7 +233,7 @@ const Register = () => {
 
 
                                 <Button className="w-full bg-forth er:bg-prime-dark active:bg-second" disabled={processing}>
-                                    {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <p className="text-white">{t('register_page.register')}</p>}
+                                    {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : <p className="text-white">{t('custom.register_page.register')}</p>}
                                 </Button>
                             </div>
                         </form>
@@ -243,7 +243,7 @@ const Register = () => {
                             </div>
                             <div className="relative flex justify-center text-xs uppercase">
                                 <span className="bg-background px-2 text-muted-foreground">
-                                    {t('register_page.already_account')}
+                                    {t('custom.register_page.already_account')}
                                     {/* Vous avez déjà un compte ? */}
                                 </span>
                             </div>
@@ -251,7 +251,7 @@ const Register = () => {
                         <div className="flex justify-center">
                             <Link href="/login" className="w-full px-10">
                                 <Button className="w-full bg-forth hover:bg-prime-dark active:bg-second">
-                                    {t('register_page.login')}
+                                    {t('custom.register_page.login')}
                                     {/* Se connecter */}
                                 </Button>
                             </Link>

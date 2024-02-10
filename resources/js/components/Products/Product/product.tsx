@@ -4,7 +4,7 @@ import { useToast } from "@/shadcn/ui/use-toast";
 import { Link, router } from "@inertiajs/react";
 import { useState, useContext } from "react";
 import { LoadingContext } from "@/Layouts/landing/mainLayout";
-import { useTranslation } from "react-i18next";
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 
@@ -19,7 +19,7 @@ const Product = ({ product }) => {
     const [bookmarkLoading, setBookmarkLoading] = useState(false);
     const [loading, setLoading] = useState(false);
     const { toast } = useToast()
-    const { t } = useTranslation()
+    const { t } = useLaravelReactI18n();
 
     const handleBookmark = () => {
         setBookmarkLoading(true);
@@ -29,16 +29,16 @@ const Product = ({ product }) => {
                 preserveState: false,
                 onSuccess: () => {
                     toast({
-                        title: t("product_page.bookmark_removed"),
-                        description: t("product_page.bookmark_removed_description"),
+                        title: t("custom.product_page.bookmark_removed"),
+                        description: t("custom.product_page.bookmark_removed_description"),
                         duration: 5000,
                     })
                 },
                 onError: () => {
                     toast({
                         variant: "destructive",
-                        title: t("global.error"),
-                        description: t("global.error_description"),
+                        title: t("custom.global.error"),
+                        description: t("custom.global.error_description"),
                         duration: 5000,
                     })
                 },
@@ -52,16 +52,16 @@ const Product = ({ product }) => {
                 preserveState: false,
                 onSuccess: () => {
                     toast({
-                        title: t("product_page.bookmark_added"),
-                        description: t("product_page.bookmark_added_description"),
+                        title: t("custom.product_page.bookmark_added"),
+                        description: t("custom.product_page.bookmark_added_description"),
                         duration: 5000,
                     })
                 },
                 onError: () => {
                     toast({
                         variant: "destructive",
-                        title: t("global.error"),
-                        description: t("global.error_description"),
+                        title: t("custom.global.error"),
+                        description: t("custom.global.error_description"),
                         duration: 5000,
                     })
                 },
@@ -101,7 +101,7 @@ const Product = ({ product }) => {
                         {product.name.length > 16 ? product.name.substring(0, 16) + "..." : product.name}
                     </p>
                     <p className="text-gray-600 text-center font-bold text-[10px] md:text-sm lg:text-base ">
-                        {currectPrice?.price} {t("global.da")}
+                        {currectPrice?.price} {t("custom.global.da")}
                     </p>
                     {/* ADD REVIEW STARS */}
                     {/* <div className="flex items-center justify-center">
@@ -116,7 +116,7 @@ const Product = ({ product }) => {
                             variant="outline"
                             className="w-20 md:w-28 bg-transparent border-2 h-7 sm:h-8 text-[8px] sm:text-xs border-gray-900 hover:bg-gray-800 active:bg-gray-300 text-gray-900 hover:text-gray-100 active:text-gray-700"
                         >
-                            {loading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : t('product_page.view_product')}
+                            {loading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : t('custom.product_page.view_product')}
                         </Button>
                     </Link>
                 </div>

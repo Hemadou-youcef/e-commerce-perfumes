@@ -31,7 +31,7 @@ type FormData = {
 
 // Information
 import wilaya from "@/data/wilaya";
-import { useTranslation } from "react-i18next";
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import i18n from "@/i18n";
 import CartProduct from "@/components/Products/cart/product";
 
@@ -54,8 +54,8 @@ const Cart = ({ ...props }) => {
     const [checkedOut, setCheckedOut] = useState(false);
     const [checkoutLoading, setCheckoutLoading] = useState(false);
 
-    const { t, i18n } = useTranslation()
-    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
+    const { t, currentLocale } = useLaravelReactI18n();
+    const languageDir = currentLocale() === "ar" ? "rtl" : "ltr";
 
     useEffect(() => {
         setCartItems(props?.cartItems);
@@ -144,9 +144,9 @@ const Cart = ({ ...props }) => {
     return (
         <>
             <Head>
-                <title>{t('cart_page.title')}</title>
+                <title>{t('custom.cart_page.title')}</title>
                 <meta name="description" content={
-                    i18n.language === "fr" ?
+                    currentLocale() === "fr" ?
                         "Vérifiez votre panier"
                         :
                         "تحقق من سلة التسوق الخاصة بك"
@@ -156,7 +156,7 @@ const Cart = ({ ...props }) => {
             <div className="flex items-center justify-center gap-2 py-5 px-8 border-b border-gray-300 font-sans rtl:font-arabic">
                 <IoBagHandleOutline className="h-8 w-8 text-gray-900" />
                 <h1 className="text-2xl font-bold text-gray-900 uppercase">
-                    {t('cart_page.title')}
+                    {t('custom.cart_page.title')}
                     {/* Mon panier */}
                 </h1>
             </div>
@@ -165,14 +165,14 @@ const Cart = ({ ...props }) => {
                     <form onSubmit={submit} className="w-full p-5 flex flex-col gap-5">
                         <div className="grid gap-3">
                             <Label htmlFor="agency" className="text-base">
-                                {t('cart_page.agency')}*
+                                {t('custom.cart_page.agency')}*
                                 {/* Agence  */}
                             </Label>
                             <Select onValueChange={(value) => {
                                 setData(data => ({ ...data, shipping_agency_id: value }))
                             }}>
                                 <SelectTrigger dir={languageDir} >
-                                    <SelectValue placeholder={t('cart_page.choose_agency')} className="w-full h-12 border-2 focus-visible:ring-transparent" />
+                                    <SelectValue placeholder={t('custom.cart_page.choose_agency')} className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
                                 <SelectContent dir={languageDir} className="w-full border-2 focus-visible:ring-transparent">
                                     {shippingAgencies.map((item, index): any => (
@@ -181,7 +181,7 @@ const Cart = ({ ...props }) => {
                                             value={item.id.toString()}
                                             className="font-arabic"
                                         >
-                                            {i18n.language == 'ar' ? item.name_ar : item.name}
+                                            {currentLocale() == 'ar' ? item.name_ar : item.name}
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
@@ -193,21 +193,21 @@ const Cart = ({ ...props }) => {
 
                         <div className="grid gap-3">
                             <Label htmlFor="shipping_method" className="text-base">
-                                {t('cart_page.shipping_method')}*
+                                {t('custom.cart_page.shipping_method')}*
                                 {/* Méthode de livraison */}
                             </Label>
                             <Select onValueChange={(value) => {
                                 setData(data => ({ ...data, shipping_method: value }))
                             }}>
                                 <SelectTrigger dir={languageDir}>
-                                    <SelectValue placeholder={t('cart_page.home_delivery')} className="w-full h-12 border-2 focus-visible:ring-transparent" />
+                                    <SelectValue placeholder={t('custom.cart_page.home_delivery')} className="w-full h-12 border-2 focus-visible:ring-transparent" />
                                 </SelectTrigger>
                                 <SelectContent dir={languageDir} className="w-full border-2 focus-visible:ring-transparent font-arabic">
                                     <SelectItem value="1">
-                                        {t('cart_page.home_delivery')}
+                                        {t('custom.cart_page.home_delivery')}
                                     </SelectItem>
                                     <SelectItem value="2">
-                                        {t('cart_page.agency_delivery')}
+                                        {t('custom.cart_page.agency_delivery')}
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
@@ -219,7 +219,7 @@ const Cart = ({ ...props }) => {
                         <div className="grid grid-cols-2 gap-3">
                             <div className="grid gap-3">
                                 <Label htmlFor="name" className="text-base">
-                                    {t('cart_page.first_name')}*
+                                    {t('custom.cart_page.first_name')}*
                                     {/* Nom */}
                                 </Label>
                                 <Input
@@ -237,7 +237,7 @@ const Cart = ({ ...props }) => {
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="name" className="text-base">
-                                    {t('cart_page.last_name')}*
+                                    {t('custom.cart_page.last_name')}*
                                     {/* Prénom */}
                                 </Label>
                                 <Input
@@ -257,7 +257,7 @@ const Cart = ({ ...props }) => {
 
                         <div className="grid gap-3">
                             <Label htmlFor="phone" className="text-base">
-                                {t('cart_page.phone')}*
+                                {t('custom.cart_page.phone')}*
                                 {/* Numéro de téléphone */}
                             </Label>
                             <Input
@@ -276,7 +276,7 @@ const Cart = ({ ...props }) => {
 
                         <div className="grid gap-3">
                             <Label htmlFor="address" className="text-base">
-                                {t('cart_page.street_address')}*
+                                {t('custom.cart_page.street_address')}*
                                 {/* Adresse */}
                             </Label>
                             <Input
@@ -294,7 +294,7 @@ const Cart = ({ ...props }) => {
                         </div>
                         <div className="grid gap-3">
                             <Label htmlFor="state" className="text-base">
-                                {t('cart_page.state')}*
+                                {t('custom.cart_page.state')}*
                                 {/* Wilaya */}
                             </Label>
                             <Select onValueChange={(value) => {
@@ -310,7 +310,7 @@ const Cart = ({ ...props }) => {
                                             value={item[0].toString()}
                                             className="font-arabic"
                                         >
-                                            {item[0]} - {i18n.language == 'ar' ? item[2] : item[1]}
+                                            {item[0]} - {currentLocale() == 'ar' ? item[2] : item[1]}
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
@@ -322,7 +322,7 @@ const Cart = ({ ...props }) => {
                         <div className="grid grid-cols-2 gap-3">
                             <div className="grid gap-3">
                                 <Label htmlFor="postal_code" className="text-base">
-                                    {t('cart_page.postal_code')}
+                                    {t('custom.cart_page.postal_code')}
                                     {/* Code postal */}
                                 </Label>
                                 <Input
@@ -341,7 +341,7 @@ const Cart = ({ ...props }) => {
                             )}
                             <div className="grid gap-3">
                                 <Label htmlFor="city" className="text-base">
-                                    {t('cart_page.city')}
+                                    {t('custom.cart_page.city')}
                                     {/* Ville */}
                                 </Label>
                                 <Input
@@ -370,7 +370,7 @@ const Cart = ({ ...props }) => {
                     </div>
                     {cartItems.length === 0 && (
                         <p className="text-gray-600 text-2xl text-center my-8">
-                            {t('cart_page.empty_cart')}
+                            {t('custom.cart_page.empty_cart')}
                             {/* Notre panier est vide. Commencez à magasiner maintenant ! */}
                         </p>
                     )}
@@ -380,19 +380,19 @@ const Cart = ({ ...props }) => {
                             {checkedOut &&
                                 <><div className="flex items-center font-mono rtl:font-arabic justify-between">
                                     <p>
-                                        {t('cart_page.sub_total')}:
+                                        {t('custom.cart_page.sub_total')}:
                                     </p>
                                     <p className="flex rtl:flex-row-reverse gap-2  text-gray-900">
-                                        {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0)},00 {t("global.da")}
+                                        {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0)},00 {t("custom.global.da")}
                                     </p>
                                 </div>
                                     <div className="flex items-center font-mono rtl:font-arabic justify-between">
                                         <p>
-                                            {t('cart_page.shipping')}:
+                                            {t('custom.cart_page.shipping')}:
                                         </p>
                                         <p className=" text-gray-900">
                                             {data.state_code != "" ?
-                                                (currentFees || 0) + ",00 " + t("global.da")
+                                                (currentFees || 0) + ",00 " + t("custom.global.da")
                                                 :
                                                 "remplir l'entrée"
                                             }
@@ -401,10 +401,10 @@ const Cart = ({ ...props }) => {
                                     {/* yalidine[(parseInt(data.state_code) || 1) - 1][data.shipping_method == "1" ? "2" : "1"] */}
                                     <div className="flex items-center font-bold font-mono rtl:font-arabic justify-between">
                                         <p>
-                                            {t('cart_page.total')}:
+                                            {t('custom.cart_page.total')}:
                                         </p>
                                         <p className=" text-gray-900">
-                                            {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + currentFees || 0},00 {t("global.da")}
+                                            {cartItems.reduce((a, b) => a + (b.quantity * b.product_price?.price || 0), 0) + currentFees || 0},00 {t("custom.global.da")}
                                         </p>
                                     </div>
                                 </>
@@ -421,7 +421,7 @@ const Cart = ({ ...props }) => {
                                         {checkoutLoading ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : (
                                             <div className="flex items-center justify-center gap-2">
                                                 <p className="text-sm text-gray-50 font-bold uppercase">
-                                                    {t('cart_page.order_now')}
+                                                    {t('custom.cart_page.order_now')}
                                                 </p>
                                             </div>
                                         )}
@@ -437,7 +437,7 @@ const Cart = ({ ...props }) => {
                                     >
                                         <div className="flex items-center justify-center gap-2">
                                             <p className="text-sm text-gray-50 font-bold uppercase">
-                                                {t('cart_page.start_order')}
+                                                {t('custom.cart_page.start_order')}
                                             </p>
                                             {/* <MdSend className="h-5 w-5" /> */}
                                         </div>

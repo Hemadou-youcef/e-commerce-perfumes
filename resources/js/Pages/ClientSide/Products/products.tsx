@@ -6,7 +6,7 @@ import LandingMainLayout from "@/Layouts/landing/mainLayout";
 import Product from "@/components/Products/Product/product";
 import Pagination from "@/components/tables/pagination";
 import { Head, router, usePage } from "@inertiajs/react";
-import { useTranslation } from "react-i18next";
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Input } from "@/shadcn/ui/input";
 import {
@@ -27,13 +27,13 @@ const Products = ({ ...props }) => {
     const [minMaxPrice, setMinMaxPrice] = useState<(number | undefined)[]>([undefined, undefined]);
     const [search, setSearch] = useState<string | undefined>(props?.filters?.q || undefined);
     const [delayedSearch, setDelayedSearch] = useState<string | undefined>(props?.filters?.q || undefined);
-    const [categories, setCategories] = useState<string[]>(props?.filters?.category.split(","));
+    const [categories, setCategories] = useState<string[]>(props?.filters?.category.split("custom.,"));
 
     const [loading, setLoading] = useState(false);
     const firstUpdate = useRef(true);
 
-    const { t, i18n } = useTranslation()
-    const languageDir = i18n.language === "ar" ? "rtl" : "ltr";
+    const { t, currentLocale } = useLaravelReactI18n();
+    const languageDir = currentLocale() === "ar" ? "rtl" : "ltr";
 
     const alreadyUsedCategories = [
         "homme",
@@ -94,26 +94,26 @@ const Products = ({ ...props }) => {
         <>
             <Head>
                 <title>
-                    {t("layout.navbar.products") + " | " + t("layout.navbar.title")}
+                    {t("custom.layout.navbar.products") + " | " + t("custom.layout.navbar.title")}
                 </title>
-                <meta property="og:title" content={t("layout.navbar.products") + " | " + t("layout.navbar.title")} />
+                <meta property="og:title" content={t("custom.layout.navbar.products") + " | " + t("custom.layout.navbar.title")} />
                 <meta name="description" content={
-                    i18n.language === "fr"
+                    currentLocale() === "fr"
                         ? "Explorez la vaste collection de produits de Remah Perfum, allant des parfums exquis aux montres élégantes et bien plus encore. Découvrez la quintessence du raffinement et de la qualité."
                         : "استكشف مجموعة واسعة من منتجات ريما برفيوم، بدءًا من العطور الرائعة إلى الساعات الأنيقة وأكثر. اكتشف جوهر الترف والجودة."
                 } />
                 <meta  name="keywords" content="perfume, cologne, fragrance, scents, watches, timepieces, luxury watches, elegant watches, men's watches, women's watches, unisex watches, seasonal fragrances, winter scents, summer scents, spring fragrances, fall perfumes, homme, femme, unisexe, bottle design, all-season scents, Remah Perfum, Arabic fragrances" />
                 <meta property="og:description" content={
-                    i18n.language === "fr"
+                    currentLocale() === "fr"
                         ? "Explorez la vaste collection de produits de Remah Perfum, allant des parfums exquis aux montres élégantes et bien plus encore. Découvrez la quintessence du raffinement et de la qualité."
                         : "استكشف مجموعة واسعة من منتجات ريما برفيوم، بدءًا من العطور الرائعة إلى الساعات الأنيقة وأكثر. اكتشف جوهر الترف والجودة."
                 } />
                 <meta property="twitter:description" content={
-                    i18n.language === "fr"
+                    currentLocale() === "fr"
                         ? "Explorez la vaste collection de produits de Remah Perfum, allant des parfums exquis aux montres élégantes et bien plus encore. Découvrez la quintessence du raffinement et de la qualité."
                         : "استكشف مجموعة واسعة من منتجات ريما برفيوم، بدءًا من العطور الرائعة إلى الساعات الأنيقة وأكثر. اكتشف جوهر الترف والجودة."
                 } />
-                <meta property="og:title" content={t("layout.navbar.products") + " | " + t('global.shop')} />
+                <meta property="og:title" content={t("custom.layout.navbar.products") + " | " + t('custom.global.shop')} />
                     
             </Head>
             <div className="container grid grid-cols-1 md:grid-cols-12 md:gap-5 mx-auto px-5 pt-2 py-0 bg-white mt-10">
@@ -125,9 +125,9 @@ const Products = ({ ...props }) => {
                                 className="flex md:hidden w-52 mx-auto items-center p-0 px-5 h-12  md:h-10 gap-2 rounded-md font-sans rtl:font-arabic border bg-white border-gray-300 shadow-sm"
                             >
                                 <IoMdOptions className="h-5 w-5" />
-                                <span className="ml-2">{t("products_page.filter")}</span>
+                                <span className="ml-2">{t("custom.products_page.filter")}</span>
                             </SheetTrigger>
-                            <SheetContent dir={languageDir} side={i18n.language === "fr" ? "left" : "right"}>
+                            <SheetContent dir={languageDir} side={currentLocale() === "fr" ? "left" : "right"}>
                                 <div className="h-[calc(95dvh)] bg-white rounded-tl-md rounded-tr-md overflow-y-auto flex flex-col items-start justify-start gap-5 font-sans rtl:font-arabic  ">
 
                                     <FiltersOptions
@@ -161,12 +161,12 @@ const Products = ({ ...props }) => {
                                 htmlFor="search"
                                 className="text-sm md:text-lg cursor-pointer"
                             >
-                                {t("products_page.search")}
+                                {t("custom.products_page.search")}
                             </Label> */}
                         <Input
                             id="search"
                             type="text"
-                            placeholder={t("products_page.search_placeholder")}
+                            placeholder={t("custom.products_page.search_placeholder")}
                             value={search}
                             onChange={(e) => {
                                 setSearch(e.target.value || undefined);
@@ -176,7 +176,7 @@ const Products = ({ ...props }) => {
                     </div>
 
                     <div className="text-gray-800 font-semibold text-sm md:text-lg flex items-center gap-1">
-                        <span>{t("products_page.products")} (</span>
+                        <span>{t("custom.products_page.products")} (</span>
                         <span>{loading ? <AiOutlineLoading3Quarters className="h-3 w-3 animate-spin" /> : props?.products?.total}</span>
                         <span>)</span>
                     </div>
@@ -188,7 +188,7 @@ const Products = ({ ...props }) => {
                                 className="w-32 md:w-52 mx-auto"
                             />
                             <p className="text-gray-800 font-semibold text-sm md:text-lg text-center">
-                                {t("products_page.empty")}
+                                {t("custom.products_page.empty")}
                             </p>
                         </div>
                     ) : (

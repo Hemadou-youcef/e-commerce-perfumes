@@ -47,7 +47,7 @@ import {
 import { FormEventHandler, useEffect, useState } from "react";
 import { MdEdit, MdOutlineSystemSecurityUpdateGood, MdSecurityUpdateWarning } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-import { useTranslation } from "react-i18next";
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 
 // Types
@@ -77,7 +77,8 @@ const ProfileEdit = ({ ...props }) => {
     const [editMode, setEditMode] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const { t, i18n } = useTranslation()
+    const { t, currentLocale } = useLaravelReactI18n();
+    const languageDir = currentLocale() === "ar" ? "rtl" : "ltr";
 
     useEffect(() => {
         setData(data => ({
@@ -165,9 +166,9 @@ const ProfileEdit = ({ ...props }) => {
     return (
         <>
             <Head>
-                <title>{t("profile_page.title")}</title>
+                <title>{t("custom.profile_page.title")}</title>
                 <meta name="description" content={
-                    i18n.language === "fr" ?
+                    currentLocale() === "fr" ?
                         "Découvrez votre profile"
                         :
                         "تعرف على ملفك الشخصي"
@@ -176,7 +177,7 @@ const ProfileEdit = ({ ...props }) => {
             <div className="flex items-center justify-center gap-5 py-5 px-8 border-b border-gray-300">
                 <CgProfile className="h-12 w-12 text-gray-900" />
                 <h1 className="text-2xl font-bold text-gray-900 uppercase">
-                    {t("profile_page.title")}
+                    {t("custom.profile_page.title")}
                 </h1>
             </div>
             <div className="container mx-auto px-5 py-5 font-sans rtl:font-arabic">
@@ -189,11 +190,11 @@ const ProfileEdit = ({ ...props }) => {
                                 </div>
                                 <div className="flex flex-col text-center md:text-left">
                                     <h2 className="text-xl text-gray-900 font-bold tracking-tight">
-                                        {t("profile_page.title")}
+                                        {t("custom.profile_page.title")}
                                         {/* Mon profile */}
                                     </h2>
                                     <p className="text-sm text-gray-600">
-                                        {t("profile_page.sub_title")}
+                                        {t("custom.profile_page.sub_title")}
                                         {/* Modifier votre profile */}
                                     </p>
                                 </div>
@@ -222,7 +223,7 @@ const ProfileEdit = ({ ...props }) => {
                             <div className="grid gap-3 md:grid-cols-2">
                                 <div className="grid gap-3">
                                     <Label htmlFor="name" className="text-base">
-                                        {t("profile_page.first_name")}
+                                        {t("custom.profile_page.first_name")}
                                         {/* Nom */}
                                     </Label>
                                     <Input
@@ -236,7 +237,7 @@ const ProfileEdit = ({ ...props }) => {
                                 </div>
                                 <div className="grid gap-3">
                                     <Label htmlFor="name" className="text-base">
-                                        {t("profile_page.last_name")}
+                                        {t("custom.profile_page.last_name")}
                                         {/* Prénom */}
                                     </Label>
                                     <Input
@@ -252,7 +253,7 @@ const ProfileEdit = ({ ...props }) => {
 
                             <div className="grid gap-3">
                                 <Label htmlFor="email" className="text-base">
-                                    {t("profile_page.email")}
+                                    {t("custom.profile_page.email")}
                                     {/* Email */}
                                 </Label>
                                 <Input
@@ -267,7 +268,7 @@ const ProfileEdit = ({ ...props }) => {
 
                             <div className="grid gap-3">
                                 <Label htmlFor="phone" className="text-base">
-                                    {t("profile_page.phone")}
+                                    {t("custom.profile_page.phone")}
                                     {/* Téléphone */}
                                 </Label>
                                 <Input
@@ -282,7 +283,7 @@ const ProfileEdit = ({ ...props }) => {
 
                             <div className="grid gap-3">
                                 <Label htmlFor="address" className="text-base">
-                                    {t("profile_page.address")}
+                                    {t("custom.profile_page.address")}
                                     {/* Address */}
                                 </Label>
                                 <Input
@@ -301,14 +302,14 @@ const ProfileEdit = ({ ...props }) => {
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="male" id="male" className="w-7 h-7 rounded-lg" />
                                         <Label htmlFor="male" className="cursor-pointer text-lg">
-                                            {t("global.male")}
+                                            {t("custom.global.male")}
                                             {/* Male */}
                                         </Label>
                                     </div>
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="female" id="female" className="w-7 h-7 rounded-lg" />
                                         <Label htmlFor="female" className="cursor-pointer text-lg">
-                                            {t("global.female")}
+                                            {t("custom.global.female")}
                                             {/* Female */}
                                         </Label>
                                     </div>
@@ -317,7 +318,7 @@ const ProfileEdit = ({ ...props }) => {
 
                             <div className="grid gap-3">
                                 <Label htmlFor="new_password" className="text-base">
-                                    {t("profile_page.new_password")}
+                                    {t("custom.profile_page.new_password")}
                                     {/* Nouveau mot de passe */}
                                 </Label>
                                 <Input
@@ -332,7 +333,7 @@ const ProfileEdit = ({ ...props }) => {
 
                             <div className="grid gap-3">
                                 <Label htmlFor="new_password_confirmation" className="text-base">
-                                    {t("profile_page.new_password_confirmation")}
+                                    {t("custom.profile_page.new_password_confirmation")}
                                     {/* Confirmation du nouveau mot de passe */}
                                 </Label>
                                 <Input
@@ -350,7 +351,7 @@ const ProfileEdit = ({ ...props }) => {
                         {!editMode && <div className="grid gap-5 px-5 pb-5 pt-0">
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                                 <h1 className="text-sm font-medium md:w-40 text-gray-800">
-                                    {t("profile_page.name")}
+                                    {t("custom.profile_page.name")}
                                     {/* Nom et prénom */}
                                 </h1>
                                 <div className="flex flex-row justify-start items-center gap-2">
@@ -361,7 +362,7 @@ const ProfileEdit = ({ ...props }) => {
                             </div>
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                                 <h1 className="text-sm font-medium md:w-40 text-gray-800">
-                                    {t("profile_page.role")}
+                                    {t("custom.profile_page.role")}
                                     {/* Rôle */}
                                 </h1>
                                 <div className="flex flex-row justify-start items-center gap-2">
@@ -370,7 +371,7 @@ const ProfileEdit = ({ ...props }) => {
                             </div>
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                                 <h1 className="text-sm font-medium md:w-40 text-gray-800">
-                                    {t("profile_page.email")}
+                                    {t("custom.profile_page.email")}
                                     {/* Email */}
                                 </h1>
                                 <div className="flex flex-row justify-start items-center gap-2">
@@ -381,7 +382,7 @@ const ProfileEdit = ({ ...props }) => {
                             </div>
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                                 <h1 className="text-sm font-medium md:w-40 text-gray-800">
-                                    {t("profile_page.phone")}
+                                    {t("custom.profile_page.phone")}
                                     {/* Téléphone */}
                                 </h1>
                                 <div className="flex flex-row justify-start items-center gap-2">
@@ -392,7 +393,7 @@ const ProfileEdit = ({ ...props }) => {
                             </div>
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                                 <h1 className="text-sm font-medium md:w-40 text-gray-800">
-                                    {t("profile_page.address")}
+                                    {t("custom.profile_page.address")}
                                     {/* Address */}
                                 </h1>
                                 <div className="flex flex-row justify-start items-center gap-2">
@@ -403,7 +404,7 @@ const ProfileEdit = ({ ...props }) => {
                             </div>
                             <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                                 <h1 className="text-sm font-medium md:w-40 text-gray-800">
-                                    {t("profile_page.gender")}
+                                    {t("custom.profile_page.gender")}
                                     {/* Genre */}
                                 </h1>
                                 <div className="flex flex-row justify-start items-center gap-2">
@@ -421,10 +422,10 @@ const ProfileEdit = ({ ...props }) => {
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>
-                            <div className={`flex flex-row justify-start items-center gap-2 ${i18n?.dir() === "rtl" ? "font-arabic" : "font-sans"}`}>
+                            <div className={`flex flex-row justify-start items-center gap-2 ${languageDir === "rtl" ? "font-arabic" : "font-sans"}`}>
                                 <MdSecurityUpdateWarning className="text-xl text-gray-600" />
                                 <h1 className="text-lg font-medium text-gray-900">
-                                    {t("profile_page.confirm_password")}
+                                    {t("custom.profile_page.confirm_password")}
                                     {/* Confirmation du mot de passe */}
                                 </h1>
                             </div>
@@ -446,19 +447,19 @@ const ProfileEdit = ({ ...props }) => {
                                 {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
                             </div>
                         </DialogDescription>
-                        <DialogFooter className={i18n?.dir() === "rtl" ? "font-arabic" : "font-sans"}>
+                        <DialogFooter className={languageDir === "rtl" ? "font-arabic" : "font-sans"}>
                             <Button
                                 variant="outline"
                                 onClick={() => setShowConfirmPassword(false)}
                             >
-                                {t("global.cancel")}
+                                {t("custom.global.cancel")}
                                 {/* Annuler */}
                             </Button>
                             <Button
                                 type="submit"
                                 onClick={(e) => submit(e)}
                             >
-                                {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : t("global.confirm")}
+                                {processing ? <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin" /> : t("custom.global.confirm")}
                             </Button>
 
                         </DialogFooter>

@@ -9,7 +9,7 @@ import {
     StopwatchIcon,
 } from "@radix-ui/react-icons"
 import { PiStarFourFill } from "react-icons/pi"
-import { useTranslation } from "react-i18next"
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { CiDeliveryTruck } from "react-icons/ci"
 import Pagination from "@/components/tables/pagination";
 import { LiaLuggageCartSolid } from "react-icons/lia";
@@ -25,22 +25,22 @@ type OrdersInfo = {
 
 const Orders = ({ ...props }) => {
     const [data, setData] = useState(props?.orders?.data)
-    const { t, i18n } = useTranslation()
+    const { t, currentLocale } = useLaravelReactI18n();
 
     const formatDate = (date) => {
         const d = new Date(date);
-        return d.toLocaleDateString(i18n.language, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        return d.toLocaleDateString(currentLocale(), { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
 
     const columns: ColumnDef<OrdersInfo>[] = [
         {
             accessorKey: "id",
-            header: t("orders_page.ID"),
+            header: t("custom.orders_page.ID"),
             maxSize: 5,
         },
         {
             accessorKey: "created_at",
-            header: t("orders_page.date"),
+            header: t("custom.orders_page.date"),
             cell: ({ row }) => {
                 // CHECK IF THIS CREATED TODAY
                 const today = new Date();
@@ -63,7 +63,7 @@ const Orders = ({ ...props }) => {
         },
         {
             accessorKey: "order_products",
-            header: t("orders_page.products_number"),
+            header: t("custom.orders_page.products_number"),
             cell: ({ row }) => {
                 return (
                     <div className="flex flex-row justify-start items-center gap-2">
@@ -75,30 +75,30 @@ const Orders = ({ ...props }) => {
         },
         {
             accessorKey: "status",
-            header: t("orders_page.status"),
+            header: t("custom.orders_page.status"),
             cell: ({ row }) => {
                 // CHECK IF RO
                 let text = "NaN";
                 let Icon: JSX.Element = <></>;
                 switch (row.getValue("status")) {
                     case "pending":
-                        text = t("orders_page.pending");
+                        text = t("custom.orders_page.pending");
                         Icon = <StopwatchIcon />
                         break;
                     case "confirmed":
-                        text = t("orders_page.confirmed");
+                        text = t("custom.orders_page.confirmed");
                         Icon = <CheckCircledIcon className="text-green-400" />
                         break;
                     case "verified":
-                        text = t("orders_page.verified");
+                        text = t("custom.orders_page.verified");
                         Icon = <CheckCircledIcon className="text-green-400" />
                         break;
                     case "delivered":
-                        text = t("orders_page.delivered");
+                        text = t("custom.orders_page.delivered");
                         Icon = <CiDeliveryTruck className="text-lg" />
                         break;
                     case "cancelled":
-                        text = t("orders_page.cancelled");
+                        text = t("custom.orders_page.cancelled");
                         Icon = <CrossCircledIcon />
                         break;
                 }
@@ -116,11 +116,11 @@ const Orders = ({ ...props }) => {
         },
         {
             accessorKey: "total",
-            header: t("orders_page.total_price"),
+            header: t("custom.orders_page.total_price"),
             cell: ({ row }) => {
                 return (
                     <div className="flex flex-row justify-start items-center gap-2">
-                        <p className="text-sm font-medium text-gray-600 uppercase">{row.getValue("total") || "---"} {t('global.da')}</p>
+                        <p className="text-sm font-medium text-gray-600 uppercase">{row.getValue("total") || "---"} {t('custom.global.da')}</p>
                     </div>
                 )
             },
@@ -132,9 +132,9 @@ const Orders = ({ ...props }) => {
     return (
         <>
             <Head>
-                <title>{t('orders_page.title')}</title>
+                <title>{t('custom.orders_page.title')}</title>
                 <meta name="description" content={
-                    i18n.language === "fr" ?
+                    currentLocale() === "fr" ?
                         "Consultez vos commandes"
                         :
                         "تحقق من طلباتك"
@@ -144,7 +144,7 @@ const Orders = ({ ...props }) => {
             <div className="flex items-center justify-center gap-5 py-5 px-8 border-b border-gray-300 font-sans rtl:font-arabic">
                 <LiaLuggageCartSolid className="h-8 w-8 text-gray-900" />
                 <h1 className="text-2xl font-bold text-gray-900 uppercase">
-                    {t('orders_page.title')}
+                    {t('custom.orders_page.title')}
                     {/* Mon Signets */}
                 </h1>
             </div>

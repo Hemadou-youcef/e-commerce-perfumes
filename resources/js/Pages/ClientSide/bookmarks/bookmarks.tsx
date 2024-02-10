@@ -3,14 +3,14 @@ import BookmarkProduct from "@/components/Products/bookmarks/product";
 import { Button } from "@/shadcn/ui/button";
 import { Head, Link, router } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { FaRegBookmark } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
 const Bookmarks = ({ ...props }) => {
     const [bookmarks, setCartItems] = useState(props?.bookmarks);
 
-    const { t, i18n } = useTranslation()
+    const { t, currentLocale } = useLaravelReactI18n();
 
     useEffect(() => {
         setCartItems(props?.bookmarks)
@@ -18,9 +18,9 @@ const Bookmarks = ({ ...props }) => {
     return (
         <>
             <Head>
-                <title>{t('bookmarks_page.title')}</title>
+                <title>{t('custom.bookmarks_page.title')}</title>
                 <meta name="description" content={
-                    i18n.language === "fr" ?
+                    currentLocale() === "fr" ?
                         "Découvrez notre liste de signets"
                         :
                         "تعرف على قائمة إشاراتك المرجعية"
@@ -29,7 +29,7 @@ const Bookmarks = ({ ...props }) => {
             <div className="flex items-center justify-center gap-5 py-5 px-8 border-b border-gray-300 font-sans rtl:font-arabic">
                 <FaRegBookmark className="h-8 w-8 text-gray-900" />
                 <h1 className="text-2xl font-bold text-gray-900 uppercase">
-                    {t('bookmarks_page.title')}
+                    {t('custom.bookmarks_page.title')}
                     {/* Mon Signets */}
                 </h1>
             </div>
@@ -44,7 +44,7 @@ const Bookmarks = ({ ...props }) => {
                     </div>
                     {bookmarks.length === 0 && (
                         <p className="text-gray-600 text-2xl text-center my-8">
-                            {t('bookmarks_page.empty_bookmarks')}
+                            {t('custom.bookmarks_page.empty_bookmarks')}
                             {/* Notre liste de signets est vide */}
                         </p>
                     )}

@@ -9,7 +9,7 @@
     <!-- Manifest -->
     <link rel="manifest" href="/manifest.json">
 
-    <title inertia>{{ config('app.name', 'RUMAH PERFUM') }}</title>
+    <title inertia>{{ $page['component'] ?? 'Rumah Perfum' }}</title>
     <meta name="description" content="عالم العطور ، عالم يجسد الرقي و الجمال والبهجة ، والعطور الفاخرة تدل على تفرد المنتجات الممتازة ؛ الرماح للعطور شركة شغوفة تأسست بفضل الله عام 2019 م في وقت نهضة العطور الحديثة  . من الهضاب العليا شمال بلدي الجزائر نأخذ طريقا رائدا في في مجال بيع العطور الزيتية و صناعة مواد التجميل و التنظيف البدني">
 
     <!-- Open Graph / Facebook -->

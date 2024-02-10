@@ -230,7 +230,7 @@ const Contact = ({ ...props }) => {
                         </div>
                         <div className="w-full items-center gap-2 border border-gray-300 rounded-md p-2">
                             <p className={`font-bold text-gray-900  font-arabic ${direction === 'rtl' ? 'text-right' : 'text-left'}`} style={{ fontSize: `${fontSize}px`, lineHeight: `${lineHeight}` }}>
-                                {message?.message.split("\n").map((i, key) => {
+                                {message?.message.split("custom.\n").map((i, key) => {
                                     return <div key={key}>{i}</div>;
                                 })}
                             </p>

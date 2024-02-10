@@ -21,7 +21,7 @@ import 'swiper/css/autoplay';
 import { TbTruckDelivery } from 'react-icons/tb';
 import { GiReceiveMoney, GiReturnArrow } from 'react-icons/gi';
 import { BiSupport } from 'react-icons/bi';
-import { useTranslation } from 'react-i18next';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import ContactUsForm from '@/components/landing/contanct/contact';
 
 
@@ -29,20 +29,20 @@ import ContactUsForm from '@/components/landing/contanct/contact';
 
 const Home = ({ ...props }) => {
     const { handleVisit } = useContext(LoadingContext);
-    const { t, i18n } = useTranslation()
-    const title = t('layout.navbar.home') + " | " + t('layout.navbar.title');
+    const { t, currentLocale } = useLaravelReactI18n();
+    const title = t('custom.layout.navbar.home') + " | " + t('custom.layout.navbar.title');
     return (
         <>
             <Head>
                 <title>{title}</title>
                 <meta name="description" content={
-                    i18n.language === "fr" ?
+                    currentLocale() === "fr" ?
                         "Découvrez un monde de parfums exquis et de montres élégantes chez Rumah Perfum. Explorez notre collection soigneusement sélectionnée de fragrances de luxe et de montres élégantes. Faites vos achats en toute confiance avec une livraison à temps, une couverture étendue sur 58 wilayas et un support client dédié."
                         :
                         "اكتشف عالمًا من العطور الفاخرة والساعات الأنيقة في Rumah Perfum. استكشف مجموعتنا المختارة بعناية من العطور الفاخرة والأوقات الأنيقة. تسوق بثقة مع التوصيل في الوقت المناسب، وتغطية واسعة عبر 58 ولاية، ودعم العملاء المخصص."
                 } />
                 <meta name="keywords" content={
-                    i18n.language === "fr" ?
+                    currentLocale() === "fr" ?
                         "parfums, montres, fragrances de luxe, montres élégantes, livraison à temps, 58 wilayas, support client, achats en ligne, Rumah Perfum"
                         :
                         "عطور، ساعات، عطور فاخرة، ساعات أنيقة، توصيل في الوقت المناسب، 58 ولاية، دعم العملاء، تسوق عبر الإنترنت، Rumah Perfum"
@@ -66,7 +66,7 @@ const Home = ({ ...props }) => {
                             autoplay={{ delay: 10000 }}
                             className="h-full"
                         >
-                            {props?.pinned_products?.map((product : any, index : any) => (
+                            {props?.pinned_products?.map((product: any, index: any) => (
                                 <SwiperSlide key={index} className="h-full">
                                     {/* Wallpaper For Information */}
                                     <div className="h-128 flex justify-center items-center py-10 bg-cover bg-fixed bg-center text-gray-50 font-serif "
@@ -78,14 +78,14 @@ const Home = ({ ...props }) => {
                                                         {product.name}
                                                     </h1>
                                                     <p className="text-xs md:text-sm font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
-                                                        {i18n.language === "fr" ? product.description : product.description_ar}
+                                                        {currentLocale() === "fr" ? product.description : product.description_ar}
                                                     </p>
                                                     <Button
                                                         variant="outline"
                                                         onClick={() => handleVisit(`/products/${product.id}`)}
                                                         className="cursor-pointer mt-5 w-44 text-gray-900 bg-prime border-2 border-prime font-sans rtl:font-arabic uppercase text-xs font-bold py-2 px-4 rounded-full  hover:bg-prime hover:text-gray-500 active:bg-yellow-300 active:text-gray-900"
                                                     >
-                                                        {t('product_page.view_product')}
+                                                        {t('custom.product_page.view_product')}
                                                     </Button>
                                                 </div>
                                                 <div className=" ">
@@ -128,8 +128,8 @@ const Home = ({ ...props }) => {
                                     <GiReceiveMoney className="w-7 h-7 text-gray-900" />
                                 </div>
                                 <p className="text-gray-100 text-xs font-medium ">
-                                    {t('layout.navbar.payment')} <br />
-                                    {t('layout.navbar.on_delivery')}
+                                    {t('custom.layout.navbar.payment')} <br />
+                                    {t('custom.layout.navbar.on_delivery')}
                                 </p>
                             </div>
                             <Separator orientation="vertical" />
@@ -140,8 +140,8 @@ const Home = ({ ...props }) => {
                                     <TbTruckDelivery className="w-7 h-7 text-gray-900" />
                                 </div>
                                 <p className="text-gray-100 text-xs font-medium ">
-                                    {t('layout.navbar.delivery')} <br />
-                                    {t('layout.navbar.58_wilayas')}
+                                    {t('custom.layout.navbar.delivery')} <br />
+                                    {t('custom.layout.navbar.58_wilayas')}
                                 </p>
                             </div>
                             <Separator orientation="vertical" />
@@ -152,8 +152,8 @@ const Home = ({ ...props }) => {
                                     <BiSupport className="w-7 h-7 text-gray-900" />
                                 </div>
                                 <p className="text-gray-100 text-xs font-medium ">
-                                    {t('layout.navbar.support')} <br />
-                                    {t('layout.navbar.listening')}
+                                    {t('custom.layout.navbar.support')} <br />
+                                    {t('custom.layout.navbar.listening')}
                                 </p>
                             </div>
                             <Separator orientation="vertical" />
@@ -167,8 +167,8 @@ const Home = ({ ...props }) => {
                                 <GiReceiveMoney className="w-7 h-7 text-gray-900" />
                             </div>
                             <p className="text-third text-xs font-medium ">
-                                {t('layout.navbar.payment')} <br />
-                                {t('layout.navbar.on_delivery')}
+                                {t('custom.layout.navbar.payment')} <br />
+                                {t('custom.layout.navbar.on_delivery')}
                             </p>
                         </div>
                         <Separator orientation="vertical" />
@@ -177,8 +177,8 @@ const Home = ({ ...props }) => {
                                 <TbTruckDelivery className="w-7 h-7 text-gray-900" />
                             </div>
                             <p className="text-third text-xs font-medium ">
-                                {t('layout.navbar.delivery')} <br />
-                                {t('layout.navbar.58_wilayas')}
+                                {t('custom.layout.navbar.delivery')} <br />
+                                {t('custom.layout.navbar.58_wilayas')}
                             </p>
                         </div>
                         <Separator orientation="vertical" />
@@ -187,32 +187,49 @@ const Home = ({ ...props }) => {
                                 <BiSupport className="w-7 h-7 text-gray-900" />
                             </div>
                             <p className="text-third text-xs font-medium ">
-                                {t('layout.navbar.support')} <br />
-                                {t('layout.navbar.listening')}
+                                {t('custom.layout.navbar.support')} <br />
+                                {t('custom.layout.navbar.listening')}
                             </p>
                         </div>
                     </div>
                 </div >
-                {/* <LandingSuggest title={t('layout.navbar.for_you')} url="/products" products={props?.for_you_products} /> */}
-                <LandingSuggest title={t('layout.navbar.for_you_perfumes')} url="/products/perfumes" products={props?.for_you_perfumes} />
-                <LandingSuggest title={t('layout.navbar.for_you_oils')} url="/products/cosmetics" products={props?.for_you_oils} />
-                <LandingSuggest title={t('layout.navbar.for_you_accessories')} url="/products/accessories" products={props?.for_you_accessories} />
+                <div className="w-full  h-8 flex justify-center items-center"></div>
 
-                <div className="w-full h-64 sm:h-72 md:h-80 lg:128 bg-white  bg-cover bg-right bg-no-repeat text-gray-900 font-serif ltr:font-sans rtl:font-arabic"
+                {/* <LandingSuggest title={t('custom.layout.navbar.for_you')} url="/products" products={props?.for_you_products} /> */}
+                <LandingSuggest title={t('custom.layout.navbar.for_you_perfumes')} url="/products/perfumes" products={props?.for_you_perfumes} />
+                <div className="w-full  h-8 flex justify-center items-center"></div>
+
+                <LandingSuggest title={t('custom.layout.navbar.for_you_oils')} url="/products/cosmetics" products={props?.for_you_oils} />
+                <div className="w-full  h-8 flex justify-center items-center"></div>
+
+                <LandingSuggest title={t('custom.layout.navbar.for_you_accessories')} url="/products/accessories" products={props?.for_you_accessories} />
+                
+                <div className="w-full  h-8 flex justify-center items-center"></div>
+                <div className="w-full pt-2 h-64 sm:h-72 md:h-80 lg:128 bg-white  bg-cover bg-right bg-no-repeat text-gray-900 font-serif ltr:font-sans rtl:font-arabic"
                 >
-                    <div className='mx-auto rounded-md w-48 h-2 bg-second '></div>
-                    <div className="container flex flex-col items-center justify-start mt-5 h-full">
-                        <p className="text-2xl md:text-4xl font-bold text-left">
-                            {t('layout.navbar.about')}
+                    
+                    <div className='mx-auto rounded-md w-48 h-1 bg-gray-600 '></div>
+                    <div className="container flex flex-col items-center justify-start mt-5 h-full ">
+                        <p className="text-2xl md:text-4xl font-bold text-left text-gray-600">
+                            {t('custom.layout.navbar.about')}
                         </p>
                         <p className="text-sm md:text-xl text-left pt-5">
-                            {t('about_us_page.description')}
+                            {currentLocale() === "fr" ? (
+                                <span>
+                                    Le monde des parfums est un monde qui incarne la sophistication, la beauté et la joie, et les parfums de luxe témoignent du caractère unique d'excellents produits.  Rumah  Perfume est une entreprise passionnée qui a été créée, grâce à Dieu, en 2019  , à l'époque de la renaissance des parfums modernes. Depuis les hauts plateaux du nord de mon pays, l'Algérie, nous prenons un chemin pionnier dans le domaine de la vente de l'extrait de parfums et de la fabrication de cosmétiques et d'entretien physique du corps.
+                                </span>
+                            ) : (
+                                <span>
+                                    عالم العطور ، عالم يجسد الرقي و الجمال والبهجة ، والعطور الفاخرة تدل على تفرد المنتجات الممتازة ؛ الرماح للعطور شركة شغوفة تأسست بفضل الله عام 2019 م في وقت نهضة العطور الحديثة  . من الهضاب العليا شمال بلدي الجزائر نأخذ طريقا رائدا في في مجال بيع العطور الزيتية و صناعة مواد التجميل و التنظيف البدني
+                                </span>
+                            )}
                         </p>
                         <Button
                             variant="outline"
                             className="mt-5 w-44 bg-transparent border-2 border-gray-900 hover:bg-gray-900 active:bg-gray-800 text-gray-900 hover:text-gray-100 active:text-gray-900"
+                            onClick={() => handleVisit("/about")}
                         >
-                            {t('global.find_out_more')}
+                            {t('custom.global.find_out_more')}
                         </Button>
                     </div>
                 </div>
@@ -221,9 +238,9 @@ const Home = ({ ...props }) => {
                 <div className="w-full bg-white py-10">
                     <div className="px-2 md:container">
                         <p className="ltr:ml-5 rtl:mr-5 pb-1 inline text-gray-600 font-bold text-sm md:text-3xl font-serif border-b-2 border-gray-600  ltr:font-sans rtl:font-arabic">
-                            {t('contact_page.title')}
+                            {t('custom.contact_page.title')}
                         </p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 my-5 bg-gray-50 font-sans rtl:font-arabic rounded-lg gap-5 border-2">
+                        <div className="grid grid-cols-1 md:grid-cols-2 my-5 bg-gray-50 font-sans rtl:font-arabic rounded-lg gap-5 border-2 text-gray-600">
                             <div className="hidden w-full h-full md:flex flex-col justify-center overflow-hidden">
                                 <img
                                     src="/image/contact-us.png"

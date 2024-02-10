@@ -1,6 +1,6 @@
 import LandingMainLayout from "@/Layouts/landing/mainLayout";
 import { TiMessage } from "react-icons/ti";
-import { useTranslation } from "react-i18next";
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { useState } from "react";
 import { Button } from "@/shadcn/ui/button";
 import { FiMapPin } from "react-icons/fi";
@@ -12,20 +12,20 @@ const shopListMap = [
 ];
 
 const AboutUs = ({ ...props }) => {
-    const { t, i18n } = useTranslation();
+    const { t, currentLocale,setLocale } = useLaravelReactI18n();;
     const [currentShopMap, setCurrentShopMap] = useState<string>(shopListMap[0]);
-    const title = t('about_us_page.title') + " | " + t('layout.navbar.title');
+    const title = t('custom.about_us_page.title') + " | " + t('custom.layout.navbar.title');
     return (
         <>
             <Head>
                 <title>{title}</title>
                 <meta name="description" content={
-                    i18n?.language === "fr"
+                    currentLocale() === "fr"
                         ? "Découvrez l'histoire captivante de Remah Perfum, une destination de choix pour des parfums exquis et des montres élégantes. Explorez notre passion pour l'élégance et la qualité, et plongez dans un monde de senteurs et de style."
                         : "Explore the captivating story of Remah Perfum, a premier destination for exquisite perfumes and elegant watches. Discover our commitment to elegance and quality, and immerse yourself in a world of scents and style."
                 } />
                 <meta name="keywords" content={
-                    i18n?.language === "fr"
+                    currentLocale() === "fr"
                         ? "parfum, montres, histoire de la marque, parfums de luxe, montres élégantes, qualité, passion, élégance, style, senteurs"
                         : "perfume, watches, brand history, luxury fragrances, elegant watches, quality, passion, elegance, style, scents"
                 } />
@@ -37,10 +37,10 @@ const AboutUs = ({ ...props }) => {
                 className="w-full bg-cover bg-center bg-fixed py-5 flex flex-col justify-center items-center text-white"
             >
                 <span className="text-white text-xl md:text-3xl font-bold font-sans rtl:font-arabic" style={{ textShadow: "0 0 10px #000" }}>
-                    {t('about_us_page.title')}
+                    {t('custom.about_us_page.title')}
                 </span>
                 <div className="container mx-auto text-center font-bold text-sm md:text-lg lg:text-xl leading-8 md:leading-8 lg:leading-10 py-5 rtl:font-arabic ltr:font-sans">
-                    {i18n.language === "fr" ? (
+                    {currentLocale() === "fr" ? (
                         <span>
                             Le monde des parfums est un monde qui incarne la sophistication, la beauté et la joie, et les parfums de luxe témoignent du caractère unique d'excellents produits.  Rumah  Perfume est une entreprise passionnée qui a été créée, grâce à Dieu, en 2019  , à l'époque de la renaissance des parfums modernes. Depuis les hauts plateaux du nord de mon pays, l'Algérie, nous prenons un chemin pionnier dans le domaine de la vente de l'extrait de parfums et de la fabrication de cosmétiques et d'entretien physique du corps.
                         </span>
@@ -58,7 +58,7 @@ const AboutUs = ({ ...props }) => {
                         <div className="flex items-center justify-center gap-5 py-5 px-8">
                             <TiMessage className="md:h-8 md:w-8 text-gray-900" />
                             <h1 className="text-xs md:text-base lg:text-lg font-bold text-gray-900 uppercase">
-                                {t('about_us_page.contact_info')}
+                                {t('custom.about_us_page.contact_info')}
                             </h1>
 
                         </div>
@@ -66,7 +66,7 @@ const AboutUs = ({ ...props }) => {
                             {/* FAX */}
                             <div className="flex gap-5">
                                 <span className="text-[10px] md:text-xs lg:text-lg font-bold text-gray-900 uppercase w-20 md:w-52">
-                                    {t('about_us_page.fax')}
+                                    {t('custom.about_us_page.fax')}
                                 </span>
                                 <span dir="ltr" className="text-[10px] md:text-xs lg:text-lg font-medium text-gray-900 uppercase">
                                     052 51 93 78
@@ -75,7 +75,7 @@ const AboutUs = ({ ...props }) => {
                             {/* PHONE */}
                             <div className="flex gap-5">
                                 <span className="text-[10px] md:text-xs lg:text-lg font-bold text-gray-900 uppercase w-20 md:w-52">
-                                    {t('about_us_page.phone')}
+                                    {t('custom.about_us_page.phone')}
                                 </span>
                                 <div dir="ltr" className="flex flex-col gap-2 text-[10px] md:text-xs lg:text-lg font-medium text-gray-900 uppercase">
                                     <span>06 62 07 13 94</span>
@@ -86,7 +86,7 @@ const AboutUs = ({ ...props }) => {
                             {/* EMAIL */}
                             <div className="flex gap-5">
                                 <span className="text-[10px] md:text-xs lg:text-lg font-bold text-gray-900 uppercase w-20 md:w-52">
-                                    {t('about_us_page.email')}
+                                    {t('custom.about_us_page.email')}
                                 </span>
                                 <span className="text-[10px] md:text-xs lg:text-lg font-medium text-gray-900 uppercase">
                                     parisvip19000@gmail.com
@@ -99,7 +99,7 @@ const AboutUs = ({ ...props }) => {
                         <div className="flex items-center justify-center gap-5 py-5 px-8">
                             <FiMapPin className="md:h-8 md:w-8 text-gray-900" />
                             <h1 className="text-xs md:text-base lg:text-lg font-bold text-gray-900 uppercase">
-                                {t('about_us_page.shop_location')}
+                                {t('custom.about_us_page.shop_location')}
                             </h1>
                         </div>
                         <div className="flex flex-col items-center justify-center gap-5 px-8 py-2">
@@ -113,7 +113,7 @@ const AboutUs = ({ ...props }) => {
                                     >
                                         <FaMapMarkedAlt className="md:h-8 md:w-8" />
                                         <span>
-                                            {t('about_us_page.shop')} {index + 1}
+                                            {t('custom.about_us_page.shop')} {index + 1}
                                         </span>
                                     </Button>
                                 ))}

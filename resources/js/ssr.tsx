@@ -18,7 +18,7 @@ createServer((page) =>
             <LaravelReactI18nProvider
                 locale='ar'
                 fallbackLocale='ar'
-                files={import.meta.globEager('./assets/translations/*.json')}
+                files={import.meta.glob('/lang/*.json', { eager: true })}
             >
                 <App {...props} />
             </LaravelReactI18nProvider>

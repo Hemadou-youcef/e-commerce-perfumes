@@ -4,7 +4,7 @@ import { FormEventHandler } from "react";
 import { useForm } from "@inertiajs/react";
 import { Input } from "@/shadcn/ui/input";
 import { Textarea } from "@/shadcn/ui/textarea";
-import { useTranslation } from "react-i18next";
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 interface FormData {
     first_name: string;
@@ -26,7 +26,7 @@ const ContactUsForm = ({ ...props }) => {
         message: "",
     });
 
-    const { t } = useTranslation();
+    const { t } = useLaravelReactI18n();
     const { toast } = useToast();
 
     const submit: FormEventHandler = (e) => {
@@ -35,15 +35,15 @@ const ContactUsForm = ({ ...props }) => {
             preserveState: false,
             onSuccess: () => {
                 toast({
-                    title: t("contact_page.success"),
-                    description: t("contact_page.success_description"),
+                    title: t("custom.contact_page.success"),
+                    description: t("custom.contact_page.success_description"),
                 })
             },
             onError: () => {
                 toast({
                     variant: "destructive",
-                    title: t("global.error"),
-                    description: t("global.error_description"),
+                    title: t("custom.global.error"),
+                    description: t("custom.global.error_description"),
                 })
             },
         });
@@ -59,7 +59,7 @@ const ContactUsForm = ({ ...props }) => {
                 <div className="flex flex-col md:flex-row gap-5 ">
                     <div className="flex flex-col gap-2 md:w-1/2">
                         <label htmlFor="first_name" className="text-sm text-gray-600">
-                            {t('contact_page.first_name')}
+                            {t('custom.contact_page.first_name')}
                         </label>
                         <Input
                             type="text"
@@ -67,7 +67,7 @@ const ContactUsForm = ({ ...props }) => {
                             id="first_name"
                             className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                             value={data.first_name}
-                            placeholder={t('contact_page.first_name')}
+                            placeholder={t('custom.contact_page.first_name')}
                             onChange={(e) => setData("first_name", e.target.value)}
                         />
                         {errors.first_name && (
@@ -76,7 +76,7 @@ const ContactUsForm = ({ ...props }) => {
                     </div>
                     <div className="flex flex-col gap-2 md:w-1/2">
                         <label htmlFor="last_name" className="text-sm text-gray-600">
-                            {t('contact_page.last_name')}
+                            {t('custom.contact_page.last_name')}
                         </label>
                         <Input
                             type="text"
@@ -84,7 +84,7 @@ const ContactUsForm = ({ ...props }) => {
                             id="last_name"
                             className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                             value={data.last_name}
-                            placeholder={t('contact_page.last_name')}
+                            placeholder={t('custom.contact_page.last_name')}
                             onChange={(e) => setData("last_name", e.target.value)}
                         />
                         {errors.last_name && (
@@ -94,7 +94,7 @@ const ContactUsForm = ({ ...props }) => {
                 </div>
                 <div className="flex flex-col gap-2">
                     <label htmlFor="email" className="text-sm text-gray-600">
-                        {t('contact_page.email')}
+                        {t('custom.contact_page.email')}
                     </label>
                     <Input
                         type="email"
@@ -102,7 +102,7 @@ const ContactUsForm = ({ ...props }) => {
                         id="email"
                         className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 blue-600 focus:border-transparent"
                         value={data.email}
-                        placeholder={t('contact_page.email')}
+                        placeholder={t('custom.contact_page.email')}
                         onChange={(e) => setData("email", e.target.value)}
                     />
                     {errors.email && (
@@ -112,7 +112,7 @@ const ContactUsForm = ({ ...props }) => {
 
                 <div className="flex flex-col gap-2">
                     <label htmlFor="phone" className="text-sm text-gray-600">
-                        {t('contact_page.phone')}
+                        {t('custom.contact_page.phone')}
                     </label>
                     <Input
                         type="text"
@@ -120,7 +120,7 @@ const ContactUsForm = ({ ...props }) => {
                         id="phone"
                         className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                         value={data.phone}
-                        placeholder={t('contact_page.phone')}
+                        placeholder={t('custom.contact_page.phone')}
                         onChange={(e) => setData("phone", e.target.value)}
                     />
                     {errors.phone && (
@@ -129,7 +129,7 @@ const ContactUsForm = ({ ...props }) => {
                 </div>
                 <div className="flex flex-col gap-2">
                     <label htmlFor="subject" className="text-sm text-gray-600">
-                        {t('contact_page.subject')}
+                        {t('custom.contact_page.subject')}
                     </label>
                     <Input
                         type="text"
@@ -137,7 +137,7 @@ const ContactUsForm = ({ ...props }) => {
                         id="subject"
                         className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                         value={data.subject}
-                        placeholder={t('contact_page.subject')}
+                        placeholder={t('custom.contact_page.subject')}
                         onChange={(e) => setData("subject", e.target.value)}
                     />
                     {errors.subject && (
@@ -146,14 +146,14 @@ const ContactUsForm = ({ ...props }) => {
                 </div>
                 <div className="flex flex-col gap-2">
                     <label htmlFor="message" className="text-sm text-gray-600">
-                        {t('contact_page.message')}
+                        {t('custom.contact_page.message')}
                     </label>
                     <Textarea
                         name="message"
                         id="message"
                         className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                         value={data.message}
-                        placeholder={t('contact_page.message')}
+                        placeholder={t('custom.contact_page.message')}
                         onChange={(e) => setData("message", e.target.value)}
                     />
                     {errors.message && (
@@ -166,7 +166,7 @@ const ContactUsForm = ({ ...props }) => {
                         className="bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
                         disabled={processing}
                     >
-                        {t('contact_page.send')}
+                        {t('custom.contact_page.send')}
                     </Button>
                 </div>
             </form>

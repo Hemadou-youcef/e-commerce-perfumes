@@ -7,7 +7,7 @@
 // import { CiDeliveryTruck } from "react-icons/ci"
 // import { Button } from "@/shadcn/ui/button"
 // import { PiStarFourFill } from "react-icons/pi"
-// import { useTranslation } from "react-i18next"
+// import { useLaravelReactI18n } from 'laravel-react-i18n';
 // // This type is used to define the shape of our data.
 // // You can use a Zod schema here if you want.
 // export type OrdersInfo = {
@@ -27,12 +27,12 @@
 // export const columns: ColumnDef<OrdersInfo>[] = [
 //     {
 //         accessorKey: "id",
-//         header: t("ID"),
+//         header: t("custom.ID"),
 //         maxSize: 5,
 //     },
 //     {
 //         accessorKey: "created_at",
-//         header: t("Date"),
+//         header: t("custom.Date"),
 //         cell: ({ row }) => {
 //             // CHECK IF THIS CREATED TODAY
 //             const today = new Date();
@@ -55,7 +55,7 @@
 //     },
 //     {
 //         accessorKey: "status",
-//         header: t("Statut"),
+//         header: t("custom.Statut"),
 //         cell: ({ row }) => {
 //             // CHECK IF RO
 //             let text = "NaN";
@@ -96,7 +96,7 @@
 //     },
 //     {
 //         accessorKey: "total",
-//         header: t("total_price"),
+//         header: t("custom.total_price"),
 //         cell: ({ row }) => {
 //             return (
 //                 <div className="flex flex-row justify-start items-center gap-2">
