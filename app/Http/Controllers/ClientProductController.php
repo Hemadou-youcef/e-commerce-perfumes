@@ -120,6 +120,10 @@ class ClientProductController extends Controller
                 'endPrice' => request('endPrice', ''),
                 'category' => request('category', ''),
             ],
+            'meta_data'=>[
+                'title'=> 'Products | RUMAH PERFUM',
+                'twitter_card'=>'summary_large_image',
+            ]
         ]);
     }
 }

@@ -53,6 +53,11 @@ class ProductController extends Controller
                 'search' => request('search', ''),
                 'category' => request('category', ''),
             ],
+            'statuses' => [
+                'published' => 'Published',
+                'archived' => 'Archived',
+                'pinned' => 'Pinned',
+            ],
         ]);
     }
 
