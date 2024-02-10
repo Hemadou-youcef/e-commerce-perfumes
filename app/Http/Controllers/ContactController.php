@@ -16,12 +16,18 @@ class ContactController
 
     public function index(): Response
     {
-        return Inertia::render('ClientSide/Contact/contact');
+        return Inertia::render('ClientSide/Contact/contact', [
+            'meta_data' => [
+                'title' => 'Contactez-nous | RUMAH PERFUM',
+                'description' => 'Contactez-nous pour toute question ou demande de renseignement.',
+                'keywords' => 'contact, question, renseignement, demande, information, parfum, huile, accessoire, parfumerie, Rumah Perfum'
+            ]
+        ]);
     }
 
     public function dashboard_index(): Response
     {
-        return Inertia::render('Dashboard/Contacts/contacts' , [
+        return Inertia::render('Dashboard/Contacts/contacts', [
             'contacts' => Contact::query()
                 ->orderBy('created_at', 'desc')
                 ->paginate(10)
@@ -42,17 +48,17 @@ class ContactController
 
         // Send email
         // Mail::to(request('email'))
-            // ->send(new ForgotPassword(request('name'), request('message')));
-        
-        
+        // ->send(new ForgotPassword(request('name'), request('message')));
+
+
         $recipientEmail = 'youcef.hemadou@hotmail.com';
-        $name = request('first_name') . " " . request('last_name'); 
+        $name = request('first_name') . " " . request('last_name');
         $view = 'contact-message';
         $data = ['contact' => $contactData];
         Mail::send($view, $data, function ($message) use ($recipientEmail, $name) {
             $message->to($recipientEmail, "Youcef Hemadou")
-                    ->from(request('email'), $name)
-                    ->subject(request('subject'));
+                ->from(request('email'), $name)
+                ->subject(request('subject'));
         });
 
         return redirect('/')
@@ -62,7 +68,7 @@ class ContactController
 
     public function show(Contact $contact): Response
     {
-        return Inertia::render('Dashboard/Contacts/contact' , [
+        return Inertia::render('Dashboard/Contacts/contact', [
             'contact' => $contact
         ]);
     }
@@ -72,6 +78,4 @@ class ContactController
         $contact->delete();
         return redirect()->route('contacts');
     }
-
-
 }

@@ -34,7 +34,12 @@ Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 // client about routes
 Route::get('/about', function () {
-    return Inertia::render('ClientSide/AboutUs/aboutUs');
+    return Inertia::render('ClientSide/AboutUs/aboutUs',[
+        "meta_data"=>[
+            "title"=>"About Us",
+            'url'=>'https://www.rumah-parfum.com/about'
+        ]
+    ]);
 })->name('about');
 
 
