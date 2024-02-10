@@ -17,7 +17,7 @@ class ClientProductController extends Controller
      */
     public function index(): Response
     {
-        return $this->getResponse(Product::activeProducts(), Category::all() , 'ClientSide/Products/products');
+        return $this->getResponse(Product::activeProducts(), Category::all(), 'ClientSide/Products/products');
     }
 
     /**
@@ -57,7 +57,16 @@ class ClientProductController extends Controller
                 'isProductInCart' => $product->isProductInCart(),
                 'isProductBookmarked' => $product->isProductBookmarked(),
                 'suggestedProducts' => $product->suggestedProducts(),
-
+            ],
+            'meta_data'=>[
+                'title'=> $product->name . ' | RUMAH PERFUM',
+                'description'=> $product->description,
+                'keywords'=> $product->name . ', ' . $product->categories->pluck('name')->implode(', '),
+                'image'=> $product->mainImage->path,
+                'url'=>'https://https://rumah-parfum.com/product/' . $product->id,
+                'twitter_card'=>'summary_large_image',
+                'twitter_url'=>'https://https://rumah-parfum.com/product/' . $product->id,
+                'twitter_image'=> $product->mainImage->path,
             ]
         ]);
     }

@@ -63,7 +63,15 @@ class HomeController extends Controller
                     ];
             }),
             'trending_products' => $this->trending_products(),
-
+            'meta_data'=>[
+                'title'=>'HOME | RUAMAH PERFUM',
+                'description'=>'عالم العطور ، عالم يجسد الرقي و الجمال والبهجة ، والعطور الفاخرة تدل على تفرد المنتجات الممتازة ؛ الرماح للعطور شركة شغوفة تأسست بفضل الله عام 2019 م في وقت نهضة العطور الحديثة  . من الهضاب العليا شمال بلدي الجزائر نأخذ طريقا رائدا في في مجال بيع العطور الزيتية و صناعة مواد التجميل و التنظيف البدني',
+                'image'=>'/image/meta-logo.jpg',
+                'url'=>'https://https://rumah-parfum.com/',
+                'twitter_card'=>'summary_large_image',
+                'twitter_url'=>'https://https://rumah-parfum.com/',
+                'twitter_image'=>'/image/meta-logo.jpg',
+            ]
         ]);
 
     }
