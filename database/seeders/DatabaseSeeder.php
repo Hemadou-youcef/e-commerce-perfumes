@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'first_name' => 'admin',
+            'email' => 'admin@admin.com',
             'last_name' => 'admin',
             'username' => 'admin',
             'phone' => '0606060606',
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'first_name' => 'client',
             'last_name' => 'client',
+            'email' => 'user@user.com',
             'username' => 'client',
             'phone' => '0606060607',
             'role' => 1,

@@ -26,6 +26,7 @@ class ProductFactory extends Factory
             'description_ar' => 'وصف باللغة العربية',
             'main_image_id' => null,
             'quantity' => 10000,
+            'reference' => $this->faker->unique()->word,
             'unit' => $this->faker->randomElement(['l', 'ml', 'unité']),
             'type' => $this->faker->randomElement([1,2,3]),
 //            'status' => $this->faker->randomElement([ null]),

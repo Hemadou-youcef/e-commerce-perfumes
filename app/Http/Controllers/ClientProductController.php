@@ -42,8 +42,11 @@ class ClientProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product): Response
+    public function show(Product $product): Response 
     {
+        if ( $product->isArchived()){
+            return abort(404);
+        }
         return Inertia::render('ClientSide/Products/Product/product', [
             'product' => [
                 'id' => $product->id,
