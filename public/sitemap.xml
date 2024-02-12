@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://rumah-parfum.com/</loc>
+  <lastmod>2024-02-10T13:54:39+00:00</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>1.00</priority>
+
+</url>
+<!-- add products page -->
+<url>
+  <loc>https://rumah-parfum.com/products</loc>
+  <lastmod>2024-02-10T13:54:39+00:00</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.80</priority>
+</url>
+<!-- add perfume page -->
+<url>
+  <loc>https://rumah-parfum.com/products/perfumes</loc>
+  <lastmod>2024-02-10T13:54:39+00:00</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.80</priority>
+</url>
+<!-- add aromatic oils page -->
+<url>
+  <loc>https://rumah-parfum.com/products/aromatic_oils</loc>
+  <lastmod>2024-02-10T13:54:39+00:00</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.80</priority>
+</url>
+<!-- add accessories page -->
+<url>
+  <loc>https://rumah-parfum.com/products/accessories</loc>
+  <lastmod>2024-02-10T13:54:39+00:00</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.80</priority>
+</url>
+<!-- add about page -->
+<url>
+  <loc>https://rumah-parfum.com/about</loc>
+  <lastmod>2024-02-10T13:54:39+00:00</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.80</priority>
+</url>
+<!-- add contact page -->
+<url>
+  <loc>https://rumah-parfum.com/contact</loc>
+  <lastmod>2024-02-10T13:54:39+00:00</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.80</priority>
+
+</urlset>

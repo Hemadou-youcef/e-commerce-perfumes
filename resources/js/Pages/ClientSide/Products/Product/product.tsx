@@ -252,7 +252,7 @@ const Product = ({ ...props }) => {
                             <div className="flex justify-between w-full mt-2">
                                 <div className="text-gray-700 text-sm lg:tex">
                                     {(currentLocale() === "fr") ? product?.description : product?.description_ar
-                                        .split('custom.\n').map((item: any, index: number) => (
+                                        .split('\n').map((item: any, index: number) => (
                                             <p key={index}>{item}</p>
                                         ))}
                                 </div>

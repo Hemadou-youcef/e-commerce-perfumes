@@ -36,7 +36,7 @@ Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store']
 Route::get('/about', function () {
     return Inertia::render('ClientSide/AboutUs/aboutUs',[
         "meta_data"=>[
-            "title"=>"About Us",
+            "title"=>"À propos | RUMAH PERFUM",
             'url'=>'https://www.rumah-parfum.com/about'
         ]
     ]);

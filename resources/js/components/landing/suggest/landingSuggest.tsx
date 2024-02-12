@@ -31,7 +31,7 @@ const LandingSuggest = ({ title, products, url }) => {
                             <ProductsSwiper products={products} />
                         ) : (
                             <div className="h-20 w-full flex justify-center items-center">
-                                <p className="text-gray-600 font-bold text-sm md:text-xl font-sans">
+                                <p className="text-gray-600 font-bold text-sm md:text-xl ltr:font-sans rtl:font-arabic">
                                     {t('custom.layout.navbar.no_products')}
                                 </p>
                             </div>

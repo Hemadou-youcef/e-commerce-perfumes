@@ -18,10 +18,10 @@ const LandingMainLayout = ({ children, ...props }) => {
     const [navbarOpen, setNavbarOpen] = useState(false);
     const [loadingState, setLoadingState] = useState(false);
 
-    
+
 
     // const { t, currentLocale } = useLaravelReactI18n();
-    const { t, currentLocale,isLocale } = useLaravelReactI18n();
+    const { t, currentLocale, isLocale } = useLaravelReactI18n();
     const languageDir = currentLocale() === "ar" ? "rtl" : "ltr";
     // console.log(pageProps)
 
@@ -65,37 +65,50 @@ const LandingMainLayout = ({ children, ...props }) => {
                             onClick={() => handleVisit("/products")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('custom.layout.navbar.products')}
+                            {/* CREATE DISABLED LINK */}
+                            <Link href="/products" disabled>
+                                {t('custom.layout.navbar.products')}
+                            </Link>
                         </div>
                         <div
                             onClick={() => handleVisit("/products/perfumes")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('custom.layout.navbar.perfumes')}
+                            <Link href="/products/perfumes" disabled>
+                                {t('custom.layout.navbar.perfumes')}
+                            </Link>
                         </div>
                         <div
                             onClick={() => handleVisit("/products/aromatic_oils")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('custom.layout.navbar.aromatic_oils')}
+                            <Link href="/products/aromatic_oils" disabled>
+                                {t('custom.layout.navbar.aromatic_oils')}
+                            </Link>
                         </div>
                         <div
                             onClick={() => handleVisit("/products/accessories")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('custom.layout.navbar.accessories')}
+                            <Link href="/products/accessories" disabled>
+                                {t('custom.layout.navbar.accessories')}
+                            </Link>
                         </div>
                         <div
                             onClick={() => handleVisit("/contact")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('custom.layout.navbar.contact')}
+                            <Link href="/contact" disabled>
+                                {t('custom.layout.navbar.contact')}
+                            </Link>
                         </div>
                         <div
                             onClick={() => handleVisit("/about")}
                             className="text-base font-medium transition-colors hover:text-gray-400 cursor-pointer"
                         >
-                            {t('custom.layout.navbar.about')}
+                            <Link href="/about" disabled>
+                                {t('custom.layout.navbar.about')}
+                            </Link>
                         </div>
                     </div>
                 </div>

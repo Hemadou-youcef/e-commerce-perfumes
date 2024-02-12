@@ -35,7 +35,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
     const searchInput = useRef<HTMLInputElement>(null);
     const [search, setSearch] = useState("");
     const [searchLoading, setSearchLoading] = useState(false);
-    const { t, currentLocale,setLocale } = useLaravelReactI18n();
+    const { t, currentLocale, setLocale } = useLaravelReactI18n();
     // console.log(props?.auth?.user)
 
     const isLogged = () => {
@@ -89,7 +89,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
 
                 {/* CLOSE BUTTON */}
                 <div className="flex justify-end p-5">
-                    <IoMdClose className="w-11 h-11 text-white cursor-pointer" onClick={() => setNavbarOpen(!showNavbar)} />
+                    <IoMdClose className="w-7 h-7 text-white cursor-pointer" onClick={() => setNavbarOpen(!showNavbar)} />
                 </div>
                 <div className="flex items-center gap-3 bg-white rounded-full mb-5 mx-5 px-3 py-0 overflow-hidden">
                     <Input
@@ -110,40 +110,52 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
 
                 <div className="flex flex-col items-center text-white text-lg font-medium uppercase gap-3 mx-5 ltr:font-sans rtl:font-arabic">
                     <div onClick={() => handleVisit("/products")} className="cursor-pointer">
-                        <p>
-                            {t('custom.layout.navbar.products')}
-                            {/* Produits */}
-                        </p>
+                        <Link href="/products" disabled>
+                            <p>
+                                {t('custom.layout.navbar.products')}
+                                {/* Produits */}
+                            </p>
+                        </Link>
                     </div>
                     <div onClick={() => handleVisit("/products/perfumes")} className="cursor-pointer">
-                        <p>
-                            {t('custom.layout.navbar.perfumes')}
-                            {/* Parfums */}
-                        </p>
+                        <Link href="/products/perfumes" disabled>
+                            <p>
+                                {t('custom.layout.navbar.perfumes')}
+                                {/* Parfums */}
+                            </p>
+                        </Link>
                     </div>
                     <div onClick={() => handleVisit("/products/aromatic_oils")} className="cursor-pointer">
-                        <p>
-                            {t('custom.layout.navbar.aromatic_oils')}
-                            {/* Huiles */}
-                        </p>
+                        <Link href="/products/aromatic_oils" disabled>
+                            <p>
+                                {t('custom.layout.navbar.aromatic_oils')}
+                                {/* Huiles */}
+                            </p>
+                        </Link>
                     </div>
                     <div onClick={() => handleVisit("/products/accessories")} className="cursor-pointer">
-                        <p>
-                            {t('custom.layout.navbar.accessories')}
-                            {/* Accessoires */}
-                        </p>
+                        <Link href="/products/accessories" disabled>
+                            <p>
+                                {t('custom.layout.navbar.accessories')}
+                                {/* Accessoires */}
+                            </p>
+                        </Link>
                     </div>
                     <div onClick={() => handleVisit("/contact-us")} className="cursor-pointer">
-                        <p>
-                            {t('custom.layout.navbar.contact')}
-                            {/* Contact */}
-                        </p>
+                        <Link href="/contact-us" disabled>
+                            <p>
+                                {t('custom.layout.navbar.contact')}
+                                {/* Contact */}
+                            </p>
+                        </Link>
                     </div>
                     <div onClick={() => handleVisit("/about")} className="cursor-pointer">
-                        <p>
-                            {t('custom.layout.navbar.about')}
-                            {/* A propos */}
-                        </p>
+                        <Link href="/about" disabled>
+                            <p>
+                                {t('custom.layout.navbar.about')}
+                                {/* A propos */}
+                            </p>
+                        </Link>
                     </div>
                     <Separator className="my-2" />
                     {currentLocale() === "fr" ? <div onClick={() => handleChangeLanguage("ar")} className="cursor-pointer">
@@ -164,16 +176,24 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                 <div dir='ltr' className="fixed bottom-0 left-0 w-full h-14 bg-white z-10 flex items-center justify-around p-2 border-t shadow-md"
                 >
                     {(!isLogged() || isEmployee()) && <div onClick={() => handleVisit("/")} className="cursor-pointer">
-                        <AiOutlineHome className="w-6 h-full text-primary" />
+                        <Link href="/" disabled>
+                            <AiOutlineHome className="w-6 h-full text-primary" />
+                        </Link>
                     </div>}
                     <div onClick={() => handleVisit("/products")} className="cursor-pointer">
-                        <TbPerfume className="w-6 h-full text-primary" />
+                        <Link href="/products" disabled>
+                            <TbPerfume className="w-6 h-full text-primary" />
+                        </Link>
                     </div>
                     {isClient() && <div onClick={() => handleVisit("/cart")} className="cursor-pointer">
-                        <HiOutlineShoppingBag className="w-6 h-6 text-primary" />
+                        <Link href="/cart" disabled>
+                            <HiOutlineShoppingBag className="w-6 h-6 text-primary" />
+                        </Link>
                     </div>}
                     {isClient() && <div onClick={() => handleVisit("/orders")} className="cursor-pointer">
-                        <LiaLuggageCartSolid className="w-7 h-7 text-primary" />
+                        <Link href="/orders" disabled>
+                            <LiaLuggageCartSolid className="w-7 h-7 text-primary" />
+                        </Link>
                     </div>}
                     <Button
                         variant="outline"
@@ -187,22 +207,34 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                         <AiOutlineSearch className="w-6 h-6 text-primary" />
                     </Button>
                     {isClient() && <div onClick={() => handleVisit("/bookmarks")} className="cursor-pointer">
-                        <TbBookmark className="w-6 h-6 text-primary" />
+                        <Link href="/bookmarks" disabled>
+                            <TbBookmark className="w-6 h-6 text-primary" />
+                        </Link>
                     </div>}
                     {isClient() && <div onClick={() => handleVisit("/profile")} className="cursor-pointer">
-                        <CgProfile className="w-5 h-5 text-primary" />
+                        <Link href="/profile" disabled>
+                            <CgProfile className="w-5 h-5 text-primary" />
+                        </Link>
                     </div>}
                     {isEmployee() && <div onClick={() => handleVisit("/dashboard")} className="cursor-pointer">
-                        <MdOutlineDashboard className="w-6 h-6 text-primary" />
+                        <Link href="/dashboard" disabled>
+                            <MdOutlineDashboard className="w-6 h-6 text-primary" />
+                        </Link>
                     </div>}
                     {isLogged() && <div onClick={() => handleVisit("/logout", "post")} className="cursor-pointer">
-                        <BiLogOut className="w-6 h-6 text-primary" />
+                        <Link href="/logout" disabled>
+                            <BiLogOut className="w-6 h-6 text-primary" />
+                        </Link>
                     </div>}
                     {!isLogged() && <div onClick={() => handleVisit("/register")} className="cursor-pointer">
-                        <BsPersonAdd className="w-6 h-6 text-primary" />
+                        <Link href="/register" disabled>
+                            <BsPersonAdd className="w-6 h-6 text-primary" />
+                        </Link>
                     </div>}
                     {!isLogged() && <div onClick={() => handleVisit("/login")} className="cursor-pointer">
-                        <BiLogIn className="w-6 h-6 text-primary" />
+                        <Link href="/login" disabled>
+                            <BiLogIn className="w-6 h-6 text-primary" />
+                        </Link>
                     </div>}
                 </div>
             </div>
@@ -247,7 +279,8 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                     {/* IF LOGGED IN */}
                     {props?.auth?.user !== null && <div className="flex items-center gap-3 text-third">
                         {[2, 3, 4].includes(props?.auth?.user?.role) ? (
-                            <div
+                            <Link
+                                href="/dashboard"
                                 onClick={() => handleVisit("/dashboard")}
                                 className="flex flex-col items-center group gap-1 cursor-pointer"
                             >
@@ -256,10 +289,11 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                     {t('custom.layout.navbar.dashboard')}
                                     {/* Tableau de bord */}
                                 </p>
-                            </div>
+                            </Link>
                         ) : (
                             <div className="flex items-center gap-5 ">
-                                <div
+                                <Link
+                                    href="/cart"
                                     onClick={() => handleVisit("/cart")}
                                     className="flex flex-col items-center group gap-1 cursor-pointer"
                                 >
@@ -268,8 +302,9 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                         {t('custom.layout.navbar.cart')}
                                         {/* panier */}
                                     </p>
-                                </div>
-                                <div
+                                </Link>
+                                <Link
+                                    href="/orders"
                                     onClick={() => handleVisit("/orders")}
                                     className="flex flex-col items-center group gap-1 cursor-pointer"
                                 >
@@ -278,8 +313,9 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                         {t('custom.layout.navbar.orders')}
                                         {/* mes commandes */}
                                     </p>
-                                </div>
-                                <div
+                                </Link>
+                                <Link
+                                    href="/bookmarks"
                                     onClick={() => handleVisit("/bookmarks")}
                                     className="flex flex-col items-center group gap-1 cursor-pointer"
                                 >
@@ -288,8 +324,9 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                         {t('custom.layout.navbar.bookmarks')}
                                         {/* signet */}
                                     </p>
-                                </div>
-                                <div
+                                </Link>
+                                <Link
+                                    href="/profile"
                                     onClick={() => handleVisit("/profile")}
                                     className="flex flex-col items-center group gap-1 cursor-pointer"
                                 >
@@ -298,11 +335,12 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                         {t('custom.layout.navbar.profile')}
                                         {/* mon compte */}
                                     </p>
-                                </div>
+                                </Link>
                             </div>
                         )}
                         {/* LOG OUT */}
-                        <div
+                        <Link
+                            href="/logout"
                             onClick={() => handleVisit("/logout", "post")}
                             className="flex flex-col items-center group gap-1 cursor-pointer"
                         >
@@ -311,14 +349,15 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                 {t('custom.layout.navbar.logout')}
                                 {/* Déconnexion */}
                             </p>
-                        </div>
+                        </Link>
 
                     </div>}
 
 
                     {/* IF NOT LOGGED IN */}
                     {props?.auth?.user === null && <div className="flex items-center gap-3 text-third">
-                        <div
+                        <Link
+                            href="/register"
                             onClick={() => handleVisit("/register")}
                             className="flex flex-col items-center group gap-1 cursor-pointer"
                         >
@@ -327,8 +366,9 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                 {t('custom.layout.navbar.register')}
                                 {/* S'inscrire */}
                             </p>
-                        </div>
-                        <div
+                        </Link>
+                        <Link
+                            href="/login"
                             onClick={() => handleVisit("/login")}
                             className="flex flex-col items-center group gap-1 cursor-pointer"
                         >
@@ -337,7 +377,7 @@ const LandingNav = ({ props, showNavbar, setNavbarOpen, handleVisit }) => {
                                 {t('custom.layout.navbar.login')}
                                 {/* Se connecter */}
                             </p>
-                        </div>
+                        </Link>
 
                     </div>}
                     {/* <Select>

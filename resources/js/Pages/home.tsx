@@ -197,23 +197,28 @@ const Home = ({ ...props }) => {
 
                 {/* <LandingSuggest title={t('custom.layout.navbar.for_you')} url="/products" products={props?.for_you_products} /> */}
                 <LandingSuggest title={t('custom.layout.navbar.for_you_perfumes')} url="/products/perfumes" products={props?.for_you_perfumes} />
-                <div className="w-full  h-8 flex justify-center items-center"></div>
+                {/* <div className="w-full bg-second h-8 flex justify-center items-center"></div> */}
 
-                <LandingSuggest title={t('custom.layout.navbar.for_you_oils')} url="/products/cosmetics" products={props?.for_you_oils} />
-                <div className="w-full  h-8 flex justify-center items-center"></div>
+                <LandingSuggest title={t('custom.layout.navbar.for_you_oils')} url="/products/aromatic_oils" products={props?.for_you_oils} />
+                {/* <div className="w-full bg-second h-8 flex justify-center items-center"></div> */}
 
                 <LandingSuggest title={t('custom.layout.navbar.for_you_accessories')} url="/products/accessories" products={props?.for_you_accessories} />
-                
-                <div className="w-full  h-8 flex justify-center items-center"></div>
+
+                {/* <div className="w-full bg-second h-8 flex justify-center items-center"></div> */}
                 <div className="w-full pt-2 h-64 sm:h-72 md:h-80 lg:128 bg-white  bg-cover bg-right bg-no-repeat text-gray-900 font-serif ltr:font-sans rtl:font-arabic"
                 >
-                    
-                    <div className='mx-auto rounded-md w-48 h-1 bg-gray-600 '></div>
-                    <div className="container flex flex-col items-center justify-start mt-5 h-full ">
-                        <p className="text-2xl md:text-4xl font-bold text-left text-gray-600">
-                            {t('custom.layout.navbar.about')}
-                        </p>
-                        <p className="text-sm md:text-xl text-left pt-5">
+
+                    <div className='relative mx-auto rounded-md h-1 bg-gray-600'></div>
+                    <div className="relative container flex flex-col items-center justify-start mt-5 h-full">
+                        <div className='shadow-md'>
+                            <div className="w-24 ltr:h-11 rtl:h-10 absolute ltr:top-3 rtl:top-5 bg-gray-700 transform ltr:translate-x-20 rtl:-translate-x-10">
+
+                            </div>
+                            <p className="relative pb-1 text-2xl md:text-4xl font-bold text-left text-white bg-gray-600">
+                                {t('custom.layout.navbar.about')}
+                            </p>
+                        </div>
+                        <p className="text-sm md:text-xl text-center pt-5">
                             {currentLocale() === "fr" ? (
                                 <span>
                                     Le monde des parfums est un monde qui incarne la sophistication, la beauté et la joie, et les parfums de luxe témoignent du caractère unique d'excellents produits.  Rumah  Perfume est une entreprise passionnée qui a été créée, grâce à Dieu, en 2019  , à l'époque de la renaissance des parfums modernes. Depuis les hauts plateaux du nord de mon pays, l'Algérie, nous prenons un chemin pionnier dans le domaine de la vente de l'extrait de parfums et de la fabrication de cosmétiques et d'entretien physique du corps.
