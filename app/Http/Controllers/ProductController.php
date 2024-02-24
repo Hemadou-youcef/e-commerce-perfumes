@@ -190,6 +190,7 @@ class ProductController extends Controller
         $product->description_ar = $validatedData['description_ar'];
         $product->status = $validatedData['status'];
         $product->type = $validatedData['type'];
+        $product->unit = $validatedData['unit'];
 
 
         try {

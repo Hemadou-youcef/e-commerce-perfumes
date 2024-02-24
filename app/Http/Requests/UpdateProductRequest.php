@@ -30,6 +30,7 @@ class UpdateProductRequest extends FormRequest
             'image' => 'sometimes|required|image|mimes:jpeg,png,jpg|max:8192',
             'type' => 'sometimes|required|integer|in:1,2,3',
             'category_ids.*' => 'sometimes|exists:categories,id',
+            'unit' => 'sometimes|required|string|max:255',
             'prices' => [
                 'sometimes',
                 'array',
@@ -48,12 +49,6 @@ class UpdateProductRequest extends FormRequest
             'prices.*.unit' => 'sometimes|required|string|max:255',
             'prices.*.quantity' => 'sometimes|required|integer|min:0',
             'prices.*.active' => 'sometimes|required|boolean',
-
-
-
-
-
-
             'other_images.*' => 'sometimes|required|image|mimes:jpeg,png,jpg|max:8192',
             'removed_images.*' => 'sometimes|exists:images,id',
         ];

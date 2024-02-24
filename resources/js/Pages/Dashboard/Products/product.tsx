@@ -297,7 +297,7 @@ const Product = ({ ...props }) => {
                         {product?.status === "pinned" && (
                             <Button
                                 variant="outline"
-                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                className="group p-0 h-12 w-12 md:hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                                 disabled={statusLoading[0] && statusLoading[1] === 1}
                                 onClick={() => handleUpdateStatus(1)}
                             >
@@ -308,7 +308,7 @@ const Product = ({ ...props }) => {
                         {product?.status !== "pinned" && (
                             <Button
                                 variant="outline"
-                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                className="group p-0 h-12 w-12 md:hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                                 disabled={statusLoading[0] && statusLoading[1] === 2}
                                 onClick={() => handleUpdateStatus(2)}
                             >
@@ -319,7 +319,7 @@ const Product = ({ ...props }) => {
                         {product?.status === "archived" && (
                             <Button
                                 variant="outline"
-                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                className="group p-0 h-12 w-12 md:hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                                 disabled={statusLoading[0] && statusLoading[1] === 1}
                                 onClick={() => handleUpdateStatus(1)}
                             >
@@ -330,7 +330,7 @@ const Product = ({ ...props }) => {
                         {product?.status !== "archived" && (
                             <Button
                                 variant="outline"
-                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                className="group p-0 h-12 w-12 md:hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                                 disabled={statusLoading[0] && statusLoading[1] === 0}
                                 onClick={() => handleUpdateStatus(0)}
                             >
@@ -344,7 +344,7 @@ const Product = ({ ...props }) => {
                                 <AlertDialogTrigger>
                                     <Button
                                         variant="outline"
-                                        className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                        className="group p-0 h-12 w-12 md:hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                                         disabled={deleteLoading}
                                     >
                                         {deleteLoading ? <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin" /> : <AiOutlineDelete className="text-2xl" />}
@@ -377,7 +377,7 @@ const Product = ({ ...props }) => {
                         <Link href={`/dashboard/products/${product?.id}/edit`}>
                             <Button
                                 variant="outline"
-                                className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                                className="group p-0 h-12 w-12 md:hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                             >
                                 <LiaEdit className="text-2xl" />
                                 <p className="hidden md:block group-hover:w-16 w-0 overflow-hidden transition-all group-hover:ml-1 text-sm font-medium text-gray-900">Modifier</p>
@@ -388,6 +388,12 @@ const Product = ({ ...props }) => {
 
                 <Separator />
                 <div className="flex flex-col gap-4 py-5 px-5 ">
+                    <Link href={`/products/${product?.id}`}>
+                        <Button variant="outline" className="flex items-center gap-2 border-2 border-gray-600 hover:border-gray-800">
+                            <p className="text-sm font-bold text-gray-600">Voir La Page</p>
+                            <FaChevronRight className="text-sm text-gray-600" />
+                        </Button>
+                    </Link>
                     <Swiper
                         modules={[Scrollbar]}
                         spaceBetween={5}
@@ -432,10 +438,12 @@ const Product = ({ ...props }) => {
                                 />
                             </div>
                         ))} */}
+
                     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-2">
                         <h1 className="text-sm font-medium md:w-40 text-gray-800">ID :</h1>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <p className="text-sm font-bold text-gray-500">#{product?.id}</p>
+
                         </div>
                     </div>
                     <Separator className="mt-0 md:hidden" />

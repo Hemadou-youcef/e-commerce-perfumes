@@ -63,7 +63,7 @@ const Home = ({ ...props }) => {
                             spaceBetween={0}
                             slidesPerView={1}
                             pagination={{ clickable: true }}
-                            autoplay={{ delay: 10000 }}
+                            autoplay={{ delay: 5000 }}
                             className="h-full"
                         >
                             {props?.pinned_products?.map((product: any, index: any) => (
@@ -77,9 +77,17 @@ const Home = ({ ...props }) => {
                                                     <h1 className="text-xl md:text-5xl md:pl-4  text-white" style={{ textShadow: "0 0 10px #000" }}>
                                                         {product.name}
                                                     </h1>
-                                                    <p className="text-xs md:text-sm font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
-                                                        {currentLocale() === "fr" ? product.description : product.description_ar}
-                                                    </p>
+                                                    <div className="text-xs md:text-sm ltr:font-sans rtl:font-arabic mt-5 text-gray-100 text-center" style={{ textShadow: "0 0 10px #000" }}>
+                                                        {/* MAKE THE TEXT SPLIT BY \n character and maximum of 3 lines */}
+                                                        {(currentLocale() === "fr") ? product?.description : product?.description_ar
+                                                            .split('\n').slice(0, 3).map((item: any, index: any) => (
+                                                                <p key={index}>{item}</p>
+                                                            ))}
+                                                        {/* IF THE ARRAY HAVE MORE THAN 3 LINES, ADD ... */}
+                                                        {(currentLocale() === "fr") ? product?.description : product?.description_ar.split('\n').length > 3 && (
+                                                            <p>...</p>
+                                                        )}
+                                                    </div>
                                                     <Button
                                                         variant="outline"
                                                         onClick={() => handleVisit(`/products/${product.id}`)}

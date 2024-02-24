@@ -236,8 +236,8 @@ const ProductForm = ({ ...props }) => {
                     const { category_ids, ...rest } = dataToSubmit
                     dataToSubmit = rest
                 }
-                const { unit, ...rest } = dataToSubmit
-                dataToSubmit = rest
+                // const { ...rest } = dataToSubmit
+                // dataToSubmit = rest
                 return dataToSubmit;
             });
             post(route('product.update', props?.product?.id), {
@@ -324,7 +324,7 @@ const ProductForm = ({ ...props }) => {
                     <div className="flex justify-end gap-2">
                         <Button
                             variant="outline"
-                            className="group p-0 h-12 w-12 hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
+                            className="group p-0 h-12 w-12 md:hover:w-28 border bg-transparent hover:border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-200 flex justify-center items-center  transition-all duration-150"
                             onClick={(e) => {
                                 submit(e)
                             }}

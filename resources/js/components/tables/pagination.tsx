@@ -21,7 +21,6 @@ const Pagination = ({ meta, preservestate = false, preserveScroll = false }) => 
     const visitPage = (page_url) => {
         router.visit(page_url, {
             preserveScroll: true,
-            preserveState: true,
         });
     };
     return (

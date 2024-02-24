@@ -30,7 +30,8 @@ return [
         "l" => "L",
         "piece" => "Pièce",
         "bottle" => "Bouteille",
-        "u" => "unité"
+        "u" => "unité",
+        "p" => "pièce"
     ],
     "categories" => [
         "bottle" => "Bouteilles",
