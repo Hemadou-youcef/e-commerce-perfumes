@@ -28,15 +28,13 @@ class StoreProductRequest extends FormRequest
             'description' => 'required|string',
             'description_ar' => 'required|string',
             'status' => 'nullable|string',
-            'main_image' => 'required|image|mimes:jpeg,png,jpg|max:1000000',
+            'main_image' => 'nullable|image|mimes:jpeg,png,jpg|max:1000000',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:1000000',
             'category_ids.*' => 'nullable|exists:categories,id',
             'unit' => 'required|string|max:255',
             'type' => 'required|integer|in:1,2,3',
             'prices' => [
-                'required',
-                'array',
-                'min:1', // Ensure there's at least one price
+                'array', // Ensure there's at least one price
                 function ($attribute, $value, $fail) {
                     foreach ($value as $price) {
                         if (!isset($price['price'], $price['unit'], $price['quantity'])) {
@@ -46,10 +44,10 @@ class StoreProductRequest extends FormRequest
                     }
                 },
             ],
-            'prices.*.price' => 'required|numeric|min:0',
-            'prices.*.unit' => 'required|string|max:255',
-            'prices.*.quantity' => 'required|integer|min:0',
-            'prices.*.active' => 'required|boolean',
+            'prices.*.price' => 'nullable|numeric|min:0',
+            'prices.*.unit' => 'nullable|string|max:255',
+            'prices.*.quantity' => 'nullable|integer|min:0',
+            'prices.*.active' => 'nullable|boolean',
         ];
     }
 

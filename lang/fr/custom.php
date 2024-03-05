@@ -168,7 +168,9 @@ return [
         "bookmark_added" => "Le produit a été ajouté aux favoris",
         "bookmark_added_description" => "Le produit a été ajouté aux favoris. Vous pouvez maintenant voir vos favoris",
         "bookmark_removed_description" => "Le produit a été retiré des favoris. Vous pouvez maintenant voir vos favoris",
-        "you_may_also_like" => "Vous aimerez peut-être aussi"
+        "you_may_also_like" => "Vous aimerez peut-être aussi",
+        "available_in_stock" => "Disponible en stock",
+        "not_available_in_stock" => "Non disponible en stock",
     ],
     "cart_page" => [
         "title" => "Mon Panier",

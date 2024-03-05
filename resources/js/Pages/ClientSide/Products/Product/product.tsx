@@ -249,7 +249,9 @@ const Product = ({ ...props }) => {
                                 </p>
                             </div>
                             <hr className="w-full rounded-sm border-gray-400" />
+                            
                             <div className="flex justify-between w-full mt-2">
+
                                 <div className="text-gray-700 text-sm lg:tex">
                                     {(currentLocale() === "fr") ? product?.description : product?.description_ar
                                         .split('\n').map((item: any, index: number) => (
@@ -260,6 +262,18 @@ const Product = ({ ...props }) => {
                             </div>
                             {/* CATEGORY */}
                             <div className="w-full flex flex-row justify-start items-center mt-5 gap-2">
+                                {/* IS PRODUCT AVAILABLE IN STOCK */}
+                                {product?.isProductAvailable ? (
+                                    <p className="px-2 py-1 rounded-sm text-xs font-medium text-white uppercase bg-green-600">
+                                        {t("custom.product_page.available_in_stock")}
+                                        {/* Disponible */}
+                                    </p>
+                                ) : (
+                                    <p className="px-2 py-1 rounded-sm text-xs font-medium text-white uppercase bg-red-600">
+                                        {t("custom.product_page.not_available_in_stock")}
+                                        {/* Indisponible */}
+                                    </p>
+                                )}
                                 {product?.categories.map((category: any, index) => (
                                     <p key={index} className="px-2 py-1 rounded-sm text-xs font-medium text-white uppercase bg-gray-600">{currentLocale() === "fr" ? category.name : category.name_ar}</p>
                                 ))}

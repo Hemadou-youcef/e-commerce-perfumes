@@ -22,22 +22,28 @@ class ProductController extends Controller
         return inertia::render('Dashboard/Products/products', [
             'products' => Product::query()
                 ->orderBy('created_at', 'desc')
-                ->when(request('search'), fn($query, $search) => $query
-                    ->where('name', 'LIKE', '%' . $search . '%')
-                    ->orWhere('id', 'LIKE', '%' . $search . '%')
-                    ->orWhere('description', 'LIKE', '%' . $search . '%')
-                    ->orWhere('description_ar', 'LIKE', '%' . $search . '%')
-                    ->orWhere('reference', 'LIKE', '%' . $search . '%')
+                ->when(
+                    request('search'),
+                    fn ($query, $search) => $query
+                        ->where('name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('id', 'LIKE', '%' . $search . '%')
+                        ->orWhere('description', 'LIKE', '%' . $search . '%')
+                        ->orWhere('description_ar', 'LIKE', '%' . $search . '%')
+                        ->orWhere('reference', 'LIKE', '%' . $search . '%')
 
                 )
-                ->when(request('status'), fn($query, $status) => $query
-                    ->where('status', $status)
+                ->when(
+                    request('status'),
+                    fn ($query, $status) => $query
+                        ->where('status', $status)
                 )
-                ->when(request('category'), fn($query, $category) => $query
-                    ->whereHas('categories', fn($query) => $query->where('name', $category))
+                ->when(
+                    request('category'),
+                    fn ($query, $category) => $query
+                        ->whereHas('categories', fn ($query) => $query->where('name', $category))
                 )
                 ->paginate(10)
-                ->through(fn($product) => [
+                ->through(fn ($product) => [
                     'id' => $product->id,
                     'reference' => $product->reference,
                     'name' => $product->name,
@@ -61,14 +67,14 @@ class ProductController extends Controller
      */
     public function create(): Response
     {
-        return inertia::render('Dashboard/Products/productForm',[
-            'categories' => \App\Models\Category::query()->when(request('categoryType'), fn($query, $type) => $query->where('type', $type))->get(),
+        return inertia::render('Dashboard/Products/productForm', [
+            'categories' => \App\Models\Category::query()->when(request('categoryType'), fn ($query, $type) => $query->where('type', $type))->get(),
         ]);
     }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request): RedirectResponse
+    public function store(StoreProductRequest $request)
     {
         $validatedData = $request->validated();
 
@@ -76,6 +82,7 @@ class ProductController extends Controller
 
 
         try {
+
             $product = new Product([
                 'reference' => $validatedData['reference'],
                 'name' => $validatedData['name'],
@@ -87,10 +94,10 @@ class ProductController extends Controller
                 'user_id' => Auth::user()->id,
             ]);
             $product->save();
-            if ($request->has('category_ids')) {
-                $categories = $validatedData['category_ids'];// expect array of category ids
+            if ($request->has('category_ids') and is_array($request['category_ids']) and count($request['category_ids']) > 0) {
+                $categories = $validatedData['category_ids']; // expect array of category ids
                 $product->categories()->attach($categories);
-            }// Create product prices
+            } // Create product prices
             $prices = $validatedData['prices'];
             foreach ($prices as $price) {
                 $product->productPrices()->create([
@@ -130,7 +137,7 @@ class ProductController extends Controller
             return redirect()->route('product', $product->id);
         } catch (Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['product' => 'internal server error. could not create product']);
+            return back()->withErrors(['product' => $e->getMessage()]);
         }
     }
 
@@ -213,9 +220,8 @@ class ProductController extends Controller
                             'active' => $price['active'],
                         ]);
                     }
-
                 }
-            }// Handle other images addition and removal
+            } // Handle other images addition and removal
             try {
                 if ($request->hasFile('other_images')) {
                     $newImages = [];
@@ -229,7 +235,7 @@ class ProductController extends Controller
                 // Handle exception
                 DB::rollBack();
                 return back()->withErrors(['other_images' => 'internal server error. could not upload images']);
-            }// Handle main image update
+            } // Handle main image update
             if ($request->hasFile('main_image')) {
                 $imagePath = '/storage/' . $request->file('main_image')->store('images', 'public');
                 $main_image = $product->images()->create(['path' => $imagePath]);

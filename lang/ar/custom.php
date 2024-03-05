@@ -167,7 +167,9 @@ return [
         "bookmark_added" => "تمت إضافة المنتج إلى المفضلة",
         "bookmark_added_description" => "تمت إضافة المنتج إلى المفضلة. يمكنك الآن رؤية المفضلة الخاصة بك",
         "bookmark_removed_description" => "تمت إزالة المنتج من المفضلة, يمكنك الآن رؤية المفضلة الخاصة بك",
-        "you_may_also_like" => "قد تعجبك أيضا"
+        "you_may_also_like" => "قد تعجبك أيضا",
+        "available_in_stock" => "متوفر في المخزن",
+        "not_available_in_stock" => "غير متوفر في المخزن",
     ],
     "cart_page" => [
         "title" => "سلتي",

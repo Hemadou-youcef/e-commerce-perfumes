@@ -26,7 +26,8 @@ class HomeController extends Controller
 
 
             ]),
-            'for_you_perfumes' => Product::perfumes()->take(10)->get()->map(function ($product) {
+            // get last 10 products added to the store
+            'for_you_perfumes' => Product::perfumes()->latest()->take(10)->get()->map(function ($product) {
                 return [
                     'id' => $product->id,
                     'name' => $product->name,
@@ -38,7 +39,7 @@ class HomeController extends Controller
                     'main_image' => $product->mainImage,
                     ];
             }),
-            'for_you_accessories' => Product::accessories()->take(10)->get()->map(function ($product) {
+            'for_you_accessories' => Product::accessories()->latest()->take(10)->get()->map(function ($product) {
                 return [
                     'id' => $product->id,
                     'name' => $product->name,
@@ -50,7 +51,7 @@ class HomeController extends Controller
                     'main_image' => $product->mainImage,
                     ];
             }),
-            'for_you_oils' => Product::oils()->take(10)->get()->map(function ($product) {
+            'for_you_oils' => Product::oils()->latest()->take(10)->get()->map(function ($product) {
                 return [
                     'id' => $product->id,
                     'name' => $product->name,

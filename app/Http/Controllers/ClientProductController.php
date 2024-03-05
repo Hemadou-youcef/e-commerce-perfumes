@@ -59,6 +59,7 @@ class ClientProductController extends Controller
                 'active_product_prices' => $product->activeProductPrices,
                 'isProductInCart' => $product->isProductInCart(),
                 'isProductBookmarked' => $product->isProductBookmarked(),
+                'isProductAvailable' => $product->isProductAvailable(),
                 'suggestedProducts' => $product->suggestedProducts(),
             ],
             'meta_data' => [
@@ -116,7 +117,8 @@ class ClientProductController extends Controller
                     'categories' => $product->categories,
                     'active_product_prices' => $product->activeProductPrices,
                     'images' => $product->images,
-                    'isProductBookmarked' => $product->isProductBookmarked()
+                    'isProductBookmarked' => $product->isProductBookmarked(),
+                    'isProductAvailable' => $product->isProductAvailable(),
                 ])
                 ->withQueryString(),
             'categories' => $categories->map(fn ($category) => [

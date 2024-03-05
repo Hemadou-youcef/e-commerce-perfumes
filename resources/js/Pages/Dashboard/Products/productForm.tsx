@@ -139,8 +139,8 @@ const ProductForm = ({ ...props }) => {
             data.description_ar.length > 0,
             (data?.unit?.length || 0) > 0,
             data.status.length > 0,
-            data.main_image || data.main_image_id,
-            editMode || (imagesUploaded || []).length > 0,
+            // data.main_image || data.main_image_id,
+            // editMode || (imagesUploaded || []).length > 0,
         ];
         return rules.every((rule) => rule);
     }
@@ -348,7 +348,7 @@ const ProductForm = ({ ...props }) => {
                                     value={data.name}
                                     onChange={(e) => setData("name", e.target.value)}
                                 />
-
+                                
                                 {editMode && data.name.length === 0 && <p className="text-xs text-red-500">Le nom de la produit est obligatoire</p>}
                             </div>
                             <div className="grid gap-3">

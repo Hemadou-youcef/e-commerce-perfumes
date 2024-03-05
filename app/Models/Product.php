@@ -160,7 +160,11 @@ class Product extends Model
         return false;
     }
 
-
+    public function isProductAvailable(): bool
+    {
+        return $this->quantity > 0;
+    }
+    
     public static function perfumes(): Builder
     {
         return Product::activeProducts()->where('type', 1);

@@ -33,8 +33,7 @@ class UpdateProductRequest extends FormRequest
             'unit' => 'sometimes|required|string|max:255',
             'prices' => [
                 'sometimes',
-                'array',
-                'min:1', // Ensure there's at least one price
+                'array',// Ensure there's at least one price
                 function ($attribute, $value, $fail) {
                     foreach ($value as $price) {
                         if (!isset($price['price'], $price['unit'], $price['quantity'] , $price['active'])) {
